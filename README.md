@@ -5,18 +5,18 @@
 
 # 说明
 
-`黑马Admin` 的前端项目, [安装及快速开始 go!](http://itheimaadmin.itcast.cn/book/help/#/getting-started)
+`缀术基坑` 的前端项目, [简介!](http:)
 
-* [在线演示](http://itheimaadmin.itcast.cn/preview/vue/dist)
+<!-- * [在线演示](http://itheimaadmin.itcast.cn/preview/vue/dist)
 * 代码
   * [前端 Vue](https://github.com/itheima2017/vue-element-admin-itheima)
   * [后端 Java](https://github.com/itheima2017/vue-element-admin-api-java-itheima)
 * 文档
   * [API 接口文档](http://itheimaadmin.itcast.cn/book/api/_book/)
-  * [使用帮助文档](http://itheimaadmin.itcast.cn/book/help/)
+  * [使用帮助文档](http://itheimaadmin.itcast.cn/book/help/) -->
 
 # 版权
 
-[MIT](https://github.com/itheima2017/vue-element-admin-itheima/blob/master/LICENSE) license.
+[MIT](https://github.com/cobainby/zs-web/LICENSE) license.
 
- Copyright 2006-2018, All Rights Reserved
+ Copyright 2018-2025, All Rights Reserved
