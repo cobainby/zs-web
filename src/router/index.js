@@ -56,6 +56,10 @@ export const constantRouterMap = [
         meta: {title: 'dashboard', icon: 'dashboard', noCache: true}
       }
     ]
+  },
+  {
+    path: '/itemList',
+    component: _import('dashboard/pages/itemList')
   }
 ]
 

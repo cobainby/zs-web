@@ -68,7 +68,6 @@ instance.interceptors.response.use(
 )
 
 export const createAPI = (url, method, data) => {
-  debugger
   let config = {}
   if (method === 'get') {
     debugger
@@ -84,7 +83,6 @@ export const createAPI = (url, method, data) => {
 }
 
 export const createFormAPI = (url, method, data) => {
-  debugger
   let config = {}
   config.data = data
   config.headers = {

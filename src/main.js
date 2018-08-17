@@ -14,6 +14,10 @@ import './mock' // simulation data
 // font-awesome
 import 'font-awesome/css/font-awesome.css'
 import $ from 'jquery' // 全局引入jquery
+import MuseUI from 'muse-ui'  //引入museUI
+import 'muse-ui/dist/muse-ui.css';
+
+Vue.use(MuseUI);
 /*
 * 注册 - 业务模块
 */

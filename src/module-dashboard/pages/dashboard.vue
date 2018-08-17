@@ -104,7 +104,6 @@ import LineChart from './../components/dashboardLineChart'
 import RaddarChart from './../components/dashboardRaddarChart'
 import PieChart from './../components/dashboardPieChart'
 import BarChart from './../components/dashboardBarChart'
-import AreaChart from './../components/dashboardAreaChart'
 import Map from './../components/dashboardMap'
 
 const lineChartData = {
@@ -133,7 +132,6 @@ export default {
     RaddarChart,
     PieChart,
     BarChart,
-    AreaChart,
     Map
   },
   data() {
@@ -314,7 +312,6 @@ export default {
 
 // 线上热门搜索
 .hots {
-  height: 600px;
   position: relative;
   .header {
     color: #97a8be;
@@ -322,14 +319,6 @@ export default {
       position: absolute;
       right: 20px;
     }
-  }
-  .pagination {
-    position: absolute;
-    right: 12px;
-    bottom: 5px;
-  }
-  .chart {
-    height: 300px;
   }
 }
 

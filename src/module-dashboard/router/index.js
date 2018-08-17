@@ -40,5 +40,10 @@ export default [
         meta: {title: 'logs'}
       }
     ]
-  }
+  },{
+    path: 'users',
+    component: _import('dashboard/pages/users'),
+    name: 'base-users',
+    meta: {title: 'users'}
+  },
 ]

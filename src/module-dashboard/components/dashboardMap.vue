@@ -1,98 +1,352 @@
 <template>
-  <div id="fog-detection-wrap">
-    <div class="map-parent">
-      <div id="map"></div>
-      <div class="map-layer">
-        <div class="map-legend">
-          <ul>
-            <li>
-              <img src="../../../static/images/map/big-fog.png">
-              <span>正常</span>
-            </li>
-            <li>
-              <img src="../../../static/images/map/mid-fog.png">
-              <span>报警</span>
-            </li>
-            <li>
-              <img src="../../../static/images/map/small-fog.png">
-              <span>预警</span>
-            </li>
-          </ul>
-        </div>
-        <div class="map-link">
-          <router-link class="location-link">监测设备设置
-          </router-link>
-          <router-link class="history-link">历史记录查询</router-link>
-        </div>
-      </div>
-    </div>
-    <div class="right-parent">
-      <div class="fog-title">
-        <span>监测情况提醒</span>
-        <mu-select-field v-model="targetType" label="" class="target-field" :underlineShow="true" @change="changeFilter">
-          <mu-menu-item value="4" title="全部" />
-          <mu-menu-item value="3" title="正常" />
-          <mu-menu-item value="2" title="预警" />
-          <mu-menu-item value="1" title="报警" />
-        </mu-select-field>
-      </div>
-      <div v-show="hasFogData" class="fog-content">
-        <div v-for="(item,index) in listData" :key="item.id" class="fog-item" v-show="showContent(item)" :data-id="item.id" @click="listItemClick(item, index)">
-          <img :src="'../../../static/images/map/' + icon[item.fogDegree] + '-list.png'">
-          <div class="fog-content-right">
-            <div class="location">
-              <span class="tit">监控点位</span>
-              <span class="con" :title="item.locationName">{{ item.locationName }}</span>
-            </div>
-            <div class="time">
-              <span class="tit">更新时间</span>
-              <span class="con">{{ item.time }}</span>
-            </div>
+  <div class="fog-detection-wrap">
+    <layout>
+      <div class="map-parent">
+        <div id="map"></div>
+        <div class="map-layer">
+          <div class="map-legend">
+            <ul>
+              <li>
+                <img src="../../../static/images/map/small-yellow.png">
+                <span>黄色</span>
+              </li>
+              <li>
+                <img src="../../../static/images/map/small-orange.png">
+                <span>橙色</span>
+              </li>
+              <li>
+                <img src="../../../static/images/map/small-red.png">
+                <span>红色</span>
+              </li>
+            </ul>
+          </div>
+          <div class="map-link">
+            <router-link class="location-link" :to="{path:'/manage/equipment'}">监测设备设置
+            </router-link>
+            <router-link class="history-link" :to="{path:'/itemList'}">工程详细列表</router-link>
           </div>
         </div>
       </div>
-      <no-data-img v-show="!hasFogData" text="暂无数据"></no-data-img>
-    </div>
+      <div class="right-parent">
+        <div class="fog-title">
+          <span>监测项目</span>
+          <mu-select-field v-model="targetType" label="" class="target-field" :underlineShow="true" @change="changeFilter">
+            <mu-menu-item value="4" title="全部" />
+            <mu-menu-item value="3" title="红色" />
+            <mu-menu-item value="2" title="橙色" />
+            <mu-menu-item value="1" title="黄色" />
+            <mu-menu-item value="0" title="正常" />
+          </mu-select-field>
+        </div>
+        <div v-show="hasFogData" class="fog-content">
+          <div v-for="(item,index) in listData" :key="item.id" class="fog-item" v-show="showContent(item)" :data-id="item.id" @click="listItemClick(item, index)">
+            <img :src="'/static/images/map/' + icon[item.fogDegree] + '-list.png'">
+            <div class="fog-content-right">
+              <div class="location">
+                <span class="tit">监控点位</span>
+                <span class="con" :title="item.locationName">{{ item.locationName }}</span>
+              </div>
+              <div class="time">
+                <span class="tit">更新时间</span>
+                <span class="con">{{ item.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <no-data-img v-show="!hasFogData" text="暂无数据"></no-data-img> -->
+      </div>
+      <mu-dialog :open="dialogFlag" dialogClass="fog-detection-dialog" @close="closeDialog">
+        <div class="dialog-title">
+          {{ nowItem.locationName }}，{{ nowItem.time }}
+          <i class="material-icons close-icon" @click="closeDialog">highlight_off</i>
+        </div>
+        <div class="dialog-content">
+          <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
+            <img :src="nowItem.bigPic" ref="bigPic">
+          </div>
+          <no-data v-else></no-data>
+        </div>
+      </mu-dialog>
+    </layout>
   </div>
 </template>
 
-
 <script>
-var map;
+import Layout from "../components/mapLayout";
+import axios from "axios";
+import "../../../static/jquery-plugin/jquery.nicescroll.min.js";
+
+let mapHeight = (winH = $(window).height()) => {
+  $(".map-parent").css({
+    height: winH - 250,
+    width: $(window).width() - 500
+  });
+  $(".right-parent").css({
+    height: winH - 250
+  });
+  $(".fog-content").css({
+    height: $(".right-parent").height() - 40
+  });
+};
+/* eslint-disable no-undef */
+const mapConfig = {
+  center: [113.310846, 22.961402],
+  zoom: 11,
+  zooms: [3, 18]
+};
+const rank = ["正常", "预警", "报警", "超过控制值"];
 export default {
-  data() {
-    return {};
+  components: {
+    Layout
   },
-  mounted() {
-    this.init();
+  data() {
+    return {
+      map: null,
+      icon: ["small-green", "small-yellow", "small-orange", "small-red"], // 0:无雾 1:轻雾 2:中雾 3：大雾
+      markers: new Map(), // 存储所有Marker点位的Map集合
+      warningMarkerIds: [],
+      infoWindow: null,
+      options: {
+        center: new AMap.LngLat(mapConfig.center[0], mapConfig.center[1]),
+        zoom: mapConfig.zoom,
+        zooms: mapConfig.zooms,
+        animateEnable: true
+      },
+      iconUrl: "/static/images/map",
+      fogSocket: null,
+      listData: [],
+      dialogFlag: false,
+      nowItem: {},
+      targetType: "4",
+      hasFogData: true
+    };
   },
   methods: {
     init() {
-      var map = new AMap.Map("map", {
-        resizeEnable: true,
-        center: [116.397428, 39.90923], //地图中心点
-        zoom: 12 //地图显示的缩放级别
-      });
-      //添加构造器
-      AMap.plugin(
-        ["AMap.Driving", "AMap.Transfer", "AMap.Walking"],
-        function() {
-          map.addControl(new AMap.Driving());
-          map.addControl(new AMap.Transfer());
-          map.addControl(new AMap.Walking());
+      let _this = this;
+      this.map = new AMap.Map("map", this.options);
+      this.map.setFeatures(['bg','building','road','point']); // 多个种类要素显示
+      axios.get("http://localhost:8181/static/fog_list.json").then(res => {
+          _this.warningMarkerIds = [];
+          let dataIdArr = [];
+          let list = [];
+          if (res.data.data.length) {
+            let data = res.data.data;
+            list = data;
+            data.forEach(function(item) {
+              dataIdArr.push(item.id);
+              _this.addMarker(item);
+                _this.warningMarkerIds.push(item.id);
+            });
+            this.map.setFitView();
+            let newArr = _this.listData.filter(function(item) {
+              return $.inArray(item.id, dataIdArr) === -1;
+            });
+            _this.listData = [...data, ...newArr];
+          }
+        })
+        .then(() => {
+          // 连接socket
+          debugger;
+          // infowindow 点击显示大图
+          $("#map").on("click", ".small-img", function() {
+            _this.openDialog();
+            let timer = null;
+            timer = setInterval(function() {
+              if (_this.$refs.bigPic) {
+                clearInterval(timer);
+                _this.$refs.bigPic.removeAttribute("style");
+                let _w, _h;
+                if (typeof _this.$refs.bigPic.naturalWidth === "undefined") {
+                  // IE 6/7/8
+                  let i = new Image();
+                  i.src = _this.$refs.bigPic.src;
+                  _w = _this.$refs.bigPic.width;
+                  _h = _this.$refs.bigPic.height;
+                } else {
+                  // HTML5 browsers
+                  _w = _this.$refs.bigPic.naturalWidth;
+                  _h = _this.$refs.bigPic.naturalHeight;
+                }
+                const p = document.getElementById("pic-wrap");
+                const _pw = p.offsetWidth;
+                const _ph = p.offsetHeight;
+                if (_w / _h > _pw / _ph) {
+                  _this.$refs.bigPic.style.width = _pw + "px";
+                  _this.$refs.bigPic.style.height = "auto";
+                } else {
+                  _this.$refs.bigPic.style.width = "auto";
+                  _this.$refs.bigPic.style.height = _ph + "px";
+                }
+              }
+            }, 50);
+          });
+        });
+    },
+    addMarker(item) {
+      if (item.lng && item.lat) {
+        let _this = this;
+        let opts = {};
+        opts.map = this.map;
+        opts.icon = new AMap.Icon({
+          image: this.iconUrl + "/" + this.icon[item.fogDegree] + ".png",
+          size: new AMap.Size(30, 30)
+        });
+        opts.offset = new AMap.Pixel(-15, -15);
+        let lnglat = new AMap.LngLat(
+          parseFloat(item.lng),
+          parseFloat(item.lat)
+        );
+        if (lnglat) {
+          opts.position = lnglat;
+          opts.title = item.locationName;
+          let marker = new AMap.Marker(opts);
+          marker.id = item.id;
+          marker.locationName = item.locationName;
+          marker.fogDegree = item.fogDegree;
+          this.markers.set(item.id, marker);
+          marker.on(
+            "click",
+            function(e) {
+              let _marker = e.target;
+              $(".fog-item").each(function() {
+                if ($(this).attr("data-id") === _marker.id) {
+                  $(this).click();
+                }
+              });
+            },
+            marker
+          );
         }
+      }
+    },
+    changeIcon(item) {
+      let _this = this;
+      let marker = this.markers.get(item.id);
+      if (marker && marker.fogDegree !== item.fogDegree) {
+        // 如果地图上渲染点的雾气大小和当前请求不同，改变地图点的图标
+        marker.setMap(null);
+        this.addMarker(item);
+      }
+    },
+    openInfoWindow(lng, lat, content) {
+      debugger
+      let infowindowOpts = {};
+      infowindowOpts.size = new AMap.Size(240, 290);
+      infowindowOpts.position = new AMap.LngLat(
+        parseFloat(lng),
+        parseFloat(lat)
       );
+      //        infowindowOpts.autoMove = true
+      infowindowOpts.content = content;
+      this.infoWindow = new AMap.InfoWindow(infowindowOpts);
+      this.infoWindow.open(
+        this.map,
+        new AMap.LngLat(parseFloat(lng), parseFloat(lat))
+      );
+      this.map.setCenter(new AMap.LngLat(lng, lat));
+      this.map.panBy(0, 25);
+    },
+    closeInfoWindow() {
+      if (this.infoWindow) {
+        this.infoWindow.close();
+        this.infoWindow = null;
+      }
+    },
+    listItemClick(item, index) {
+      this.closeInfoWindow();
+      this.nowItem = item;
+      $(".fog-item")
+        .eq(index)
+        .addClass("active")
+        .siblings()
+        .removeClass("active");
+      let marker = this.markers.get(item.id);
+      if (marker) {
+        let conHtml = `
+            <div class="map-item">
+              <div class="location-name" title="${item.locationName}">${
+          item.locationName
+        }</div>
+              <img class="small-img" src="${item.pic}" alt="${
+          item.locationName
+        }">
+              <div class="line">监测等级：${rank[item.fogDegree]}</div>
+              <div class="line">图片采集时间：${item.time}</div>
+              <div class="line">历史演变：${rank[item.oldFogDegree]}->${
+          rank[item.fogDegree]
+        }</div>
+              <div class="line">预警开始时间：${item.oldTime}</div>
+              <div class="line"><a href="#/fog-history?id=${
+                item.id
+              }">查看数据展示</a></div>
+            </div>
+          `;
+        this.openInfoWindow(
+          marker.getPosition().getLng(),
+          marker.getPosition().getLat(),
+          conHtml
+        );
+      }
+    },
+    closeDialog: function() {
+      this.dialogFlag = false;
+    },
+    openDialog: function() {
+      this.dialogFlag = true;
+    },
+    changeFilter(value) {
+      this.targetType = value;
+    },
+    showContent(item) {
+      if (this.targetType === "4") {
+        return (
+          item.fogDegree === 0 || item.fogDegree === 1 || item.fogDegree === 2 || item.fogDegree === 3
+        );
+      } else {
+        return item.fogDegree === parseInt(this.targetType);
+      }
+    }
+  },
+  mounted() {
+    mapHeight();
+    $(window).resize(() => mapHeight());
+    $(".fog-content").niceScroll({
+      cursorcolor: "#3497db",
+      autohidemode: true
+    });
+    setInterval(function() {
+      $(".fog-content")
+        .getNiceScroll()
+        .resize();
+    }, 500);
+    this.init();
+  },
+  destroyed() {
+    // this.fogSocket.disconnect()
+    // $('.fog-content').getNiceScroll().resize()
+  },
+  watch: {
+    listData: function(newVal, oldVal) {
+      let _this = this;
+      let flag = false;
+      if (newVal.length > 0) {
+        for (let i = 0; i < newVal.length; i++) {
+          if (newVal[i].fogDegree === 0) {
+            continue;
+          } else {
+            flag = true;
+            break;
+          }
+        }
+      }
+      this.hasFogData = flag;
     }
   }
 };
 </script>
+
 <style lang="scss" type="text/scss">
-#map {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  cursor: pointer;
-}
 .fog-detection-wrap {
   .content {
     position: relative;

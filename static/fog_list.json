@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "id": "001",
+      "locationName": "保利和光花园基坑支护工程基坑监测",
+      "pic": "/static/images/test/video.png",
+      "bigPic": "/static/images/test/video.png",
+      "fogDegree": 1,
+      "oldFogDegree": 0,
+      "time": "2017-09-19 14:28:22",
+      "oldTime": "2017-09-19 12:28:22",
+      "lng": "113.326584",
+      "lat": "23.139707"
+    },
+    {
+      "id": "002",
+      "locationName": "龙光绿璟珑府基坑监测",
+      "pic": "/static/images/test/video.png",
+      "bigPic": "/static/images/test/video.png",
+      "fogDegree": 2,
+      "oldFogDegree": 2,
+      "time": "2017-09-19 14:28:22",
+      "oldTime": "2017-09-19 12:28:22",
+      "lng": "113.414259",
+      "lat": "23.183101"
+    },
+    {
+      "id": "003",
+      "locationName": "梧桐广场一期基坑监测",
+      "pic": "/static/images/test/video.png",
+      "bigPic": "/static/images/test/video.png",
+      "fogDegree": 3,
+      "oldFogDegree": 1,
+      "time": "2017-09-19 14:28:22",
+      "oldTime": "2017-09-19 12:28:22",
+      "lng": "113.310846",
+      "lat": "22.961402"
+    },
+    {
+      "id": "004",
+      "locationName": "嘉邦金融大厦",
+      "pic": "/static/images/test/video.png",
+      "bigPic": "/static/images/test/video.png",
+      "fogDegree": 0,
+      "oldFogDegree": 3,
+      "time": "2017-09-19 14:28:22", 
+      "oldTime": "2017-09-19 12:28:22",
+      "lng": "113.472137",
+      "lat": "23.175449"
+    }
+  ]
+}
