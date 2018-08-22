@@ -21,7 +21,7 @@
             </ul>
           </div>
           <div class="map-link">
-            <router-link class="location-link" :to="{path:'/manage/equipment'}">监测设备设置
+            <router-link class="location-link" :to="{path:'/equipment'}">监测设备设置
             </router-link>
             <router-link class="history-link" :to="{path:'/itemList'}">工程详细列表</router-link>
           </div>
@@ -126,7 +126,7 @@ export default {
       let _this = this;
       this.map = new AMap.Map("map", this.options);
       this.map.setFeatures(['bg','building','road','point']); // 多个种类要素显示
-      axios.get("http://localhost:8181/static/fog_list.json").then(res => {
+      axios.get("http://192.168.1.13:8181/static/fog_list.json").then(res => {
           _this.warningMarkerIds = [];
           let dataIdArr = [];
           let list = [];
@@ -277,9 +277,12 @@ export default {
           rank[item.fogDegree]
         }</div>
               <div class="line">预警开始时间：${item.oldTime}</div>
-              <div class="line"><a href="#/fog-history?id=${
+              <div class="line" style="float:left"><a href="#/detailInfo?id=${
                 item.id
-              }">查看数据展示</a></div>
+              }">项目详细信息</a></div>
+              <div class="line" ><a style="margin-left:10px" href="#/base/chartInfo?id=${
+                item.id
+              }">数据展示</a></div>
             </div>
           `;
         this.openInfoWindow(

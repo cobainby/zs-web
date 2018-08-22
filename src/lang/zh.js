@@ -8,6 +8,7 @@ export default {
     logs: '日志管理',
     example: '示例',
     table: '数据列表',
+    chartInfo:'数据展示',
 
     list: '列表页',
     tableList: '查询表格',

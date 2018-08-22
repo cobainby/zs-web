@@ -9,26 +9,26 @@
         label-width="120px" 
         style='width: 400px; margin-left:120px;'
         >
-        <el-form-item :label="$t('table.username')" prop="username">
+        <el-form-item label="工程名称" prop="username">
           <el-input v-model="formBase.username"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.paddword')" prop="password" v-if="formBase.password!=undefined">
+        <el-form-item label="工程地址" prop="password" v-if="formBase.password!=undefined">
           <el-input v-model="formBase.password"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.email')" prop="email">
+        <el-form-item label="工程类别" prop="email">
           <el-input v-model="formBase.email"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.permissionUser')" prop="permission_group_id">
+        <el-form-item label="建设单位" prop="permission_group_id">
           <el-select class="filter-item" v-model="formBase.permission_group_id">
             <el-option v-for="item in PermissionGroupsList" :value="item.id" :key="item.key" :label="item.title">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('table.phone')" prop="phone">
+        <el-form-item label="监督机构" prop="phone">
           <el-input v-model="formBase.phone"></el-input>
         </el-form-item>
         <!-- 头像上传下一个版本再做 -->
-        <!-- <el-form-item :label="$t('table.avatar')" prop="avatar">
+        <el-form-item label="监测平面图上传" prop="avatar">
             <el-upload
               class="upload-demo"
               :action="importFileUrl"
@@ -38,8 +38,8 @@
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
-          </el-form-item> -->
-        <el-form-item :label="$t('table.introduction')">
+          </el-form-item> 
+        <el-form-item label="监督机构">
           <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="formBase.introduction">
           </el-input>
         </el-form-item>
@@ -90,8 +90,6 @@ export default {
 
     // 表单提交
     createData() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
           this.$emit('handleCloseModal')
           // this.formBase.password = shajs('sha256').update(this.formBase.password).digest('hex')
           if (this.formBase.password === '') {
@@ -109,10 +107,6 @@ export default {
               this.$emit('newDataes', this.formBase)
             })
           }
-        } else {
-          this.$Message.error('*号为必填项!')
-        }
-      })
     }
   },
   // 挂载结束

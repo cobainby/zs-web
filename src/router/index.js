@@ -60,6 +60,14 @@ export const constantRouterMap = [
   {
     path: '/itemList',
     component: _import('dashboard/pages/itemList')
+  },
+  {
+    path: '/equipment',
+    component: _import('dashboard/pages/equipment')
+  },
+  {
+    path: '/detailInfo',
+    component: _import('dashboard/pages/detailedInfo')
   }
 ]
 

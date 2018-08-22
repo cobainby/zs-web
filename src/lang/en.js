@@ -6,6 +6,7 @@ export default {
     menus: 'menus',
     permissions: 'permissions',
     logs: 'logs',
+    chartInfo:'chartInfo',
     example: 'example',
     table: 'table',
 

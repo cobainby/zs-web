@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.initChart()
     this.__resizeHanlder = debounce(() => {
-      if (this.chart) {
+      if (this.chart) { 
         this.chart.resize()
       }
     }, 100)

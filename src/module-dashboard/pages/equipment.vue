@@ -6,71 +6,66 @@
         <el-form :model="requestParameters" ref="requestParameters">
           <div class="filter-container">
             <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回首页</el-button>
-            <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">新增项目</el-button>
+            <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">新增设备</el-button>
           </div>
         </el-form>
         <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
         <!-- end -->
-        <el-row :gutter="10">
         <!-- 数据 -->
-        <el-col :span="18"><el-table :key='tableKey' :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+        <el-table :key='tableKey' :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
           <el-table-column align="center" :label="$t('table.id')" width="50px">
             <template slot-scope="scope">
               <span>{{scope.row.id}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="工程名称" width="180px">
+          <el-table-column align="center" label="设备名称" width="180px">
             <template slot-scope="scope">
-              <span>工程名字</span>
+              <span>测斜仪</span>
             </template>
           </el-table-column>
-          <el-table-column label="工程地址" width="120px">
+          <el-table-column label="设备编号" width="120px">
             <template slot-scope="scope">
-              <span>工程地址</span>
+              <span>s123</span>
             </template>
           </el-table-column>
-          <el-table-column align="center"  label="工程类别">
+          <el-table-column align="center"  label="设备型号">
             <template slot-scope="scope">
-              <span>基坑</span>
+              <span>数字式</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="建设单位">
+          <el-table-column align="center" label="生产厂家">
             <template slot-scope="scope">
-              <span>建设管理服务中心</span>
+              <span>SINCO</span>
             </template>
           </el-table-column>
-          <!-- 头像 -->
-          <el-table-column align="center" label="监测平面图">
+          <el-table-column align="center" width="250px" label="检定/校准机构">
             <template slot-scope="scope">
-              <img :src="scope.row.avatar" style="width:50px;height:50px;">
+              <span>斯比特</span>
             </template>
-          </el-table-column> -->
-          <el-table-column align="center" width="250px" label="监督机构">
+          </el-table-column>
+          <el-table-column align="center" label="检定/校准有效期">
             <template slot-scope="scope">
-              <span>监督站</span>
+              <span>2018-10-18 AM</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="设备保管员">
+            <template slot-scope="scope">
+              <span>zsx</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="状态">
+            <template slot-scope="scope">
+              <span>正常</span>
             </template>
           </el-table-column>
           <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-              <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" @click="handleUpdate(scope.row.id)">修改</el-button>
+              <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" @click="handleUpdate(scope.row.id)">{{$t('table.edit')}}</el-button>
               <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeUser(scope.row.id)">{{$t('table.delete')}}</el-button>
             </template>
           </el-table-column>
-        </el-table></el-col>
+        </el-table>
         <!-- end -->
-        <el-col :span="6"><el-table  fit highlight-current-row style="width: 100%" border>
-          <el-table-column align="center" label="监测项目">
-            <template slot-scope="scope">
-              <span>监测项目</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="安全状态">
-            <template slot-scope="scope">
-              <span>安全状态</span>
-            </template>
-          </el-table-column>
-        </el-table></el-col>
-        </el-row>
         <!-- 分页 -->
         <div class="pagination">
           <PageTool :paginationPage="requestParameters.page" :paginationPagesize="requestParameters.pagesize" :total="total" @pageChange="handleCurrentChange" @pageSizeChange="handleSizeChange">

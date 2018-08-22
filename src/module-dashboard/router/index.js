@@ -8,16 +8,11 @@ export default [
     redirect: 'noredirect',
     name: 'base',
     meta: {
+      
       title: 'manage',
       icon: 'component'
     },
     children: [
-      {
-        path: 'users',
-        component: _import('dashboard/pages/users'),
-        name: 'base-users',
-        meta: {title: 'users'}
-      },
       {
         path: 'menus',
         name: 'base-menus',
@@ -38,12 +33,12 @@ export default [
         name: 'base-logs',
         component: _import('dashboard/pages/logs'),
         meta: {title: 'logs'}
+      },{
+        path: 'chartInfo',
+        component: _import('dashboard/pages/chartInfo'),
+        name: 'base-chartInfo',
+        meta: {title: 'chartInfo'}
       }
     ]
-  },{
-    path: 'users',
-    component: _import('dashboard/pages/users'),
-    name: 'base-users',
-    meta: {title: 'users'}
-  },
+  }
 ]
