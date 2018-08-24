@@ -8,7 +8,6 @@ export default [
     redirect: 'noredirect',
     name: 'base',
     meta: {
-      
       title: 'manage',
       icon: 'component'
     },
@@ -33,11 +32,6 @@ export default [
         name: 'base-logs',
         component: _import('dashboard/pages/logs'),
         meta: {title: 'logs'}
-      },{
-        path: 'chartInfo',
-        component: _import('dashboard/pages/chartInfo'),
-        name: 'base-chartInfo',
-        meta: {title: 'chartInfo'}
       }
     ]
   }

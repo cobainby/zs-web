@@ -280,7 +280,7 @@ export default {
               <div class="line" style="float:left"><a href="#/detailInfo?id=${
                 item.id
               }">项目详细信息</a></div>
-              <div class="line" ><a style="margin-left:10px" href="#/base/chartInfo?id=${
+              <div class="line" ><a style="margin-left:10px" href="#/datachart?id=${
                 item.id
               }">数据展示</a></div>
             </div>

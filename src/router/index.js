@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import {Message} from 'element-ui'
+import {Message, Loading} from 'element-ui'
 import NProgress from 'nprogress'
 import Layout from '@/module-dashboard/pages/layout'
 import {getToken} from '@/utils/auth'
@@ -68,6 +68,31 @@ export const constantRouterMap = [
   {
     path: '/detailInfo',
     component: _import('dashboard/pages/detailedInfo')
+  },
+  {
+    path: '/datachart',
+    component: Layout,
+    redirect: 'datachart',
+    children: [
+      {
+        path: 'datachart',
+        component: _import('datachart/pages/index'),
+        name: 'datachart',
+        meta: {title: '数据展示', icon: 'datachart', noCache: true}
+      }
+    ]
+  },
+  {
+    path: '/basicList',
+    component: _import('list/pages/basicList')
+  },
+  {
+    path: '/cardList',
+    component: _import('list/pages/cardList')
+  },
+  {
+    path: '/tableList',
+    component: _import('list/pages/tableList')
   }
 ]
 

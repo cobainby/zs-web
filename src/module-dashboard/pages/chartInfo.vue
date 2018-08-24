@@ -36,7 +36,7 @@ import MenuAdd from './../components/menuAdd'
 import { list, remove, detail, update, add } from '@/api/base/menus'
 let _this = []
 export default {
-  name: 'treeTableDemo',
+  name: 'base-chartInfo',
   components: { treeTable, MenuAdd },
   data() {
     return {
