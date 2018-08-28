@@ -4,8 +4,8 @@
       <el-card shadow="never" v-loading="loading">
         <!-- 搜索栏 -->
         <el-form :inline="true" :model="formSearch">
-          <el-form-item label="审批人">
-            <el-input v-model="formSearch.user" placeholder="审批人"></el-input>
+          <el-form-item label="监测人">
+            <el-input v-model="formSearch.user" placeholder="监测人"></el-input>
           </el-form-item>
           <el-form-item label="活动区域">
             <el-select v-model="formSearch.region" placeholder="活动区域">

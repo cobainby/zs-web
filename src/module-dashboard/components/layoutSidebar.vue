@@ -8,8 +8,8 @@
       active-text-color="#fff"
       >
       <router-link to="/">
-        <div class="sidebar-logo"><img src="../assets/zs-logo.jpg" /></div>
-        <div class="sidebar-logo-mini"><img src="../assets/zs-logo-mini.jpg" /></div>
+        <div class="sidebar-logo"><img src="../assets/zs-logo.png" /></div>
+        <div class="sidebar-logo-mini"><img src="../assets/zs-logo-mini.png" /></div>
       </router-link>
       <sidebar-item :routes="permission_routers"></sidebar-item>
     </el-menu>

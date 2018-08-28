@@ -91,7 +91,7 @@ export const constantRouterMap = [
     component: _import('list/pages/cardList')
   },
   {
-    path: '/tableList',
+    path: '/tableList', 
     component: _import('list/pages/tableList')
   }
 ]
