@@ -40,13 +40,15 @@ html {
   padding: 4px 0;
 }
 
-a:focus,
+a:focus,focus:active{
+  outline: #337ab7;
+}
 a:active {
   outline: none;
 }
 
 a,
-a:focus,
+a:focus, 
 a:hover {
   cursor: pointer;
   color: inherit;
