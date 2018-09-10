@@ -41,7 +41,7 @@
         </el-alert> -->
         <!-- 搜索栏 / -->
         <!-- 数据表格 -->
-        <el-tabs v-model="activeName2" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane class="chartsPanel" label="数据展示" name="first-ta">
             <el-table :data="items" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%; margin-top:10px;" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="55"></el-table-column>
@@ -69,7 +69,7 @@
             <!-- 数据表格 / -->
           </el-tab-pane>
           <el-tab-pane class="chartsPanel" label="图形展示" name="second-ta" >
-            <div :class="className"  id="enLine" :style="{height:height,width:width}"></div>
+            <div :class="className"  id="enLine" ></div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -125,7 +125,7 @@ export default {
   },
   data() {
     return {
-      activeName2: "first-ta",
+      activeName: "first-ta",
       filters: {
         column: {
           create_start_date: "",
@@ -205,6 +205,9 @@ export default {
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
+      debugger
+      $('#enLine').width($('.app-container').width());
+      $('#enLine').height($(window).height()-300);
       this.initChart();
       this.__resizeHanlder = debounce(() => {
         if (this.chart) {
