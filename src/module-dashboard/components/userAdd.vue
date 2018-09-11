@@ -68,9 +68,11 @@ export default {
   ],
   data() {
     return {
-      dialogFormVisible: false
-      // fileList: [],
-      // importFileUrl: 'https://jsonplaceholder.typicode.com/posts/',
+      dialogFormVisible: false,
+      fileList: [],
+      handleChange:[],
+      beforeAvatarUpload:[],
+      importFileUrl: 'https://jsonplaceholder.typicode.com/posts/',
     }
   },
   computed: {},

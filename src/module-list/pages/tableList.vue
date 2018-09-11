@@ -38,7 +38,7 @@
           </el-form-item>
         </el-form>
         <el-button type="primary" icon="el-icon-plus" @click="handleNew">新建</el-button>
-        <el-alert 
+        <el-alert
           v-if="barSearch.alertText !== ''" 
           :title="barSearch.alertText" 
           type="info" 

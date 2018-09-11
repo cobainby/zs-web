@@ -325,6 +325,7 @@ cite {
 }
 h2 {
   font-weight: normal;
+
 }
 /*top.html*/
 .header {
