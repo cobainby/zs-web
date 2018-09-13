@@ -13,7 +13,7 @@ export default [
     },
     children: [
       {
-        path: 'menus',
+        path: 'menus', 
         name: 'base-menus',
         component: _import('dashboard/pages/menus'),
         meta: {title: 'menus'}
