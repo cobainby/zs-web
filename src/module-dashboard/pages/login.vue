@@ -1187,8 +1187,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "root@admin.com",
-        password: "root123456"
+        username: "",
+        password: ""
       },
       loginRules: {
         username: [{ required: true, trigger: "blur" }],

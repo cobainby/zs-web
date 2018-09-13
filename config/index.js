@@ -14,7 +14,7 @@ module.exports = {
         target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
         // target: 'http://localhost:7999',
         changeOrigin: true,
-        pathRewrite: {
+        // pathRewrite: {
           '^/api': ''
         }
       }
