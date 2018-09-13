@@ -7,6 +7,10 @@
 
 `缀术基坑` 的前端项目, [简介!](http:)
 
+缀术基坑监测平台的vue前端代码
+
+使用mock作为后台模拟数据
+
 <!-- * [在线演示](http://itheimaadmin.itcast.cn/preview/vue/dist)
 * 代码
   * [前端 Vue](https://github.com/itheima2017/vue-element-admin-itheima)
