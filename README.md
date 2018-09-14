@@ -9,7 +9,7 @@
 
 缀术基坑监测平台的vue前端代码
 
-使用mock作为后台模拟数据
+使用mock作为后台模拟数据。
 
 <!-- * [在线演示](http://itheimaadmin.itcast.cn/preview/vue/dist)
 * 代码
