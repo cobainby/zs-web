@@ -62,6 +62,11 @@ export const constantRouterMap = [
     component: _import('dashboard/pages/itemList')
   },
   {
+    path:'/projectChange',
+    name:'projectChange',
+    component:_import('dashboard/pages/projectChange')
+  },
+  {
     path: '/equipment',
     component: _import('dashboard/pages/equipment')
   },
