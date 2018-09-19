@@ -1,8 +1,13 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark">基坑项目名称</div>
+      <el-col :span="23">
+        <div class="tableListTitle2" style="margin-top:5px;">
+                <label id="projectName">基坑测试项目</label>
+         </div>
+      </el-col>
+      <el-col :span="1">
+        <el-button id="backButton" @click="getBack" style="margin-bottom:5px;" size="mini" type="primary" icon="el-icon-caret-left">返回</el-button>
       </el-col>
     </el-row>
     <el-card shadow="never" v-loading="loading">
@@ -543,6 +548,9 @@ export default {
         .catch(ret => {
           console.log(ret);
         });
+    },
+    getBack(){
+      this.$router.push({ path: "/" });
     }
   },
   created() {
@@ -636,6 +644,15 @@ textarea {
   border-radius: 3px;
 }
 
+/*自定义表头风格2*/
+.tableListTitle2 {
+	color: #237fd2;
+	height: 25px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 5px;
+}
 /*头部提示地址表格样式*/
 #tableHeader {
   width: 100%;

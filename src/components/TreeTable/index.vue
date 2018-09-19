@@ -144,7 +144,9 @@ $space-width: 18px;
 table td {
   line-height: 26px;
 }
-
+.table td{
+  line-height:30px;
+}
 .tree-ctrl {
   position: relative;
   cursor: pointer;
