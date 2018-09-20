@@ -3,8 +3,8 @@
     <el-row>
       <el-col :span="23">
         <div class="tableListTitle2" style="margin-top:5px;">
-                <label id="projectName">基坑测试项目</label>
-         </div>
+          <label id="projectName">基坑测试项目</label>
+        </div>
       </el-col>
       <el-col :span="1">
         <el-button id="backButton" @click="getBack" style="margin-bottom:5px;" size="mini" type="primary" icon="el-icon-caret-left">返回</el-button>
@@ -320,19 +320,60 @@
                 <label>监测平面图:</label>
               </th>
               <th colspan="2">
-                <el-button size="mini" type="primary">图片上传
-                  <i class="el-icon-upload el-icon--right"></i>
-                </el-button>
+                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
               </th>
-              <!--                  <th colspan="2"> -->
-              <!--                     <a id="delPicFileBtn" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-circle-arrow-up"></i>&nbsp删除图片</a> -->
-              <!--                 </th> -->
-              <td colspan="2" id="picForm">
-              </td>
             </tr>
           </table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="监测项设置" name="fouth-ta">
+          <el-table :data="items" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+            <el-table-column align="center" :label="$t('table.id')" width="50px">
+              <template slot-scope="scope">
+                <span>{{scope.row.id}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="监测项名称" width="250px">
+              <template slot-scope="scope">
+                <span>监测项名称</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="报警设置" width="250px">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">报警设置</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="断面设置" width="250px">
+              <template slot-scope="scope">
+                <el-button type="text" size="small">断面设置</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="自动采集/手动上传">
+              <template slot-scope="scope">
+                <span>自动采集/手动上传</span>
+              </template>
+            </el-table-column>
+            <!-- 头像 -->
+            <el-table-column align="center" width="250px" label="测点设置">
+              <template slot-scope="scope">
+                <el-button type="text" size="small">测点设置</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" width="250px" label="监测项设置">
+              <template slot-scope="scope">
+                <el-button type="text" size="small">监测项设置</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
+              <template slot-scope="scope">
+                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeUser(scope.row.id)">{{$t('table.delete')}}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="自动化设置" name="fifth-ta">
         </el-tab-pane>
@@ -358,6 +399,8 @@ export default {
           create_end_date: ""
         }
       },
+      dialogImageUrl: "",
+      dialogVisible: false,
       pickerBeginDateBefore: {
         disabledDate: time => {
           let beginDateVal = this.filters.column.create_end_date;
@@ -426,6 +469,14 @@ export default {
         }
       }, 100);
       window.addEventListener("resize", this.__resizeHanlder);
+    },
+    //上传图片
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     //图形展示
     initChart() {},
@@ -549,14 +600,30 @@ export default {
           console.log(ret);
         });
     },
-    getBack(){
+    getBack() {
       this.$router.push({ path: "/" });
+    },
+    // 获取列表数据
+    getList(params) {
+      debugger;
+      this.listLoading = true;
+      list()
+        .then(data => {
+          this.items = data.data.items;
+          this.total = data.data.total;
+          this.alertText = `共 ${this.total} 条记录`;
+          this.listLoading = false;
+        })
+        .catch(e => {
+          this.$message.e("错了哦，这是一条错误消息");
+        });
     }
   },
   created() {
     this.barSearch.expandInputs = false;
     this.barSearch.expandBtnText = "展开▼";
     this.getParams();
+    this.getList();
   },
   watch: {
     //监测路由变化
@@ -646,12 +713,12 @@ textarea {
 
 /*自定义表头风格2*/
 .tableListTitle2 {
-	color: #237fd2;
-	height: 25px;
-	font-size: 16px;
-	font-weight: bold;
-	text-align: center;
-	padding-top: 5px;
+  color: #237fd2;
+  height: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
 }
 /*头部提示地址表格样式*/
 #tableHeader {
