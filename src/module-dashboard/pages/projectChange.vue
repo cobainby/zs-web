@@ -337,19 +337,19 @@
                 <span>{{scope.row.id}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="监测项名称" width="250px">
+            <el-table-column align="center" label="监测项名称">
               <template slot-scope="scope">
                 <span>监测项名称</span>
               </template>
             </el-table-column>
             <el-table-column align="center" label="报警设置" width="250px">
               <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">报警设置</el-button>
+                <el-button type="danger" icon="el-icon-warning" @click="handleClick(scope.row)" size="small">报警设置</el-button>
               </template>
             </el-table-column>
             <el-table-column align="center" label="断面设置" width="250px">
               <template slot-scope="scope">
-                <el-button type="text" size="small">断面设置</el-button>
+                <el-button type="success" icon="el-icon-news" size="small">断面设置</el-button>
               </template>
             </el-table-column>
             <el-table-column align="center" label="自动采集/手动上传">
@@ -360,12 +360,12 @@
             <!-- 头像 -->
             <el-table-column align="center" width="250px" label="测点设置">
               <template slot-scope="scope">
-                <el-button type="text" size="small">测点设置</el-button>
+                <el-button type="warning" icon="el-icon-location-outline" size="small">测点设置</el-button>
               </template>
             </el-table-column>
             <el-table-column align="center" width="250px" label="监测项设置">
               <template slot-scope="scope">
-                <el-button type="text" size="small">监测项设置</el-button>
+                <el-button type="info" icon="el-icon-setting" size="small">监测项设置</el-button>
               </template>
             </el-table-column>
             <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
