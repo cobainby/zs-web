@@ -39,7 +39,7 @@
               <el-input name="password" size="large" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
             </div>
             <div class="cell vcode">
-              <el-input name="yanzhengma" size="large" style="width:145px;" id="yanzhengma"   type="text" autoComplete="on" placeholder="请输入验证码" />
+              <el-input name="yanzhengma" size="large" style="width:145px;" id="yanzhengma" type="text" autoComplete="on" placeholder="请输入验证码" />
               <img/>
               <!-- <span>
                 <a id="js-mail_vcode_a" href="javascript:;">换一张</a>
@@ -791,7 +791,7 @@ h1.logo {
   right: 10px;
 }
 .reg-form .vcode #yanzhengma {
-  width: 110px!important;
+  width: 110px !important;
 }
 .reg-form .vcode .button {
   position: absolute;
@@ -976,7 +976,8 @@ h1.logo {
   height: 48px;
   line-height: 20;
   overflow: hidden;
-  background: url(./../assets/images/close_qcode.gif?v=201406241538) no-repeat 0 0;
+  background: url(./../assets/images/close_qcode.gif?v=201406241538) no-repeat 0
+    0;
 }
 .qcode-login .close:hover {
   background-position: 0 -48px;
@@ -989,7 +990,8 @@ h1.logo {
   width: 836px;
   height: 77px;
   overflow: hidden;
-  background: url(./../assets/images/flag_qcode.gif?v=201406241538) no-repeat 0 0;
+  background: url(./../assets/images/flag_qcode.gif?v=201406241538) no-repeat 0
+    0;
 }
 .qcode-pic {
   position: absolute;
@@ -998,7 +1000,8 @@ h1.logo {
   z-index: 1;
   width: 295px;
   height: 415px;
-  background: url(./../assets/images/pic_qcode.png?v=201406241538) no-repeat right top;
+  background: url(./../assets/images/pic_qcode.png?v=201406241538) no-repeat
+    right top;
   opacity: 0;
   filter: alpha(opacity=0);
   -webkit-transform: translate(-315px, 0) scale(0.3);
@@ -1108,78 +1111,74 @@ h1.logo {
   top: -16px;
   border-bottom-color: #64b832;
 }
-
 </style>
 <script>
-
 import loginSocialSignin from "./../components/loginSocialSignin";
 import shajs from "sha.js";
 
-; (function () {
-            var defaultInd = 0;
-            var list = $('#js_ban_content').children();
-            var count = 0;
-            var change = function (newInd, callback) {
-                if (count) return;
-                count = 2;
-                $(list[defaultInd]).fadeOut(400, function () {
-                    count--;
-                    if (count <= 0) {
-                        if (start.timer) window.clearTimeout(start.timer);
-                        callback && callback();
-                    }
-                });
-                $(list[newInd]).fadeIn(400, function () {
-                    defaultInd = newInd;
-                    count--;
-                    if (count <= 0) {
-                        if (start.timer) window.clearTimeout(start.timer);
-                        callback && callback();
-                    }
-                });
-            }
+(function() {
+  var defaultInd = 0;
+  var list = $("#js_ban_content").children();
+  var count = 0;
+  var change = function(newInd, callback) {
+    if (count) return;
+    count = 2;
+    $(list[defaultInd]).fadeOut(400, function() {
+      count--;
+      if (count <= 0) {
+        if (start.timer) window.clearTimeout(start.timer);
+        callback && callback();
+      }
+    });
+    $(list[newInd]).fadeIn(400, function() {
+      defaultInd = newInd;
+      count--;
+      if (count <= 0) {
+        if (start.timer) window.clearTimeout(start.timer);
+        callback && callback();
+      }
+    });
+  };
 
-            var next = function (callback) {
-                var newInd = defaultInd + 1;
-                if (newInd >= list.length) {
-                    newInd = 0;
-                }
-                change(newInd, callback);
-            }
+  var next = function(callback) {
+    var newInd = defaultInd + 1;
+    if (newInd >= list.length) {
+      newInd = 0;
+    }
+    change(newInd, callback);
+  };
 
-            var start = function () {
-                if (start.timer) window.clearTimeout(start.timer);
-                start.timer = window.setTimeout(function () {
-                    next(function () {
-                        start();
-                    });
-                }, 8000);
-            }
+  var start = function() {
+    if (start.timer) window.clearTimeout(start.timer);
+    start.timer = window.setTimeout(function() {
+      next(function() {
+        start();
+      });
+    }, 8000);
+  };
 
-            start();
+  start();
 
-            $('#js_ban_button_box').on('click', 'a', function () {
-                var btn = $(this);
-                if (btn.hasClass('right')) {
-                    //next
-                    next(function () {
-                        start();
-                    });
-                }
-                else {
-                    //prev
-                    var newInd = defaultInd - 1;
-                    if (newInd < 0) {
-                        newInd = list.length - 1;
-                    }
-                    change(newInd, function () {
-                        start();
-                    });
-                }
-                return false;
-            });
-
-        })();
+  $("#js_ban_button_box").on("click", "a", function() {
+    var btn = $(this);
+    if (btn.hasClass("right")) {
+      //next
+      next(function() {
+        start();
+      });
+    } else {
+      //prev
+      var newInd = defaultInd - 1;
+      if (newInd < 0) {
+        newInd = list.length - 1;
+      }
+      change(newInd, function() {
+        start();
+      });
+    }
+    return false;
+  });
+})();
 
 export default {
   components: {},
@@ -1226,8 +1225,7 @@ export default {
           this.loading = false;
         });
     },
-    afterQRScan() {
-    }
+    afterQRScan() {}
   },
   created() {
     // window.addEventListener('hashchange', this.afterQRScan)
