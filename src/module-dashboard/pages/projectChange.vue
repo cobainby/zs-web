@@ -675,7 +675,6 @@ textarea {
   line-height: 30px;
   width: 80%;
 }
-
 .easyui-combobox {
   height: 30px;
   line-hgiht: 30px;

@@ -104,7 +104,6 @@ export const constantRouterMap = [
     component: _import("datachart/pages/dataMenu")
   }
 ];
-
 /**
  * 配置路由
  **/
@@ -117,11 +116,10 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   NProgress.start(); // start progress bar
   if (getToken()) {
-    // determine if there has token
-    /* has token */
+    /* 是否有 token */
     if (to.path === "/login") {
       next({ path: "/" });
-      NProgress.done(); // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+      NProgress.done(); // 如果当前页是首页将不会触发后，所以手动处理它
     } else {
       if (store.getters.roles.length === 0) {
         // 判断当前用户是否已拉取完user_info信息

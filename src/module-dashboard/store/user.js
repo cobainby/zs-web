@@ -48,7 +48,8 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login({
+        debugger
+        login({ 
             username: username,
             password: userInfo.password
           }).then(response => {
