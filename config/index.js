@@ -11,8 +11,8 @@ module.exports = {
     assetsPublicPath: '',
     proxyTable: {
       '/api': {
-        target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
-        // target: 'http://192.168.1.13.10:8082',
+        // target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
+        target: 'http://192.168.1.10:8082',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
@@ -20,8 +20,8 @@ module.exports = {
       }
     },
     // Various Dev Server settings 
-    host: '192.168.1.13', // can be overwritten by process.env.HOST
-    port: 8181, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '192.168.1.13', //可以通过process.env.HOST覆盖 
+    port: 8181, // 可以通过process.env覆盖
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,

@@ -68,9 +68,9 @@ instance.interceptors.response.use(
 )
 
 export const createAPI = (url, method, data) => {
+  debugger
   let config = {}
   if (method === 'get') {
-    debugger
     config.params = data
   } else {
     config.data = data

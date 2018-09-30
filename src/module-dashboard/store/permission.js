@@ -37,7 +37,7 @@ const permission = {
         const { roles } = data
         let accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         commit('SET_ROUTERS', accessedRouters)
-        // 返回所有路由，测试
+        // 返回所有路由
         // commit('SET_ROUTERS', asyncRouterMap)
         resolve()
       })

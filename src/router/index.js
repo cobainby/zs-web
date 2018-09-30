@@ -121,6 +121,7 @@ router.beforeEach((to, from, next) => {
       next({ path: "/" });
       NProgress.done(); // 如果当前页是首页将不会触发后，所以手动处理它
     } else {
+      debugger
       if (store.getters.roles.length === 0) {
         // 判断当前用户是否已拉取完user_info信息
         store

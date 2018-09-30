@@ -1213,9 +1213,7 @@ export default {
       this.$store
         .dispatch("LoginByUsername", {
           username: this.loginForm.username,
-          password: shajs("sha256")
-            .update(this.loginForm.password)
-            .digest("hex")
+          password: this.loginForm.password
         })
         .then(() => {
           this.loading = false;

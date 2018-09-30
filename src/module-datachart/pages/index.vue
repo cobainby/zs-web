@@ -205,7 +205,6 @@ export default {
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
-      debugger
       $('#enLine').width($('.app-container').width());
       $('#enLine').height($(window).height()-300);
       this.initChart();
