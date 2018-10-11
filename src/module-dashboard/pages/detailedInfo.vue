@@ -310,7 +310,6 @@ a:focus {
   text-decoration: none;
   color: #000;
   outline: none;
-  blr: expression(this.onFocus=this.blur());
 }
 a:hover {
   color: #eb5409;

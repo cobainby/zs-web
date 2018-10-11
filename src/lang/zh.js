@@ -4,6 +4,8 @@ export default {
     manage: '后台管理',
     users: '用户管理',
     menus: '菜单管理',
+    organ:'机构管理',
+    worker:'人员管理',
     permissions: '权限管理',
     logs: '日志管理',
     example: '示例',

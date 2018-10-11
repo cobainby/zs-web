@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "@/store";
+import store from "@/store/index";
 import { Message, Loading } from "element-ui";
 import NProgress from "nprogress";
 import Layout from "@/module-dashboard/pages/layout";
@@ -116,6 +116,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   NProgress.start(); // start progress bar
   if (getToken()) {
+    console.log(getToken())
     /* 是否有 token */
     if (to.path === "/login") {
       next({ path: "/" });
@@ -128,7 +129,7 @@ router.beforeEach((to, from, next) => {
           .dispatch("GetUserInfo")
           .then(res => {
             // 拉取user_info
-            const roles = res.data.roles; // note: roles must be a array! such as: ['editor','develop']
+            const roles = res.data.worker.roles; // note: roles must be a array! such as: ['editor','develop']
             store.dispatch("GenerateRoutes", { roles }).then(() => {
               // 根据roles权限生成可访问的路由表
               router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
@@ -146,7 +147,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    /* has no token */
+    /* 如果token不存在 */
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，直接进入
       next();

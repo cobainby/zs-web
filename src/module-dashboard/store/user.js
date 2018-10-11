@@ -64,10 +64,14 @@ const user = {
             loginMac: "192.168.1.25"
           })
             .then(response => {
-              const data = response.data;
-              commit("SET_TOKEN", data.token);
-              setToken(response.data.token);
-              resolve();
+              if(response.data.result==1){
+                const data = response.data;
+                commit("SET_TOKEN", data.token);
+                setToken(response.data.token);//登录成功后将token存储在cookie中
+                resolve();
+              }else{
+                alert("用户密码不一致！")
+              }
             })
             .catch(error => {
               reject(error);
@@ -75,7 +79,6 @@ const user = {
         });
       });
     },
-
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
@@ -96,10 +99,10 @@ const user = {
           .get("http://192.168.1.13:8181/static/profile.json")
           .then(res => {
             const data = res.data;
-            commit("SET_ROLES", data.roles);
-            commit("SET_NAME", data.name);
-            commit("SET_AVATAR", data.avatar);
-            commit("SET_INTRODUCTION", data.introduction);
+            commit("SET_ROLES", data.worker.roles);
+            commit("SET_NAME", data.worker.workerName);
+            commit("SET_AVATAR", data.worker.avatar);
+            commit("SET_INTRODUCTION", data.worker.introduction);
             resolve(res);
           })
           .catch(error => {

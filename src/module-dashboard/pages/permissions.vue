@@ -96,6 +96,7 @@ import { list, remove, detail, update, add } from '@/api/base/permissions'
 import PageTool from './../components/pageTool'
 import PermissionsAdd from './../components/permissionsAdd'
 import permissionsApiAdd from './../components/permissionsApiAdd'
+import axios from 'axios'
 export default {
   name: 'base-permissions',
   components: {
@@ -143,8 +144,10 @@ export default {
     // 获取列表数据
     getList(params) {
       this.listLoading = true
-      list(this.requestParameters)
+     axios
+        .get("http://192.168.1.13:8181/static/permissions.json")
         .then(data => {
+          debugger
           this.dataList = data.data.list
           this.total = data.data.counts
           this.alertText = `共 ${this.total} 条记录`

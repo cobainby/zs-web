@@ -13,25 +13,25 @@ export default [
     },
     children: [
       {
-        path: 'menus', 
-        name: 'base-menus',
-        component: _import('dashboard/pages/menus'),
-        meta: {title: 'menus'}
+        path: 'organ', 
+        name: 'base-organ',
+        component: _import('dashboard/pages/organ'),
+        meta: {title: 'organ'}
+      },
+      {
+        path: 'worker',
+        name: 'base-worker',
+        component: _import('dashboard/pages/worker'),
+        meta: {
+          title: 'worker',
+          noCache: true
+        }
       },
       {
         path: 'permissions',
         name: 'base-permissions',
         component: _import('dashboard/pages/permissions'),
-        meta: {
-          title: 'permissions',
-          noCache: true
-        }
-      },
-      {
-        path: 'logs',
-        name: 'base-logs',
-        component: _import('dashboard/pages/logs'),
-        meta: {title: 'logs'}
+        meta: {title: 'permissions'}
       }
     ]
   }

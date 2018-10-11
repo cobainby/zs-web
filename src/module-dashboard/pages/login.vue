@@ -1217,10 +1217,11 @@ export default {
         })
         .then(() => {
           this.loading = false;
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/" });//登录成功后重定向到首页
         })
         .catch(() => {
           this.loading = false;
+          this.$message.error(err); //登录失败提示错误
         });
     },
     afterQRScan() {}

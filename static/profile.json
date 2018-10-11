@@ -1,16 +1,63 @@
 {
-  "name": "白杨",
-  "avatar": "http://or45inefq.bkt.clouddn.com/itheima-avatar.png",
-  "introduction": "后台管理员",
-  "roles": {
-    "menus": [
-      "base",
-      "base-manage",
-      "base-users",
-      "base-menus",
-      "base-permissions",
-      "base-logs"
-    ],
-    "points": ["base-users-list", "base-users-edit"]
+  "worker": {
+    "workerUuid": "904104aa-16c5-4608-b031-30bbcd96c7aa",
+    "workerName": "白杨",
+    "phone": "13902482403",
+    "email": "",
+    "paperID": "",
+    "avatar": "http://or45inefq.bkt.clouddn.com/itheima-avatar.png",
+    "introduction": "后台管理员",
+    "roles": {
+      "menus": [
+        "base",
+        "base-manage",
+        "base-users",
+        "base-organ",
+        "base-worker",
+        "base-permissions"
+      ]
+    },
+    "organ": {
+      "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+      "organName": "?????????????",
+      "contactWorker": "904104aa-16c5-4608-b031-30bbcd96c7aa",
+      "supervisor": "15dca046-68a9-4a24-8b90-a7985917ff0a",
+      "establishedTime": "",
+      "adress": "",
+      "telephone": null,
+      "email": null,
+      "postcode": null,
+      "organCode": "",
+      "detactNumber": "",
+      "meteringNumber": "",
+      "representative": "",
+      "techDirector": ""
+    },
+    "sex": "男",
+    "idNumber": "",
+    "duty": "部长助理",
+    "jobTitle": "工程师",
+    "titleMajor": "岩土专业",
+    "workYear": "",
+    "graduationInfo": "",
+    "education": "硕士",
+    "resume": "$#$#$",
+    "registerdType": "",
+    "registerdPaperId": "",
+    "characterId": "",
+    "workerType": "报告批准人",
+    "account": {
+      "accountUuid": "4e466097-c034-4dfa-89b7-1110d350fb8f",
+      "loginName": "jca001",
+      "accountName": "李衍航",
+      "password": "1234",
+      "creatorUuid": "957783b2-e42f-442c-86ff-fbaf407cc62b",
+      "worker": null,
+      "role": {
+        "roleUuid": "8c4d7550-ebb9-45ba-8eff-a5164d65a307",
+        "roleName": "机构管理员",
+        "mark": 1
+      }
+    }
   }
 }

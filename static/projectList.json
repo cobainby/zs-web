@@ -1,0 +1,2260 @@
+{
+  "total": 18,
+  "rows": [
+    {
+      "projectUuid": "0fb7f3b7-c4e2-4ae6-ba17-408b69ebc7f4",
+      "projectName": "光明高端人才房项目基坑支护及桩基础工程",
+      "code": "1234567789",
+      "address": "广东省, 深圳市, 宝安区, , ",
+      "lon": 113.936,
+      "lat": 22.7723,
+      "projectType": 0,
+      "structure": "支护桩+放坡+锚索",
+      "deep": 11.3,
+      "perimeter": 604.9,
+      "monitorLeader": "张世贤(18122266458)、高祥祥(18818796253)、廖琦(18328597588)、郑学未(13682419063)、测试(159185723825)",
+      "monitorWorker": "张世贤(18122266458)、高祥祥(18818796253)、廖琦(18328597588)、郑学未(13682419063)、测试(159185723825)",
+      "superviseCompany": "深圳市建设工程质量安全监督总站",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "25998952",
+      "buildCompany": "深圳市特区建设发展集团有限公司",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市中地大勘察设计有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中国建设第八工程局有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市龙城建设监理有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "323a19a6-4dac-4e5a-afaf-9db31e2b3a79",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "328cc8b5-8568-4afe-a5f2-fddf038ff35d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "1997907f-95a5-4b0a-8d0a-fdb456af2126",
+            "monitorItemName": "立柱竖向位移",
+            "number": -1,
+            "code": "LZ",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "65ca969c-fcf9-44c8-82da-abb99db21b43",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "95f7f6dd-6e24-497f-84a9-4affe63459a2",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "b60ac4f2-5e94-4853-8992-59bfe8232b34",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ba08205f-4328-4dc3-a83a-432573fd733d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "be19c7c0-3b95-4ee5-a8ba-471c590a80c0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ecb86ddd-68a8-4f49-b6a2-a21f923711c7",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "195bf7fa-c20f-48b9-a1ac-ebb452da3d62",
+      "projectName": "光明新区马山头学校建设工程",
+      "code": "001-MPE-2017-005",
+      "address": "",
+      "lon": null,
+      "lat": null,
+      "projectType": 0,
+      "structure": "",
+      "deep": null,
+      "perimeter": null,
+      "monitorLeader": "",
+      "monitorWorker": "",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "5e8fb5cb-0d9c-4e7d-b11a-54938bc18f9f",
+      "projectName": "光明平板显示园中小企业总部基地项目基坑支护工程",
+      "code": "001-MPE-2016-009",
+      "address": "广东省, 深圳市, 宝安区, , ",
+      "lon": 113.938,
+      "lat": 22.7547,
+      "projectType": 0,
+      "structure": "支护桩",
+      "deep": 6.0,
+      "perimeter": 998.0,
+      "monitorLeader": "高祥祥(18818796253)、张世贤(18122266458)、廖琦(18328597588)、郑学未(13682419063)",
+      "monitorWorker": "廖琦(18328597588)、高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "superviseCompany": "深圳市建设工程质量安全监督总站",
+      "superviseWorker": " 个regret",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": "720",
+      "superviseCode": "4564566",
+      "buildCompany": "深圳市特区建设发展集团有限公司",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市勘察设计院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中国建筑第三工程局",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市合创建设工程顾问有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "13322c0f-ea08-4c3d-9594-30ec9cdea476",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "2ddf5269-8ecf-469f-bca5-c44ce2e37bd9",
+            "monitorItemName": "周边道路竖向位移",
+            "number": -1,
+            "code": "ZDD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "2bc9d03e-0145-4e89-b3e2-4b1ed8ef4c3f",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "56b439ec-1716-47b4-b8a7-912c0f3cd6fc",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "5f71db28-fb80-4d11-a5f7-48d99b1b89b9",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "706bfacb-f9b1-4cc5-94c6-ec3425aa1c49",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "832730e4-a489-4644-b855-426a3099ed44",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "bd7d77ee-aa68-40ab-bedf-d1291924d309",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "e3a2f294-6d2e-40c9-a42d-34de717992a6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "84a593a1-8392-4636-ad93-9967dc6032ec",
+      "projectName": "光明新区高级中学初中部改扩建配套工程基坑支护工程",
+      "code": "001-MPE-2017-025-07",
+      "address": "广东省, 深圳市, 宝安区, 太阳路, ",
+      "lon": 113.912,
+      "lat": 22.7698,
+      "projectType": 0,
+      "structure": "",
+      "deep": 4.45,
+      "perimeter": 133.0,
+      "monitorLeader": "李衍航(13902482403)、高祥祥(18818796253)、阮园园(15622782948)、张世贤(18122266458)",
+      "monitorWorker": "张世贤(18122266458)、阮园园(15622782948)、高祥祥(18818796253)、李衍航(13902482403)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "2",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "深圳市光明新区城市建设局",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市勘察测绘院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "广东省第四建筑工程有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市恒浩建工程项目管理有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "29202d10-97f7-4604-b430-928fa1972f7d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "536481f4-2fd7-4735-90e9-b8408a847f46",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "6c473438-4eb1-4555-9e59-44fd843933f3",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "6c56d1c0-0867-45f8-a6fa-50e549e1c0b9",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "9ddad60b-6eb6-4750-bd6a-0203794c7c04",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "8f0dd248-9789-49fa-96e5-2e7f25894fea",
+      "projectName": "四标",
+      "code": "1234567",
+      "address": "广东省, 深圳市, 南山区, 南科一路, ",
+      "lon": 114.002,
+      "lat": 22.6079,
+      "projectType": 0,
+      "structure": "",
+      "deep": null,
+      "perimeter": null,
+      "monitorLeader": "高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "monitorWorker": "郑学未(13682419063)、张世贤(18122266458)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "23e59041-7695-45a8-865a-b0dfec749ffa",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "29b57bf1-a817-4fe0-a568-856b5febbdd2",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "9248fa16-da83-41a5-9c20-18de24cc7de3",
+      "projectName": "田寮消防站基坑支护工程",
+      "code": "001-MPE-2017-009-3",
+      "address": "广东省, 深圳市, 宝安区, , ",
+      "lon": 113.895,
+      "lat": 22.7306,
+      "projectType": 0,
+      "structure": "",
+      "deep": null,
+      "perimeter": null,
+      "monitorLeader": "廖琦(18328597588)、高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "monitorWorker": "廖琦(18328597588)、高祥祥(18818796253)、张世贤(18122266458)",
+      "superviseCompany": "深圳市建设工程质量安全监督总站",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "001-MPE-2017-009-3",
+      "buildCompany": "深圳市光明新区建设管理服务中心",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳大学建筑设计研究院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "深圳市坤和建筑工程有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市华建工程项目管理有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "0cebc2e7-609c-4ce1-a9c3-fd2597e441ae",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "4ae0508d-27fe-419e-bf61-edd305ed6ea7",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "986af89a-164f-41c7-942f-996dcd3ac802",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "a376d527-25c4-4bc6-b5ad-ef2525cd30e3",
+      "projectName": "南山建工村保障性住房项目基坑支护工程",
+      "code": "001-MPE-2017-015-08",
+      "address": "广东省, 深圳市, 南山区, 华泰路, ",
+      "lon": 113.93,
+      "lat": 22.5672,
+      "projectType": 0,
+      "structure": "桩锚支护结构",
+      "deep": 9.7,
+      "perimeter": 581.15,
+      "monitorLeader": "高祥祥(18818796253)、阮园园(15622782948)、张世贤(18122266458)",
+      "monitorWorker": "高祥祥(18818796253)、阮园园(15622782948)、张世贤(18122266458)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "2",
+      "collectStatus": -1,
+      "collectInterval": "240",
+      "superviseCode": "",
+      "buildCompany": "中国核工业华兴建设有限公司",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "香港华艺设计顾问（深圳）有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中国核工业华兴建设有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳科宇工程顾问有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "562ffc68-6ed7-4a52-8c73-dfc3c1365f07",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "6b2d6f94-ebbb-4ae7-83fb-50af7d4f6ee4",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "71e0137e-68ed-4764-bab6-0b95775c69ee",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "9e55358a-df8f-40f4-a9b8-ee73c0a64f2b",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "a3db454e-681b-4bda-abf4-77a11c55f1e6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "b1a6e84f-c320-4ad8-8094-6e8a265a4d8f",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "b7f1622d-276e-4e2c-aca9-b22b7d00443d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "a70c5d9b-a910-40bf-88ec-0800ceb3de71",
+      "projectName": "南方科技大学（二期）2标段基坑支护工程.",
+      "code": "001-MPE-2018-006-10",
+      "address": "广东省, 深圳市, 南山区, 南科一路, ",
+      "lon": 114.004,
+      "lat": 22.6037,
+      "projectType": 0,
+      "structure": "桩锚支护结构",
+      "deep": 8.2,
+      "perimeter": 695.0,
+      "monitorLeader": "高祥祥(18818796253)、阮园园(15622782948)、张世贤(18998929020)",
+      "monitorWorker": "高祥祥(18818796253)、阮园园(15622782948)、张世贤(18998929020)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": "360",
+      "superviseCode": "",
+      "buildCompany": "深圳市建筑工务署工程管理中心",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市勘察研究院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中建三局第一建设工程有限责任公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市东部建设监理有限责任公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "037f38dd-3c9f-43c0-a3bc-6d7fb0e4e3f0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "1fbf0eb4-6d72-4c2c-bbe8-3c91bdf4e179",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "417fb850-7958-4ba7-8e30-81a0c0d6a1d0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "869d25a6-3939-48c6-b599-d53776059e2c",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "9b12c77e-c177-44bf-b3a5-88ff20046862",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "dfa9e8d7-1c90-4677-9dc0-927a1733212b",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "f045b467-1912-4d96-a427-3e5c223d11f6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "be0ebc60-beab-4046-b61a-711d5d29940b",
+      "projectName": "南方科技大学",
+      "code": "001-MPE-2017",
+      "address": "广东省, 深圳市, 南山区, 南科一路, ",
+      "lon": 114.002,
+      "lat": 22.6078,
+      "projectType": 0,
+      "structure": "放坡",
+      "deep": 5.0,
+      "perimeter": 570.0,
+      "monitorLeader": "高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "monitorWorker": "高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "superviseCompany": "监督总站",
+      "superviseWorker": "李",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "123",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "0e0f942a-f4d1-418b-bdf7-16b57ce6f43a",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "32dd0073-aa1e-42ea-81fe-ba78eb5bbd2a",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "dd5af87e-4ffe-4824-8037-f685d1c33394",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "f4e0cd58-10cc-4dd1-a030-bcafb059882f",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "c10afbec-ba8c-42b4-875c-3ccb7840fb30",
+      "projectName": "光明新区马山头学校",
+      "code": "001-MPE-2017-005-8",
+      "address": "广东省, 深圳市, 宝安区, 马园路, 36号",
+      "lon": 113.884,
+      "lat": 22.7806,
+      "projectType": 0,
+      "structure": "",
+      "deep": null,
+      "perimeter": null,
+      "monitorLeader": "廖琦(18328597588)、高祥祥(18818796253)、张世贤(18122266458)",
+      "monitorWorker": "廖琦(18328597588)、高祥祥(18818796253)、张世贤(18122266458)",
+      "superviseCompany": "深圳市建设工程质量安全监督总站",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "001-MPE-2017-005-8",
+      "buildCompany": "深圳市光明新区建设管理服务中心",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "建设综合勘察研究设计院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "广东云凯建工集团有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市合创建设工程顾问有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "a99437fd-73b8-47ac-a3ef-7693f09acf59",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ea7037ab-0368-4ace-978f-77bd4022b6c2",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "c300cc30-dfac-4b7f-8c90-11b5c112c55b",
+      "projectName": "光明新区文化艺术中心基坑支护设计基坑支护工程",
+      "code": "001-MPE-2017-012",
+      "address": "广东省, 深圳市, 宝安区, X231(观光路), ",
+      "lon": 113.943,
+      "lat": 22.7511,
+      "projectType": 0,
+      "structure": "",
+      "deep": 22.4,
+      "perimeter": 666.0,
+      "monitorLeader": "廖琦(18328597588)、高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "monitorWorker": "廖琦(18328597588)、高祥祥(18818796253)、郑学未(13682419063)、张世贤(18122266458)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": 0,
+      "collectInterval": "720",
+      "superviseCode": "",
+      "buildCompany": "深圳市光明新区建筑工务和土地开发中心委托",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市长勘勘察设计有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "深圳市中地建设工程有限公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市建控地盘监理有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "52dfbbd8-975c-49e9-bee8-8d43e8efb22a",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "59ca783b-3f92-4928-ada1-7f60b5453d69",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "8fd7e142-58e3-478f-80ce-cefb8b4b76ae",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "96e9cd8c-8aa9-442e-8c4f-38c8d18bac5d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "d42ce281-19f7-4dcf-bc73-2bc6bf9be7b6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "ca4721c9-c4e4-442d-9c86-771f5e33116b",
+      "projectName": "wangyulin",
+      "code": "123456",
+      "address": "广东省, 深圳市, 南山区, 铁二路, 49",
+      "lon": 113.93,
+      "lat": 22.5676,
+      "projectType": 0,
+      "structure": "支护桩+锚索+放坡",
+      "deep": 8.2,
+      "perimeter": 448.0,
+      "monitorLeader": "光明2组(18998928962)",
+      "monitorWorker": "光明2组(18998928962)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "深圳市建筑工务署工程管理中心",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市勘察研究院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中建三局第一建设工程有限责任公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市东部建设监理有限责任公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "09b569a9-45fc-4ef1-acde-a42b0434cb5f",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "b2e6adb9-6a30-499d-976c-89f08a43908d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "b92cb94c-c4e1-4030-8a7f-9c4673e74464",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "d3124996-4ab1-4108-bf8d-5960492a08cb",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "e2a95b3d-3108-45a8-9b6a-a8a80c8c393c",
+      "projectName": "林其灿",
+      "code": "009008007",
+      "address": "广东省, 深圳市, 南山区, 南方科技大学",
+      "lon": 114.006,
+      "lat": 22.604,
+      "projectType": 0,
+      "structure": "支护桩+锚索+放坡",
+      "deep": 8.2,
+      "perimeter": 448.0,
+      "monitorLeader": "高祥祥(18818796253)",
+      "monitorWorker": "高祥祥(18818796253)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": "360",
+      "superviseCode": "0123",
+      "buildCompany": "深圳市建筑工务署工程管理中心",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市勘察研究院有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中建三局第一建设工程有限责任公司",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市东部建设监理有限责任公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "4319016d-d1ef-4863-9530-09fd93c5d629",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "e364c2a6-1c5f-4cfc-ab79-2529d60f25e1",
+      "projectName": "平湖金融与现代服务业基地投融资项目 地块四项目基坑支护工程 ",
+      "code": "",
+      "address": "广东省, 深圳市, 龙岗区, 惠华路, ",
+      "lon": 114.114,
+      "lat": 22.7071,
+      "projectType": 0,
+      "structure": "支护桩",
+      "deep": 14.0,
+      "perimeter": 430.0,
+      "monitorLeader": "廖琦()",
+      "monitorWorker": "廖琦()",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "1",
+      "collectStatus": -1,
+      "collectInterval": "30",
+      "superviseCode": "",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "02387fb6-2298-41db-986d-b29d45479b3a",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "241430bf-fae0-473a-88b4-ff84bd8750d0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "1997907f-95a5-4b0a-8d0a-fdb456af2126",
+            "monitorItemName": "立柱竖向位移",
+            "number": -1,
+            "code": "LZ",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "25e03d47-3410-4e5b-8f07-d0a5c36463f4",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "4369a21b-7823-4541-8450-71f6ebe864e2",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "743a9ebe-ccd6-4df5-a91a-aca83f92798a",
+            "monitorItemName": "支撑内力",
+            "number": -1,
+            "code": "ZC",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "5754e87f-50ca-4384-bd16-1cfc8d12727a",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "624fed64-0d3b-48ca-9a8b-38791b955522",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "8b4f9627-ca51-4ede-b1fe-a20e902e6edb",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "aa469fd3-67ae-4705-927b-a489bb175f35",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "c2292ec1-e172-45fd-8da4-1ea735003e1d",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "e4066840-0a2b-48c1-95c6-6071998aed7c",
+      "projectName": "深圳市宝安区污水处理厂（二期）工程",
+      "code": "001-MPE-2017-004",
+      "address": "深圳市宝安区",
+      "lon": 113.364,
+      "lat": 23.2944,
+      "projectType": 0,
+      "structure": "放坡",
+      "deep": 5.0,
+      "perimeter": 545.0,
+      "monitorLeader": "廖琪",
+      "monitorWorker": "小王",
+      "superviseCompany": "深圳市建设工程质量安全监督总站",
+      "superviseWorker": "小李",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "001",
+      "buildCompany": "深圳中节能可再生能源有限公司",
+      "buildLeaderName": "小李",
+      "buildLeaderPhone": "18888888888",
+      "buildContactName": "",
+      "buildContactPhone": "",
+      "buildContactName1": "",
+      "buildContactPhone1": "",
+      "designCompany": "中国市政工程中南设计研究总院有限公司",
+      "designLeaderName": "小李",
+      "designLeaderPhone": "18888888888",
+      "designContactName": "",
+      "designContactPhone": "",
+      "designContactName1": "",
+      "designContactPhone1": "",
+      "constructCompany": "中国第四冶金建设有限责任公司",
+      "constructLeaderName": "小李",
+      "constructLeaderPhone": "18888888888",
+      "constructContactName": "",
+      "constructContactPhone": "",
+      "constructContactName1": "",
+      "constructContactPhone1": "",
+      "supervisorCompany": "鲁班监理",
+      "supervisorLeaderName": "小李",
+      "supervisorLeaderPhone": "18888888888",
+      "supervisorContactName": "",
+      "supervisorContactPhone": "",
+      "supervisorContactName1": "",
+      "supervisorContactPhone1": "",
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "aeb35535-44eb-43c4-87b4-bb52f513ec26",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ca5c8006-5c34-4560-b048-74621de849c6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "0"
+    },
+    {
+      "projectUuid": "e997660f-0851-4ef0-87dd-c0223e42721f",
+      "projectName": "平湖金融与现代服务业基地投融资项目 地块三项目基坑支护工程",
+      "code": "",
+      "address": "广东省, 深圳市, 龙岗区, 惠华路, ",
+      "lon": 114.114,
+      "lat": 22.7082,
+      "projectType": 0,
+      "structure": "支护桩",
+      "deep": 18.0,
+      "perimeter": null,
+      "monitorLeader": "廖琦()",
+      "monitorWorker": "廖琦()",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "1",
+      "collectStatus": -1,
+      "collectInterval": "720",
+      "superviseCode": "",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "021e7731-1f54-4390-a37a-49c68123a826",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "81ccf47f-2093-4828-8526-864a00ac4d87",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "975f590a-6430-4f6a-955e-3325dc58d7e1",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "9b49eb21-f419-478d-b073-255c6517d407",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "a4639b5d-8f63-432d-bd6b-17095416c6a6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "a6fa7d93-0926-41ea-9a36-40611c596af1",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "50304e91-1153-4145-a09b-1f20124300c9",
+            "monitorItemName": "周边建筑物竖向位移",
+            "number": -1,
+            "code": "SM",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "fbaf6c87-3ae4-4a0c-b626-150701c7e7be",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "eaab68f5-02a9-4cf5-af21-bdae22ae3ef8",
+      "projectName": "特区建发东部大厦项目基坑支护工程",
+      "code": "12",
+      "address": "广东省, 汕尾市, 海丰县, 同心路, ",
+      "lon": 114.999,
+      "lat": 22.8396,
+      "projectType": 0,
+      "structure": "支护桩",
+      "deep": null,
+      "perimeter": null,
+      "monitorLeader": "郑学未()",
+      "monitorWorker": "",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": 0,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "3c8d927f-7ad6-4a49-b6c5-50e23359d746",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "44d68624-f0f6-4fca-a46f-2cd218f619cb",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "993912dd-a924-4896-8135-22971497d4f3",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "a4da7977-75e2-499f-afbf-d919e31e7741",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "c9da692a-480a-477d-9f4d-b218a352ca39",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ebbd69d7-5a45-424e-8c4c-aa856f31cc5c",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "2"
+    },
+    {
+      "projectUuid": "fd59b4e6-0f87-4289-ba6f-9bbbc929d088",
+      "projectName": "尚智科园项目基坑支护工程",
+      "code": "",
+      "address": "广东省, 深圳市, 宝安区, 十八号路, ",
+      "lon": 113.93,
+      "lat": 22.7434,
+      "projectType": 0,
+      "structure": "",
+      "deep": 17.45,
+      "perimeter": null,
+      "monitorLeader": "光明1组(15118109955)",
+      "monitorWorker": "光明1组(15118109955)",
+      "superviseCompany": "",
+      "superviseWorker": "",
+      "safeLevel": "",
+      "collectStatus": -1,
+      "collectInterval": null,
+      "superviseCode": "",
+      "buildCompany": "深圳市特区建设发展集团有限公司",
+      "buildLeaderName": null,
+      "buildLeaderPhone": null,
+      "buildContactName": "",
+      "buildContactPhone": null,
+      "buildContactName1": null,
+      "buildContactPhone1": null,
+      "designCompany": "深圳市工勘岩土集团有限公司",
+      "designLeaderName": null,
+      "designLeaderPhone": null,
+      "designContactName": "",
+      "designContactPhone": null,
+      "designContactName1": null,
+      "designContactPhone1": null,
+      "constructCompany": "中建二局",
+      "constructLeaderName": null,
+      "constructLeaderPhone": null,
+      "constructContactName": "",
+      "constructContactPhone": null,
+      "constructContactName1": null,
+      "constructContactPhone1": null,
+      "supervisorCompany": "深圳市大众工程管理有限公司",
+      "supervisorLeaderName": null,
+      "supervisorLeaderPhone": null,
+      "supervisorContactName": "",
+      "supervisorContactPhone": null,
+      "supervisorContactName1": null,
+      "supervisorContactPhone1": null,
+      "available": 0,
+      "organ": {
+        "organUuid": "e4a8a12f-9f69-4c63-87ae-7a2a95461609",
+        "organName": "?????????????",
+        "contactWorker": null,
+        "supervisor": null,
+        "establishedTime": null,
+        "adress": null,
+        "telephone": null,
+        "email": null,
+        "postcode": null,
+        "organCode": null,
+        "detactNumber": null,
+        "meteringNumber": null,
+        "representative": null,
+        "techDirector": null
+      },
+      "projectMonitorItems": [
+        {
+          "projectMonitorItemUuid": "51c3ed76-a192-4d76-988f-40ad2d96ffe5",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "fd29ce76-67c9-4bc6-b0bd-36d99ddfd9ed",
+            "monitorItemName": "围护墙(边坡)顶部竖向位移",
+            "number": -1,
+            "code": "WYD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "53c6481a-7d6f-406e-bb0c-d6a8278692e0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "86cdaa03-4c41-43c3-9262-7ee9c460f6be",
+            "monitorItemName": "支护结构深层水平位移",
+            "number": -1,
+            "code": "CX",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "684c01ef-cd52-483d-93d1-8b24f66347e0",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "224e3685-3f15-4124-88d8-01fc3745ea9a",
+            "monitorItemName": "周边管线竖向位移",
+            "number": -1,
+            "code": "ZGD",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "d9eb02df-0744-4493-b3c0-44969a2202d6",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "9b451111-2ebb-4e82-becf-b5f45cea782c",
+            "monitorItemName": "锚杆内力",
+            "number": -1,
+            "code": "MT",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "e7b0eaf3-9229-4d61-9d22-c4267267dbb7",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "6c1e4b36-5aec-4390-b9ff-99e121786e82",
+            "monitorItemName": "围护墙(边坡)顶部水平位移",
+            "number": -1,
+            "code": "WYS",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        },
+        {
+          "projectMonitorItemUuid": "ecd23294-67e6-42de-bd93-1d940cfb9771",
+          "project": null,
+          "monitorItem": {
+            "monitorItemUuid": "c93cbe76-fffd-4e7a-9c4d-bf89d5f5e188",
+            "monitorItemName": "地下水位",
+            "number": -1,
+            "code": "SW",
+            "hasSectionSetting": -1,
+            "hasAutoSetting": -1
+          }
+        }
+      ],
+      "warningStatus": "1"
+    }
+  ]
+}
