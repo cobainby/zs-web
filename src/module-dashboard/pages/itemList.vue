@@ -14,63 +14,286 @@
         <el-row :gutter="10">
           <!-- 数据 -->
           <el-col :span="18">
-            <el-table :key='tableKey' :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" label="工程ID" width="50px">
+            <el-table :key='tableKey' @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+              <el-table-column align="center" label="工程ID" v-if="false" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span >{{scope.row.projectUuid}}</span>
+                  <span>{{scope.row.projectUuid}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="经度">
+              <el-table-column align="center" label="经度" v-if="false" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.lon}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="维度">
+              <el-table-column align="center" label="维度" v-if="false" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.lat}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="工程名称" width="180px">
+              <el-table-column align="center" label="监测项ID" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.code}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="支护形式" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.structure}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="基坑设计深度" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.deep}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="基坑周长" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.perimeter}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监测负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.monitorLeader}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监测负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.monitorLeader}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监测人员" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.monitorWorker}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="安全机构" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.superviseCompany}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监督人员" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.superviseWorker}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="安全等级" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.safeLevel}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监督编号" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.superviseCode}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="建设单位" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildCompany}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildLeaderName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="负责人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildLeaderPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildContactName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildContactPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildContactName1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.buildContactPhone1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="设计单位" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designCompany}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="设计单位负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designLeaderName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="负责人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designLeaderPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designContactName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designContactPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designContactName1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.designContactPhone1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="施工单位" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructCompany}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="施工单位负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructLeaderName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructLeaderPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructContactName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructContactPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructContactName1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.constructContactPhone1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监理单位" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorCompany}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="负责人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorLeaderName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="负责人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorLeaderPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorContactName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorContactPhone}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorContactName1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="联系人1电话" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.supervisorContactPhone1}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="监测项" v-if="false" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.projectMonitorItems}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="工程名称" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.projectName}}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="工程地址" width="120px">
+              <el-table-column align="center" label="工程地址" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>工程地址</span>
+                  <span>{{scope.row.address}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="工程类别">
+              <el-table-column align="center" width="80px" label="工程类别" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>基坑</span>
+                  <span v-show="scope.row.projectType==0">基坑</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="建设单位">
+              <el-table-column align="center" label="建设单位" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>建设管理服务中心</span>
+                  <span>{{scope.row.buildCompany}}</span>
                 </template>
               </el-table-column>
-              <!-- 头像 -->
-              <el-table-column align="center" label="监测平面图">
+              <el-table-column align="center" label="监督机构" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <img :src="scope.row.avatar" style="width:50px;height:50px;">
-                </template>
-              </el-table-column> -->
-              <el-table-column align="center" width="250px" label="监督机构">
-                <template slot-scope="scope">
-                  <span>监督站</span>
+                  <span>{{scope.row.superviseCompany}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
+              <el-table-column align="center" :label="$t('table.actions')" width="180px" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" @click="handleUpdate(scope.row.id)">修改</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeUser(scope.row.id)">{{$t('table.delete')}}</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row.id)">修改</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" type="danger" size="mini" icon="el-icon-delete"  @click="removeUser(scope.row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
           </el-col>
           <!-- end -->
           <el-col :span="6">
+            <table align="center">
+              <tr>
+                <td>
+                  <div>
+                    <div style="float: left; width: 15px;">
+                      <img src="@/assets/green.png" /></div>
+                    <div style="float: left; width: 65px; height: 20px; line-height: 20px;">
+                      正常</div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <div style="float: left; width: 15px;">
+                      <img src="@/assets/yellow.gif" /></div>
+                    <div style="float: left; width: 100px; height: 20px; line-height: 20px;">
+                      超报警值</div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <div style="float: left; width: 15px;">
+                      <img src="@/assets/red.gif" /></div>
+                    <div style="float: left; width: 100px; height: 20px; line-height: 20px;">
+                      超控制值
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
             <el-table fit highlight-current-row style="width: 100%" border>
               <el-table-column align="center" label="监测项目">
                 <template slot-scope="scope">
@@ -114,7 +337,7 @@ import { simple } from "@/api/base/permissions";
 import { list, remove, detail, update, add } from "@/api/base/users";
 import PageTool from "./../components/pageTool";
 import UserAdd from "./../components/userAdd";
-import axios from "axios"
+import axios from "axios";
 export default {
   name: "base-itemList",
   components: {
@@ -175,9 +398,10 @@ export default {
     // 获取列表数据
     getList(params) {
       this.listLoading = true;
-      debugger
+      debugger;
       // list(this.requestParameters)
-      axios.get("http://192.168.1.13:8181/static/projectList.json")
+      axios
+        .get("http://192.168.1.13:8181/static/projectList.json")
         .then(data => {
           this.dataList = data.data.rows;
           this.total = data.data.total;
@@ -188,6 +412,7 @@ export default {
           // this.$message.e("错了哦，这是一条错误消息");
         });
     },
+    getData(row, event, column) {},
     // 权限列表
     setupData() {
       // simple().then(data => {
@@ -196,9 +421,10 @@ export default {
       axios
         .get("http://192.168.1.13:8181/static/permissions.json")
         .then(data => {
-          this.PermissionGroupsList = data.data.list
-        })
+          this.PermissionGroupsList = data.data.list;
+        });
     },
+
     // 重置
     resetForm() {
       this.$refs["requestParameters"].resetFields();
@@ -287,7 +513,7 @@ export default {
       //传递当前项目id
       this.$router.push({
         path: "/projectChange",
-        name:'projectChange',
+        name: "projectChange",
         params: { projectId: objeditId }
       });
     },

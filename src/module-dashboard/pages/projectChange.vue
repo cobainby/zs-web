@@ -601,9 +601,9 @@ export default {
         });
     },
     getBack() {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/itemList" });
     },
-    // 获取列表数据
+    // 获取列表数据  
     getList(params) {
       debugger;
       this.listLoading = true;
