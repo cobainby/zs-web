@@ -23,7 +23,7 @@
               机构地址
             </th>
             <td colspan="1">
-              <label id="adress"></label>
+              <label id="orgAddress"></label>
             </td>
             <th colspan="1">
               组织机构代码
@@ -37,27 +37,27 @@
               联系人
             </th>
             <td colspan="1">
-              <label id="workerName"></label>
+              <label id="orgLinkman"></label>
             </td>
             <th colspan="1">
               联系人电话
             </th>
             <td colspan="1">
-              <label id="phone"></label>
+              <label id="orgLinkphone"></label>
             </td>
           </tr>
           <tr>
             <th colspan="1">
-              机构联系电话
+              法定代表人
             </th>
             <td colspan="1">
-              <label id="telephone"></label>
+              <label id="legalRepresentative"></label>
             </td>
             <th colspan="1">
-              邮政编码
+              技术负责人
             </th>
             <td colspan="1">
-              <label id="postcode"></label>
+              <label id="leaderTechnique"></label>
             </td>
           </tr>
           <tr>
@@ -65,30 +65,31 @@
               检测资质证书编号
             </th>
             <td colspan="1">
-              <label id="detactNumber"></label>
-              <a id="viewDetact" style="margin-left:20px" class="viewDoc glyphicon glyphicon-search">查看</a>
+              <label id="credentialsnumCheck"></label>
+              <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toEditOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
             </td>
             <th colspan="1">
               计量认证证书编号
             </th>
             <td colspan="1">
-              <label id="meteringNumber1"></label>
-              <a id="viewMetering" style="margin-left:20px" class="viewDoc glyphicon glyphicon-search">查看</a>
+              <label id="credentialsnumMeterage"></label>
+              <center>
+                <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toEditOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
+              </center>
             </td>
           </tr>
-
           <tr>
             <th colspan="1">
-              法定代表人
+              登记日期
             </th>
             <td colspan="1">
-              <label id="representative"></label>
+              <label id="dateRegister"></label>
             </td>
             <th colspan="1">
-              技术负责人
+              有效日期
             </th>
             <td colspan="1">
-              <label id="techDirector"></label>
+              <label id="dateValid"></label>
             </td>
           </tr>
         </table>
@@ -98,8 +99,10 @@
 </template>
 
 <script>
-// import { list, remove, detail, update, add } from "@/api/base/organ";
-import axios from 'axios';
+import { Institutes,addInstitutes } from "@/api/base/organ";
+import axios from "axios";
+import { getToken } from "@/utils/auth";
+import { MessageBox } from "element-ui";
 export default {
   data() {
     return {};
@@ -107,69 +110,77 @@ export default {
   methods: {
     // 获取列表数据
     init() {
-      axios
-        .get("http://192.168.1.13:8181/static/getOrgan.json")
-        .then(response => {
+      debugger
+      var organAdd = new Object();
+      organAdd.orgUuid = "0";
+      organAdd.orgCode = "0";
+      organAdd.orgName = "abc";
+      organAdd.orgAddress = "0";
+      console.log(organAdd);
+      var data=[];
+      data.push(organAdd);
+      var tdata=new Object();
+      tdata.data=data;
+      var addJson = JSON.stringify(tdata);
+      console.log(addJson);
+      addInstitutes({
+        addJson,
+        token:getToken()
+      }).then(response => {
+        const jsonData = response.data;
+      });
+      Institutes({
+        token: getToken()
+      }).then(response => {
+        debugger;
+        if (response.data.result == 1) {
           const jsonData = response.data;
-          debugger
           // var jsonData = JSON.parse(data);
-          var organ = jsonData.organ;
-          var worker = jsonData.worker;
-          var organName = jsonData.organ.organName;
-          $("#organName").text(organName);
-          jsonData.worker.workerName != null
-            ? $("#workerName").text(jsonData.worker.workerName)
-            : $("#workerName").text("");
-          jsonData.worker.phone != null
-            ? $("#phone").text(jsonData.worker.phone)
-            : $("#phone").text("");
-          if (jsonData.supervisor != null) {
-            jsonData.supervisor.workerName != null
-              ? $("#supervisorName").text(jsonData.supervisor.workerName)
-              : $("#supervisorName").text("");
-            jsonData.supervisor.phone != null
-              ? $("#supervisorPhone").text(jsonData.supervisor.phone)
-              : $("#supervisorPhone").text("");
-          }
-          //		organ.telephone!=null?$("#telephone").text(organ.telephone):$("#telephone").text("");
-          organ.establishedTime != null
-            ? $("#establishedTime").text(organ.establishedTime)
-            : $("#establishedTime").text("");
-          organ.adress != null
-            ? $("#adress").text(organ.adress)
-            : $("#adress").text("");
-          //		organ.postcode!=null?$("#postcode").text(organ.postcode):$("#postcode").text("");
-          organ.email != null
-            ? $("#email").text(organ.email)
-            : $("#email").text("");
-          organ.organCode != null
-            ? $("#organCode").text(organ.organCode)
+          //当前机构信息只需要获取数组中第一个机构相关信息
+          var organData = jsonData.data[0];
+          organData.orgName != null
+            ? $("#organName").text(organData.orgName)
+            : $("#organName").text("");
+          organData.orgLinkman != null
+            ? $("#orgLinkman").text(organData.orgLinkman)
+            : $("#orgLinkman").text("");
+          organData.orgLinkphone != null
+            ? $("#orgLinkphone").text(organData.orgLinkphone)
+            : $("#orgLinkphone").text("");
+          organData.orgCode != null
+            ? $("#organCode").text(organData.orgCode)
             : $("#organCode").text("");
-          organ.detactNumber != null
-            ? $("#detactNumber").text(organ.detactNumber)
-            : $("#detactNumber").text("");
-          organ.meteringNumber != null
-            ? $("#meteringNumber1").text(organ.meteringNumber)
-            : $("#meteringNumber1").text("");
-          organ.representative != null
-            ? $("#representative").text(organ.representative)
-            : $("#representative").text("");
-          organ.techDirector != null
-            ? $("#techDirector").text(organ.techDirector)
-            : $("#techDirector").text("");
-          if (organ.detactNumber == null) {
-            $("#viewDetact").hide();
-          }
-          $("#meteringNumber").text(organ.meteringNumber);
-          if (organ.meteringNumber == null) {
-            $("#viewMetering").hide();
-          }
-
-          resolve();
-        })
-        .catch(error => {
-          // reject(error);
-        });
+          organData.orgAddress != null
+            ? $("#orgAddress").text(organData.orgAddress)
+            : $("#orgAddress").text("");
+          organData.leaderTechnique != null
+            ? $("#leaderTechnique").text(organData.leaderTechnique)
+            : $("#leaderTechnique").text("");
+          organData.credentialsnumCheck != null
+            ? $("#credentialsnumCheck").text(organData.credentialsnumCheck)
+            : $("#credentialsnumCheck").text("");
+          organData.credentialsnumMeterage != null
+            ? $("#credentialsnumMeterage").text(
+                organData.credentialsnumMeterage
+              )
+            : $("#credentialsnumMeterage").text("");
+          organData.dateRegister != null
+            ? $("#dateRegister").text(organData.dateRegister)
+            : $("#dateRegister").text("");
+          organData.dateValid != null
+            ? $("#dateValid").text(organData.dateValid)
+            : $("#dateValid").text("");
+          organData.legalRepresentative != null
+            ? $("#legalRepresentative").text(organData.legalRepresentative)
+            : $("#legalRepresentative").text("");
+        } else {
+          MessageBox.confirm("你登录的token已失效", "注意", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          });
+        }
+      });
     },
     toEditOrgan() {}
   },

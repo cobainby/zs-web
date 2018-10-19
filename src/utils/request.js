@@ -9,24 +9,24 @@ const instance = axios.create({
   timeout: 5000 // request timeout
 })
 
-// request interceptor
+// 请求API之前的操作
 instance.interceptors.request.use(
   config => {
-    // Do something before request is sent
+    // 在向后台请求之前都查询token是否存在
     if (store.getters.token) {
       debugger
-      config.headers['Authorization'] = `VEA-ADMIN ${getToken()}` // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
+      config.headers['Authorization'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况修改
     }
     return config
   },
   error => {
-    // Do something with request error
-    console.log(error) // for debug
+    // api请求失败
+    console.log(error) // 报错
     Promise.reject(error)
   }
 )
 
-// respone interceptor
+// 第三方
 instance.interceptors.response.use(
   response => response,
   /**
@@ -68,7 +68,7 @@ instance.interceptors.response.use(
 )
 
 export const createAPI = (url, method, data) => {
-  debugger
+  debugger 
   let config = {}
   if (method === 'get') {
     config.params = data
@@ -90,6 +90,7 @@ export const createFormAPI = (url, method, data) => {
     'Content-Type': 'application/x-www-form-urlencoded'
   }
   config.responseType = 'json'
+  config.contentType='application/json;charset=utf-8'
   config.transformRequest = [
     function(data) {
       let ret = ''
@@ -99,6 +100,7 @@ export const createFormAPI = (url, method, data) => {
       return ret
     }
   ]
+  debugger
   return instance({
     url,
     method,

@@ -81,9 +81,9 @@ export const constantRouterMap = [
     children: [
       {
         path: "datachart",
-        component: _import("datachart/pages/index"),
+        component: _import("datachart/pages/dataMenu"),
         name: "datachart",
-        meta: { title: "数据展示", icon: "component", noCache: true }
+        meta: { title: "chartInfo", icon: "component", noCache: true }
       }
     ]
   },
@@ -114,9 +114,8 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  NProgress.start(); // start progress bar
+  NProgress.start(); // 进度条加载
   if (getToken()) {
-    console.log(getToken())
     /* 是否有 token */
     if (to.path === "/login") {
       next({ path: "/" });

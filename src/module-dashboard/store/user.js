@@ -1,6 +1,7 @@
 import { login, getKey, logout, profile } from "@/api/base/frame";
 import { getToken, setToken, removeToken } from "@/utils/auth";
-import axios from 'axios'
+import axios from "axios";
+import { Message } from "element-ui";
 
 const user = {
   state: {
@@ -64,17 +65,17 @@ const user = {
             loginMac: "192.168.1.25"
           })
             .then(response => {
-              if(response.data.result==1){
+              if (response.data.result == 1) {
                 const data = response.data;
                 commit("SET_TOKEN", data.token);
-                setToken(response.data.token);//登录成功后将token存储在cookie中
+                setToken(response.data.token); //登录成功后将token存储在cookie中
                 resolve();
-              }else{
-                alert("用户密码不一致！")
+              } else {
+                Message.error("账号不存在或密码错误!");
               }
             })
             .catch(error => {
-              reject(error);
+              console.log(error);
             });
         });
       });
@@ -94,7 +95,7 @@ const user = {
         //   .catch(error => {
         //     reject(error);
         //   });
-        debugger
+        debugger;
         axios
           .get("http://192.168.1.13:8181/static/profile.json")
           .then(res => {

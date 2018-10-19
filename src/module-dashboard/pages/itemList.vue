@@ -255,8 +255,9 @@
                   <span>{{scope.row.superviseCompany}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" :label="$t('table.actions')" width="180px" class-name="small-padding fixed-width">
+              <el-table-column align="center" :label="$t('table.actions')" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
+                  <el-button :disabled="scope.row.is_deleted===1" type="success" size="mini" icon="el-icon-search" @click="viewData(scope.row.id)">数据</el-button>
                   <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row.id)">修改</el-button>
                   <el-button :disabled="scope.row.is_deleted===1" type="danger" size="mini" icon="el-icon-delete"  @click="removeUser(scope.row.id)">删除</el-button>
                 </template>
@@ -503,6 +504,11 @@ export default {
         this.formData.permission_group_id = datalist.permission_group_id;
         this.formData.permission_group_title = datalist.permission_group_title;
       });
+    },
+    //查看
+    viewData(objectId){
+      this.$router.push({ path: "/" });
+
     },
     handleUpdate(objeditId) {
       // this.query()

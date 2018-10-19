@@ -1,7 +1,7 @@
-import {createAPI, createFormAPI} from "@/utils/request";
+import { createAPI, createFormAPI } from "@/utils/request";
 
-export const list = data => createFormAPI("getOrgan", "post", data);
-export const add = data => createAPI("/base/menus", "post", data);
+export const Institutes = data => createAPI("/Institutes/get", "get", data);
+export const addInstitutes = data => createFormAPI("/Institutes/add.data", "post", data);
 export const update = data => createAPI(`/base/menus/${data.id}`, "put", data);
 export const remove = data =>
   createAPI(`/base/menus/${data.id}`, "delete", data);
