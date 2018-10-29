@@ -51,20 +51,23 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim();
       return new Promise((resolve, reject) => {
-        getKey().then(response => {
-          const publicKey = response.data;
-          const encryptor = new JSEncrypt();
-          encryptor.setPublicKey(publicKey);
-          const rsaPassWord = encryptor.encrypt(userInfo.password);
-          console.log(rsaPassWord);
-          debugger;
-          login({
-            userid: username,
-            password: rsaPassWord.replace(/\+/g, "%2B"),
-            loginMode: "0",
-            loginMac: "192.168.1.25"
-          })
-            .then(response => {
+        debugger;
+        getKey()
+          .then(response => {
+            const publicKey = response.data;
+            const encryptor = new JSEncrypt();
+            encryptor.setPublicKey(publicKey);
+            const rsaPassWord = encryptor
+              .encrypt(userInfo.password)
+              .replace(/\+/g, "%2B");
+            console.log(rsaPassWord);
+            debugger;
+            login({
+              userid: username,
+              password: rsaPassWord,
+              loginMode: "0",
+              loginMac: "192.168.1.25"
+            }).then(response => {
               if (response.data.result == 1) {
                 const data = response.data;
                 commit("SET_TOKEN", data.token);
@@ -73,11 +76,11 @@ const user = {
               } else {
                 Message.error("账号不存在或密码错误!");
               }
-            })
-            .catch(error => {
-              console.log(error);
             });
-        });
+          })
+          .catch(response => {
+            console.log(response);
+          });
       });
     },
     // 获取用户信息

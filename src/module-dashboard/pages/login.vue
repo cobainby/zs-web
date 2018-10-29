@@ -1221,7 +1221,6 @@ export default {
         })
         .catch(() => {
           this.loading = false;
-          this.$message.error(err); //登录失败提示错误
         });
     },
     afterQRScan() {}

@@ -81,7 +81,7 @@ export const constantRouterMap = [
     children: [
       {
         path: "datachart",
-        component: _import("datachart/pages/dataMenu"),
+        component: _import("datachart/pages/index"),
         name: "datachart",
         meta: { title: "chartInfo", icon: "component", noCache: true }
       }
@@ -126,7 +126,7 @@ router.beforeEach((to, from, next) => {
         // 判断当前用户是否已拉取完user_info信息
         store
           .dispatch("GetUserInfo")
-          .then(res => {
+          .then(res => { 
             // 拉取user_info
             const roles = res.data.worker.roles; // note: roles must be a array! such as: ['editor','develop']
             store.dispatch("GenerateRoutes", { roles }).then(() => {
@@ -146,7 +146,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    /* 如果token不存在 */
+    /* 如果token不存在 */ 
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，直接进入
       next();
@@ -166,7 +166,9 @@ router.afterEach(() => {
  **/
 export default router;
 
+
+
 /**
- * 导出 业务路由
+ * 导出 业务路由 
  **/
 export let asyncRouterMap = [{ path: "*", redirect: "/404", hidden: true }];

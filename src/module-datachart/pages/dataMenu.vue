@@ -56,7 +56,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="6" :span="6">灌篮
+      <el-col :xs="24" :sm="6" :span="6">
         <el-card class="box-card" :body-style="{ padding: '5px 20px' , minHeight: '230px' }">
           <div class="header">
             <span>本人考勤次数</span>

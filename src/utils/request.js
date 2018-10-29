@@ -10,21 +10,21 @@ const instance = axios.create({
 })
 
 // 请求API之前的操作
-instance.interceptors.request.use(
-  config => {
-    // 在向后台请求之前都查询token是否存在
-    if (store.getters.token) {
-      debugger
-      config.headers['Authorization'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况修改
-    }
-    return config
-  },
-  error => {
-    // api请求失败
-    console.log(error) // 报错
-    Promise.reject(error)
-  }
-)
+// instance.interceptors.request.use(
+//   config => {
+//     // 在向后台请求之前都查询token是否存在
+//     if (store.getters.token) {
+//       debugger
+//       config.data['Authorization'] = getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况修改
+//     }
+//     return config
+//   },
+//   error => {
+//     // api请求失败
+//     console.log(error) // 报错
+//     Promise.reject(error)
+//   }
+// )
 
 // 第三方
 instance.interceptors.response.use(
@@ -70,7 +70,7 @@ instance.interceptors.response.use(
 export const createAPI = (url, method, data) => {
   debugger 
   let config = {}
-  if (method === 'get') {
+  if (method === 'get'||method ==='delete') {
     config.params = data
   } else {
     config.data = data
@@ -83,23 +83,24 @@ export const createAPI = (url, method, data) => {
 }
 
 export const createFormAPI = (url, method, data) => {
-  let config = {}
+  let config = {}   
   config.data = data
   config.headers = {
     'Cache-Control': 'no-cache',
     'Content-Type': 'application/x-www-form-urlencoded'
   }
   config.responseType = 'json'
-  config.contentType='application/json;charset=utf-8'
+  config.contentType='application/json'
   config.transformRequest = [
     function(data) {
       let ret = ''
       for (let it in data) {
         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
       }
-      return ret
+      return ret 
     }
   ]
+  //body里提交tokenX
   debugger
   return instance({
     url,

@@ -18,7 +18,13 @@ export default [
         component: _import('dashboard/pages/organ'),
         meta: {title: 'organ'}
       },
-      {
+      { 
+        path: 'organList', 
+        name: 'base-organList',
+        component: _import('dashboard/pages/organList'),
+        meta: {title: '机构列表'}
+      },
+      { 
         path: 'worker',
         name: 'base-worker',
         component: _import('dashboard/pages/worker'),

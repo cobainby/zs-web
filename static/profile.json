@@ -13,6 +13,7 @@
         "base-manage",
         "base-users",
         "base-organ",
+        "base-organList",
         "base-worker",
         "base-permissions"
       ]

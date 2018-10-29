@@ -8,67 +8,67 @@
           <el-table-column align="center" label="账户名称">
             <template slot-scope="scope">
               <span v-if="scope.row.accountName!=null">{{scope.row.accountName}}</span>
-              <span v-if="scope.row.accountName==null"></span>
+              <span v-if="scope.row.accountName==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="登录名">
             <template slot-scope="scope">
               <span v-if="scope.row.loginName!=null">{{scope.row.loginName}}</span>
-              <span v-if="scope.row.loginName==null"></span>
+              <span v-if="scope.row.loginName==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="身份证号码">
             <template slot-scope="scope">
               <span v-if="scope.row.pid!=null">{{scope.row.pid}}</span>
-              <span v-if="scope.row.pid==null"></span>
+              <span v-if="scope.row.pid==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="邮箱">
             <template slot-scope="scope">
               <span v-if="scope.row.email!=null">{{scope.row.email}}</span>
-              <span v-if="scope.row.email==null"></span>
+              <span v-if="scope.row.email==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="工作岗位">
             <template slot-scope="scope">
               <span v-if="scope.row.email!=null">{{scope.row.post}}</span>
-              <span v-if="scope.row.email==null"></span>
+              <span v-if="scope.row.email==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="手机号码">
             <template slot-scope="scope">
               <span v-if="scope.row.mobilePhone!=null">{{scope.row.mobilePhone}}</span>
-              <span v-if="scope.row.mobilePhone==null"></span>
+              <span v-if="scope.row.mobilePhone==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="微信号">
             <template slot-scope="scope">
               <span v-if="scope.row.wechat!=null">{{scope.row.wechat}}</span>
-              <span v-if="scope.row.wechat==null">无账户</span>
+              <span v-if="scope.row.wechat==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="上岗证编号">
             <template slot-scope="scope">
               <span v-if="scope.row.numCertificate!=null">{{scope.row.numCertificate}}</span>
-              <span v-if="scope.row.numCertificate==null">暂无</span>
+              <span v-if="scope.row.numCertificate==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="登记日期">
             <template slot-scope="scope">
               <span v-if="scope.row.dateRegister!=null">{{scope.row.dateRegister}}</span>
-              <span v-if="scope.row.dateRegister==null">暂无</span>
+              <span v-if="scope.row.dateRegister==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="有效日期">
             <template slot-scope="scope">
               <span v-if="scope.row.dateValid!=null">{{scope.row.dateValid}}</span>
-              <span v-if="scope.row.dateValid==null">暂无</span>
+              <span v-if="scope.row.dateValid==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="权限角色">
             <template slot-scope="scope">
               <span v-if="scope.row.sysRole.name!=null">{{scope.row.sysRole.name}}</span>
-              <span v-if="scope.row.sysRole.name==null">暂无</span>
+              <span v-if="scope.row.sysRole.name==null">/</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" width="300px">
@@ -158,17 +158,17 @@ export default {
       this.loading = true;
       this.alertText = "";
       this.dataList = [];
+      var token=getToken();
       debugger;
       // list({page, limit})
       Institutes({
-        token: getToken()
+        token:token
       }).then(response => {
         const organData = response.data.data[0];
         var orguuid = organData.orgUuid;
-        var token = token;
         UserAccount({
+          token:token,
           orguuid: orguuid,
-          token: getToken()
         }).then(res => {
           debugger;
           this.dataList = res.data.data;

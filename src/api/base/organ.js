@@ -1,10 +1,9 @@
 import { createAPI, createFormAPI } from "@/utils/request";
 
 export const Institutes = data => createAPI("/Institutes/get", "get", data);
-export const addInstitutes = data => createFormAPI("/Institutes/add.data", "post", data);
-export const update = data => createAPI(`/base/menus/${data.id}`, "put", data);
-export const remove = data =>
-  createAPI(`/base/menus/${data.id}`, "delete", data);
+export const addInstitutes = data => createAPI("/Institutes/add.data", "post", data);
+export const updateInstitutes = data => createAPI("/Institutes/update.data", "post", data);
+export const remove = data => createAPI(`/Institutes/delete/${data.orgUuid}`, "delete", data);
 export const detail = data => createAPI(`/base/menus/${data.id}`, "get", data);
 
 export const search = data => {

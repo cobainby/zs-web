@@ -110,27 +110,8 @@ export default {
   methods: {
     // 获取列表数据
     init() {
-      debugger
-      var organAdd = new Object();
-      organAdd.orgUuid = "0";
-      organAdd.orgCode = "0";
-      organAdd.orgName = "abc";
-      organAdd.orgAddress = "0";
-      console.log(organAdd);
-      var data=[];
-      data.push(organAdd);
-      var tdata=new Object();
-      tdata.data=data;
-      var addJson = JSON.stringify(tdata);
-      console.log(addJson);
-      addInstitutes({
-        addJson,
-        token:getToken()
-      }).then(response => {
-        const jsonData = response.data;
-      });
       Institutes({
-        token: getToken()
+        token:getToken()
       }).then(response => {
         debugger;
         if (response.data.result == 1) {
@@ -155,7 +136,7 @@ export default {
             : $("#orgAddress").text("");
           organData.leaderTechnique != null
             ? $("#leaderTechnique").text(organData.leaderTechnique)
-            : $("#leaderTechnique").text("");
+            : $("#leaderTechnique").text(""); 
           organData.credentialsnumCheck != null
             ? $("#credentialsnumCheck").text(organData.credentialsnumCheck)
             : $("#credentialsnumCheck").text("");

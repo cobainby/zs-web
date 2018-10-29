@@ -36,7 +36,9 @@ export default {
       return this.$store.state.app.sidebar
     }
   }
-}
+}   
+
+
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
