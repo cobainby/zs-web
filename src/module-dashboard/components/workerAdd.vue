@@ -1,69 +1,57 @@
 <template>
   <div class="add-form">
-    <el-dialog   :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog :title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="ruleInline" ref="formBase" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;'>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="机构名称" prop="orgName">
-              <el-input v-model="formBase.orgName" placeholder="Please input"></el-input>
+            <el-form-item label="账户名称" prop="accountName">
+              <el-input v-model="formBase.accountName" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="机构地址" prop="orgAddress">
-              <el-input v-model="formBase.orgAddress" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="联系人" prop="orgLinkman">
-              <el-input v-model="formBase.orgLinkman" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人电话" prop="orgLinkphone">
-              <el-input v-model="formBase.orgLinkphone" placeholder="Please input"></el-input>
+            <el-form-item label="手机号码" prop="mobilePhone">
+              <el-input v-model="formBase.mobilePhone" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="计量认证证书编号" prop="credentialsnumCheck">
-              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="formBase.credentialsnumCheck">
+            <el-form-item label="邮箱地址" prop="email">
+              <el-input v-model="formBase.email" placeholder="Please input"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="身份证号码" prop="pid">
+              <el-input v-model="formBase.pid" placeholder="Please input"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="微信号" prop="wechat">
+              <el-input placeholder="Please input" v-model="formBase.wechat">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="检测资质证书编号" prop="credentialsnumMeterage">
-              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="formBase.credentialsnumMeterage">
+            <el-form-item label="工作岗位" prop="post">
+              <el-input placeholder="Please input" v-model="formBase.post">
               </el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="技术负责人" prop="leaderTechnique">
-              <el-input v-model="formBase.leaderTechnique" placeholder="Please input"></el-input>
+            <el-form-item label="上岗证编号" prop="numCertificate">
+              <el-input v-model="formBase.numCertificate" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="法定代表人" prop="legalRepresentative">
-              <el-input v-model="formBase.legalRepresentative" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="机构类型" prop="typeCode">
-              <el-select v-model="formBase.type.code" placeholder="请选择">
-                <el-option id="typeCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+            <el-form-item label="角色权限" prop="roleCode">
+              <el-select v-model="formBase.roleCode" placeholder="请选择">
+                <el-option id="roleCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
                 </el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="组织机构代码" prop="orgCode">
-              <el-input v-model="formBase.orgCode" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -94,13 +82,13 @@
 
 <script>
 import shajs from "sha.js";
-import { addInstitutes, updateInstitutes } from "@/api/base/organ";
+import { addAccount, updateAccount, deleteAccount } from "@/api/base/worker";
 import { getToken } from "@/utils/auth";
 import { Message } from "element-ui";
 import axios from "axios";
 
 export default {
-  name: "organAdd",
+  name: "workerAdd",
   props: [
     "text",
     "pageTitle",
@@ -118,31 +106,32 @@ export default {
       options: [
         {
           value: "0",
-          label: "第三方监测单位"
+          label: "系统管理员",
+          disabled: true
         },
         {
           value: "1",
-          label: "施工检测单位"
+          label: "机构管理员"
         },
         {
           value: "2",
-          label: "监理单位"
+          label: "机构领导"
         },
         {
           value: "3",
-          label: "安监单位"
+          label: "项目负责人"
         },
         {
           value: "4",
-          label: "业主单位"
+          label: "监测人员"
         },
         {
           value: "5",
-          label: "设计单位"
+          label: "监理人员"
         },
         {
           value: "6",
-          label: "施工单位"
+          label: "学习账号"
         }
       ]
     };
@@ -164,27 +153,32 @@ export default {
 
     // 表单提交
     createData(formBase) {
+      //表单验证
+      debugger;
       this.$refs[formBase].validate(valid => {
         if (valid) {
-          debugger;
+          //验证通过
           let data = {
             ...this.formBase
           };
-          var organData = new Object();
-          organData.token = getToken();
-          organData.data = data;
-          //注意：这里重新赋值，用了el-date-picker将json时间格式化了
-          organData.data.dateRegister =
+          var workerData = new Object();
+          workerData.token = getToken();
+          workerData.data = data;
+          //注意：这里重新赋值，登录名，密码和账户名称保持一致，另时间采用el-date-picker将json时间格式化了
+          workerData.data.loginName = data.accountName;
+          workerData.data.password = data.mobilePhone.substr(0,6);;
+          workerData.data.dateRegister =
             $("#dateRegister").val() != "" ? $("#dateRegister").val() : null;
-          organData.data.dateValid =
+          workerData.data.dateValid =
             $("#dateValid").val() != "" ? $("#dateValid").val() : null;
+          debugger;
           if (this.text == "创建") {
-            addInstitutes(organData)
+            addAccount(workerData)
               .then(response => {
                 if (response.data.result == 1) {
-                  const jsonData = response.data;
                   this.$emit("handleCloseModal");
-                  this.$confirm("创建机构成功!", "提示", {
+                  const jsonData = response.data;
+                  this.$confirm("创建人员成功!", "提示", {
                     type: "success",
                     showConfirmButton: false,
                     showCancelButton: false
@@ -192,8 +186,8 @@ export default {
                   this.$emit("refreshList");
                 } else {
                   Message.error(response.data.message);
-                  this.$confirm("创建机构失败!", "提示", {
-                    type: "error",
+                  this.$confirm("创建人员失败!", "提示", {
+                    type: "danger",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
@@ -206,21 +200,22 @@ export default {
                 });
               });
           } else if (this.text == "编辑") {
-            updateInstitutes(organData)
+            updateAccount(workerData)
               .then(response => {
                 if (response.data.result == 1) {
-                  const jsonData = response.data;
                   this.$emit("handleCloseModal");
-                  this.$confirm("编辑机构成功!", "提示", {
+                  const jsonData = response.data;
+                  this.$confirm("编辑人员成功!", "提示", {
                     type: "success",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
+                  //刷新表单
                   this.$emit("refreshList");
                 } else {
                   Message.error(response.data.message);
-                  this.$confirm("编辑机构失败!", "提示", {
-                    type: "error",
+                  this.$confirm("编辑人员失败!", "提示", {
+                    type: "danger",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
@@ -240,8 +235,8 @@ export default {
       });
     },
     //重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm(formBase) {
+      this.$refs[formBase].resetFields();
     }
   },
   // 挂载结束

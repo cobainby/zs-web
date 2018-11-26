@@ -6,13 +6,13 @@
  * @Last Modified time: 2018-05-22 17:04:36
  */
 
-import Layout from '@/module-dashboard/pages/layout'
+import dataLayout from '@/module-datachart/pages/dataLayout'
 const _import = require('@/router/import_' + process.env.NODE_ENV)
 
 export default [
-  {
+  { 
     path: '/database',
-    component: Layout,
+    component:dataLayout,
     redirect: 'noredirect',
     name: 'database',
     meta: {

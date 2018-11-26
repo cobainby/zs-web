@@ -4,6 +4,7 @@ import store from "@/store/index";
 import { Message, Loading } from "element-ui";
 import NProgress from "nprogress";
 import Layout from "@/module-dashboard/pages/layout";
+import dataLayout from "@/module-datachart/pages/dataLayout";
 import { getToken } from "@/utils/auth";
 import { hasPermissionPoint, hasPermission } from "@/utils/permission";
 
@@ -76,12 +77,13 @@ export const constantRouterMap = [
   },
   {
     path: "/datachart",
-    component: Layout,
+    component: dataLayout,
+    hidden: true,
     redirect: "datachart",
     children: [
       {
-        path: "datachart",
-        component: _import("datachart/pages/index"),
+        path: "dataIndex",
+        component: _import("datachart/pages/dataMenu"),
         name: "datachart",
         meta: { title: "chartInfo", icon: "component", noCache: true }
       }
@@ -98,10 +100,6 @@ export const constantRouterMap = [
   {
     path: "/tableList",
     component: _import("list/pages/tableList")
-  },
-  {
-    path: "/dataList",
-    component: _import("datachart/pages/dataMenu")
   }
 ];
 /**

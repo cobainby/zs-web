@@ -14,7 +14,7 @@
         <el-row :gutter="10">
           <!-- 数据 -->
           <el-col :span="18">
-            <el-table :key='tableKey' @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+            <el-table :key='tableKey' :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
               <el-table-column align="center" label="工程ID" v-if="false" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.projectUuid}}</span>
@@ -396,6 +396,20 @@ export default {
   },
   computed: {},
   methods: {
+    //表格table tr行的背景色
+    tableRowStyle({ row, rowIndex }) {
+      if (rowIndex % 2 == 0) {
+        return "background-color:#FFF7EA";
+      } else {
+        return "background-color:#ffffff";
+      }
+    },
+    //修改table header的背景色和居中显示
+    tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return "background-color:#FFDCA9;color: #000000;text-align:center;";
+      }
+    },
     // 获取列表数据
     getList(params) {
       this.listLoading = true;
@@ -507,8 +521,7 @@ export default {
     },
     //查看
     viewData(objectId){
-      this.$router.push({ path: "/" });
-
+      this.$router.push({ path: "/datachart" });
     },
     handleUpdate(objeditId) {
       // this.query()

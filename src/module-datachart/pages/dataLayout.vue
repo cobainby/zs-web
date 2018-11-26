@@ -3,16 +3,7 @@
 		<layout-sidebar class="sidebar-container"></layout-sidebar>
 		<div class="main-container">
 			<layout-navbar></layout-navbar>
-			<!-- <layout-tags></layout-tags> -->
 			<layout-app-main></layout-app-main>
-      <div class="bottom">
-        <p>
-          <a href="https://github.com/cobainby" target="_blank">
-            <svg-icon icon-class="github"></svg-icon>
-          </a>
-        </p>
-        <p>Copyright<svg-icon icon-class="copyright"></svg-icon> 2018 缀术科技公司出品</p>
-      </div>
 		</div>
 	</div>
 </template>
@@ -20,7 +11,6 @@
 <script>
 import layoutNavbar from '@/module-datachart/components/dataLayoutNavbar'
 import layoutSidebar from '@/module-datachart/components/dataLayoutSidebar'
-import layoutTags from '@/module-datachart/components/dataLayoutTags'
 import layoutAppMain from '@/module-datachart/components/dataLayoutAppMain'
 
 export default {
@@ -28,11 +18,11 @@ export default {
   components: {
     layoutNavbar,
     layoutSidebar,
-    layoutTags,
     layoutAppMain
   },
   computed: {
     sidebar() {
+      debugger
       return this.$store.state.app.sidebar
     }
   }

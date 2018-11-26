@@ -9,14 +9,15 @@ for (let i = 0; i < count; i++) {
     id: '@increment',
     timestamp: +Mock.Random.date('T'),
     author: '@cname',
-    reviewer: '@cname',
-    title: '@csentence(15, 45)',
-    forecast: '@float(0, 100, 2, 2)',
-    importance: '@integer(1, 3)',
-    'type|1': ['CN', 'US', 'JP', 'EU'],
+    reviewer: '@float(-1, 5, 1, 1)',
+    title: '@integer(1, 20)',
+    forecast: '@float(-0.8, 4, 1, 1)',
+    importance:'@float(-10, 15, 1, 1)',
+    'type|1': ['2018-05-04', 'US', 'JP', 'EU'],
     'status|1': ['published', 'draft', 'deleted'],
     display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
+    pageviews: '@float(9, 10, 4, 4)',
+    warning:'@integer(35,40)'
   }))
 }
 

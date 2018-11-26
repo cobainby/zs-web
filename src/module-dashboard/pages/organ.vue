@@ -115,10 +115,20 @@ export default {
       }).then(response => {
         debugger;
         if (response.data.result == 1) {
-          const jsonData = response.data;
+          const jsonData = response.data.data;
           // var jsonData = JSON.parse(data);
           //当前机构信息只需要获取数组中第一个机构相关信息
-          var organData = jsonData.data[0];
+          if(Array.isArray(jsonData)==true){
+            //当机构信息为数组时，必为超级机构，拿到超级机构的组织id
+            var superOrg = response.data.data.filter(function(item) {
+              return item.orgName == "超级机构"; 
+            });
+            var organData = superOrg[0];
+          }
+          else{
+            //非超级机构，机构数据则是一个对象
+            var organData = jsonData;
+          }
           organData.orgName != null
             ? $("#organName").text(organData.orgName)
             : $("#organName").text("");

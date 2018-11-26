@@ -2,62 +2,25 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card shadow="never" v-loading="loading">
-        <!-- 搜索栏 -->
-        <el-form :inline="true" :model="formSearch">
-          <el-form-item label="开始时间">
-            <el-date-picker v-model="filters.column.create_start_date" type="date" :picker-options="pickerBeginDateBefore" format="yyyy-MM-dd" placeholder="">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="至" label-width="25px">
-            <el-date-picker v-model="filters.column.create_end_date" type="date" format="yyyy-MM-dd" :picker-options="pickerBeginDateAfter" placeholder="">
-            </el-date-picker>
-          </el-form-item>
-          <!-- <el-form-item label="活动时间" v-if="barSearch.expandInputs">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formSearch.date1" style="width: 100%;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
-              <el-time-picker type="fixed-time" placeholder="选择时间" v-model="formSearch.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="即时配送" v-if="barSearch.expandInputs">
-            <el-switch v-model="formSearch.delivery"></el-switch>
-          </el-form-item>
-          <el-form-item label="活动状态" v-if="barSearch.expandInputs">
-            <el-select v-model="formSearch.state" placeholder="活动状态">
-              <el-option label="开启" value="1"></el-option>
-              <el-option label="关闭" value="0"></el-option>
-            </el-select>
-          </el-form-item> -->
-          <el-form-item>
-            <el-button type="warning" @click="handleSearch">查询</el-button>
-            <el-button @click="handleRest">重置</el-button>
-            <el-button type="text" @click="handleExpand"></el-button>
-          </el-form-item>
-        </el-form>
-        <!-- <el-button type="primary" icon="el-icon-plus" @click="handleNew">新建</el-button>
-        <el-alert v-if="barSearch.alertText !== ''" :title="barSearch.alertText" type="info" class="alert" :closable='false' show-icon>
-        </el-alert> -->
-        <!-- 搜索栏 / -->
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane class="chartsPanel" label="数据展示" name="first-ta">
+          <el-tab-pane class="chartsPanel" label="概览" name="first-ta">
             <el-table :data="items" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%; margin-top:10px;" @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="55"></el-table-column>
-              <el-table-column prop="title" label="监测项目"></el-table-column>
-              <el-table-column prop="type" label="监测时间" width="140"></el-table-column>
-              <el-table-column prop="author" label="测点数量" width="80"></el-table-column>
-              <el-table-column prop="reviewer" label="实测数量" width="80"></el-table-column>
-              <el-table-column prop="pageviews" label="最大值累计值测点" width="150"></el-table-column>
-              <el-table-column prop="display_time" label="最大累计值" width="120"></el-table-column>
-              <el-table-column prop="display_time" label="最大变化值测点" width="150"></el-table-column>
-              <el-table-column prop="display_time" label="最大变化值" width="120"></el-table-column>
-              <el-table-column prop="pageviews" label="报告" width="80"></el-table-column>
-              <el-table-column prop="pageviews" label="报警情况" width="80"></el-table-column>
-              <el-table-column prop="pageviews" label="审核信息" width="80"></el-table-column>
-              <el-table-column prop="pageviews" label="提交审核时间" width="140"></el-table-column>
-              <el-table-column fixed="right" label="操作" width="150">
+              <el-table-column align="center" prop="title" label="监测项目"></el-table-column>
+              <el-table-column label="累计变化">
+                <el-table-column align="center" prop="title" label="点号"></el-table-column>
+                <el-table-column align="center" prop="importance" label="最大值(mm)"></el-table-column>
+              </el-table-column>
+              <el-table-column label="变化速率">
+                <el-table-column align="center" prop="title" label="点号"></el-table-column>
+                <el-table-column align="center" prop="forecast" label="最大值(mm/d)"></el-table-column>
+              </el-table-column>
+              <el-table-column label="报警指标">
+                <el-table-column align="center" prop="warning" label="报警值"></el-table-column>
+                <el-table-column align="center" prop="warning" label="允许值(mm)"></el-table-column>
+                <el-table-column align="center" prop="warning" label="变化速率(mm/d)"></el-table-column>
+              </el-table-column>
+              <el-table-column align="center" prop="pageviews" label="报警情况">
                 <template slot-scope="scope">
                   <el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
                   <el-button @click="handleDelete(scope.row)" type="danger" size="small">删除</el-button>
@@ -68,8 +31,8 @@
             </el-pagination>
             <!-- 数据表格 / -->
           </el-tab-pane>
-          <el-tab-pane class="chartsPanel" label="图形展示" name="second-ta" >
-            <div :class="className"  id="enLine" ></div>
+          <el-tab-pane class="chartsPanel" label="现场图片" name="second-ta">
+            <!-- <div :class="className" id="enLine"></div> -->
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -199,14 +162,12 @@ export default {
     },
     //修改table header的背景色和居中显示
     tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex == 0) {
-        return "background-color:#FFDCA9;color: #000000;text-align:center;";
-      }
+      return "background-color:#FFDCA9;color: #000000;text-align:center;";
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
-      $('#enLine').width($('.app-container').width());
-      $('#enLine').height($(window).height()-300);
+      $("#enLine").width($(".app-container").width());
+      $("#enLine").height($(window).height() - 300);
       this.initChart();
       this.__resizeHanlder = debounce(() => {
         if (this.chart) {
@@ -404,6 +365,7 @@ export default {
   created() {
     this.barSearch.expandInputs = false;
     this.barSearch.expandBtnText = "展开▼";
+    this.doQuery();
   }
 };
 </script>

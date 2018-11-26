@@ -12,24 +12,57 @@
             <el-date-picker v-model="filters.column.create_end_date" size="small" type="date" format="yyyy-MM-dd" :picker-options="pickerBeginDateAfter" placeholder="">
             </el-date-picker>
           </el-form-item>
+          <!-- <el-form-item label="活动时间" v-if="barSearch.expandInputs">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="选择日期" v-model="formSearch.date1" style="width: 100%;"></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-time-picker type="fixed-time" placeholder="选择时间" v-model="formSearch.date2" style="width: 100%;"></el-time-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="即时配送" v-if="barSearch.expandInputs">
+            <el-switch v-model="formSearch.delivery"></el-switch>
+          </el-form-item>
+          <el-form-item label="活动状态" v-if="barSearch.expandInputs">
+            <el-select v-model="formSearch.state" placeholder="活动状态">
+              <el-option label="开启" value="1"></el-option>
+              <el-option label="关闭" value="0"></el-option>
+            </el-select>
+          </el-form-item> -->
           <el-form-item>
-            <el-button type="warning" size="small" @click="handleSearch">查询</el-button>
+            <el-button type="warning"size="small"  @click="handleSearch">查询</el-button>
             <el-button @click="handleRest" size="small">重置</el-button>
             <el-button type="text" @click="handleExpand"></el-button>
           </el-form-item>
-           <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
         </el-form>
+        <!-- <el-button type="primary" icon="el-icon-plus" @click="handleNew">新建</el-button>
+        <el-alert v-if="barSearch.alertText !== ''" :title="barSearch.alertText" type="info" class="alert" :closable='false' show-icon>
+        </el-alert> -->
+        <!-- 搜索栏 / -->
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
           <el-tab-pane class="chartsPanel" label="数据展示" name="first-ta">
-            <el-table :data="items" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" type="selection" width="55"></el-table-column>
-              <el-table-column align="center" prop="title" label="编号"></el-table-column>
-              <el-table-column align="center" prop="forecast" label="单次变化量(mm)"></el-table-column>
-              <el-table-column align="center" prop="importance" label="累计变化量(mm)"></el-table-column>
-              <el-table-column align="center" prop="reviewer" label="变化速率(mm/d)"></el-table-column>
-              <el-table-column align="center" prop="pageviews" label="高程(m)"></el-table-column>
-              <el-table-column align="center" prop="display_time" label="测量时间"></el-table-column>
+            <el-table  :data="items" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+              <el-table-column type="selection" width="55"></el-table-column>
+              <el-table-column prop="title" label="监测项目"></el-table-column>
+              <el-table-column prop="type" label="监测时间" width="140"></el-table-column>
+              <el-table-column prop="author" label="测点数量" width="80"></el-table-column>
+              <el-table-column prop="reviewer" label="实测数量" width="80"></el-table-column>
+              <el-table-column prop="pageviews" label="最大值累计值测点" width="150"></el-table-column>
+              <el-table-column prop="display_time" label="最大累计值" width="120"></el-table-column>
+              <el-table-column prop="display_time" label="最大变化值测点" width="150"></el-table-column>
+              <el-table-column prop="display_time" label="最大变化值" width="120"></el-table-column>
+              <el-table-column prop="pageviews" label="报告" width="80"></el-table-column>
+              <el-table-column prop="pageviews" label="报警情况" width="80"></el-table-column>
+              <el-table-column prop="pageviews" label="审核信息" width="80"></el-table-column>
+              <el-table-column prop="pageviews" label="提交审核时间" width="140"></el-table-column>
+              <el-table-column fixed="right" label="操作" width="150">
+                <template slot-scope="scope">
+                  <el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
+                  <el-button @click="handleDelete(scope.row)" type="danger" size="small">删除</el-button>
+                </template>
+              </el-table-column>
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
             </el-pagination>
@@ -157,9 +190,6 @@ export default {
     };
   },
   methods: {
-    getBack(){
-      this.$router.push({ path: "/itemList" });
-    },
     //表格table tr行的背景色
     tableRowStyle({ row, rowIndex }) {
       if (rowIndex % 2 == 0) {
@@ -176,8 +206,8 @@ export default {
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
-      $("#enLine").width($(".chartsPanel").width());
-      $("#enLine").height($(window).height() - 280);
+      $("#enLine").width($(".app-container").width());
+      $("#enLine").height($(window).height() - 300);
       this.initChart();
       this.__resizeHanlder = debounce(() => {
         if (this.chart) {
@@ -194,31 +224,15 @@ export default {
           trigger: "axis"
         },
         legend: {
-          data: [
-            "g1",
-            "g2",
-            "g3",
-            "g4",
-            "g5",
-            "g6",
-            "g7",
-            "g8",
-            "g9",
-            "g10",
-            "g11"
-          ]
-        },
-        grid: {
-          left: "60",
-          top: "32",
-          right:"60",
-          bottom: "38"
+          data: ["最高", "最低"]
         },
         toolbox: {
           show: true,
           feature: {
             mark: { show: true },
-            magicType: { show: true, type: ["line", "bar"] },
+            dataZoom: { show: true },
+            dataView: { show: true },
+            magicType: { show: true, type: ["line", "bar", "stack", "tiled"] },
             restore: { show: true },
             saveAsImage: { show: true }
           }
@@ -237,7 +251,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push("2018-03-" + i);
+                list.push("2013-03-" + i);
               }
               return list;
             })()
@@ -245,130 +259,28 @@ export default {
         ],
         yAxis: [
           {
-            type: "value",
-            min: -3,
-            max: 3
+            type: "value"
           }
         ],
         series: [
           {
-            name: "g1",
+            name: "最高",
             type: "line",
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                debugger;
-                list.push(-Math.random());
+                list.push(Math.round(Math.random() * 30));
               }
               return list;
             })()
           },
           {
-            name: "g2",
+            name: "最低",
             type: "line",
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g3",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g4",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g5",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g6",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g7",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g8",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g9",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g10",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g11",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.round(Math.random() * 10));
               }
               return list;
             })()

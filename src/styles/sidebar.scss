@@ -152,9 +152,14 @@
     }
   }
   .el-menu-item.is-active {
-    background-image :url(../assets/navbg.png);
+    background: $menuHover!important;
     &:hover {
-      background-image :url(../assets/navbg.png);
+      background: $menuHover!important;
+    }
+  }
+  .el-menu-item{
+    &:hover {
+      background: $menuHover!important;
     }
   }
   .el-submenu.is-active .el-submenu__title {

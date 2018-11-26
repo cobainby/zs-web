@@ -29,7 +29,7 @@
       </div>
       <div class="right-parent">
         <div class="fog-title">
-          <span>监测项目</span>
+          <span>监测工程</span>
           <mu-select-field v-model="targetType" label="" class="target-field" :underlineShow="true" @change="changeFilter">
             <mu-menu-item value="4" title="全部" />
             <mu-menu-item value="3" title="红色" />
@@ -39,16 +39,18 @@
           </mu-select-field>
         </div>
         <div v-show="hasFogData" class="fog-content">
-          <div v-for="(item,index) in listData" :key="item.id" class="fog-item" v-show="showContent(item)" :data-id="item.id" @click="listItemClick(item, index)">
-            <img :src="'/static/images/map/' + icon[item.fogDegree] + '-list.png'">
+          <div v-for="(item,index) in listData" :key="item.projectUuid" class="fog-item" v-show="showContent(item)" :data-id="item.projectUuid" @click="listItemClick(item, index)">
+            <img :src="'/static/images/map/' + icon[item.warningGrade] + '-list.png'">
             <div class="fog-content-right">
               <div class="location">
-                <span class="tit">监控点位</span>
-                <span class="con" :title="item.locationName">{{ item.locationName }}</span>
+                <span class="tit">监测工程</span>
+                <span class="con" :title="item.projectName">{{ item.projectName }}</span>
               </div>
               <div class="time">
-                <span class="tit">更新时间</span>
-                <span class="con">{{ item.time }}</span>
+                <span class="tit">施工工况</span>
+                <span class="con" v-if="item.constructionStep==0">未开始</span>
+                <span class="con" v-if="item.constructionStep==1">施工中</span>
+                <span class="con" v-if="item.constructionStep==2">已结束</span>
               </div>
             </div>
           </div>
@@ -57,12 +59,14 @@
       </div>
       <mu-dialog :open="dialogFlag" dialogClass="fog-detection-dialog" @close="closeDialog">
         <div class="dialog-title">
-          {{ nowItem.locationName }}，{{ nowItem.time }}
-          <i class="material-icons close-icon" @click="closeDialog">highlight_off</i>
+          {{ nowItem.projectName }}
         </div>
         <div class="dialog-content">
-          <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
+          <!-- <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
             <img :src="nowItem.bigPic" ref="bigPic">
+          </div> -->
+          <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
+            <img src="/static/images/test/video.png" ref="bigPic">
           </div>
           <no-data v-else></no-data>
         </div>
@@ -74,7 +78,9 @@
 <script>
 import Layout from "../components/mapLayout";
 import axios from "axios";
+import { getToken } from "@/utils/auth";
 import "../../../static/jquery-plugin/jquery.nicescroll.min.js";
+import { projectList } from "@/api/base/project";
 
 let mapHeight = (winH = $(window).height()) => {
   $(".map-parent").css({
@@ -106,6 +112,7 @@ export default {
       markers: new Map(), // 存储所有Marker点位的Map集合
       warningMarkerIds: [],
       infoWindow: null,
+      token: getToken(),
       options: {
         center: new AMap.LngLat(mapConfig.center[0], mapConfig.center[1]),
         zoom: mapConfig.zoom,
@@ -125,22 +132,24 @@ export default {
     init() {
       let _this = this;
       this.map = new AMap.Map("map", this.options);
-      this.map.setFeatures(['bg','building','road','point']); // 多个种类要素显示
-      axios.get("http://192.168.1.13:8181/static/fog_list.json").then(res => {
+      this.map.setFeatures(["bg", "building", "road", "point"]); // 多个种类要素显示
+      projectList({ token: this.token })
+        .then(res => {
+          debugger;
           _this.warningMarkerIds = [];
           let dataIdArr = [];
           let list = [];
-          if (res.data.data.length) {
-            let data = res.data.data;
+          if (res.data.length) {
+            let data = res.data;
             list = data;
             data.forEach(function(item) {
-              dataIdArr.push(item.id);
+              dataIdArr.push(item.projectUuid);
               _this.addMarker(item);
-                _this.warningMarkerIds.push(item.id);
+              _this.warningMarkerIds.push(item.projectUuid);
             });
             this.map.setFitView();
             let newArr = _this.listData.filter(function(item) {
-              return $.inArray(item.id, dataIdArr) === -1;
+              return $.inArray(item.projectUuid, dataIdArr) === -1;
             });
             _this.listData = [...data, ...newArr];
           }
@@ -184,33 +193,34 @@ export default {
         });
     },
     addMarker(item) {
-      if (item.lng && item.lat) {
+      debugger;
+      if (item.projectLatLon != null) {
         let _this = this;
         let opts = {};
+        let lon = item.projectLatLon.split(",")[0]; //经度
+        let lat = item.projectLatLon.split(",")[1]; //维度
         opts.map = this.map;
         opts.icon = new AMap.Icon({
-          image: this.iconUrl + "/" + this.icon[item.fogDegree] + ".png",
+          image: this.iconUrl + "/" + this.icon[item.warningGrade] + ".png",
           size: new AMap.Size(30, 30)
         });
         opts.offset = new AMap.Pixel(-15, -15);
-        let lnglat = new AMap.LngLat(
-          parseFloat(item.lng),
-          parseFloat(item.lat)
-        );
+        let lnglat = new AMap.LngLat(parseFloat(lon), parseFloat(lat));
         if (lnglat) {
           opts.position = lnglat;
-          opts.title = item.locationName;
+          opts.title = item.projectName;
           let marker = new AMap.Marker(opts);
-          marker.id = item.id;
-          marker.locationName = item.locationName;
-          marker.fogDegree = item.fogDegree;
-          this.markers.set(item.id, marker);
+          marker.projectUuid = item.projectUuid;
+          marker.projectName = item.projectName;
+          marker.warningGrade = item.warningGrade;
+          this.markers.set(item.projectUuid, marker);
           marker.on(
             "click",
             function(e) {
               let _marker = e.target;
               $(".fog-item").each(function() {
-                if ($(this).attr("data-id") === _marker.id) {
+                debugger
+                if ($(this).attr("data-id") === _marker.projectUuid) {
                   $(this).click();
                 }
               });
@@ -222,19 +232,19 @@ export default {
     },
     changeIcon(item) {
       let _this = this;
-      let marker = this.markers.get(item.id);
-      if (marker && marker.fogDegree !== item.fogDegree) {
+      let marker = this.markers.get(item.projectUuid);
+      if (marker && marker.warningGrade !== item.warningGrade) {
         // 如果地图上渲染点的雾气大小和当前请求不同，改变地图点的图标
         marker.setMap(null);
         this.addMarker(item);
       }
     },
-    openInfoWindow(lng, lat, content) {
-      debugger
+    openInfoWindow(lon, lat, content) {
+      debugger;
       let infowindowOpts = {};
       infowindowOpts.size = new AMap.Size(240, 290);
       infowindowOpts.position = new AMap.LngLat(
-        parseFloat(lng),
+        parseFloat(lon),
         parseFloat(lat)
       );
       //        infowindowOpts.autoMove = true
@@ -242,9 +252,9 @@ export default {
       this.infoWindow = new AMap.InfoWindow(infowindowOpts);
       this.infoWindow.open(
         this.map,
-        new AMap.LngLat(parseFloat(lng), parseFloat(lat))
+        new AMap.LngLat(parseFloat(lon), parseFloat(lat))
       );
-      this.map.setCenter(new AMap.LngLat(lng, lat));
+      this.map.setCenter(new AMap.LngLat(lon, lat));
       this.map.panBy(0, 25);
     },
     closeInfoWindow() {
@@ -261,27 +271,25 @@ export default {
         .addClass("active")
         .siblings()
         .removeClass("active");
-      let marker = this.markers.get(item.id);
+      let marker = this.markers.get(item.projectUuid);
       if (marker) {
         let conHtml = `
             <div class="map-item">
-              <div class="location-name" title="${item.locationName}">${
-          item.locationName
+              <div class="location-name" title="${item.projectName}">${
+          item.projectName
         }</div>
-              <img class="small-img" src="${item.pic}" alt="${
-          item.locationName
-        }">
-              <div class="line">监测等级：${rank[item.fogDegree]}</div>
-              <div class="line">图片采集时间：${item.time}</div>
-              <div class="line">历史演变：${rank[item.oldFogDegree]}->${
-          rank[item.fogDegree]
-        }</div>
-              <div class="line">预警开始时间：${item.oldTime}</div>
+              <img class="small-img" src="/static/images/test/video.png" alt="${
+                item.projectName
+              }">
+              <div class="line">工程地址：${item.projectLocation}</div>
+              <div class="line">计划开挖时间：${item.excavationDatePlaned}</div>
+              <div class="line">实际开挖时间：${item.backfillDateActual}</div>
+              <div class="line">预警状态：${rank[item.warningGrade]}</div>
               <div class="line" style="float:left"><a href="#/detailInfo?id=${
-                item.id
+                item.projectUuid
               }">项目详细信息</a></div>
-              <div class="line" ><a style="margin-left:10px" href="#/dataList?id=${
-                item.id
+              <div class="line" ><a style="margin-left:10px" href="#/datachart/dataIndex?id=${
+                item.projectUuid
               }">数据展示</a></div>
             </div>
           `;
@@ -304,10 +312,13 @@ export default {
     showContent(item) {
       if (this.targetType === "4") {
         return (
-          item.fogDegree === 0 || item.fogDegree === 1 || item.fogDegree === 2 || item.fogDegree === 3
+          item.warningGrade === 0 ||
+          item.warningGrade === 1 ||
+          item.warningGrade === 2 ||
+          item.warningGrade === 3
         );
       } else {
-        return item.fogDegree === parseInt(this.targetType);
+        return item.warningGrade === parseInt(this.targetType);
       }
     }
   },
@@ -335,7 +346,7 @@ export default {
       let flag = false;
       if (newVal.length > 0) {
         for (let i = 0; i < newVal.length; i++) {
-          if (newVal[i].fogDegree === 0) {
+          if (newVal[i].warningGrade === 0) {
             continue;
           } else {
             flag = true;

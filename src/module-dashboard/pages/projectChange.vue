@@ -376,6 +376,8 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="自动化设置" name="fifth-ta">
+          <span style="font-size:60px;color:blue;">   
+            尚在开发中！！</span>
         </el-tab-pane>
       </el-tabs>
     </el-card>

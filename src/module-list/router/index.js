@@ -21,19 +21,19 @@ export default [
     },
     children: [
       {
-        path: 'table',
+        path: '/table',
         component: _import('list/pages/tableList'),
         name: 'list-table',
         meta: {title: 'tableList'}
       },
       {
-        path: 'basic',
+        path: '/basic',
         component: _import('list/pages/basicList'),
         name: 'list-basic',
         meta: {title: 'basicList'}
       },
       {
-        path: 'card',
+        path: '/card',
         component: _import('list/pages/cardList'),
         name: 'list-card',
         meta: {title: 'cardList'}

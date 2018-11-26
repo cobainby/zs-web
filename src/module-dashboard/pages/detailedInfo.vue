@@ -68,14 +68,14 @@
         </table>
         <table class="tableEditDetail" style="height:50%;" id="projectInfo" cellpadding="0" cellspacing="1">
           <tr>
-            <th style="width: 15%;">
-              工程编号
+            <!-- <th style="width: 15%;"><th  -->
+              <!-- 工程编号 -->
             </th>
             <td style="width: 35%">
               <label name="viewcode" id="viewcode"></label>
             </td>
             <th style="width: 15%">
-              监督编号
+              <!-- 监督编号 -->
             </th>
             <td>
               <label id="viewsuperviseCode"></label>
