@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="23">
         <div class="tableListTitle2" style="margin-top:5px;">
-          <label id="projectName">基坑测试项目</label>
+          <label id="proName">基坑测试项目</label>
         </div>
       </el-col>
       <el-col :span="1">
@@ -15,7 +15,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="chartsPanel" label="工程概况" name="first-ta">
           <!-- 项目当前信息 / -->
-          <form id="projectForm" style="height:100%;overflow:auto;">
+          <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
             <input id="formUrl" type="hidden">
             <input id="projectUuid" type="hidden">
             <table id="tableHeader" cellpadding="0" cellspacing="0">
@@ -31,13 +31,13 @@
                   工程编号
                 </th>
                 <td style="width: 35%">
-                  <textarea name="code" rows="2" cols="20" class="input" id="code" style="height:30px;width:80%;"></textarea>
+                  <input name="code" rows="2" cols="20" class="input" id="projectCode" style="height:30px;width:80%;"></input>
                 </td>
                 <th style="width: 15%">
                   监督编号
                 </th>
                 <td>
-                  <textarea name="superviseCode" rows="2" cols="20" class="input" id="superviseCode" style="height:30px;width:80%;"></textarea>
+                  <input name="superviseCode" rows="2" cols="20" class="input" id="superviseCode" style="height:30px;width:80%;"></input>
                 </td>
               </tr>
               <tr>
@@ -45,33 +45,34 @@
                   工程名称
                 </th>
                 <td>
-                  <textarea name="projectName" rows="2" cols="20" id="projectName" class="input" style="height:30px;width:80%;" required></textarea>
+                  <input name="projectName" rows="2" cols="20" id="projectName" class="input" style="height:30px;width:80%;" required></input>
+                  <label style="color:red">*</label>
                 </td>
                 <th>
                   工程地址
                 </th>
                 <td>
-                  <textarea name="address" rows="2" cols="20" id="address" class="input" style="height:30px;width:80%;" required></textarea>
+                  <input name="address" rows="2" cols="20" id="projectLocation" class="input" style="height:30px;width:80%;" required></input>
                   <input type="hidden" name="" id="" />
                   <input type="hidden" name="" id="" />
                 </td>
               </tr>
               <tr>
                 <th>
-                  工程类别
+                  所属区域
                 </th>
                 <td>
-                  <input name="projectType" id="projectType" class="easyui-combobox" data-options="valueField: 'value',textField: 'label'" style="width:80%;height:30px;" />
+                  <input name="projectRegion" id="projectRegion" class="easyui-combobox" data-options="valueField: 'value',textField: 'label'" style="width:80%;height:30px;" />
                 </td>
                 <th>
                   经纬度
                 </th>
                 <td>
-                  <label>经度</label>
-                  <input name="lon" maxlength="20" type="text" id="lon" class="input" style="width:16%;" disabled="true " />
+                  <label>经纬度</label>
+                  <input name="lon" maxlength="20" type="text" id="projectLatLon" class="input" style="width:16%;" disabled="true " />
                   <label>纬度</label>
                   <input name="lat" maxlength="20" type="text" id="lat" class="input" style="width:16%;" disabled="true " />
-                  <input type="button" data-toggle="modal" id="lonlatSelect" class="btton85" value="获取经纬度" />
+                  <input type="button" @click="selectLonlat" data-toggle="modal" id="lonlatSelect" class="btton85" value="获取经纬度" />
                   <label style="color:red">(*请选择位置)</label>
                 </td>
               </tr>
@@ -80,18 +81,16 @@
                   支护形式
                 </th>
                 <td>
-                  <textarea name="structure" rows="2" cols="20" id="structure" class="input" style="height:30px;width:80%;"></textarea>
+                  <input name="structure" rows="2" cols="20" id="supportingStructure" class="input" style="height:30px;width:80%;"></input>
                 </td>
                 <th>
                   安全等级
                 </th>
                 <td>
-                  <select name="safeLevel" id="safeLevel" class="easyui-combobox" style="width:80%;height:30px;">
-                    <option value="">---请选择---</option>
-                    <option value="1">一级</option>
-                    <option value="2">二级</option>
-                    <option value="3">三级</option>
-                  </select>
+                  <el-select v-model="formBase.safetyClass" placeholder="请选择">
+                    <el-option id="safetyClass" v-for="item in safetyOption" :key="item.classCode" :label="item.className" :value="item.classCode" :disabled="item.disabled">
+                    </el-option>
+                  </el-select>
                 </td>
               </tr>
               <tr>
@@ -99,31 +98,93 @@
                   基坑设计深度
                 </th>
                 <td>
-                  <textarea name="deep" rows="2" cols="20" id="deep" class="input" style="height:30px;width:80%;"></textarea>(M)
+                  <input name="deep" rows="2" cols="20" id="foundationDepth" class="input" style="height:30px;width:80%;"></input>(M)
                 </td>
                 <th>
                   基坑周长:
                 </th>
                 <td>
-                  <textarea name="perimeter" rows="2" cols="20" id="perimeter" class="input" style="height:30px;width:80%;"></textarea>(M)
+                  <input name="perimeter" rows="2" cols="20" id="foundationPerimeter" class="input" style="height:30px;width:80%;"></input>(M)
                 </td>
               </tr>
               <tr>
                 <th>
+                  计划开挖时间
+                </th>
+                <td>
+                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(M)
+                </td>
+                <th>
+                  计划回填时间
+                </th>
+                <td>
+                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(M)
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  实际开挖时间
+                </th>
+                <td>
+                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(M)
+                </td>
+                <th>
+                  实际回填时间
+                </th>
+                <td>
+                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(M)
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  施工工况
+                </th>
+                <td>
+                  <el-select v-model="formBase.constructionStep" placeholder="请选择">
+                    <el-option id="constructionStep" v-for="item in stepOption" :key="item.stepCode" :label="item.stepName" :value="item.stepCode" :disabled="item.disabled">
+                    </el-option>
+                  </el-select>
+                </td>
+                <th>
+                  项目状态
+                </th>
+                <td>
+                  <el-select v-model="formBase.constructionState" placeholder="请选择">
+                    <el-option id="constructionState" v-for="item in stateOption" :key="item.stateCode" :label="item.stateName" :value="item.stateCode" :disabled="item.disabled">
+                    </el-option>
+                  </el-select>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  监测单位
+                </th>
+                <td>
+                  <input name="monitorLeader" type="text" id="monitoringOrg" class="input" style="width:40%;height:30px;" />
+                </td>
+                <th>
                   监测负责人
                 </th>
                 <td>
-                  <input name="monitorLeader" type="text" id="monitorLeader" class="input" style="width:60%;height:30px;" disabled="true " />
-                  <el-button id="addMonitorLeader" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                  <el-button id="deleteMonitorLeader" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                  <input name="monitorWorker" type="text" id="monitoringHead" class="input" style="width:60%;height:30px;" disabled="true " />
+                  <el-button id="addMonitorWorker" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
+                  <el-button id="deleteMonitorWorker" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
                 </td>
+              </tr>
+              <tr>
                 <th>
                   监测人员
                 </th>
                 <td>
-                  <input name="monitorWorker" type="text" id="monitorWorker" class="input" style="width:60%;height:30px;" disabled="true " />
+                  <input name="monitorWorker" type="text" id="monitoringSurveyor" class="input" style="width:60%;height:30px;" disabled="true " />
                   <el-button id="addMonitorWorker" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
                   <el-button id="deleteMonitorWorker" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                </td>
+                <th>
+                  行政主管部门
+                </th>
+                <td colspan="1">
+                  <input name="superviseWorker" rows="2" cols="20" id="admDepartment" class="input" style="height:30px;width:80%;"></input>
                 </td>
               </tr>
               <tr>
@@ -131,13 +192,41 @@
                   监督单位
                 </th>
                 <td>
-                  <textarea name="superviseCompany" rows="2" cols="20" id="superviseCompany" class="input" style="height:30px;width:80%;"></textarea>
+                  <input name="superviseCompany" rows="2" cols="20" id="supervisorOrg" class="input" style="height:30px;width:80%;"></input>
                 </td>
                 <th>
                   监督人员
                 </th>
+                <td>
+                  <input name="superviseCompany" rows="2" cols="20" id="supervisorLinkman" class="input" style="height:30px;width:80%;"></input>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  项目创建人
+                </th>
+                <td>
+                  <input name="superviseCompany" rows="2" cols="20" id="createAccUuid" class="input" style="height:30px;width:80%;"></input>
+                </td>
+                <th>
+                  项目创建时间
+                </th>
                 <td colspan="1">
-                  <textarea name="superviseWorker" rows="2" cols="20" id="superviseWorker" class="input" style="height:30px;width:80%;"></textarea>
+                  <input name="superviseWorker" rows="2" cols="20" id="createDate" class="input" style="height:30px;width:80%;"></input>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  项目结束时间
+                </th>
+                <td>
+                  <input name="superviseCompany" rows="2" cols="20" id="finishDate" class="input" style="height:30px;width:80%;"></input>
+                </td>
+                <th>
+                  工程概况描述
+                </th>
+                <td colspan="1">
+                  <input name="superviseWorker" rows="2" cols="20" id="projectDetail" class="input" style="height:30px;width:80%;"></input>
                 </td>
               </tr>
             </table>
@@ -147,7 +236,7 @@
                   建设单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="buildCompany" rows="2" cols="20" id="buildCompany" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea name="buildCompany" rows="2" cols="20" id="proprietorOrg" class="input" style="height:55px;width:80%;"></textarea>
                 </td>
                 <td style="width: 50%;">
                   <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
@@ -156,7 +245,7 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="buildContactName" class="input" style="width:99%;"></label>
+                        <label id="proprietorLinkman" class="input" style="width:99%;"></label>
                       </td>
                       <td style="width: 26%;text-align:center;">
                         <el-button id="addBuildName" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
@@ -171,7 +260,7 @@
                   设计单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="designCompany" rows="2" cols="20" id="designCompany" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea name="designCompany" rows="2" cols="20" id="designOrg" class="input" style="height:55px;width:80%;"></textarea>
                 </td>
                 <td style="width: 50%;">
                   <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
@@ -180,7 +269,7 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="designContactName" class="input" style="width:99%;"></label>
+                        <label id="designLinkman" class="input" style="width:99%;"></label>
                       </td>
                       <td style="width: 26%;text-align:center;">
                         <el-button id="addDesign" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
@@ -195,7 +284,7 @@
                   施工单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="constructCompany" rows="2" cols="20" id="constructCompany" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea name="constructCompany" rows="2" cols="20" id="constructionOrg" class="input" style="height:55px;width:80%;"></textarea>
                 </td>
                 <td style="width: 50%;">
                   <table class="tableEditDetail" cellpadding="0" cellspacing="1">
@@ -204,7 +293,7 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="constructContactName" class="input" style="width:99%;"></label>
+                        <label id="constructionLinkman" class="input" style="width:99%;"></label>
                       </td>
                       <td style="width: 26%;text-align:center;">
                         <el-button id="addMonitorLeader" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
@@ -219,7 +308,7 @@
                   监理单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="supervisorCompany" rows="2" cols="20" id="supervisorCompany" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea name="supervisorCompany" rows="2" cols="20" id="supervisionOrg" class="input" style="height:55px;width:80%;"></textarea>
                 </td>
                 <td style="width: 50%;">
                   <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
@@ -228,7 +317,7 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="supervisorContactName" class="input" style="width:99%;"></label>
+                        <label id="supervisionLinkman" class="input" style="width:99%;"></label>
                       </td>
                       <td style="width: 26%;text-align:center;">
                         <el-button id="addMonitorLeader" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
@@ -240,18 +329,18 @@
               </tr>
               <tr>
                 <th colspan="3">
-                  <el-button id="saveBtn" type="success" size="mini" icon="el-icon-check">
+                  <el-button id="saveBtn" @click="saveProject" type="success" size="mini" icon="el-icon-check">
                     <strong>
-                      <i class="glyphicon glyphicon-ok"></i>&nbsp确定</strong>
+                      <i class="glyphicon glyphicon-ok"></i>&nbsp提交</strong>
                   </el-button>
                   <el-button type="info" size="mini" id="cancelBtn" icon="el-icon-delete" data-dismiss="modal">
                     <strong>
-                      <i class="glyphicon glyphicon-remove"></i>&nbsp清空</strong>
+                      <i class="glyphicon glyphicon-remove"></i>&nbsp重置</strong>
                   </el-button>
                 </th>
               </tr>
             </table>
-          </form>
+          </el-form>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="监测方案" name="second-ta">
           <table class="tableEditDetail" cellpadding="0" cellspacing="1">
@@ -321,11 +410,11 @@
               </th>
               <th colspan="2">
                 <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="">
-              </el-dialog>
+                  <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                  <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
               </th>
             </tr>
           </table>
@@ -376,7 +465,7 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="自动化设置" name="fifth-ta">
-          <span style="font-size:60px;color:blue;">   
+          <span style="font-size:60px;color:blue;">
             尚在开发中！！</span>
         </el-tab-pane>
       </el-tabs>
@@ -386,12 +475,24 @@
 
 <script>
 import { list } from "@/api/example/table";
+import {
+  projectAdd,
+  projectUpdate,
+  getSafety,
+  getStep,
+  getState
+} from "@/api/base/project";
 import echarts from "echarts";
 import { debounce } from "@/utils";
+import { getToken } from "@/utils/auth";
+// import ProjectMap from "./../components/mapLayout";
 require("echarts/theme/macarons"); // echarts theme
 
 export default {
   name: "datachart-table-index",
+  components:{
+    
+  },
   data() {
     return {
       activeName: "first-ta",
@@ -419,6 +520,7 @@ export default {
           }
         }
       },
+      listLoading: true,
       formSearch: {
         user: "",
         region: "",
@@ -442,25 +544,88 @@ export default {
         pageSizes: [20, 50, 80, 120],
         currentPage: 1
       },
+      formBase: [],
       loading: false,
       multipleSelection: [],
       dialogVisible: false,
       formData: [],
-      rules: {
-        title: [
-          { required: true, message: "请输入标题", trigger: "blur" },
-          { min: 5, max: 45, message: "长度在 5 到 45 个字符", trigger: "blur" }
-        ],
-        author: [
-          { required: true, message: "请输入作者", trigger: "blur" },
-          { min: 2, max: 10, message: "长度在 2 到 10 个字符", trigger: "blur" }
-        ],
-        type: [{ required: true, message: "请选择类型", trigger: "change" }]
-      },
-      id: ""
+      projectInfo: [],
+      token: getToken(),
+      safetyOption: [],
+      stepOption: [],
+      stateOption: []
     };
   },
   methods: {
+    saveProject() {
+      debugger;
+      var projectParams = new Object();
+      var projectData = new Object();
+      projectParams.token = this.token;
+      projectParams.data = projectData;
+      projectData.superviseCode = $("#superviseCode").val();
+      projectData.projectName = $("#projectName").val();
+      projectData.projectLocation = $("#projectLocation").val();
+      projectData.projectLatLon = $("#projectLatLon").val();
+      projectData.projectRegion = $("#projectRegion").val();
+      projectData.supportingStructure = $("#supportingStructure").val();
+      projectData.safetyClass = $("#safetyClass").val();
+      projectData.foundationDepth = $("#foundationDepth").val();
+      projectData.foundationPerimeter = $("#foundationPerimeter").val();
+      projectData.excavationDatePlaned = $("#excavationDatePlaned").val();
+      projectData.backFillDatePlaned = $("#backfillDatePlaned").val();
+      projectData.excavationDateActual = $("#excavationDateActual").val();
+      projectData.backfillDateActual = $("#backfillDateActual").val();
+      projectData.constructionStep = $("#constructionStep").val();
+      projectData.constructionState = $("#constructionState").val();
+      projectData.monitoringOrg = $("#monitoringOrg").val();
+      projectData.monitoringHead = $("#monitoringHead").val();
+      projectData.monitoringSurveyor = $("#monitoringSurveyor").val();
+      projectData.supervisorOrg = $("#supervisorOrg").val();
+      projectData.supervisorLinkman = $("#supervisorLinkman").val();
+      projectData.proprietorOrg = $("#proprietorOrg").val();
+      projectData.proprietorLinkman = $("#proprietorLinkman").val();
+      projectData.designOrg = $("#designOrg").val();
+      projectData.designLinkman = $("#designLinkman").val();
+      projectData.constructionOrg = $("#constructionOrg").val();
+      projectData.constructionLinkman = $("#constructionLinkman").val();
+      projectData.supervisionOrg = $("#supervisionOrg").val();
+      projectData.supervisionLinkman = $("#supervisionLinkman").val();
+      projectData.admDepartment = $("#admDepartment").val();
+      projectData.createDate = $("#createDate").val();
+      projectData.createAccUuid = $("#createAccUuid").val();
+      projectData.finishDate = $("#finishDate").val();
+      projectData.projectDetail = $("#projectDetail").val();
+      projectAdd(projectParams)
+        .then(response => {
+          if (response.data.result == 1) {
+            const jsonData = response.data;
+            this.$emit("handleCloseEquip");
+            this.$confirm("创建工程成功!", "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            this.$emit("refreshEquipList");
+          } else {
+            Message.error(response.data.message);
+            this.$confirm("创建工程失败!", "提示", {
+              type: "error",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "无法获取创建接口!"
+          });
+        });
+    },
+    selectLonlat(){
+      this.$refs.viewMap.dialogFormV();
+    },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
       debugger;
@@ -504,10 +669,19 @@ export default {
     },
     getParams() {
       debugger;
+      //获取安全等级，施工工况，工程状态下拉列表
+      getSafety().then(res => {
+        this.safetyOption = res.data;
+      });
+      getStep().then(res => {
+        this.stepOption = res.data;
+      });
+      getState().then(res => {
+        this.stateOption = res.data;
+      });
       //取到路由传参
-      var projectId = this.$route.params.projectId;
-      //将数据放在当前组件内
-      this.id = projectId;
+      this.projectInfo = this.$route.params.projectInfo;
+      console.log(this.projectInfo);
     },
     // UI方法
     handleRest() {
@@ -605,7 +779,7 @@ export default {
     getBack() {
       this.$router.push({ path: "/itemList" });
     },
-    // 获取列表数据  
+    // 获取列表数据
     getList(params) {
       debugger;
       this.listLoading = true;
@@ -624,6 +798,9 @@ export default {
   created() {
     this.barSearch.expandInputs = false;
     this.barSearch.expandBtnText = "展开▼";
+  },
+  // 挂载结束
+  mounted() {
     this.getParams();
     this.getList();
   },
