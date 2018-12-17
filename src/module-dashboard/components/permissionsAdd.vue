@@ -27,7 +27,6 @@
 </template>
 <script>
 import { detail, update, add } from '@/api/base/permissions'
-import { list } from '@/api/base/menus.js'
 let _this = []
 export default {
   name: 'usersAdd',
@@ -142,9 +141,6 @@ export default {
       })
     },
     setupData() {
-      list().then(data => {
-        this.PermissionGroupsmenu = data.data
-      })
     },
 
     // 节点复选框被选中

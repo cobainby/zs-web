@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import {list} from '@/api/example/table'
 
 export default {
   name: '{{name}}-table-index',
@@ -165,23 +164,6 @@ export default {
   methods: {
     // 业务方法
     doQuery(page = 1, limit = 20) {
-      this.pagination.currentPage = page
-      this.pagination.pageSize = limit
-      this.loading = true
-      this.barSearch.alertText = ''
-      this.items = []
-      list({page, limit})
-        .then(res => {
-          console.log(res.data)
-          this.items = res.data.items
-          this.pagination.total = res.data.total
-          this.barSearch.alertText = `共 ${this.pagination.total} 条记录`
-          this.loading = false
-        })
-        .catch(err => {
-          console.log(err)
-          this.loading = false
-        })
     },
     // UI方法
     handleRest() {

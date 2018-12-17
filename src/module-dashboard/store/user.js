@@ -100,7 +100,7 @@ const user = {
         //   });
         debugger;
         axios
-          .get("http://192.168.1.13:8181/static/profile.json")
+          .get("http://192.168.1.199:8181/static/profile.json")
           .then(res => {
             const data = res.data;
             commit("SET_ROLES", data.worker.roles);

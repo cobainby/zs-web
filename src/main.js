@@ -16,6 +16,7 @@ import "font-awesome/css/font-awesome.css";
 import $ from "jquery"; // 全局引入jquery
 import MuseUI from "muse-ui"; //引入museUI
 import "muse-ui/dist/muse-ui.css";
+import "@/styles/dialog.scss"; //和museUI配套的dialog样式表
 import JsEncrypt from "jsencrypt"; //引入jsencrypt加密
 
 Vue.use(MuseUI);

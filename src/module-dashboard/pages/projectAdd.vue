@@ -12,7 +12,7 @@
     </el-row>
     <el-card shadow="never" v-loading="loading">
       <!-- 搜索栏 -->
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" @before-leave="handleClick">
         <el-tab-pane class="chartsPanel" label="工程概况" name="first-ta">
           <!-- 项目当前信息 / -->
           <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
@@ -25,7 +25,7 @@
                 </th>
               </tr>
             </table>
-            <table class="tableEditDetail" id="projectInfo" style="height:45%;" cellpadding="0" cellspacing="1">
+            <table class="tableEditDetail" style="height:45%;" cellpadding="0" cellspacing="1">
               <tr>
                 <th style="width: 15%;">
                   工程编号
@@ -68,10 +68,7 @@
                   经纬度
                 </th>
                 <td>
-                  <label>经纬度</label>
-                  <input name="lon" maxlength="20" type="text" id="projectLatLon" class="input" style="width:16%;" disabled="true " />
-                  <label>纬度</label>
-                  <input name="lat" maxlength="20" type="text" id="lat" class="input" style="width:16%;" disabled="true " />
+                  <input name="lon" maxlength="20" v-model="location" type="text" id="projectLatLon" class="input" style="width:30%;" disabled="true " />
                   <input type="button" @click="selectLonlat" data-toggle="modal" id="lonlatSelect" class="btton85" value="获取经纬度" />
                   <label style="color:red">(*请选择位置)</label>
                 </td>
@@ -112,13 +109,13 @@
                   计划开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
                 </td>
                 <th>
                   计划回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
                 </td>
               </tr>
               <tr>
@@ -126,13 +123,13 @@
                   实际开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
                 </td>
                 <th>
                   实际回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
                 </td>
               </tr>
               <tr>
@@ -212,7 +209,8 @@
                   项目创建时间
                 </th>
                 <td colspan="1">
-                  <input name="superviseWorker" rows="2" cols="20" id="createDate" class="input" style="height:30px;width:80%;"></input>
+                  <el-date-picker id="createDate" v-model="formBase.createDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+                  </el-date-picker>
                 </td>
               </tr>
               <tr>
@@ -220,7 +218,8 @@
                   项目结束时间
                 </th>
                 <td>
-                  <input name="superviseCompany" rows="2" cols="20" id="finishDate" class="input" style="height:30px;width:80%;"></input>
+                  <el-date-picker id="finishDate" v-model="formBase.finishDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+                  </el-date-picker>
                 </td>
                 <th>
                   工程概况描述
@@ -420,46 +419,47 @@
           </table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="监测项设置" name="fouth-ta">
+          <el-button id="addFdButton" @click="addFdSetting" style="margin-bottom:5px;" size="mini" type="success" icon="el-icon-circle-plus-outline">新增</el-button>
           <el-table :data="items" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-            <el-table-column align="center" :label="$t('table.id')" width="50px">
-              <template slot-scope="scope">
-                <span>{{scope.row.id}}</span>
-              </template>
-            </el-table-column>
             <el-table-column align="center" label="监测项名称">
               <template slot-scope="scope">
-                <span>监测项名称</span>
+                <span v-if="scope.row.mItemName!=null">{{scope.row.mItemName}}</span>
+                <span v-if="scope.row.mItemName==null">/</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="报警设置" width="250px">
+            <el-table-column align="center" label="报警设置" >
               <template slot-scope="scope">
-                <el-button type="danger" icon="el-icon-warning" @click="handleClick(scope.row)" size="small">报警设置</el-button>
+                <el-button type="danger" icon="el-icon-warning" @click="warningClick(scope.row.monitorItemUuid)" size="small">报警设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="断面设置" width="250px">
+            <el-table-column align="center" label="断面设置" >
               <template slot-scope="scope">
-                <el-button type="success" icon="el-icon-news" size="small">断面设置</el-button>
+                <span v-if="scope.row.mItemName=='围护墙（边坡）顶部水平位移'">
+                  <el-button type="success" icon="el-icon-news" @click="sectionClick(scope.row.monitorItemUuid)" size="small">断面设置</el-button>
+                </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="自动采集/手动上传">
+            <el-table-column align="center" label="采集模式">
               <template slot-scope="scope">
-                <span>自动采集/手动上传</span>
+                <span v-if="scope.row.mItemMode=0">手动采集</span>
+                <span v-if="scope.row.mItemMode=1">自动采集</span>
               </template>
             </el-table-column>
             <!-- 头像 -->
-            <el-table-column align="center" width="250px" label="测点设置">
+            <el-table-column align="center" label="测点设置">
               <template slot-scope="scope">
-                <el-button type="warning" icon="el-icon-location-outline" size="small">测点设置</el-button>
+                <el-button type="warning" icon="el-icon-location-outline" @click="surveypointClick(scope.row.monitorItemUuid)" size="small">测点设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="250px" label="监测项设置">
+            <el-table-column align="center"  label="监测频率">
               <template slot-scope="scope">
-                <el-button type="info" icon="el-icon-setting" size="small">监测项设置</el-button>
+                <span v-if="scope.row.mItemFrequency!=null">{{scope.row.mItemFrequency+"天/次"}}</span>
+                <span v-if="scope.row.mItemFrequency==null">/</span>
               </template>
             </el-table-column>
             <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
               <template slot-scope="scope">
-                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeUser(scope.row.id)">{{$t('table.delete')}}</el-button>
+                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeFd(scope.row.monitorItemUuid)">{{$t('table.delete')}}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -469,39 +469,122 @@
             尚在开发中！！</span>
         </el-tab-pane>
       </el-tabs>
+      <mu-dialog :open="dialogAdd" dialogClass="location-add-dialog" @close="closeAddLocation" @show="initMap">
+        <div class="dialog-title">
+          标注经纬度
+          <i class="material-icons close-icon" @click="closeAddLocation">X</i>
+        </div>
+        <div class="dialog-content">
+          <div class="clearfix">
+            <div class="left-form">
+              <div class="form-group">
+                <label class="control-label">工程地址</label>
+                <input type="text" id="tipinput" class="form-control" v-model="addData.rtmp" placeholder="工程地址" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label class="control-label">经纬度</label>
+                <input type="text" class="form-control half" v-model="addData.lng" placeholder="经度" autocomplete="off" style="margin-right: 30px">
+                <input type="text" class="form-control half" v-model="addData.lat" placeholder="纬度" autocomplete="off">
+              </div>
+            </div>
+            <div class="right-map">
+              <div class="map-parent">
+                <div id="map"></div>
+              </div>
+              <div>按住左键拖动地图上红色标注到相应位置，即可完成经纬度标注，并自动获取该地址</div>
+            </div>
+          </div>
+        </div>
+      </mu-dialog>
+      <!-- 新增修改监测项设置弹窗 -->
+      <component :refreshFdList="getFdSetList" :itemDropdownList="itemDropdownList" :sectionDropdownList="sectionDropdownList" :projectId="projectId" v-bind:is="FdSettingAdd" ref="editFd" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseFd="handleCloseFd">
+      </component>
+      <!-- 报警设置窗口-->
+      <component v-bind:is="WarningSet" :projectId="projectId"  ref="warningModel"  v-on:handleCloseWarning="handleCloseWarning">
+      </component>
+      <!-- 断面设置窗口-->
+      <component v-bind:is="SectionSet" :projectId="projectId"  ref="sectionModel" v-on:handleCloseSection="handleCloseSection">
+      </component>
+      <!-- 监测点设置窗口 -->
+      <component v-bind:is="SurveypointSet" :projectId="projectId" ref="surveypointModel"  v-on:handleCloseSurveypoint="handleCloseSurveypoint">
+      </component>
     </el-card>
   </div>
 </template>
 
 <script>
-import { list } from "@/api/example/table";
 import {
   projectAdd,
   projectUpdate,
   getSafety,
   getStep,
-  getState
+  getState,
+  getFdSet,
+  getMonitor,
+  getSectionSet,
+  removeFdSet
 } from "@/api/base/project";
 import echarts from "echarts";
+import FdSettingAdd from "./../components/fdSettingAdd";
+import WarningSet from "./../components/warningSet.vue";
+import SectionSet from "./../components/sectionSet.vue";
+import SurveypointSet from "./../components/surveypointSet.vue";
 import { debounce } from "@/utils";
 import { getToken } from "@/utils/auth";
-// import ProjectMap from "./../components/mapLayout";
 require("echarts/theme/macarons"); // echarts theme
 
+/* eslint-disable no-undef */
+const mapConfig = {
+  center: [113.310846, 22.961402],
+  zoom: 9,
+  zooms: [3, 18]
+};
 export default {
   name: "datachart-table-index",
-  components:{
-    
+  components: {
+    FdSettingAdd,
+    WarningSet,
+    SectionSet,
+    SurveypointSet
   },
   data() {
     return {
-      activeName: "first-ta",
+      FdSettingAdd: "FdSettingAdd",
+      WarningSet: "WarningSet",
+      SectionSet: "SectionSet",
+      SurveypointSet: "SurveypointSet",
+      text: "",
+      pageTitle: "",
+      type: null, //新增还是修改项目的判断值
+      activeName: "first-ta", //切换tab的值
+      projectId: "", //判断是否有projectUuid来进入下几个tab，如果projectuuid没有值，则必须新建项目
+      dialogAdd: false,
+      addData: {
+        location_id: "", // 以萨卡口编号
+        loc_id: "", // 厂商卡口编号
+        text: "", // 点位名称
+        lng: "", // 经度
+        lat: "", // 纬度
+        rtmp: "" // rtmp地址或rtsp地址
+      },
+      location: "",
+      iconUrl: "/static/images/map/",
+      size: new AMap.Size(17, 23),
+      offset: new AMap.Pixel(-8, -23),
+      options: {
+        center: new AMap.LngLat(mapConfig.center[0], mapConfig.center[1]),
+        zoom: mapConfig.zoom,
+        zooms: mapConfig.zooms,
+        animateEnable: true
+      },
       filters: {
         column: {
           create_start_date: "",
           create_end_date: ""
         }
       },
+      itemDropdownList: [], //新增监测项时的监测项下拉列表
+      sectionDropdownList: [], //断面设置的下拉列表
       dialogImageUrl: "",
       dialogVisible: false,
       pickerBeginDateBefore: {
@@ -548,21 +631,103 @@ export default {
       loading: false,
       multipleSelection: [],
       dialogVisible: false,
-      formData: [],
+      formData: {
+        monitorItemUuid: "",
+        projectUuid: this.projectId,
+        mItemName: "",
+        mItemEname: "",
+        mItemDevices: "",
+        mItemFrequency: "",
+        mItemMode: "",
+        sectionUuid: "",
+        mItemOrder: "",
+        mItemValid: ""
+      },
       projectInfo: [],
       token: getToken(),
       safetyOption: [],
       stepOption: [],
-      stateOption: []
+      stateOption: [],
+      ruleInline: {
+        // 表单验证
+        mItemName: [
+          { required: true, message: "监测项名称不能为空", trigger: "blur" }
+        ]
+      }
     };
   },
   methods: {
+    initMap() {
+      let _this = this;
+      let marker = null;
+      _this.map = new AMap.Map("map", _this.options);
+      AMap.plugin(["AMap.ToolBar", "AMap.Scale"], function() {
+        _this.map.addControl(new AMap.ToolBar());
+        _this.map.addControl(new AMap.Scale());
+      });
+      // if (_this.addData.lng && _this.addData.lat) {
+      //   let lnglat = new AMap.LngLat(parseFloat(_this.addData.lng), parseFloat(_this.addData.lat))
+      //   _this.map.setCenter(lnglat)
+      //   marker = _this.addMarkerOne(parseFloat(_this.addData.lng), parseFloat(_this.addData.lat))
+      // } else {
+      marker = _this.addMarkerOne(
+        parseFloat(mapConfig.center[0]),
+        parseFloat(mapConfig.center[1])
+      );
+      // }
+      marker.on("dragend", function(e) {
+        _this.addData.lng = e.lnglat.lng;
+        _this.addData.lat = e.lnglat.lat;
+        _this.location = e.lnglat.lng + "," + e.lnglat.lat;
+      });
+      //输入提示
+      var autoOptions = {
+        input: "tipinput"
+      };
+      var auto = new AMap.Autocomplete(autoOptions);
+      var placeSearch = new AMap.PlaceSearch({
+        map: _this.map
+      }); //构造地点查询类
+      AMap.event.addListener(auto, "select", select); //注册监听，当选中某条记录时会触发
+      function select(e) {
+        placeSearch.setCity(e.poi.adcode);
+        placeSearch.search(e.poi.name); //关键字查询查询
+      }
+    },
+    closeAddLocation() {
+      this.dialogAdd = false;
+    },
+    changeLocation() {
+      this.dialogAdd = false;
+    },
+    addMarkerOne(lng, lat) {
+      let marker = null;
+      if (this.map) {
+        let lnglat = new AMap.LngLat(parseFloat(lng), parseFloat(lat));
+        if (lnglat) {
+          let opts = {
+            map: this.map,
+            position: lnglat,
+            icon: new AMap.Icon({
+              image: this.iconUrl + "stop-markerh.png",
+              size: this.size
+            }),
+            offset: this.offset,
+            draggable: true
+          };
+          marker = new AMap.Marker(opts);
+        }
+      }
+      return marker;
+    },
     saveProject() {
       debugger;
       var projectParams = new Object();
       var projectData = new Object();
       projectParams.token = this.token;
       projectParams.data = projectData;
+      projectData.projectUuid = this.projectId;
+      projectData.projectCode = $("#projectCode").val();
       projectData.superviseCode = $("#superviseCode").val();
       projectData.projectName = $("#projectName").val();
       projectData.projectLocation = $("#projectLocation").val();
@@ -570,10 +735,16 @@ export default {
       projectData.projectRegion = $("#projectRegion").val();
       projectData.supportingStructure = $("#supportingStructure").val();
       projectData.safetyClass = $("#safetyClass").val();
-      projectData.foundationDepth = $("#foundationDepth").val();
-      projectData.foundationPerimeter = $("#foundationPerimeter").val();
+      projectData.foundationDepth =
+        $("#foundationDepth").val() != ""
+          ? $("#foundationDepth").val() * 1
+          : null;
+      projectData.foundationPerimeter =
+        $("#foundationPerimeter").val() != ""
+          ? $("#foundationPerimeter").val() * 1
+          : null;
       projectData.excavationDatePlaned = $("#excavationDatePlaned").val();
-      projectData.backFillDatePlaned = $("#backfillDatePlaned").val();
+      projectData.backfillDatePlaned = $("#backfillDatePlaned").val();
       projectData.excavationDateActual = $("#excavationDateActual").val();
       projectData.backfillDateActual = $("#backfillDateActual").val();
       projectData.constructionStep = $("#constructionStep").val();
@@ -593,49 +764,83 @@ export default {
       projectData.supervisionLinkman = $("#supervisionLinkman").val();
       projectData.admDepartment = $("#admDepartment").val();
       projectData.createDate = $("#createDate").val();
-      projectData.createAccUuid = $("#createAccUuid").val();
+      projectData.createAccUuid = "0";
       projectData.finishDate = $("#finishDate").val();
+      projectData.foundationLayout = ""; //平面图
       projectData.projectDetail = $("#projectDetail").val();
-      projectAdd(projectParams)
-        .then(response => {
-          if (response.data.result == 1) {
-            const jsonData = response.data;
-            this.$emit("handleCloseEquip");
-            this.$confirm("创建工程成功!", "提示", {
-              type: "success",
-              showConfirmButton: false,
-              showCancelButton: false
+      if (this.type == "新增") {
+        projectAdd(projectParams)
+          .then(response => {
+            if (response.data.result == 1) {
+              const jsonData = response.data;
+              this.projectId = jsonData.projectUuid;
+              this.$confirm("创建工程成功!", "提示", {
+                type: "success",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            } else {
+              Message.error(response.data.message);
+              this.$confirm("创建工程失败!", "提示", {
+                type: "error",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "warning",
+              message: "无法获取创建接口!"
             });
-            this.$emit("refreshEquipList");
-          } else {
-            Message.error(response.data.message);
-            this.$confirm("创建工程失败!", "提示", {
-              type: "error",
-              showConfirmButton: false,
-              showCancelButton: false
-            });
-          }
-        })
-        .catch(() => {
-          this.$message({
-            type: "warning",
-            message: "无法获取创建接口!"
           });
-        });
+      } else if (this.type == "修改") {
+        projectUpdate(projectParams)
+          .then(response => {
+            if (response.data.result == 1) {
+              const jsonData = response.data;
+              this.$confirm("修改工程成功!", "提示", {
+                type: "success",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            } else {
+              Message.error(response.data.message);
+              this.$confirm("修改工程失败!", "提示", {
+                type: "error",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "warning",
+              message: "无法获取修改接口!"
+            });
+          });
+      }
     },
-    selectLonlat(){
-      this.$refs.viewMap.dialogFormV();
-    },
-    //tab切换获取当前ID
-    handleClick: function(tab, event) {
+    selectLonlat() {
       debugger;
-      this.initChart();
-      this.__resizeHanlder = debounce(() => {
-        if (this.chart) {
-          this.chart.resize();
+      this.dialogAdd = true;
+    },
+    //在监测项设置
+    addFdSetting() {
+      this.text = "创建";
+      this.pageTitle = "监测项";
+      //获取监测项下拉表
+      getMonitor().then(res => {
+        this.itemDropdownList = res.data;
+      });
+      //获取断面设置列表
+      getSectionSet({ token: this.token, projectUuid: this.projectId }).then(
+        res => {
+          debugger;
+          this.sectionDropdownList = res.data.data;
         }
-      }, 100);
-      window.addEventListener("resize", this.__resizeHanlder);
+      );
+      this.$refs.editFd.dialogFormV();
     },
     //上传图片
     handleRemove(file, fileList) {
@@ -649,24 +854,8 @@ export default {
     initChart() {},
     // 业务方法
     doQuery(page = 1, limit = 20) {
-      this.pagination.currentPage = page;
-      this.pagination.pageSize = limit;
-      this.loading = true;
-      this.barSearch.alertText = "";
-      this.items = [];
-      list({ page, limit })
-        .then(res => {
-          console.log(res.data);
-          this.items = res.data.items;
-          this.pagination.total = res.data.total;
-          this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;
-          this.loading = false;
-        })
-        .catch(err => {
-          console.log(err);
-          this.loading = false;
-        });
     },
+    //工程概况
     getParams() {
       debugger;
       //获取安全等级，施工工况，工程状态下拉列表
@@ -679,9 +868,71 @@ export default {
       getState().then(res => {
         this.stateOption = res.data;
       });
-      //取到路由传参
-      this.projectInfo = this.$route.params.projectInfo;
-      console.log(this.projectInfo);
+      this.type = this.$route.params.editType;
+      if (this.type == "修改") {
+        //取到路由传参
+        debugger;
+        this.projectInfo = this.$route.params.projectInfo;
+        console.log(this.projectInfo);
+        this.projectId = this.projectInfo.projectUuid;
+        $("#projectCode").val(this.projectInfo.projectCode);
+        $("#superviseCode").val(this.projectInfo.superviseCode);
+        $("#projectName").val(this.projectInfo.projectName);
+        $("#projectLocation").val(this.projectInfo.projectLocation);
+        this.location = this.projectInfo.projectLatLon;
+        $("#projectRegion").val(this.projectInfo.projectRegion);
+        $("#supportingStructure").val(this.projectInfo.supportingStructure);
+        $("#safetyClass").val(this.projectInfo.safetyClass);
+        $("#foundationDepth").val(this.projectInfo.foundationDepth);
+        $("#foundationPerimeter").val(this.projectInfo.foundationPerimeter);
+        $("#excavationDatePlaned").val(this.projectInfo.excavationDatePlaned);
+        $("#backfillDatePlaned").val(this.projectInfo.backfillDatePlaned);
+        $("#excavationDateActual").val(this.projectInfo.excavationDateActual);
+        $("#backfillDateActual").val(this.projectInfo.backfillDateActual);
+        $("#constructionStep").val(this.projectInfo.constructionStep);
+        $("#constructionState").val(this.projectInfo.constructionState);
+        $("#monitoringOrg").val(this.projectInfo.monitoringOrg);
+        $("#monitoringHead").val(this.projectInfo.monitoringHead);
+        $("#monitoringSurveyor").val(this.projectInfo.monitoringSurveyor);
+        $("#supervisorOrg").val(this.projectInfo.supervisorOrg);
+        $("#supervisorLinkman").val(this.projectInfo.supervisorLinkman);
+        $("#proprietorOrg").val(this.projectInfo.proprietorOrg);
+        $("#proprietorLinkman").val(this.projectInfo.proprietorLinkman);
+        $("#designOrg").val(this.projectInfo.designOrg);
+        $("#designLinkman").val(this.projectInfo.designLinkman);
+        $("#constructionOrg").val(this.projectInfo.constructionOrg);
+        $("#constructionLinkman").val(this.projectInfo.constructionLinkman);
+        $("#supervisionOrg").val(this.projectInfo.supervisionOrg);
+        $("#supervisionLinkman").val(this.projectInfo.supervisionLinkman);
+        $("#admDepartment").val(this.projectInfo.admDepartment);
+        $("#createDate").val(
+          this.changeTimeFormat(this.projectInfo.createDate)
+        );
+        $("#finishDate").val(
+          this.changeTimeFormat(this.projectInfo.finishDate)
+        );
+        $("#projectDetail").val(this.projectInfo.projectDetail);
+      }
+    },
+    getFdSetList() {
+      getFdSet({ token: this.token, projectUuid: this.projectId }).then(res => {
+        this.items = res.data.data;
+        this.pagination.total = res.data.data.length;
+        this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;
+        this.listLoading = false;
+      });
+    },
+    //tab切换获取当前ID
+    handleClick: function(tab, event) {
+      if ((tab.name = "fouth-ta")) {
+        if (this.projectId != "" && this.projectId != null) {
+        } else {
+          this.$message({
+            type: "warning",
+            message: "请先新建工程!"
+          });
+        }
+      }
     },
     // UI方法
     handleRest() {
@@ -696,6 +947,50 @@ export default {
         desc: "",
         state: ""
       };
+    },
+    // 格式化时间
+    changeTimeFormat(val) {
+      debugger;
+      var d = new Date(val);
+      var times =
+        d.getFullYear() +
+        "-" +
+        ("0" + d.getMonth()).slice(-2) +
+        "-" +
+        ("0" + d.getDate()).slice(-2) +
+        " " +
+        ("0" + d.getHours()).slice(-2) +
+        ":" +
+        ("0" + d.getMinutes()).slice(-2) +
+        ":" +
+        ("0" + d.getSeconds()).slice(-2);
+      return times;
+    },
+    //报警设置
+    warningClick(monitorItemUuid) {
+      this.$refs.warningModel.dialogFormV(monitorItemUuid);
+    },
+    sectionClick(monitorItemUuid) {
+      this.$refs.sectionModel.dialogFormV(monitorItemUuid);
+    },
+    surveypointClick(monitorItemUuid) {
+      this.$refs.surveypointModel.dialogFormV(monitorItemUuid);
+    },
+    //关闭监测项新增窗口
+    handleCloseFd() {
+      this.$refs.editFd.dialogFormH();
+    },
+    //关闭报警设置
+    handleCloseWarning() {
+      this.$refs.warningModel.dialogFormH();
+    },
+    //关闭断面设置
+    handleCloseSection() {
+      this.$refs.sectionModel.dialogFormH();
+    },
+    //关闭监测点设置
+    handleCloseSurveypoint() {
+      this.$refs.surveypointModel.dialogFormH();
     },
     handleExpand() {
       this.barSearch.expandInputs = !this.barSearch.expandInputs;
@@ -727,24 +1022,24 @@ export default {
         });
     },
     handleNew() {
-      this.formData = {
-        title: "",
-        author: "",
-        type: ""
-      };
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+      // this.formData = {
+      //   title: "",
+      //   author: "",
+      //   type: ""
+      // };
+      // this.dialogVisible = true;
+      // this.$nextTick(() => {
+      //   this.$refs["dataForm"].clearValidate();
+      // });
     },
     handleEdit(item) {
-      this.formData = {
-        ...item
-      };
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+      // this.formData = {
+      //   ...item
+      // };
+      // this.dialogVisible = true;
+      // this.$nextTick(() => {
+      //   this.$refs["dataForm"].clearValidate();
+      // });
     },
     handleSave(isSave) {
       if (isSave) {
@@ -779,19 +1074,35 @@ export default {
     getBack() {
       this.$router.push({ path: "/itemList" });
     },
-    // 获取列表数据
-    getList(params) {
+    removeFd(monitorItemUuid) {
       debugger;
-      this.listLoading = true;
-      list()
-        .then(data => {
-          this.items = data.data.items;
-          this.total = data.data.total;
-          this.alertText = `共 ${this.total} 条记录`;
-          this.listLoading = false;
+
+      this.$confirm("此操作将永久删除设备 " + ", 是否继续?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          removeFdSet({ monitorItemUuid, token: this.token })
+            .then(response => {
+              debugger;
+              if (response.data.result == 1) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                this.getFdSetList();
+              } else {
+                this.$message({
+                  type: "warning",
+                  message: response.data.message
+                });
+              }
+            })
+            .catch(response => {
+              this.$message.error("删除失败!");
+            });
         })
-        .catch(e => {
-          this.$message.e("错了哦，这是一条错误消息");
+        .catch(() => {
+          this.$message.info("已取消操作!");
         });
     }
   },
@@ -802,7 +1113,7 @@ export default {
   // 挂载结束
   mounted() {
     this.getParams();
-    this.getList();
+    this.getFdSetList();
   },
   watch: {
     //监测路由变化
@@ -810,7 +1121,6 @@ export default {
   }
 };
 </script>
-
 <style rel="stylesheet/css" scoped>
 .alert {
   margin: 10px 0px 0px 0px;

@@ -17,19 +17,55 @@
             <el-button @click="handleRest" size="small">重置</el-button>
             <el-button type="text" @click="handleExpand"></el-button>
           </el-form-item>
-           <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
+          <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
         </el-form>
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
           <el-tab-pane class="chartsPanel" label="数据展示" name="first-ta">
-            <el-table :data="items" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" type="selection" width="55"></el-table-column>
-              <el-table-column align="center" prop="title" label="编号"></el-table-column>
-              <el-table-column align="center" prop="forecast" label="单次变化量(mm)"></el-table-column>
-              <el-table-column align="center" prop="importance" label="累计变化量(mm)"></el-table-column>
-              <el-table-column align="center" prop="reviewer" label="变化速率(mm/d)"></el-table-column>
-              <el-table-column align="center" prop="pageviews" label="高程(m)"></el-table-column>
-              <el-table-column align="center" prop="display_time" label="测量时间"></el-table-column>
+            <el-table :data="lastZcData" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+              <el-table-column align="center" label="测点编号" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.pointCode}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center"  label="支撑类型">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.forceType==0">锚索内力</span>
+                  <span v-if="scope.row.forceType==1">钢支撑内力</span>
+                  <span v-if="scope.row.forceType==2">硂支撑内力</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center"  label="计算值" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.calValue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="采集模数" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.moduleData}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="单次变化量" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.lastVary}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="center"  label="单次变化速率" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.rateVary}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="累计变化量" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.accumVary}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center"  label="采集时间" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.surveyTime}}</span>
+                </template>
+              </el-table-column>
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
             </el-pagination>
@@ -73,9 +109,12 @@ import { list } from "@/api/example/table";
 import echarts from "echarts";
 import { debounce } from "@/utils";
 require("echarts/theme/macarons"); // echarts theme
+import { getForce } from "@/api/base/chartData"; //调用轴力接口
+import { getFdSet, getSuveyPointSet } from "@/api/base/project"; //通过该项目获取当前监测项ID
+import { getToken } from "@/utils/auth";
 
 export default {
-  name: "datachart-table-index",
+  name: "dataIndex",
   props: {
     className: {
       type: String,
@@ -94,6 +133,9 @@ export default {
     return {
       tableHeight: window.innerHeight - 290,
       activeName: "first-ta",
+      projectUuid: "",
+      monitorUuid: "",
+      token: getToken(),
       filters: {
         column: {
           create_start_date: "",
@@ -132,14 +174,16 @@ export default {
         expandBtnText: "",
         alertText: ""
       },
-      items: [],
+      allItems: new Array(), //所有zc的数据
+      zcPoints: [], //所有zc点的集合
+      lastZcData: [], //zc的最新一条数据
       pagination: {
         total: 0,
         pageSize: 20,
         pageSizes: [20, 50, 80, 120],
         currentPage: 1
       },
-      loading: false,
+      loading: true,
       multipleSelection: [],
       dialogVisible: false,
       formData: [],
@@ -157,7 +201,7 @@ export default {
     };
   },
   methods: {
-    getBack(){
+    getBack() {
       this.$router.push({ path: "/itemList" });
     },
     //表格table tr行的背景色
@@ -211,7 +255,7 @@ export default {
         grid: {
           left: "60",
           top: "32",
-          right:"60",
+          right: "60",
           bottom: "38"
         },
         toolbox: {
@@ -291,7 +335,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random()  );
+                list.push(-Math.random());
               }
               return list;
             })()
@@ -302,7 +346,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -313,7 +357,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -324,7 +368,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random()  );
+                list.push(-Math.random());
               }
               return list;
             })()
@@ -335,7 +379,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -346,7 +390,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -357,7 +401,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -368,7 +412,7 @@ export default {
             data: (function() {
               var list = [];
               for (var i = 1; i <= 30; i++) {
-                list.push(Math.random()  );
+                list.push(Math.random());
               }
               return list;
             })()
@@ -377,24 +421,56 @@ export default {
       });
     },
     // 业务方法
-    doQuery(page = 1, limit = 20) {
-      this.pagination.currentPage = page;
-      this.pagination.pageSize = limit;
-      this.loading = true;
-      this.barSearch.alertText = "";
-      this.items = [];
-      list({ page, limit })
-        .then(res => {
-          console.log(res.data);
-          this.items = res.data.items;
-          this.pagination.total = res.data.total;
-          this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;
-          this.loading = false;
-        })
-        .catch(err => {
-          console.log(err);
-          this.loading = false;
-        });
+    init(page = 1, limit = 20) {
+      debugger;
+      this.projectUuid = this.$route.query.id;
+      console.log(this.projectUuid);
+      getFdSet({ projectUuid: this.projectUuid, token: this.token }).then(
+        res => {
+          //先拿到当前监测项的monitorItemUuid
+          for (var i = 0; i < res.data.data.length; i++) {
+            if (res.data.data[i].mItemName == "支撑内力") {
+              var monitorItemUuid = res.data.data[i].monitorItemUuid;
+              break; //拿到当前监测项ID后就终止循环
+            }
+          }
+          if (monitorItemUuid == null || monitorItemUuid == undefined) {
+            this.$message.info("当前监测项没有数据!"); //当前无数据
+            return;
+          }
+          // 获取当前uuid下的所有数据
+          getForce({
+            monitorItemUuid: monitorItemUuid,
+            token: this.token
+          }).then(res => {
+            this.pagination.currentPage = page;
+            this.pagination.pageSize = limit;
+            this.barSearch.alertText = "";
+            this.allItems = res.data.data;
+            this.pagination.total = res.data.length;
+            this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;
+            this.loading = false;
+            getSuveyPointSet({
+              monitorItemUuid: monitorItemUuid,
+              token: this.token
+            }).then(res => {
+              for (var j = 0; j < res.data.data.length; j++) {
+                this.zcPoints.push(res.data.data[j].surveypointNumber);
+              }
+              for (var k = 0; k < this.zcPoints.length; k++) {
+                var zcDatas = this.allItems[this.zcPoints[k]]; //每个点的数据
+                var lastData = zcDatas[zcDatas.length - 1]; //每个点的最新数据
+                if (lastData == undefined) {
+                  lastData = new Object();
+                }
+                lastData["pointCode"] = this.zcPoints[k];
+                this.lastZcData.push(lastData);
+              }
+              console.log(this.lastZcData);
+            });
+          });
+        }
+      );
     },
     // UI方法
     handleRest() {
@@ -493,8 +569,10 @@ export default {
   created() {
     this.barSearch.expandInputs = false;
     this.barSearch.expandBtnText = "展开▼";
-    this.doQuery();
-  }
+    this.init();
+  },
+  // 挂载结束
+  mounted: function() {}
 };
 </script>
 

@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      editType:null,
       UserAdd: "userAdd",
       pageTitle: "工程", // 页面标题
       text: "", // 新增、编辑文本
@@ -228,7 +229,7 @@ export default {
       //   this.PermissionGroupsList = data.data;
       // });原来代码
       axios
-        .get("http://192.168.1.13:8181/static/permissions.json")
+        .get("http://192.168.1.199:8181/static/permissions.json")
         .then(data => {
           this.PermissionGroupsList = data.data.list;
         });
@@ -284,9 +285,11 @@ export default {
     },
     // 新增用户
     handleCreate() {
+      this.editType="新增";
       this.$router.push({
         path: "/projectAdd",
-        name: "projectAdd"
+        name: "projectAdd",
+        params:{editType:this.editType}
       });
     },
     // 窗口操作**********************************
@@ -316,31 +319,26 @@ export default {
     },
     //查看
     viewData(objectId){
-      this.$router.push({ path: "/datachart" });
+      this.$router.push({ path: "/dataInfo",query:{id:objectId} });
     },
     handleUpdate(object) {
-      // this.query()
-      // var _this = this
-      // this.text = '编辑'
-      // this.$refs.editUser.dialogFormV()
-      // _this.hanldeEditForm(objeditId)
-      //传递当前项目id
+      this.editType="修改";
       this.$router.push({
         path: "/projectAdd",
         name: "projectAdd",
-        params: { projectInfo: object }
+        params: { projectInfo: object,editType:this.editType }
       });
     },
     // 删除
-    removeUser(user) {
-      this.$confirm("此操作将永久删除用户 " + ", 是否继续?", "提示", {
+    removeUser(projectUuid) {
+      this.$confirm("此操作将永久删除该工程 " + ", 是否继续?", "提示", {
         type: "warning"
       })
         .then(() => {
-          remove({ id: user })
+          debugger
+          projectRemove({projectUuid,token:this.token })
             .then(response => {
-              this.$message.success("成功删除了用户" + "!");
-              this.dataList.splice(user, 1);
+              this.$message.success("成功删除了工程" + "!");
               this.getList(this.requestParameters);
             })
             .catch(response => {

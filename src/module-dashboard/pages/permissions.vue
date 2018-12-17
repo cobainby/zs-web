@@ -145,7 +145,7 @@ export default {
     getList(params) {
       this.listLoading = true
      axios
-        .get("http://192.168.1.13:8181/static/permissions.json")
+        .get("http://192.168.1.199:8181/static/permissions.json")
         .then(data => {
           debugger
           this.dataList = data.data.list

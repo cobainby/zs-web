@@ -15,7 +15,8 @@
         "base-organ",
         "base-organList",
         "base-worker",
-        "base-permissions"
+        "base-permissions",
+        "database-table"
       ]
     },
     "organ": {

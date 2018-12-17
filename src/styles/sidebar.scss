@@ -3,14 +3,14 @@
   .main-container {
     min-height: 100%;
     transition: margin-left 0.28s;
-    margin-left: 180px;
+    margin-left: 200px;
   } // 侧边栏
   .sidebar-container {
     -webkit-box-shadow: 2px 0 6px rgba(0,21,41,.35);
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     transition: width 0.28s;
     background-color: #DE7B1D;
-    width: 180px!important;
+    width: 200px!important;
     height: 100%;
     position: fixed;
     top: 0;
@@ -100,7 +100,7 @@
   }
   .nest-menu .el-submenu>.el-submenu__title,
   .el-submenu .el-menu-item {
-    min-width: 180px!important;
+    min-width: 200px!important;
     background-color: $subMenuBg!important;
     &:hover {
       background-color: $menuHover!important;
@@ -110,7 +110,7 @@
     }
   }
   .el-menu--collapse .el-menu .el-submenu{
-    min-width: 180px!important;
+    min-width: 200px!important;
   }
   // logo标志
   .sidebar-logo ,.sidebar-logo-mini {
@@ -130,7 +130,7 @@
     }
   }
   .sidebar-logo {
-    width:180px;
+    width:200px;
     height:56px;
   }
   .sidebar-logo-mini {

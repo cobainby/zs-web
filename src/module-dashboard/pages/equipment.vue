@@ -204,8 +204,8 @@ export default {
   },
   data() {
     return {
-      ModelAdd: "modelAdd",
-      EquipAdd: "equipAdd",
+      ModelAdd: "ModelAdd",
+      EquipAdd: "EquipAdd",
       normalGif,
       disableGif,
       pageTitle: "", // 页面标题

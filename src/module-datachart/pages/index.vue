@@ -71,7 +71,7 @@ import { debounce } from "@/utils";
 require("echarts/theme/macarons"); // echarts theme
 
 export default {
-  name: "datachart-table-index",
+  name: "database-table",
   props: {
     className: {
       type: String,

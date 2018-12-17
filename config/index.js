@@ -19,8 +19,8 @@ module.exports = {
         }
       }
     },
-    // Various Dev Server settings 
-    host: '192.168.1.13', //可以通过process.env.HOST覆盖 
+    // Various Dev Server settings
+    host: '192.168.1.199', //可以通过process.env.HOST覆盖 
     port: 8181, // 可以通过process.env覆盖
     autoOpenBrowser: false,
     errorOverlay: true,

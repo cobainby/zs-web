@@ -288,7 +288,7 @@ export default {
               <div class="line" style="float:left"><a href="#/detailInfo?id=${
                 item.projectUuid
               }">项目详细信息</a></div>
-              <div class="line" ><a style="margin-left:10px" href="#/datachart/dataIndex?id=${
+              <div class="line" ><a style="margin-left:10px" href="#/dataInfo?id=${
                 item.projectUuid
               }">数据展示</a></div>
             </div>

@@ -26,7 +26,6 @@
 </template>
 <script>
 import { detail, update, add } from '@/api/base/permissions'
-import { list } from '@/api/base/menus.js'
 let _this = []
 export default {
   name: 'PermissionGroupsApiAdd',
@@ -91,12 +90,6 @@ export default {
     },
     // 高级接口数据列表
     loadApiPermissionData() {
-      list().then((ret, err) => {
-        if (err) {
-          return err
-        }
-        _this.PermissionApiData = ret.data
-      })
     },
     // 高级接口表单详情数据加载
     hanldeEditApiForm(objeditId) {
