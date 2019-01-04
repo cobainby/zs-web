@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         // target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
-        target: 'http://192.168.1.10:8082',
+        target: 'http://192.168.1.199:8082',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
@@ -21,7 +21,7 @@ module.exports = {
     },
     // Various Dev Server settings
     host: '192.168.1.199', //可以通过process.env.HOST覆盖 
-    port: 8181, // 可以通过process.env覆盖
+    port: 8081, // 可以通过process.env覆盖
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -54,19 +54,19 @@ module.exports = {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
-    // Paths
+    // 发布路径
     assetsRoot: path.resolve(__dirname, '../dist'),
+    //静态资源文件夹
     assetsSubDirectory: 'static',
-    assetsPublicPath: '',
+    assetsPublicPath: './',//防止CSS路径失效
     proxyTable: {
-      '/api': {
-        target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
-        // target: 'http://localhost:7999',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
+      // '/api': {
+      //   target: 'http://localhost:8090',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api': ''
+      //   }
+      // }
     },
 
     /**

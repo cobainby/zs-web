@@ -2,40 +2,39 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card shadow="never" v-loading="loading">
-        <!-- 搜索栏 -->
-        <el-form :inline="true" :model="formSearch" style="margin-top:-5px;">
-          <el-form-item label="开始时间">
-            <el-date-picker v-model="filters.column.create_start_date" size="small" type="date" :picker-options="pickerBeginDateBefore" format="yyyy-MM-dd" placeholder="">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="至" label-width="25px">
-            <el-date-picker v-model="filters.column.create_end_date" size="small" type="date" format="yyyy-MM-dd" :picker-options="pickerBeginDateAfter" placeholder="">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="warning" size="small" @click="handleSearch">查询</el-button>
-            <el-button @click="handleRest" size="small">重置</el-button>
-            <el-button type="text" @click="handleExpand"></el-button>
-          </el-form-item>
-          <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
-        </el-form>
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
-          <el-tab-pane class="chartsPanel" label="数据展示" name="first-ta">
-            <el-table :data="lastZcData" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+          <el-tab-pane class="chartsPanel" label="成果数据" name="first-ta">
+            <!-- 搜索栏 -->
+            <el-form :inline="true">
+              <el-form-item label="开始时间">
+                <el-date-picker id="startTime" v-model="filters.column.create_start_date" size="small" type="datetime" :picker-options="pickerBeginDateBefore" placeholder="" default-time="00:00:00">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="至" label-width="25px">
+                <el-date-picker id="endTime" v-model="filters.column.create_end_date" size="small" type="datetime" :picker-options="pickerBeginDateAfter" placeholder="" default-time="23:59:59">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="warning" size="small" @click="handleSearch">查询</el-button>
+                <el-button @click="handleRest" size="small">重置</el-button>
+              </el-form-item>
+              <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
+            </el-form>
+            <el-table :data="selectDatas" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" label="测点编号" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.pointCode}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  label="支撑类型">
+              <el-table-column align="center" label="支撑类型">
                 <template slot-scope="scope">
                   <span v-if="scope.row.forceType==0">锚索内力</span>
                   <span v-if="scope.row.forceType==1">钢支撑内力</span>
                   <span v-if="scope.row.forceType==2">硂支撑内力</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  label="计算值" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="计算值" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.calValue}}</span>
                 </template>
@@ -45,25 +44,26 @@
                   <span>{{scope.row.moduleData}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化量" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="单次变化量(KN)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center"  label="单次变化速率" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="单次变化速率(KN/d)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="累计变化量" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="累计变化量(KN)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  label="采集时间" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>{{scope.row.surveyTime}}</span>
+                  <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
+                  <span v-if="scope.row.surveyTime==null"></span>
                 </template>
               </el-table-column>
             </el-table>
@@ -71,46 +71,23 @@
             </el-pagination>
             <!-- 数据表格 / -->
           </el-tab-pane>
-          <el-tab-pane class="chartsPanel" label="图形展示" name="second-ta">
-            <div :class="className" id="enLine"></div>
+          <el-tab-pane label="单次变化量" name="second-ta">
+            <div :class="className" id="zcLineGap"></div>
+          </el-tab-pane>
+          <el-tab-pane label="累计变化量" name="third-ta">
+            <div :class="className" id="zcLineAccum"></div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
-    <!-- 弹出窗 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <el-form :rules="rules" ref="dataForm" :model="formData" label-width="50px" label-position="right">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="formData.title" placeholder="标题"></el-input>
-        </el-form-item>
-        <el-form-item label="作者" prop="author">
-          <el-input v-model="formData.author" placeholder="作者"></el-input>
-        </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-select v-model="formData.type" placeholder="类型">
-            <el-option label="CN" value="CN"></el-option>
-            <el-option label="US" value="US"></el-option>
-            <el-option label="JP" value="JP"></el-option>
-            <el-option label="EU" value="EU"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleSave(false)">取 消</el-button>
-        <el-button type="primary" @click="handleSave(true)">确 定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 弹出窗 / -->
   </div>
 </template>
 
 <script>
 import { list } from "@/api/example/table";
 import echarts from "echarts";
-import { debounce } from "@/utils";
 require("echarts/theme/macarons"); // echarts theme
 import { getForce } from "@/api/base/chartData"; //调用轴力接口
-import { getFdSet, getSuveyPointSet } from "@/api/base/project"; //通过该项目获取当前监测项ID
 import { getToken } from "@/utils/auth";
 
 export default {
@@ -131,10 +108,13 @@ export default {
   },
   data() {
     return {
-      tableHeight: window.innerHeight - 290,
+      tableHeight: window.innerHeight - 280,
       activeName: "first-ta",
       projectUuid: "",
-      monitorUuid: "",
+      monitorItemUuid: "",
+      lastVarySeries: [], //曲线图单次变化量的数据
+      accumVarySeries: [], //曲线图累计变化量的数据
+      timeSeries: [], //横轴的时间数据
       token: getToken(),
       filters: {
         column: {
@@ -158,25 +138,10 @@ export default {
           }
         }
       },
-      formSearch: {
-        user: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-        state: ""
-      },
-      barSearch: {
-        expandInputs: false,
-        expandBtnText: "",
-        alertText: ""
-      },
       allItems: new Array(), //所有zc的数据
       zcPoints: [], //所有zc点的集合
-      lastZcData: [], //zc的最新一条数据
+      lastZcDatas: [], //zc的最新一条数据
+      selectDatas: [], //zc的勾选时间以后的表格数据，未限定时间时与lastZcDatas相等
       pagination: {
         total: 0,
         pageSize: 20,
@@ -184,20 +149,7 @@ export default {
         currentPage: 1
       },
       loading: true,
-      multipleSelection: [],
-      dialogVisible: false,
-      formData: [],
-      rules: {
-        title: [
-          { required: true, message: "请输入标题", trigger: "blur" },
-          { min: 5, max: 45, message: "长度在 5 到 45 个字符", trigger: "blur" }
-        ],
-        author: [
-          { required: true, message: "请输入作者", trigger: "blur" },
-          { min: 2, max: 10, message: "长度在 2 到 10 个字符", trigger: "blur" }
-        ],
-        type: [{ required: true, message: "请选择类型", trigger: "change" }]
-      }
+      multipleSelection: []
     };
   },
   methods: {
@@ -220,37 +172,28 @@ export default {
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
-      $("#enLine").width($(".chartsPanel").width());
-      $("#enLine").height($(window).height() - 280);
+      $("#zcLineGap").width($(".chartsPanel").width());
+      $("#zcLineGap").height($(window).height() - 180);
+      $("#zcLineAccum").width($(".chartsPanel").width());
+      $("#zcLineAccum").height($(window).height() - 180);
       this.initChart();
-      this.__resizeHanlder = debounce(() => {
-        if (this.chart) {
-          this.chart.resize();
-        }
-      }, 100);
-      window.addEventListener("resize", this.__resizeHanlder);
     },
     //图形展示
     initChart() {
-      var myChart = echarts.init(document.getElementById("enLine"));
-      myChart.setOption({
+      var myChartGap = echarts.init(
+        document.getElementById("zcLineGap"),
+        "macarons"
+      );
+      var myChartAccum = echarts.init(
+        document.getElementById("zcLineAccum"),
+        "macarons"
+      );
+      var option = {
         tooltip: {
           trigger: "axis"
         },
         legend: {
-          data: [
-            "g1",
-            "g2",
-            "g3",
-            "g4",
-            "g5",
-            "g6",
-            "g7",
-            "g8",
-            "g9",
-            "g10",
-            "g11"
-          ]
+          data: this.zcPoints
         },
         grid: {
           left: "60",
@@ -271,305 +214,150 @@ export default {
         dataZoom: {
           show: true,
           realtime: true,
-          start: 20,
-          end: 80
+          start: 10,
+          end: 90
         },
         xAxis: [
           {
             type: "category",
             boundaryGap: false,
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push("2018-03-" + i);
-              }
-              return list;
-            })()
+            data: this.timeSeries
           }
         ],
         yAxis: [
           {
             type: "value",
-            min: -3,
-            max: 3
-          }
-        ],
-        series: [
-          {
-            name: "g1",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                debugger;
-                list.push(-Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g2",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g3",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g4",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g5",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g6",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g7",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(-Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g8",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g9",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g10",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
-          },
-          {
-            name: "g11",
-            type: "line",
-            data: (function() {
-              var list = [];
-              for (var i = 1; i <= 30; i++) {
-                list.push(Math.random());
-              }
-              return list;
-            })()
+            axisLabel: {
+              formatter: "{value} KN"
+            }
           }
         ]
+      };
+      myChartGap.setOption(option);
+      myChartGap.setOption({
+        series: this.lastVarySeries
+      });
+      myChartAccum.setOption(option);
+      myChartAccum.setOption({
+        series: this.accumVarySeries
       });
     },
     // 业务方法
-    init(page = 1, limit = 20) {
-      debugger;
-      this.projectUuid = this.$route.query.id;
-      console.log(this.projectUuid);
-      getFdSet({ projectUuid: this.projectUuid, token: this.token }).then(
-        res => {
-          //先拿到当前监测项的monitorItemUuid
-          for (var i = 0; i < res.data.data.length; i++) {
-            if (res.data.data[i].mItemName == "支撑内力") {
-              var monitorItemUuid = res.data.data[i].monitorItemUuid;
-              break; //拿到当前监测项ID后就终止循环
+    init(page, limit) {
+      this.monitorItemUuid = this.$route.query.monitorItemUuid;
+      getForce({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        this.pagination.currentPage = page;
+        this.pagination.pageSize = limit;
+        this.allItems = res.data.data;
+        this.pagination.total = res.data.length;
+        this.loading = false;
+        var zcPoints = []; //测点的集合
+        $.each(res.data.data, function(i) {
+          console.log(i);
+          zcPoints.push(i);
+        });
+        this.zcPoints = zcPoints; //点的集合
+        this.lastVarySeries = []; //单次变化量的曲线图数据源集合初始化一次
+        this.accumVarySeries=[];//累计变化量的曲线图数据初始化一次
+        this.lastZcDatas = []; //初始化一次
+        for (var k = 0; k < this.zcPoints.length; k++) {
+          var zcDatas = this.allItems[this.zcPoints[k]]; //每个点的数据
+          var lastData = zcDatas[zcDatas.length - 1]; //每个点的最新数据
+          if (lastData == undefined) {
+            lastData = new Object();
+          }
+          lastData["pointCode"] = this.zcPoints[k];
+          this.lastZcDatas.push(lastData); //最新一条数据的集合，用于表格
+          this.selectDatas = this.lastZcDatas; //初始化为限定时间时，表格数据就是所有点的最新数据
+          //折线图数据源的获取
+          var lastVaryData = []; //单次变化量的data二维数组，存放时间和单次变化量
+          var accumVaryData = []; //累计变化量的data二维数组，存放时间和累计变化量
+          var singleTime = new Object(); //测量时间
+          for (var j = 0; j < zcDatas.length; j++) {
+            singleTime = this.changeTimeFormat(zcDatas[j].surveyTime); //格式化时间
+            lastVaryData[j] = [singleTime, zcDatas[j].rateVary];
+            accumVaryData[j] = [singleTime, zcDatas[j].accumVary];
+            if (this.timeSeries.indexOf(singleTime) == -1) {
+              this.timeSeries.push(singleTime);
             }
           }
-          if (monitorItemUuid == null || monitorItemUuid == undefined) {
-            this.$message.info("当前监测项没有数据!"); //当前无数据
-            return;
-          }
-          // 获取当前uuid下的所有数据
-          getForce({
-            monitorItemUuid: monitorItemUuid,
-            token: this.token
-          }).then(res => {
-            this.pagination.currentPage = page;
-            this.pagination.pageSize = limit;
-            this.barSearch.alertText = "";
-            this.allItems = res.data.data;
-            this.pagination.total = res.data.length;
-            this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;
-            this.loading = false;
-            getSuveyPointSet({
-              monitorItemUuid: monitorItemUuid,
-              token: this.token
-            }).then(res => {
-              for (var j = 0; j < res.data.data.length; j++) {
-                this.zcPoints.push(res.data.data[j].surveypointNumber);
-              }
-              for (var k = 0; k < this.zcPoints.length; k++) {
-                var zcDatas = this.allItems[this.zcPoints[k]]; //每个点的数据
-                var lastData = zcDatas[zcDatas.length - 1]; //每个点的最新数据
-                if (lastData == undefined) {
-                  lastData = new Object();
-                }
-                lastData["pointCode"] = this.zcPoints[k];
-                this.lastZcData.push(lastData);
-              }
-              console.log(this.lastZcData);
-            });
-          });
+          //构造曲线图series的形态
+          var lastVarySingle = new Object(); //单个点的单次变化量数据
+          var accumVarySingle = new Object(); //单个点的累计变化量数据
+          //构造echart的series格式
+          lastVarySingle["name"] = this.zcPoints[k];
+          lastVarySingle["type"] = "line";
+          lastVarySingle["smooth"] = false; //决定线图是折线还是曲线
+          lastVarySingle["data"] = lastVaryData;
+          this.lastVarySeries.push(lastVarySingle);
+          accumVarySingle["name"] = this.zcPoints[k];
+          accumVarySingle["type"] = "line";
+          accumVarySingle["smooth"] = false; //决定线图是折线还是曲线
+          accumVarySingle["data"] = accumVaryData;
+          this.accumVarySeries.push(accumVarySingle);
         }
-      );
+        this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
+        console.log(this.lastVarySeries);
+        console.log(this.timeSeries);
+      });
     },
-    // UI方法
+    //重置时间选择框的选择项
     handleRest() {
-      this.formSearch = {
-        user: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-        state: ""
-      };
+      $("#startTime").val("");
+      $("#endTime").val("");
+      this.selectDatas = this.lastZcDatas;
     },
-    handleExpand() {
-      this.barSearch.expandInputs = !this.barSearch.expandInputs;
-      this.barSearch.expandBtnText = this.barSearch.expandInputs
-        ? "收起▲"
-        : "展开▼";
-    },
+    //根据时间查询最新数据
     handleSearch() {
-      this.doQuery();
+      debugger;
+      var timesData = [];
+      var beforeTime = new Date(
+        this.filters.column.create_start_date
+      ).getTime();
+      var afterTime = new Date(this.filters.column.create_end_date).getTime();
+      var newTime;
+      for (var i = 0; i < this.lastZcDatas.length; i++) {
+        newTime = new Date(this.lastZcDatas[i].surveyTime).getTime();
+        if (newTime >= beforeTime && newTime <= afterTime) {
+          timesData.push(this.lastZcDatas[i]);
+        }
+      }
+      this.selectDatas = timesData;
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(val, this.multipleSelection);
     },
     handleSizeChange(val) {
-      this.doQuery(1, val);
+      this.init(1, val);
     },
     handleCurrentChange(val) {
-      this.doQuery(val, this.pagination.pageSize);
+      this.init(val, this.pagination.pageSize);
     },
-    handleClose() {
-      this.$confirm("确认关闭？")
-        .then(ret => {
-          console.log(ret);
-          this.dialogVisible = false;
-        })
-        .catch(ret => {
-          console.log(ret);
-        });
-    },
-    handleNew() {
-      this.formData = {
-        title: "",
-        author: "",
-        type: ""
-      };
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
-    },
-    handleEdit(item) {
-      this.formData = {
-        ...item
-      };
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
-    },
-    handleSave(isSave) {
-      if (isSave) {
-        this.$refs["dataForm"].validate(valid => {
-          if (valid) {
-            this.dialogVisible = false;
-            this.$message({
-              message: "保存成功",
-              type: "success"
-            });
-          } else {
-            return false;
-          }
-        });
-      } else {
-        this.dialogVisible = false;
-      }
-    },
-    handleDelete(item) {
-      this.$confirm("确认删除？")
-        .then(ret => {
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-          console.log(ret);
-        })
-        .catch(ret => {
-          console.log(ret);
-        });
+    //格式化时间
+    changeTimeFormat(val) {
+      debugger;
+      var d = new Date(val);
+      var times =
+        d.getFullYear() +
+        "-" +
+        ("0" + (d.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + d.getDate()).slice(-2) +
+        " " +
+        ("0" + d.getHours()).slice(-2) +
+        ":" +
+        ("0" + d.getMinutes()).slice(-2) +
+        ":" +
+        ("0" + d.getSeconds()).slice(-2);
+      return times;
     }
   },
   created() {
-    this.barSearch.expandInputs = false;
-    this.barSearch.expandBtnText = "展开▼";
-    this.init();
+    this.init(1, 20);
   },
   // 挂载结束
   mounted: function() {}

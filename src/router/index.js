@@ -163,7 +163,8 @@ export const constantRouterMap = [
  * 配置路由
  **/
 let router = new Router({
-  // mode: 'history', // require service support
+  // mode: 'history', // 必须后台服务对应才能取消#
+  // base:'/zsweb',//测试项目地址
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 });
@@ -176,7 +177,6 @@ router.beforeEach((to, from, next) => {
       next({ path: "/" });
       NProgress.done(); // 如果当前页是首页将不会触发后，所以手动处理它
     } else {
-      debugger;
       if (store.getters.roles.length === 0) {
         // 判断当前用户是否已拉取完user_info信息
         store

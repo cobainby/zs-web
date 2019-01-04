@@ -1,4 +1,4 @@
-import {createAPI} from '@/utils/request'
+import {createAPI,createFormAPI} from '@/utils/request'
 //工程相关
 export const projectList = data => createAPI("/Foundation/get", 'get', data);//工程列表
 export const projectAdd = data =>createAPI("/Foundation/add.data",'post',data);//增加工程
@@ -7,6 +7,12 @@ export const projectRemove= data=>createAPI(`/Foundation/delete/${data.projectUu
 export const getSafety=data=>createAPI(`/getSysSafetyClass`,'get',data);//获取安全状态表
 export const getStep=data=>createAPI(`/getSysConstructionStep`,'get',data);//获取施工工况的信息
 export const getState=data=>createAPI(`/getSysConstructionState `,'get',data);//获取项目当前状态
+export const addProjectFile=data=>createFormAPI(`/Foundation/programme/add.data`,'post',data);//上传工程相关文件
+export const getFileList=data=>createAPI(`/Foundation/programme/get`,'get',data);//获取项目当前上传的文件列表
+export const deleteFile=data=>createAPI(`/Foundation/programme/delete/${data.progUuid}`,'delete',data);//删除上传的文件
+export const downFile=data=>createAPI(`/Foundation/programme/viewFile`,'get',data);//下载该文件
+export const addProjectPic=data=>createFormAPI(`Foundation/plan/add`,'post',data);//上传工程平面图
+export const getProjectPic=data=>createAPI(`/Foundation/plan/get`,'get',data);//获取上传的工程平面图
 //监测项设置相关
 export const getFdSet=data=>createAPI(`/fdSetting/mitem/get`,'get',data);//查询监测项设置信息
 export const viewFdSet=data=>createAPI(`/fdSetting/mitem/${data.monitorItemUuid}`,"get",data);//查询具体某个监测项设置信息

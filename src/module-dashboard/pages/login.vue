@@ -20,7 +20,7 @@
           <div class="con">
           </div>
         </div>
-        <div class="cell bns-03" style="display:none;">
+        <div class="cell bns-01" style="display:none;">
           <div class="con">
           </div>
         </div>
@@ -254,7 +254,7 @@ button.button {
 }
 .top-login .bottom .qcode-switch s,
 .quick-login dt {
-  background-image: url(./../assets/images/icon_login_top.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_login_top.gif);
   background-repeat: no-repeat;
 }
 .icon-form {
@@ -264,7 +264,7 @@ button.button {
   height: 18px;
   line-height: 10;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_form.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_form.gif);
   background-repeat: no-repeat;
   cursor: pointer;
 }
@@ -280,9 +280,9 @@ button.button {
 }
 .login-popup-h int,
 .login-popup-hint i {
-  background-image: url(./../assets/images/popup_hint.png?v=201406241538);
+  background-image: url(./../assets/images/popup_hint.png);
   background-repeat: no-repeat;
-  _background-image: url(./../assets/images/popup_hint.gif?v=201406241538);
+  _background-image: url(./../assets/images/popup_hint.gif);
 }
 .login-popup-hint {
   position: absolute;
@@ -327,7 +327,7 @@ h1.logo {
   line-height: 20;
   overflow: hidden;
   font-size: 12px;
-  background: url(./../assets/images/logo2.png?v=201406241538) no-repeat 0 0;
+  background: url(./../assets/images/logo2.png) no-repeat 0 0;
 }
 .top-login {
   position: absolute;
@@ -440,8 +440,8 @@ h1.logo {
 }
 .top-login .login-popup-hint,
 .top-login .login-popup-hint i {
-  background-image: url(./../assets/images/popup_hint_bottom.png?v=201406241538);
-  _background-image: url(./../assets/images/popup_hint_bottom.gif?v=201406241538);
+  background-image: url(./../assets/images/popup_hint_bottom.png);
+  _background-image: url(./../assets/images/popup_hint_bottom.gif);
 }
 .top-login .login-popup-hint {
   top: 26px;
@@ -540,7 +540,7 @@ h1.logo {
   width: 16px;
   height: 16px;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_access.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_access.gif);
   background-repeat: no-repeat;
 }
 .acc-qq {
@@ -601,19 +601,19 @@ h1.logo {
   background-position: center top;
 }
 .bns-01 {
-  background-image: url(./../assets/images/mid_banner/banner_01_repeat.png?v=201406241538);
+  background-image: url(./../assets/images/banner_01_repeat.png);
 }
 .bns-01 .con {
-  background-image: url(./../assets/images/mid_banner/banner_01.gif?v=201406241538);
+  background-image: url(./../assets/images/banner_01.gif);
 }
 .bns-02 {
-  background-image: url(./../assets/images/mid_banner/banner_02_repeat.gif?v=201406241538);
+  background-image: url(./../assets/images/banner_02_repeat.gif);
 }
 .bns-02 .con {
-  background-image: url(./../assets/images/mid_banner/banner_02.gif?v=201406241538);
+  background-image: url(./../assets/images/banner_02.gif);
 }
 .bns-03 .con {
-  background-image: url(./../assets/images/mid_banner/background.png?v=201406241538);
+  background-image: url(./../assets/images/background.png);
 }
 .banner-link {
   position: absolute;
@@ -640,7 +640,7 @@ h1.logo {
   height: 30px;
   line-height: 10;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_control.png?v=201406241538);
+  background-image: url(./../assets/images/icon_control.png);
   background-repeat: no-repeat;
   background-repeat: no-repeat;
 }
@@ -694,7 +694,7 @@ h1.logo {
   width: 36px;
   height: 30px;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_storage.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_storage.gif);
   background-repeat: no-repeat;
 }
 .ist-user {
@@ -734,7 +734,7 @@ h1.logo {
   font-size: 24px;
   color: #444;
   border-left: 1px solid #d2d3d4;
-  background: url(./../assets/images/bg_tab_x.png?v=201406241538) repeat-x 0 0;
+  background: url(./../assets/images/bg_tab_x.png) repeat-x 0 0;
   cursor: pointer;
 }
 .reg-tab span:first-child {
@@ -865,7 +865,7 @@ h1.logo {
   height: 32px;
   margin: 0 auto 4px;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_client.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_client.gif);
   background-repeat: no-repeat;
   opacity: 0.5;
   filter: alpha(opacity=50);
@@ -942,7 +942,7 @@ h1.logo {
   width: 16px;
   height: 11px;
   overflow: hidden;
-  background-image: url(./../assets/images/icon_localization.gif?v=201406241538);
+  background-image: url(./../assets/images/icon_localization.gif);
   background-repeat: no-repeat;
 }
 .iclo-cn {
@@ -976,7 +976,7 @@ h1.logo {
   height: 48px;
   line-height: 20;
   overflow: hidden;
-  background: url(./../assets/images/close_qcode.gif?v=201406241538) no-repeat 0
+  background: url(./../assets/images/close_qcode.gif) no-repeat 0
     0;
 }
 .qcode-login .close:hover {
@@ -990,7 +990,7 @@ h1.logo {
   width: 836px;
   height: 77px;
   overflow: hidden;
-  background: url(./../assets/images/flag_qcode.gif?v=201406241538) no-repeat 0
+  background: url(./../assets/images/flag_qcode.gif) no-repeat 0
     0;
 }
 .qcode-pic {
@@ -1000,7 +1000,7 @@ h1.logo {
   z-index: 1;
   width: 295px;
   height: 415px;
-  background: url(./../assets/images/pic_qcode.png?v=201406241538) no-repeat
+  background: url(./../assets/images/pic_qcode.png) no-repeat
     right top;
   opacity: 0;
   filter: alpha(opacity=0);

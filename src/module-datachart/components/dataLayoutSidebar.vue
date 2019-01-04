@@ -13,46 +13,6 @@
         <i class="el-icon-view"></i>
         <span slot="title">日常巡查</span>
       </el-menu-item>
-      <el-menu-item :index="'wys?id='+this.projectUuid">
-        <i class="el-icon-minus"></i>
-        <span slot="title">围护墙顶部水平位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'wyd?id='+this.projectUuid">
-        <i class="el-icon-sort-down"></i>
-        <span slot="title">围护墙顶部竖向位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'cx?id='+this.projectUuid">
-        <i class="el-icon-more"></i>
-        <span slot="title">围护墙深层水平位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'zc?id='+this.projectUuid">
-        <i class="el-icon-upload2"></i>
-        <span slot="title">支撑内力</span>
-      </el-menu-item>
-      <el-menu-item :index="'sw?id='+this.projectUuid">
-        <i class="el-icon-mobile-phone"></i>
-        <span slot="title">地下水位变化</span>
-      </el-menu-item>
-      <el-menu-item :index="'db?id='+this.projectUuid">
-        <i class="el-icon-download"></i>
-        <span slot="title">周边地表竖向位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'sm?id='+this.projectUuid">
-        <i class="el-icon-view"></i>
-        <span slot="title">周边建筑物竖向位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'zgd?id='+this.projectUuid">
-        <i class="el-icon-picture-outline"></i>
-        <span slot="title">周边管线竖向位移</span>
-      </el-menu-item>
-      <el-menu-item :index="'qx?id='+this.projectUuid">
-        <i class="el-icon-message"></i>
-        <span slot="title">倾斜</span>
-      </el-menu-item>
-      <el-menu-item :index="'lf?id='+this.projectUuid">
-        <i class="el-icon-bell"></i>
-        <span slot="title">裂缝</span>
-      </el-menu-item>
       <el-menu-item v-for="item in monitorMenu" :index="item.src" :key="item.src">
         <i :class="item.icon"></i>
         <span>{{item.title}}</span>
@@ -91,25 +51,48 @@ export default {
       for (var i = 0; i < res.data.data.length; i++) {
         var menu = new Object();
         menu["itemName"] = res.data.data[i].mItemName;
-        if (res.data.data[i].mItemName == "") {
-
-
-        }else if (res.data.data[i].mItemName == "") {
-
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
-        }else if (res.data.data[i].mItemName == "") {
-          
+        if (res.data.data[i].mItemName == "围护墙（边坡）顶部水平位移") {
+          debugger
+          menu["src"] = "wys?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-minus";
+          menu["title"] = "围护墙顶部水平位移";
+        } else if (res.data.data[i].mItemName == "围护墙（边坡）顶部竖向位移") {
+          menu["src"] = "wyd?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-sort-down";
+          menu["title"] = "围护墙顶部竖向位移";
+        } else if (res.data.data[i].mItemName == "围护墙深层水平位移") {
+          menu["src"] = "cx?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-more";
+          menu["title"] = "围护墙深层水平位移";
+        } else if (res.data.data[i].mItemName == "支撑内力") {
+          menu["src"] = "zc?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-upload2";
+          menu["title"] = "支撑内力";
+        } else if (res.data.data[i].mItemName == "地下水位变化") {
+          menu["src"] = "sw?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-mobile-phone";
+          menu["title"] = "地下水位变化";
+        } else if (res.data.data[i].mItemName == "周边地表竖向位移") {
+          menu["src"] = "db?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-download";
+          menu["title"] = "周边地表竖向位移";
+        } else if (res.data.data[i].mItemName == "周边建筑物竖向位移") {
+          menu["src"] = "sm?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-view";
+          menu["title"] = "周边建筑物竖向位移";
+        } else if (res.data.data[i].mItemName == "周边管线竖向位移") {
+          menu["src"] = "zgd?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-picture-outline";
+          menu["title"] = "周边管线竖向位移";
+        } else if (res.data.data[i].mItemName == "倾斜") {
+          menu["src"] = "qx?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-message";
+          menu["title"] = "倾斜";
+        }
+        else if (res.data.data[i].mItemName == "裂缝") {
+          menu["src"] = "lf?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
+          menu["icon"] = "el-icon-bell";
+          menu["title"] = "裂缝";
         }
         this.monitorMenu.push(menu);
       }

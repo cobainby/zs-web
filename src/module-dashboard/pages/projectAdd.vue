@@ -12,7 +12,7 @@
     </el-row>
     <el-card shadow="never" v-loading="loading">
       <!-- 搜索栏 -->
-      <el-tabs v-model="activeName" @tab-click="handleClick" @before-leave="handleClick">
+      <el-tabs v-model="activeName" :before-leave="beforeClick">
         <el-tab-pane class="chartsPanel" label="工程概况" name="first-ta">
           <!-- 项目当前信息 / -->
           <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
@@ -348,10 +348,7 @@
                 <label>方案类别</label>
               </th>
               <th colspan="1" style="background-color: #fff2ec;">
-                <label>操作(只支持doc和pdf)</label>
-              </th>
-              <th colspan="2" style="background-color: #fff2ec;">
-                <label>文件</label>
+                <label>操作(支持批量上传文件)</label>
               </th>
             </tr>
             <tr>
@@ -359,47 +356,64 @@
                 <label style="font-weight:normal;">方案审批表:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary">附件上传
+                <el-button size="mini" type="primary" @click="getLoadFile('1')">附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <form action="uploadProjectFiles" method="post" enctype="multipart/form-data" class="col-lg-12 col-sm-12" id="projectDocForm1" style="display:none">
-                  <input id="project_input1" class="input" value="portrait" name="file" type="file" data-show-preview="false">
+                <form enctype="multipart/form-data" id="form_example" style="display:none">
+                  <input type="file" name="files" id="approvalUpload" @change="addFiles('方案审批表','approvalUpload')" multiple/><br/><br/>
                 </form>
               </th>
-              <td colspan="2" id="approvalForm">
-              </td>
             </tr>
             <tr>
               <th class="fieldLabel" colspan="1">
                 <label style="font-weight:normal;">基坑监测方案:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary">附件上传
+                <el-button size="mini" type="primary" @click="getLoadFile('2')">附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <form action="uploadProjectFiles" method="post" enctype="multipart/form-data" class="col-lg-12 col-sm-12" id="projectDocForm2" style="display:none">
-                  <input id="project_input2" class="input" value="portrait" name="file" type="file" data-show-preview="false">
+                <form enctype="multipart/form-data" id="form_example" style="display:none">
+                  <input type="file" name="files" id="filesUpload" @change="addFiles('基坑监测方案','filesUpload')" multiple/><br/><br/>
                 </form>
               </th>
-              <td colspan="2" id="plan"></td>
             </tr>
             <tr>
               <th class="fieldLabel" colspan="1">
                 <label style="font-weight:normal;">其他相关文件:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary">附件上传
+                <el-button size="mini" type="primary" @click="getLoadFile('3')">附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <a id="otherFile" href="#"></a>
-                <form action="uploadProjectFiles" method="post" enctype="multipart/form-data" class="col-lg-12 col-sm-12" id="projectDocForm3" style="display:none">
-                  <input id="project_input3" class="input" value="portrait" name="file" type="file" data-show-preview="false">
+                <form enctype="multipart/form-data" id="form_example" style="display:none">
+                  <input type="file" name="files" id="othersUpload" @change="addFiles('其他相关文件','othersUpload')" multiple/><br/><br/>
                 </form>
               </th>
-              <td colspan="2" id="other">
               </td>
             </tr>
           </table>
+          <el-table :data="approvalList" v-loading="fileLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" :height="secondHeight" fit highlight-current-row style="width: 100%" border>
+            <el-table-column align="center" label="方案名称">
+              <template slot-scope="scope">
+                <span v-if="scope.row.fileName!=null">{{ scope.row.fileName }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="方案类别">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.fileType === '方案审批表'" type="success" disable-transitions>{{scope.row.fileType}}</el-tag>
+                <el-tag v-if="scope.row.fileType === '基坑监测方案'" type="primary" disable-transitions>{{scope.row.fileType}}</el-tag>
+                <el-tag v-if="scope.row.fileType === '其他相关文件'" type="warning" disable-transitions>{{scope.row.fileType}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" :label="$t('table.actions')" width="200px" class-name="small-padding fixed-width">
+              <template slot-scope="scope">
+                <el-button size="mini" type="success" @click="uploadFile(scope.row.progUuid)" icon="el-icon-download">下载
+                </el-button>
+                <el-button size="mini" type="danger" @click="removeFile(scope.row.progUuid)" icon="el-icon-delete">删除
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="监测平面图" name="third-ta">
           <table class="tableEditDetail" cellpadding="0" cellspacing="1">
@@ -408,15 +422,34 @@
                 <label>监测平面图:</label>
               </th>
               <th colspan="2">
-                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                  <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                  <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
+                <el-form :model="form">
+                  <el-form-item>
+                    <el-upload style="height:150px;" :on-change="onUploadChange" ref="upload" action="#" :file-list="picFiles" accept="image/png,image/gif,image/jpg,image/jpeg" list-type="picture-card" :limit="limitNum" :auto-upload="false" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                      <i class="el-icon-plus"></i>
+                    </el-upload>
+                    <el-dialog :visible.sync="dialogVisible">
+                      <img width="100%" height="100%" :src="dialogImageUrl" alt="">
+                    </el-dialog>
+                  </el-form-item>
+                </el-form>
               </th>
             </tr>
           </table>
+          <el-table :data="picShowList" v-loading="fileLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" :height="thirdHeight" fit highlight-current-row style="width: 100%" border>
+            <el-table-column align="center" label="平面图名称">
+              <template slot-scope="scope">
+                <span v-if="scope.row.fileName!=null">{{ scope.row.fileName }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" :label="$t('table.actions')" width="200px" class-name="small-padding fixed-width">
+              <template slot-scope="scope">
+                <el-button size="mini" type="success" @click="uploadFile(scope.row.progUuid)" icon="el-icon-download">下载
+                </el-button>
+                <el-button size="mini" type="danger" @click="removeFile(scope.row.progUuid)" icon="el-icon-delete">删除
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane class="chartsPanel" label="监测项设置" name="fouth-ta">
           <el-button id="addFdButton" @click="addFdSetting" style="margin-bottom:5px;" size="mini" type="success" icon="el-icon-circle-plus-outline">新增</el-button>
@@ -427,12 +460,12 @@
                 <span v-if="scope.row.mItemName==null">/</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="报警设置" >
+            <el-table-column align="center" label="报警设置">
               <template slot-scope="scope">
                 <el-button type="danger" icon="el-icon-warning" @click="warningClick(scope.row.monitorItemUuid)" size="small">报警设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="断面设置" >
+            <el-table-column align="center" label="断面设置">
               <template slot-scope="scope">
                 <span v-if="scope.row.mItemName=='围护墙（边坡）顶部水平位移'">
                   <el-button type="success" icon="el-icon-news" @click="sectionClick(scope.row.monitorItemUuid)" size="small">断面设置</el-button>
@@ -451,7 +484,7 @@
                 <el-button type="warning" icon="el-icon-location-outline" @click="surveypointClick(scope.row.monitorItemUuid)" size="small">测点设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center"  label="监测频率">
+            <el-table-column align="center" label="监测频率">
               <template slot-scope="scope">
                 <span v-if="scope.row.mItemFrequency!=null">{{scope.row.mItemFrequency+"天/次"}}</span>
                 <span v-if="scope.row.mItemFrequency==null">/</span>
@@ -500,13 +533,13 @@
       <component :refreshFdList="getFdSetList" :itemDropdownList="itemDropdownList" :sectionDropdownList="sectionDropdownList" :projectId="projectId" v-bind:is="FdSettingAdd" ref="editFd" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseFd="handleCloseFd">
       </component>
       <!-- 报警设置窗口-->
-      <component v-bind:is="WarningSet" :projectId="projectId"  ref="warningModel"  v-on:handleCloseWarning="handleCloseWarning">
+      <component v-bind:is="WarningSet" :projectId="projectId" ref="warningModel" v-on:handleCloseWarning="handleCloseWarning">
       </component>
       <!-- 断面设置窗口-->
-      <component v-bind:is="SectionSet" :projectId="projectId"  ref="sectionModel" v-on:handleCloseSection="handleCloseSection">
+      <component v-bind:is="SectionSet" :projectId="projectId" ref="sectionModel" v-on:handleCloseSection="handleCloseSection">
       </component>
       <!-- 监测点设置窗口 -->
-      <component v-bind:is="SurveypointSet" :projectId="projectId" ref="surveypointModel"  v-on:handleCloseSurveypoint="handleCloseSurveypoint">
+      <component v-bind:is="SurveypointSet" :projectId="projectId" ref="surveypointModel" v-on:handleCloseSurveypoint="handleCloseSurveypoint">
       </component>
     </el-card>
   </div>
@@ -522,7 +555,12 @@ import {
   getFdSet,
   getMonitor,
   getSectionSet,
-  removeFdSet
+  removeFdSet,
+  getFileList,
+  deleteFile,
+  downFile,
+  addProjectPic,
+  getProjectPic
 } from "@/api/base/project";
 import echarts from "echarts";
 import FdSettingAdd from "./../components/fdSettingAdd";
@@ -531,6 +569,7 @@ import SectionSet from "./../components/sectionSet.vue";
 import SurveypointSet from "./../components/surveypointSet.vue";
 import { debounce } from "@/utils";
 import { getToken } from "@/utils/auth";
+import axios from "axios";
 require("echarts/theme/macarons"); // echarts theme
 
 /* eslint-disable no-undef */
@@ -549,6 +588,18 @@ export default {
   },
   data() {
     return {
+      dialogImageUrl: "",
+      dialogVisible: false,
+      limitNum: 5,
+      picFiles: [], //图片预览
+      form: {}, //图片上传相关
+      secondHeight: window.innerHeight - 350, //table高度
+      thirdHeight: window.innerHeight - 370, //平面图table高度
+      fileList: [], //上传的文件列表流
+      picList: [], //上传的工程图流
+      fileType: "", //上传文件类别
+      approvalList: [], //拿到该项目下所有方案的列表
+      picShowList: [], //该项目下所有预览的图片
       FdSettingAdd: "FdSettingAdd",
       WarningSet: "WarningSet",
       SectionSet: "SectionSet",
@@ -604,6 +655,7 @@ export default {
         }
       },
       listLoading: true,
+      fileLoading: true,
       formSearch: {
         user: "",
         region: "",
@@ -657,6 +709,179 @@ export default {
     };
   },
   methods: {
+    //获取可下载文件的列表
+    getAllFile() {
+      getFileList({ projectUuid: this.projectId, token: this.token }).then(
+        res => {
+          this.approvalList = res.data.data;
+          this.fileLoading = false;
+        }
+      );
+    },
+    getAllPic() {
+      getProjectPic({ projectUuid: this.projectId, token: this.token }).then(
+        res => {
+          debugger;
+          this.picShowList = res.data.data;
+          this.fileLoading = false;
+          var name; //图片名字
+          var url; //图片地址
+          this.picFiles = [];
+          // 图片预览数组
+          for (var i = 0; i < res.data.data.length; i++) {
+            name = res.data.data[i].fileName;
+            url = "static/" + res.data.data[i].projectUuid + "/" + name;
+            this.picFiles.push({ name: name, url: url });
+          }
+        }
+      );
+    },
+    //删除附件
+    removeFile(progUuid) {
+      this.$confirm("此操作将永久删除该文件" + ", 是否继续?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          deleteFile({ progUuid, token: this.token })
+            .then(response => {
+              debugger;
+              if (response.data.result == 1) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                this.getAllFile();
+                this.getAllPic();
+              } else {
+                this.$message({
+                  type: "warning",
+                  message: response.data.message
+                });
+              }
+            })
+            .catch(response => {
+              this.$message.error("删除失败!");
+            });
+        })
+        .catch(() => {
+          this.$message.info("已取消操作!");
+        });
+    },
+    //附件上传
+    addFiles(fileType, fileInputId) {
+      debugger;
+      //拿到全局vue的指向
+      var _this = this;
+      var files = document.getElementById(fileInputId);
+      this.fileList = [];
+      this.fileType = fileType;
+      for (var i = 0; i < files.files.length; i++) {
+        this.fileList.push(files.files[i]);
+      }
+      var formData = new FormData();
+      // var request = new XMLHttpRequest();
+      //循环添加到formData中
+      this.fileList.forEach(function(file) {
+        formData.append("files", file, file.name);
+      });
+      formData.append("fileType", this.fileType);
+      formData.append("projectUuid", this.projectId);
+      formData.append("token", this.token);
+      $.ajax({
+        url: "/api/Foundation/programme/add.data",
+        type: "POST",
+        data: formData,
+        cache: false, //不设置缓存
+        processData: false, // 不处理数据
+        contentType: false, // 不设置内容类型
+        dataType: "json",
+        success: function(res) {
+          if (res.result == 1) {
+            _this.$confirm(res.message, "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            _this.getAllFile();
+          } else {
+            _this.$confirm(res.message, "提示", {
+              type: "danger",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        },
+        error: function(res) {
+          alert("上传失败!无法获取上传接口");
+        }
+      });
+    },
+    //下载文件
+    uploadFile(progUuid) {
+      downFile({ progUuid: progUuid, token: this.token }).then(res => {
+        debugger;
+        let url = res.data.data;
+        var i = url.indexOf("static");
+        url = url.substring(i, url.length);
+        let link = document.createElement("a");
+        document.body.appendChild(link);
+        link.style.display = "none";
+        link.href = url;
+        link.click();
+      });
+    },
+    //平面图上传
+    onUploadChange() {
+      debugger
+      //拿到全局vue的指向
+      var _this = this;
+      var fileValue = document.querySelector(".el-upload .el-upload__input");
+      this.picList = [];
+      for (var i = 0; i < fileValue.files.length; i++) {
+        this.picList.push(fileValue.files[i]);
+      }
+      var formData = new FormData();
+      // var request = new XMLHttpRequest();
+      //循环添加到formData中
+      this.picList.forEach(function(file) {
+        formData.append("files", file, file.name);
+      });
+      formData.append("projectUuid", this.projectId);
+      formData.append("token", this.token);
+      $.ajax({
+        url: "/api/Foundation/plan/add",
+        type: "POST",
+        data: formData,
+        cache: false, //不设置缓存
+        processData: false, // 不处理数据
+        contentType: false, // 不设置内容类型
+        dataType: "json",
+        success: function(res) {
+          if (res.result == 1) {
+            _this.$confirm(res.message, "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            _this.getAllFile();
+          } else {
+            _this.$confirm(res.message, "提示", {
+              type: "danger",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        },
+        error: function(res) {
+          alert("上传失败!无法获取上传接口");
+        }
+      });
+      // var reader = new FileReader();
+      // reader.readAsDataURL(file.raw);
+      // reader.onload = function(e) {
+      //   console.log(this.result); //图片的base64数据
+      // };
+    },
     initMap() {
       let _this = this;
       let marker = null;
@@ -836,25 +1061,41 @@ export default {
       //获取断面设置列表
       getSectionSet({ token: this.token, projectUuid: this.projectId }).then(
         res => {
-          debugger;
+          // debugger;
           this.sectionDropdownList = res.data.data;
         }
       );
       this.$refs.editFd.dialogFormV();
+    },
+    getLoadFile(type) {
+      if (type == "1") {
+        $("#approvalUpload").trigger("click");
+      } else if (type == "2") {
+        $("#filesUpload").trigger("click");
+      } else if (type == "3") {
+        $("#othersUpload").trigger("click");
+      }
     },
     //上传图片
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
+      debugger;
+      // 获取当前网址，如： http://localhost:8080/Tmall/index.jsp
+      var curWwwPath = window.document.location.href;
+      // 获取主机地址之后的目录如：/Tmall/index.jsp
+      var pathName = window.document.location.hash;
+      var pos = curWwwPath.indexOf(pathName);
+      // 获取主机地址，如： http://localhost:8080
+      var localhostPath = curWwwPath.substring(0, pos);
+      this.dialogImageUrl = localhostPath+file.url;
       this.dialogVisible = true;
     },
     //图形展示
     initChart() {},
     // 业务方法
-    doQuery(page = 1, limit = 20) {
-    },
+    doQuery(page = 1, limit = 20) {},
     //工程概况
     getParams() {
       debugger;
@@ -872,8 +1113,8 @@ export default {
       if (this.type == "修改") {
         //取到路由传参
         debugger;
-        this.projectInfo = this.$route.params.projectInfo;
         console.log(this.projectInfo);
+        this.projectInfo = this.$route.params.projectInfo;
         this.projectId = this.projectInfo.projectUuid;
         $("#projectCode").val(this.projectInfo.projectCode);
         $("#superviseCode").val(this.projectInfo.superviseCode);
@@ -922,16 +1163,22 @@ export default {
         this.listLoading = false;
       });
     },
-    //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      if ((tab.name = "fouth-ta")) {
-        if (this.projectId != "" && this.projectId != null) {
-        } else {
-          this.$message({
-            type: "warning",
-            message: "请先新建工程!"
-          });
+    //跳转tab之前
+    beforeClick: function(activeName, oldActiveName) {
+      debugger;
+      if (this.projectId != "" && this.projectId != null) {
+        if (activeName == "second-ta") {
+          //上传文件的列表
+          this.getAllFile();
+        } else if (activeName == "third-ta") {
+          this.getAllPic();
         }
+      } else {
+        this.$message({
+          type: "warning",
+          message: "请先新建工程!"
+        });
+        return false;
       }
     },
     // UI方法
@@ -955,7 +1202,7 @@ export default {
       var times =
         d.getFullYear() +
         "-" +
-        ("0" + d.getMonth()).slice(-2) +
+        ("0" + (d.getMonth() + 1)).slice(-2) + //月份+1.因为getMonth是0——11
         "-" +
         ("0" + d.getDate()).slice(-2) +
         " " +
@@ -1075,8 +1322,6 @@ export default {
       this.$router.push({ path: "/itemList" });
     },
     removeFd(monitorItemUuid) {
-      debugger;
-
       this.$confirm("此操作将永久删除设备 " + ", 是否继续?", "提示", {
         type: "warning"
       })
@@ -1104,15 +1349,20 @@ export default {
         .catch(() => {
           this.$message.info("已取消操作!");
         });
+    },
+    //修改table header的背景色和居中显示
+    tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return "background-color:#fff2ec;;color: #000000;text-align:center;";
+      }
     }
   },
-  created() {
-    this.barSearch.expandInputs = false;
-    this.barSearch.expandBtnText = "展开▼";
-  },
+  created() {},
   // 挂载结束
   mounted() {
+    //dom初始化完成，填充表格
     this.getParams();
+    //监测项设置的数据源
     this.getFdSetList();
   },
   watch: {
@@ -1242,10 +1492,8 @@ textarea {
 /*编辑详情表格样式*/
 .tableEditDetail {
   width: 99%;
-  margin: 0 auto;
+  margin: 5px 0;
   font-size: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
   table-layout: fixed;
   background-color: #cad8e6;
 }

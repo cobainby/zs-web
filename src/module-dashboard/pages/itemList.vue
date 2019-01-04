@@ -109,7 +109,7 @@
         </div>
         <!-- end -->
         <!-- 新增标签弹层 -->
-        <component v-bind:is="UserAdd" ref="editUser" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' :PermissionGroupsList='PermissionGroupsList' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
+        <component v-bind:is="UserAdd" ref="editUser" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline'  v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
         </component>
       </el-card>
     </div>
@@ -149,7 +149,6 @@ export default {
       deletedDate: false,
       showDate: true,
       dataList: [],
-      PermissionGroupsList: [], // 权限组加载
       total: null,
       listLoading: true,
       dialogStatus: "",
@@ -223,18 +222,6 @@ export default {
         });
     },
     getData(row, event, column) {},
-    // 权限列表
-    setupData() {
-      // simple().then(data => {
-      //   this.PermissionGroupsList = data.data;
-      // });原来代码
-      axios
-        .get("http://192.168.1.199:8181/static/permissions.json")
-        .then(data => {
-          this.PermissionGroupsList = data.data.list;
-        });
-    },
-
     // 重置
     resetForm() {
       this.$refs["requestParameters"].resetFields();
@@ -359,7 +346,6 @@ export default {
   // 创建完毕状态
   created() {
     this.getList();
-    this.setupData();
     // 键盘enter操作
     var lett = this;
     document.onkeydown = function(e) {
