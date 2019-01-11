@@ -236,8 +236,7 @@ export default {
                 showCancelButton: false
               });
             } else {
-              Message.error(response.data.message);
-              this.$confirm("创建新监测点参数!", "提示", {
+              this.$confirm(response.data.message, "提示", {
                 type: "error",
                 showConfirmButton: false,
                 showCancelButton: false
@@ -264,8 +263,7 @@ export default {
                 showCancelButton: false
               });
             } else {
-              Message.error(response.data.message);
-              this.$confirm("修改监测点参数失败!", "提示", {
+              this.$confirm(response.data.message, "提示", {
                 type: "error",
                 showConfirmButton: false,
                 showCancelButton: false

@@ -348,15 +348,15 @@ export default {
       Institutes({ token: this.token })
         .then(response => {
           //先获取登录人机构的id
-          if (Array.isArray(response.data.data) == true) {
-            //当机构信息为数组时，必为超级机构，拿到超级机构的组织id
+          if (response.data.data.length > 1) {
+            //当机构信息为长度大于1时，必为超级机构，拿到超级机构的组织id
             var superOrg = response.data.data.filter(function(item) {
               return item.orgName == "超级机构";
             });
             var organUuid = superOrg[0].orgUuid;
           } else {
             //非超级机构，机构数据则是一个对象
-            var organUuid = response.data.data.orgUuid;
+            var organUuid = response.data.data[0].orgUuid;
           }
           equipList({
             orguuid: organUuid,

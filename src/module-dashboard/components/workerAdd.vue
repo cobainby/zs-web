@@ -1,6 +1,6 @@
 <template>
   <div class="add-form">
-    <el-dialog :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog width="55%" :title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="ruleInline" ref="formBase" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;'>
         <el-row>
           <el-col :span="12">
@@ -185,9 +185,8 @@ export default {
                   });
                   this.$emit("refreshList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("创建人员失败!", "提示", {
-                    type: "danger",
+                  this.$confirm(response.data.message, "提示", {
+                    type: "error",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
@@ -213,9 +212,8 @@ export default {
                   //刷新表单
                   this.$emit("refreshList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("编辑人员失败!", "提示", {
-                    type: "danger",
+                  this.$confirm(response.data.message, "提示", {
+                    type: "error",
                     showConfirmButton: false,
                     showCancelButton: false
                   });

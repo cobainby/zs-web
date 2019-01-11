@@ -2,7 +2,12 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card shadow="never">
-        <el-button class="filter-item fr" size="small" style="margin: -10px 0 10px 0;" @click="toAddWorker" type="primary" icon="el-icon-circle-plus-outline">增加人员</el-button>
+        <el-select  v-model="formData.orgUuid" placeholder="请选择">
+          <el-option id="orgUuid" v-for="item in organOptions" :key="item.orgUuid" :label="item.orgName" :value="item.orgUuid" :disabled="item.disabled">
+          </el-option>
+        </el-select>
+        <el-button class="filter-item" size="small" type="primary" icon="el-icon-search" @click="chooseWorker">筛选</el-button>
+        <el-button class="filter-item fr" size="small" @click="toAddWorker" type="primary" icon="el-icon-circle-plus-outline">增加人员</el-button>
         <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
         <!-- 数据 -->
         <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
@@ -60,7 +65,7 @@
               <span v-if="scope.row.dateValid==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center"  width="100px" label="权限角色">
+          <el-table-column align="center" width="100px" label="权限角色">
             <template slot-scope="scope">
               <span v-if="scope.row.sysRole.name!=null">{{scope.row.sysRole.name}}</span>
               <span v-if="scope.row.sysRole.name==null">/</span>
@@ -127,7 +132,10 @@ export default {
   data() {
     return {
       WorkerAdd: "workerAdd",
-      WorkerView:"workerView",
+      WorkerView: "workerView",
+      organOptions: [], //机构选择数据源
+      organUuid: "", //当前选择的机构ID
+      token: getToken(),
       pageTitle: "人员", // 页面标题
       dataList: [],
       text: "", // 新增、编辑文本
@@ -176,6 +184,18 @@ export default {
   },
   computed: {},
   methods: {
+    //首先获取所属机构
+    getOrgan() {
+      Institutes({ token: this.token }).then(res => {
+        var organData = res.data.data;
+        this.organOptions = organData;
+        //当前选择的机构id
+        this.organUuid = organData[0].orgUuid;
+        // 初始化选择第一个机构
+        this.formData.orgUuid=organData[0].orgUuid;
+        this.getList();
+      });
+    },
     // 获取列表数据
     getList(page = 1, limit = 20) {
       this.listLoading = true;
@@ -183,33 +203,28 @@ export default {
       this.pagination.pageSize = limit;
       this.alertText = "";
       this.dataList = [];
-      var token = getToken();
-      debugger;
-      // list({page, limit})
-      Institutes({
-        token: token
-      }).then(response => {
-        const organData = response.data.data[0];
-        var orgUuid = organData.orgUuid;
-        this.formData.orgUuid = orgUuid;
-        UserAccount({
-          token: token,
-          orguuid: orgUuid
+      UserAccount({
+        token: this.token,
+        orguuid: this.organUuid
+      })
+        .then(res => {
+          debugger;
+          this.dataList = res.data.data;
+          this.pagination.total = res.data.data.length;
+          this.alertText = `共 ${this.pagination.total} 条记录`;
+          this.listLoading = false;
         })
-          .then(res => {
-            debugger;
-            this.dataList = res.data.data;
-            this.pagination.total = res.data.data.length;
-            this.alertText = `共 ${this.pagination.total} 条记录`;
-            this.listLoading = false;
-          })
-          .catch(() => {
-            this.$message({
-              type: "warning",
-              message: "无法获取人员列表!"
-            });
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "无法获取人员列表!"
           });
-      });
+        });
+    },
+    chooseWorker() {
+      debugger;
+      this.organUuid = this.formData.orgUuid;
+      this.getList();
     },
     // 搜索的项目
     query() {
@@ -236,7 +251,7 @@ export default {
       this.$refs.editUser.dialogFormV();
     },
     //查看人员
-    viewUser(params){
+    viewUser(params) {
       this.query();
       var _this = this;
       this.text = "查看";
@@ -277,7 +292,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          removeAccount({ accountUuid, token: getToken() })
+          removeAccount({ accountUuid, token: this.token })
             .then(response => {
               if (response.data.result == 1) {
                 this.$message({
@@ -334,11 +349,11 @@ export default {
     }
   },
   // 挂载结束
-  mounted: function() {},
-  // 创建完毕状态
-  created() {
-    this.getList();
+  mounted: function() {
+    this.getOrgan();
   },
+  // 创建完毕状态
+  created() {},
   // 组件更新
   updated: function() {}
 };

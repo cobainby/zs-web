@@ -1,6 +1,6 @@
 <template>
   <div class="add-form">
-    <el-dialog width="40%" :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog width="50%" :title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="ruleInline" ref="formBase" :model="formBase" label-position="right" label-width="100px" style='margin:0 20px;'>
         <el-row>
           <el-col :span="12">
@@ -162,8 +162,7 @@ export default {
                   });
                   this.$emit("refreshFdList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("创建监测项设置信息失败!", "提示", {
+                  this.$confirm(response.data.message, "提示", {
                     type: "error",
                     showConfirmButton: false,
                     showCancelButton: false
@@ -189,8 +188,7 @@ export default {
                   });
                   this.$emit("refreshFdList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("修改设备失败!", "提示", {
+                  this.$confirm(response.data.message, "提示", {
                     type: "error",
                     showConfirmButton: false,
                     showCancelButton: false

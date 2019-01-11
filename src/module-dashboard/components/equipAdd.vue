@@ -1,6 +1,6 @@
 <template>
   <div class="add-form">
-    <el-dialog width="40%" :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog width="55%":title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="ruleInline2" ref="formBase2" :model="formBase2" label-position="right" label-width="90px" style='margin:0 40px;'>
         <el-row>
           <el-col :span="12">
@@ -219,8 +219,7 @@ export default {
                   });
                   this.$emit("refreshEquipList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("创建设备失败!", "提示", {
+                  this.$confirm(response.data.message, "提示", {
                     type: "error",
                     showConfirmButton: false,
                     showCancelButton: false
@@ -246,8 +245,7 @@ export default {
                   });
                   this.$emit("refreshEquipList");
                 } else {
-                  Message.error(response.data.message);
-                  this.$confirm("修改设备失败!", "提示", {
+                  this.$confirm(response.data.message, "提示", {
                     type: "error",
                     showConfirmButton: false,
                     showCancelButton: false

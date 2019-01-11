@@ -116,7 +116,6 @@ export default {
         debugger;
         if (response.data.result == 1) {
           const jsonData = response.data.data;
-          // var jsonData = JSON.parse(data);
           //当前机构信息长度大于1.说明是超级管理员获取到了列表
           if (jsonData.length > 1) {
             //当机构信息为数组时，必为超级机构，拿到超级机构的组织id
@@ -164,17 +163,15 @@ export default {
             ? $("#legalRepresentative").text(organData.legalRepresentative)
             : $("#legalRepresentative").text("");
         } else {
-          MessageBox.confirm("你登录的token已失效", "注意", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
+          MessageBox.confirm(response.data.message, "注意", {
+            showConfirmButton: false,
+            showCancelButton: false,
             type: "warning"
           });
         }
       });
     },
-    toEditOrgan() {
-      
-    },
+    toEditOrgan() {},
     toViewOrgan() {}
   },
   // 挂载结束

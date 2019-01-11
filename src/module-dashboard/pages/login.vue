@@ -5,8 +5,10 @@
         <h1 class="logo">缀术监测</h1>
         <div class="top-login">
           <div id="js-login_box">
+            
             <img src="./../assets/images/erweima1.png" style="width: 84px;height:84px;margin-right: 20px;" />
-            <img src="./../assets/images/erweima2.png" style="width: 84px;height:84px;" />
+            
+            <img src="./../assets/images/erweima2.png" style="width: 75px;height:75px;margin-bottom: 4px;" />
           </div>
         </div>
       </div>

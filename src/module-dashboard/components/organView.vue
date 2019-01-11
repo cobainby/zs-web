@@ -1,6 +1,6 @@
 <template>
   <div class="add-form">
-    <el-dialog   :title="text+pageTitle" :visible.sync="dialogFormVisible">
+    <el-dialog width="55%"  :title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form ref="formBase" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;' :disabled="true">
         <el-row>
           <el-col :span="12">
