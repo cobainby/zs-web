@@ -40,7 +40,7 @@
         </div>
         <div v-show="hasFogData" class="fog-content">
           <div v-for="(item,index) in listData" :key="item.projectUuid" class="fog-item" v-show="showContent(item)" :data-id="item.projectUuid" @click="listItemClick(item, index)">
-            <img :src="'/static/images/map/' + icon[item.warningGrade] + '-list.png'">
+            <img :src="'../../../static/images/map/' + icon[item.warningGrade] + '-list.png'">
             <div class="fog-content-right">
               <div class="location">
                 <span class="tit">监测工程</span>
@@ -66,7 +66,7 @@
             <img :src="nowItem.bigPic" ref="bigPic">
           </div> -->
           <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
-            <img src="/static/images/test/video.png" ref="bigPic">
+            <img src="../../../static/images/test/video.png" ref="bigPic">
           </div>
           <no-data v-else></no-data>
         </div>
@@ -119,7 +119,7 @@ export default {
         zooms: mapConfig.zooms,
         animateEnable: true
       },
-      iconUrl: "/static/images/map",
+      iconUrl: "../../../static/images/map",
       fogSocket: null,
       listData: [],
       dialogFlag: false,
@@ -278,7 +278,7 @@ export default {
               <div class="location-name" title="${item.projectName}">${
           item.projectName
         }</div>
-              <img class="small-img" src="/static/images/test/video.png" alt="${
+              <img class="small-img" src="../../../static/images/test/video.png" alt="${
                 item.projectName
               }">
               <div class="line">工程地址：${item.projectLocation}</div>
@@ -341,21 +341,22 @@ export default {
     // $('.fog-content').getNiceScroll().resize()
   },
   watch: {
-    listData: function(newVal, oldVal) {
-      let _this = this;
-      let flag = false;
-      if (newVal.length > 0) {
-        for (let i = 0; i < newVal.length; i++) {
-          if (newVal[i].warningGrade === 0) {
-            continue;
-          } else {
-            flag = true;
-            break;
-          }
-        }
-      }
-      this.hasFogData = flag;
-    }
+    // listData: function(newVal, oldVal) {
+    //   debugger
+    //   let _this = this;
+    //   let flag = false;
+    //   if (newVal.length > 0) {
+    //     for (let i = 0; i < newVal.length; i++) {
+    //       if (newVal[i].warningGrade === 0) {
+    //         continue;
+    //       } else {
+    //         flag = true;
+    //         break;
+    //       }
+    //     }
+    //   }
+    //   this.hasFogData = flag;
+    // }
   }
 };
 </script>

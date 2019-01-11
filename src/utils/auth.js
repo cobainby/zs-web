@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'Admin-Token-Itheima'
+const TokenKey = 'zsWeb'
 
 export function getToken () {
   console.log(Cookies.get(TokenKey))

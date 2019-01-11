@@ -1,4 +1,4 @@
-import { login, getKey, logout, profile } from "@/api/base/frame";
+import { login, testLogin, getKey, logout, profile } from "@/api/base/frame";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import axios from "axios";
 import { Message } from "element-ui";
@@ -38,8 +38,7 @@ const user = {
       state.name = name;
     },
     SET_AVATAR: (state, avatar) => {
-      state.avatar =
-        avatar || "http://or45inefq.bkt.clouddn.com/itheima-avatar.png";
+      state.avatar = avatar || "https://github.com/cobainby";
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles;
@@ -52,35 +51,52 @@ const user = {
       const username = userInfo.username.trim();
       return new Promise((resolve, reject) => {
         debugger;
-        getKey()
-          .then(response => {
-            const publicKey = response.data;
-            const encryptor = new JSEncrypt();
-            encryptor.setPublicKey(publicKey);
-            const rsaPassWord = encryptor
-              .encrypt(userInfo.password)
-              .replace(/\+/g, "%2B");
-            console.log(rsaPassWord);
-            debugger;
-            login({
-              userid: username,
-              password: rsaPassWord,
-              loginMode: "0",
-              loginMac: "192.168.1.25"
-            }).then(response => {
-              if (response.data.result == 1) {
-                const data = response.data;
-                commit("SET_TOKEN", data.token);
-                setToken(response.data.token); //登录成功后将token存储在cookie中
-                resolve();
-              } else {
-                Message.error("账号不存在或密码错误!");
-              }
-            });
-          })
-          .catch(response => {
-            console.log(response);
-          });
+        // getKey()
+        //   .then(response => {
+        //     const publicKey = response.data;
+        //     const encryptor = new JSEncrypt();
+        //     encryptor.setPublicKey(publicKey);
+        //     const rsaPassWord = encryptor
+        //       .encrypt(userInfo.password)
+        //       .replace(/\+/g, "%2B");
+        //     console.log(rsaPassWord);
+        //     debugger;
+        //     login({
+        //       userid: username,
+        //       password: rsaPassWord,
+        //       loginMode: "0",
+        //       loginMac: "192.168.1.199"
+        //     }).then(response => {
+        //       if (response.data.result == 1) {
+        //         const data = response.data;
+        //         commit("SET_TOKEN", data.token);
+        //         setToken(response.data.token); //登录成功后将token存储在cookie中
+        //         resolve();
+        //       } else {
+        //         Message.error("账号不存在或密码错误!");
+        //       }
+        //     });
+        //   })
+        //   .catch(response => {
+        //     console.log(response);
+        //   });
+
+        //明文登录
+        testLogin({
+          userid: username,
+          password: userInfo.password,
+          loginMode: "0",
+          loginMac: userInfo.ip
+        }).then(response => {
+          if (response.data.result == 1) {
+            const data = response.data;
+            commit("SET_TOKEN", data.token);
+            setToken(response.data.token); //登录成功后将token存储在cookie中
+            resolve();
+          } else {
+            Message.error("账号不存在或密码错误!");
+          }
+        });
       });
     },
     // 获取用户信息

@@ -1,6 +1,6 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
+    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.closed"></hamburger>
 
     <breadcrumb class="breadcrumb-container"></breadcrumb>
 
@@ -23,7 +23,7 @@
         </transition>
       </div>
       <!-- 使用文档 -->
-      <a href="http://itheimaadmin.itcast.cn/book/help" class="item" target="_blank">
+      <a href="http://note.youdao.com/noteshare?id=77fc191241b5c1bb39f5e730dbae7289" class="item" target="_blank">
         <el-tooltip class="item" effect="dark" content="使用文档" placement="bottom"><i class="el-icon-question"></i></el-tooltip>
       </a>
       <!-- 错误 -->
@@ -42,7 +42,7 @@
       <el-dropdown class="item">
         <span class="el-dropdown-link">
           <img class="avatar" src="../assets/bigUserHeader.png">
-          {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{loginEname}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
@@ -50,7 +50,7 @@
               {{$t('navbar.dashboard')}}
             </el-dropdown-item>
           </router-link>
-          <a target='_blank' href="https://github.com/itheima2017/vue-element-admin-itheima">
+          <a target='_blank' href="http://note.youdao.com/noteshare?id=77fc191241b5c1bb39f5e730dbae7289">
             <el-dropdown-item>
               {{$t('navbar.github')}}
             </el-dropdown-item>
@@ -73,6 +73,8 @@ import Screenfull from '@/components/Screenfull'
 import LangSelect from '@/components/LangSelect'
 import ThemePicker from '@/components/ThemePicker'
 import {search} from '@/api/base/menus'
+import {detail}from '@/api/base/organ'
+import { getToken } from "@/utils/auth";
 
 export default {
   name: 'layoutNavBar',
@@ -90,9 +92,11 @@ export default {
   data() {
     return {
       searchVal: '',
+      loginEname:'',
       timeout: null,
       showSearchInput: false,
-      restaurants: []
+      restaurants: [],
+      token:getToken()
     }
   },
   methods: {
@@ -139,7 +143,11 @@ export default {
     }
   },
   mounted() {
-    this.restaurants = search()
+    this.restaurants = search();
+    //加载完后右上角显示当前登录人名字
+    detail({ token: this.token }).then(res => {
+      this.loginEname=res.data.accountName;
+    });
   }
 }
 </script>

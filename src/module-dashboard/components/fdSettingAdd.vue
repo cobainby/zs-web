@@ -160,7 +160,7 @@ export default {
                     showConfirmButton: false,
                     showCancelButton: false
                   });
-                  this.$emit("refreshEquipList");
+                  this.$emit("refreshFdList");
                 } else {
                   Message.error(response.data.message);
                   this.$confirm("创建监测项设置信息失败!", "提示", {
@@ -187,7 +187,7 @@ export default {
                     showConfirmButton: false,
                     showCancelButton: false
                   });
-                  this.$emit("refreshEquipList");
+                  this.$emit("refreshFdList");
                 } else {
                   Message.error(response.data.message);
                   this.$confirm("修改设备失败!", "提示", {

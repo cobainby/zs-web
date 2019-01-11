@@ -88,8 +88,11 @@
           </PageTool>
         </div>
         <!-- end -->
-        <!-- 新增标签弹层 -->
+        <!-- 新增编辑标签弹层 -->
         <component @refreshList="getList" v-bind:is="OrganAdd" ref="editUser" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
+        </component>
+        <!-- 新增查看标签弹层 -->
+        <component @refreshList="getList" v-bind:is="OrganView" ref="viewUser" :text='text' :pageTitle='pageTitle' :formBase='formData'>
         </component>
       </el-card>
     </div>
@@ -116,17 +119,20 @@ import PageTool from "./../components/pageTool";
 import { Institutes, remove } from "@/api/base/organ";
 import { getToken } from "@/utils/auth";
 import OrganAdd from "./../components/organAdd";
+import OrganView from "./../components/organView";
 import axios from "axios";
 import { Message } from "element-ui";
 export default {
   name: "base-organList",
   components: {
     PageTool,
-    OrganAdd
+    OrganAdd,
+    OrganView
   },
   data() {
     return {
       OrganAdd: "organAdd",
+      OrganView:"organView",
       pageTitle: "机构", // 页面标题
       dataList: [],
       text: "", // 新增、编辑文本
@@ -200,6 +206,14 @@ export default {
             message: "无法获取机构列表!"
           });
         });
+    },
+    //查看机构信息
+    viewOrgan(params){
+      this.query();
+      var _this = this;
+      this.text = "查看";
+      _this.hanldeEditForm(params);
+      this.$refs.viewUser.dialogFormV();
     },
     //编辑机构信息
     handleUpdate(params) {

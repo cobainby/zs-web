@@ -1,7 +1,7 @@
 <template>
-  <div class="edit-form">
-    <el-dialog :title="text+pageTitle" :visible.sync="dialogFormVisible">
-      <el-form :rules="ruleInline" ref="dataForm" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;'>
+  <div class="add-form">
+    <el-dialog   :title="text+pageTitle" :visible.sync="dialogFormVisible">
+      <el-form ref="formBase" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;' :disabled="true">
         <el-row>
           <el-col :span="12">
             <el-form-item label="机构名称" prop="orgName">
@@ -55,7 +55,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="机构类型" prop="typeCode">
-              <el-input v-model="formBase.type.code" placeholder="Please input"></el-input>
+              <el-select v-model="formBase.type.code" placeholder="请选择">
+                <el-option id="typeCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -67,21 +70,18 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="登记日期" prop="dateRegister">
-              <el-input v-model="formBase.dateRegister" placeholder="Please input"></el-input>
+              <el-date-picker id="dateRegister" v-model="formBase.dateRegister" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+              </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="有效日期" prop="dateValid">
-              <el-input v-model="formBase.dateValid" placeholder="Please input"></el-input>
+              <el-date-picker id="dateValid" v-model="formBase.dateValid" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button icon="el-icon-success" size="mini" type="primary" @click="createData('formBase')">{{$t('table.confirm')}}</el-button>
-        <el-button icon="el-icon-edit-outline" size="mini" type="danger" @click="resetForm('formBase')">重置</el-button>
-        <el-button icon="el-icon-error" size="mini" @click="handleClose('formBase')">{{$t('table.cancel')}}</el-button>
-      </div>
     </el-dialog>
 
   </div>
@@ -89,7 +89,7 @@
 
 <script>
 import shajs from "sha.js";
-import { addInstitutes } from "@/api/base/organ";
+import { addInstitutes, updateInstitutes } from "@/api/base/organ";
 import { getToken } from "@/utils/auth";
 import { Message } from "element-ui";
 import axios from "axios";
@@ -101,7 +101,6 @@ export default {
     "pageTitle",
     "PermissionGroupsList",
     "formBase",
-    "ruleInline"
   ],
   data() {
     return {
@@ -110,43 +109,36 @@ export default {
       handleChange: [],
       beforeAvatarUpload: [],
       importFileUrl: "https://jsonplaceholder.typicode.com/posts/",
-      rules: {
-        name: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
-        region: [
-          { required: true, message: "请选择活动区域", trigger: "change" }
-        ],
-        date1: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change"
-          }
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change"
-          }
-        ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change"
-          }
-        ],
-        resource: [
-          { required: true, message: "请选择活动资源", trigger: "change" }
-        ],
-        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }]
-      }
+      options: [
+        {
+          value: "0",
+          label: "第三方监测单位"
+        },
+        {
+          value: "1",
+          label: "施工检测单位"
+        },
+        {
+          value: "2",
+          label: "监理单位"
+        },
+        {
+          value: "3",
+          label: "安监单位"
+        },
+        {
+          value: "4",
+          label: "业主单位"
+        },
+        {
+          value: "5",
+          label: "设计单位"
+        },
+        {
+          value: "6",
+          label: "施工单位"
+        }
+      ]
     };
   },
   computed: {},
@@ -162,40 +154,6 @@ export default {
     // 退出
     handleClose() {
       this.$emit("handleCloseModal");
-    },
-
-    // 表单提交
-    createData(formBase) {
-      this.$emit("handleCloseModal");
-      // this.$refs[formBase].validate(valid => {
-      //   if (valid) {
-      //     alert("submit!");
-      //   } else {
-      //     console.log("error submit!!");
-      //     return false;
-      //   }
-      // });
-      debugger;
-      let data = {
-        ...this.formBase
-      };
-      var organData = new Object();
-      organData.token = getToken();
-      organData.data = data;
-      var addJson = JSON.stringify(organData);
-      console.log(addJson);
-      debugger;
-      addInstitutes(organData).then(response => {
-        if (response.data.result == 1) {
-          const jsonData = response.data;
-        } else {
-          Message.error(response.data.message);
-        }
-      });
-    },
-    //重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     }
   },
   // 挂载结束

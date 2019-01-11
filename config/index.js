@@ -11,8 +11,7 @@ module.exports = {
     assetsPublicPath: '',
     proxyTable: {
       '/api': {
-        // target: 'https://www.easy-mock.com/mock/5ab213e33666166110a94928/admin',
-        target: 'http://192.168.1.199:8082',
+        target: 'http://192.168.1.199:8080',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
@@ -61,7 +60,7 @@ module.exports = {
     assetsPublicPath: './',//防止CSS路径失效
     proxyTable: {
       // '/api': {
-      //   target: 'http://localhost:8090',
+      //   target: 'http://localhost:8080/ZsPlatform/',
       //   changeOrigin: true,
       //   pathRewrite: {
       //     '^/api': ''

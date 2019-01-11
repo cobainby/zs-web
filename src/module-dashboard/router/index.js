@@ -32,12 +32,6 @@ export default [
           title: 'worker',
           noCache: true
         }
-      },
-      {
-        path: 'permissions',
-        name: 'base-permissions',
-        component: _import('dashboard/pages/permissions'),
-        meta: {title: 'permissions'}
       }
     ]
   }

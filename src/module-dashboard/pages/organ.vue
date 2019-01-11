@@ -66,7 +66,7 @@
             </th>
             <td colspan="1">
               <label id="credentialsnumCheck"></label>
-              <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toEditOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
+              <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toViewOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
             </td>
             <th colspan="1">
               计量认证证书编号
@@ -74,7 +74,7 @@
             <td colspan="1">
               <label id="credentialsnumMeterage"></label>
               <center>
-                <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toEditOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
+                <el-button class="filter-item fr" size="small" style="margin: 10px;" @click="toViewOrgan" type="danger" icon="el-icon-search" round>查看</el-button>
               </center>
             </td>
           </tr>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { Institutes,addInstitutes } from "@/api/base/organ";
+import { Institutes, addInstitutes } from "@/api/base/organ";
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 import { MessageBox } from "element-ui";
@@ -111,23 +111,22 @@ export default {
     // 获取列表数据
     init() {
       Institutes({
-        token:getToken()
+        token: getToken()
       }).then(response => {
         debugger;
         if (response.data.result == 1) {
           const jsonData = response.data.data;
           // var jsonData = JSON.parse(data);
-          //当前机构信息只需要获取数组中第一个机构相关信息
-          if(Array.isArray(jsonData)==true){
+          //当前机构信息长度大于1.说明是超级管理员获取到了列表
+          if (jsonData.length > 1) {
             //当机构信息为数组时，必为超级机构，拿到超级机构的组织id
             var superOrg = response.data.data.filter(function(item) {
-              return item.orgName == "超级机构"; 
+              return item.orgName == "超级机构";
             });
             var organData = superOrg[0];
-          }
-          else{
+          } else {
             //非超级机构，机构数据则是一个对象
-            var organData = jsonData;
+            var organData = jsonData[0];
           }
           organData.orgName != null
             ? $("#organName").text(organData.orgName)
@@ -146,7 +145,7 @@ export default {
             : $("#orgAddress").text("");
           organData.leaderTechnique != null
             ? $("#leaderTechnique").text(organData.leaderTechnique)
-            : $("#leaderTechnique").text(""); 
+            : $("#leaderTechnique").text("");
           organData.credentialsnumCheck != null
             ? $("#credentialsnumCheck").text(organData.credentialsnumCheck)
             : $("#credentialsnumCheck").text("");
@@ -173,7 +172,10 @@ export default {
         }
       });
     },
-    toEditOrgan() {}
+    toEditOrgan() {
+      
+    },
+    toViewOrgan() {}
   },
   // 挂载结束
   mounted: function() {},

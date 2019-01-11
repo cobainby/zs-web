@@ -307,7 +307,7 @@ export default {
         rtmp: "" // rtmp地址或rtsp地址
       },
       location: "",
-      iconUrl: "/static/images/map/",
+      iconUrl: "./../assets/images/map/",
       filters: {
         column: {
           create_start_date: "",

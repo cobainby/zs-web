@@ -976,8 +976,7 @@ h1.logo {
   height: 48px;
   line-height: 20;
   overflow: hidden;
-  background: url(./../assets/images/close_qcode.gif) no-repeat 0
-    0;
+  background: url(./../assets/images/close_qcode.gif) no-repeat 0 0;
 }
 .qcode-login .close:hover {
   background-position: 0 -48px;
@@ -990,8 +989,7 @@ h1.logo {
   width: 836px;
   height: 77px;
   overflow: hidden;
-  background: url(./../assets/images/flag_qcode.gif) no-repeat 0
-    0;
+  background: url(./../assets/images/flag_qcode.gif) no-repeat 0 0;
 }
 .qcode-pic {
   position: absolute;
@@ -1000,8 +998,7 @@ h1.logo {
   z-index: 1;
   width: 295px;
   height: 415px;
-  background: url(./../assets/images/pic_qcode.png) no-repeat
-    right top;
+  background: url(./../assets/images/pic_qcode.png) no-repeat right top;
   opacity: 0;
   filter: alpha(opacity=0);
   -webkit-transform: translate(-315px, 0) scale(0.3);
@@ -1115,7 +1112,6 @@ h1.logo {
 <script>
 import loginSocialSignin from "./../components/loginSocialSignin";
 import shajs from "sha.js";
-
 (function() {
   var defaultInd = 0;
   var list = $("#js_ban_content").children();
@@ -1186,8 +1182,9 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "baiyangTest",
-        password: ""
+        username: "",
+        password: "",
+        ip: ""
       },
       loginRules: {
         username: [{ required: true, trigger: "blur" }],
@@ -1206,18 +1203,90 @@ export default {
         this.passwordType = "password";
       }
     },
+    getIp(callback) {
+      debugger;
+      var ip_dups = {};
+
+      //compatibility for firefox and chrome
+      var RTCPeerConnection =
+        window.RTCPeerConnection ||
+        window.mozRTCPeerConnection ||
+        window.webkitRTCPeerConnection;
+
+      //bypass naive webrtc blocking
+      if (!RTCPeerConnection) {
+        var iframe = document.createElement("iframe");
+        //invalidate content script
+        iframe.sandbox = "allow-same-origin";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+        var win = iframe.contentWindow;
+        window.RTCPeerConnection = win.RTCPeerConnection;
+        window.mozRTCPeerConnection = win.mozRTCPeerConnection;
+        window.webkitRTCPeerConnection = win.webkitRTCPeerConnection;
+        RTCPeerConnection =
+          window.RTCPeerConnection ||
+          window.mozRTCPeerConnection ||
+          window.webkitRTCPeerConnection;
+      }
+
+      //minimal requirements for data connection
+      var mediaConstraints = {
+        optional: [{ RtpDataChannels: true }]
+      };
+
+      //firefox already has a default stun server in about:config
+      //    media.peerconnection.default_iceservers =
+      //    [{"url": "stun:stun.services.mozilla.com"}]
+      var servers = undefined;
+
+      //add same stun server for chrome
+      if (window.webkitRTCPeerConnection)
+        servers = { iceServers: [{ urls: "stun:stun.services.mozilla.com" }] };
+
+      //construct a new RTCPeerConnection
+      var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+      //listen for candidate events
+      pc.onicecandidate = function(ice) {
+        //skip non-candidate events
+        if (ice.candidate) {
+          //match just the IP address
+          var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+          var ip_addr = ip_regex.exec(ice.candidate.candidate)[1];
+
+          //remove duplicates
+          if (ip_dups[ip_addr] === undefined) callback(ip_addr);
+
+          ip_dups[ip_addr] = true;
+        }
+      };
+
+      //create a bogus data channel
+      pc.createDataChannel("");
+
+      //create an offer sdp
+      pc.createOffer(
+        function(result) {
+          //trigger the stun server request
+          pc.setLocalDescription(result, function() {}, function() {});
+        },
+        function() {}
+      );
+    },
     handleLogin() {
       // console.log(shajs('sha256').update(this.loginForm.password).digest('hex'))
-
+      debugger
       this.loading = true;
       this.$store
         .dispatch("LoginByUsername", {
           username: this.loginForm.username,
-          password: this.loginForm.password
+          password: this.loginForm.password,
+          ip: this.loginForm.ip
         })
         .then(() => {
           this.loading = false;
-          this.$router.push({ path: "/" });//登录成功后重定向到首页
+          this.$router.push({ path: "/" }); //登录成功后重定向到首页
         })
         .catch(() => {
           this.loading = false;
@@ -1226,7 +1295,12 @@ export default {
     afterQRScan() {}
   },
   created() {
-    // window.addEventListener('hashchange', this.afterQRScan)
+    //获取IP地址
+    var _this=this;
+    this.getIp(function(ip) {
+      debugger
+      _this.loginForm.ip = ip;
+    });
   },
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)

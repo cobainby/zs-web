@@ -530,7 +530,7 @@
         </div>
       </mu-dialog>
       <!-- 新增修改监测项设置弹窗 -->
-      <component :refreshFdList="getFdSetList" :itemDropdownList="itemDropdownList" :sectionDropdownList="sectionDropdownList" :projectId="projectId" v-bind:is="FdSettingAdd" ref="editFd" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseFd="handleCloseFd">
+      <component @refreshFdList="getFdSetList" :itemDropdownList="itemDropdownList" :sectionDropdownList="sectionDropdownList" :projectId="projectId" v-bind:is="FdSettingAdd" ref="editFd" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseFd="handleCloseFd">
       </component>
       <!-- 报警设置窗口-->
       <component v-bind:is="WarningSet" :projectId="projectId" ref="warningModel" v-on:handleCloseWarning="handleCloseWarning">
@@ -562,6 +562,7 @@ import {
   addProjectPic,
   getProjectPic
 } from "@/api/base/project";
+import { detail } from "@/api/base/organ";
 import echarts from "echarts";
 import FdSettingAdd from "./../components/fdSettingAdd";
 import WarningSet from "./../components/warningSet.vue";
@@ -588,6 +589,7 @@ export default {
   },
   data() {
     return {
+      createUuid: "", //当前登陆人的id
       dialogImageUrl: "",
       dialogVisible: false,
       limitNum: 5,
@@ -619,7 +621,7 @@ export default {
         rtmp: "" // rtmp地址或rtsp地址
       },
       location: "",
-      iconUrl: "/static/images/map/",
+      iconUrl: "./../static/images/map/",
       size: new AMap.Size(17, 23),
       offset: new AMap.Pixel(-8, -23),
       options: {
@@ -709,6 +711,12 @@ export default {
     };
   },
   methods: {
+    //获取当前登录人的信息
+    getDetil() {
+      detail({ token: this.token }).then(res => {
+        this.createUuid = res.data.userUuid;
+      });
+    },
     //获取可下载文件的列表
     getAllFile() {
       getFileList({ projectUuid: this.projectId, token: this.token }).then(
@@ -832,7 +840,7 @@ export default {
     },
     //平面图上传
     onUploadChange() {
-      debugger
+      debugger;
       //拿到全局vue的指向
       var _this = this;
       var fileValue = document.querySelector(".el-upload .el-upload__input");
@@ -989,7 +997,7 @@ export default {
       projectData.supervisionLinkman = $("#supervisionLinkman").val();
       projectData.admDepartment = $("#admDepartment").val();
       projectData.createDate = $("#createDate").val();
-      projectData.createAccUuid = "0";
+      projectData.createAccUuid = this.createUuid;
       projectData.finishDate = $("#finishDate").val();
       projectData.foundationLayout = ""; //平面图
       projectData.projectDetail = $("#projectDetail").val();
@@ -1089,7 +1097,7 @@ export default {
       var pos = curWwwPath.indexOf(pathName);
       // 获取主机地址，如： http://localhost:8080
       var localhostPath = curWwwPath.substring(0, pos);
-      this.dialogImageUrl = localhostPath+file.url;
+      this.dialogImageUrl = localhostPath + file.url;
       this.dialogVisible = true;
     },
     //图形展示
@@ -1364,6 +1372,8 @@ export default {
     this.getParams();
     //监测项设置的数据源
     this.getFdSetList();
+    //获取当前登陆人员的信息
+    this.getDetil();
   },
   watch: {
     //监测路由变化

@@ -81,8 +81,11 @@
           </PageTool>
         </div>
         <!-- end -->
-        <!-- 新增标签弹层 -->
+        <!-- 新增编辑标签弹层 -->
         <component @refreshList="getList" v-bind:is="WorkerAdd" ref="editUser" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
+        </component>
+        <!-- 新增查看弹层 -->
+        <component @refreshList="getList" v-bind:is="WorkerView" ref="viewUser" :text='text' :pageTitle='pageTitle' :formBase='formData'>
         </component>
       </el-card>
     </div>
@@ -112,16 +115,19 @@ import { UserAccount, removeAccount } from "@/api/base/worker";
 import { Institutes } from "@/api/base/organ";
 import { getToken } from "@/utils/auth";
 import WorkerAdd from "./../components/workerAdd";
+import WorkerView from "./../components/workerView";
 import axios from "axios";
 export default {
   name: "base-worker",
   components: {
     PageTool,
-    WorkerAdd
+    WorkerAdd,
+    WorkerView
   },
   data() {
     return {
       WorkerAdd: "workerAdd",
+      WorkerView:"workerView",
       pageTitle: "人员", // 页面标题
       dataList: [],
       text: "", // 新增、编辑文本
@@ -228,6 +234,14 @@ export default {
       this.query();
       this.text = "创建";
       this.$refs.editUser.dialogFormV();
+    },
+    //查看人员
+    viewUser(params){
+      this.query();
+      var _this = this;
+      this.text = "查看";
+      _this.hanldeEditForm(params);
+      this.$refs.viewUser.dialogFormV();
     },
     //编辑人员信息
     handleUpdate(params) {
