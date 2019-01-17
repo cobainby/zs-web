@@ -79,7 +79,7 @@ export default {
         },
         legend: {
           orient: 'horizontal',
-          bottom: '10',
+          bottom: '-5',
           data: ['事项总数', '已办', '待办']
         },
         series: [{

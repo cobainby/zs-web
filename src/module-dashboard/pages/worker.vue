@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card shadow="never">
-        <el-select  v-model="formData.orgUuid" placeholder="请选择">
+        <el-select v-model="formData.orgUuid" placeholder="请选择">
           <el-option id="orgUuid" v-for="item in organOptions" :key="item.orgUuid" :label="item.orgName" :value="item.orgUuid" :disabled="item.disabled">
           </el-option>
         </el-select>
@@ -186,15 +186,22 @@ export default {
   methods: {
     //首先获取所属机构
     getOrgan() {
-      Institutes({ token: this.token }).then(res => {
-        var organData = res.data.data;
-        this.organOptions = organData;
-        //当前选择的机构id
-        this.organUuid = organData[0].orgUuid;
-        // 初始化选择第一个机构
-        this.formData.orgUuid=organData[0].orgUuid;
-        this.getList();
-      });
+      Institutes({ token: this.token })
+        .then(res => {
+          var organData = res.data.data;
+          this.organOptions = organData;
+          //当前选择的机构id
+          this.organUuid = organData[0].orgUuid;
+          // 初始化选择第一个机构
+          this.formData.orgUuid = organData[0].orgUuid;
+          this.getList();
+        })
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "token失效！无法获取人员列表!"
+          });
+        });
     },
     // 获取列表数据
     getList(page = 1, limit = 20) {
@@ -242,7 +249,7 @@ export default {
         numCertificate: null,
         dateRegister: null,
         dateValid: null,
-        roleCode: null
+        roleCode: null,
       };
     },
     toAddWorker() {
@@ -282,7 +289,7 @@ export default {
       this.formData.numCertificate = params.numCertificate;
       this.formData.dateRegister = params.dateRegister;
       this.formData.dateValid = params.dateValid;
-      this.formData.roleCode = params.sysRole.name;
+      // this.formData.roleCode = params.sysRole.name;
     },
     //删除机构
     removeUser(accountUuid) {

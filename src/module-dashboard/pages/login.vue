@@ -4,12 +4,10 @@
       <div class="con">
         <h1 class="logo">缀术监测</h1>
         <div class="top-login">
-          <div id="js-login_box">
-            
-            <img src="./../assets/images/erweima1.png" style="width: 84px;height:84px;margin-right: 20px;" />
-            
-            <img src="./../assets/images/erweima2.png" style="width: 75px;height:75px;margin-bottom: 4px;" />
-          </div>
+          <img id="erweima1" src="./../assets/images/erweima1.png" />
+          <img id="erweima2" src="./../assets/images/erweima2.png" />
+          <div id="explain1">公众号</div>
+          <div id="explain2">app</div>
         </div>
       </div>
     </div>
@@ -35,20 +33,17 @@
             <br>
             <br>
             <div class="cell">
-              <el-input name="username" size="large" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+              <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
             </div>
             <div class="cell">
-              <el-input name="password" size="large" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
+              <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password" />
             </div>
             <div class="cell vcode">
-              <el-input name="yanzhengma" size="large" style="width:145px;" id="yanzhengma" type="text" autoComplete="on" placeholder="请输入验证码" />
+              <el-input name="yanzhengma" id="yanzhengma" type="text" autoComplete="on" placeholder="请输入验证码" />
               <img/>
-              <!-- <span>
-                <a id="js-mail_vcode_a" href="javascript:;">换一张</a>
-              </span> -->
             </div>
             <div class="bottom">
-              <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
+              <el-button type="primary" id="loginButton" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">{{$t('login.logIn')}}</el-button>
             </div>
           </div>
         </div>
@@ -58,14 +53,12 @@
       <div class="con">
         <div class="copy-right">
           <div class="cell">
-            <div style="width:960px;margin:20px auto 100px auto; clear:both; text-align:center; font-size:14px; line-height:25px;    ">
-              <p> </p>
-              <a href="http://www.geekerby.com" style="color:#333">
-                <strong>版权所有</strong>
-              </a>
-              </strong>
-              缀术科技监测有限公司 copyright@2018-2025
-            </div>
+            <p> </p>
+            <a href="http://www.geekerby.com" style="color:#333">
+              <strong>版权所有</strong>
+            </a>
+            </strong>
+            缀术科技监测有限公司 copyright@2018-2025
           </div>
         </div>
       </div>
@@ -254,663 +247,430 @@ button.button {
   padding: 0 10px;
   line-height: normal;
 }
-.top-login .bottom .qcode-switch s,
-.quick-login dt {
-  background-image: url(./../assets/images/icon_login_top.gif);
-  background-repeat: no-repeat;
-}
-.icon-form {
-  position: absolute;
-  z-index: 3;
-  width: 18px;
-  height: 18px;
-  line-height: 10;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_form.gif);
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-.ifm-war {
-  z-index: 4;
-  background-position: 0 0;
-}
-.ifm-view {
-  background-position: 0 -18px;
-}
-.ifm-secure {
-  background-position: 0 -36px;
-}
-.login-popup-h int,
-.login-popup-hint i {
-  background-image: url(./../assets/images/popup_hint.png);
-  background-repeat: no-repeat;
-  _background-image: url(./../assets/images/popup_hint.gif);
-}
-.login-popup-hint {
-  position: absolute;
-  top: -35px;
-  right: 0;
-  z-index: 4;
-  height: 35px;
-  padding-right: 10px;
-  line-height: 30px;
-  white-space: nowrap;
-  font-size: 12px;
-  color: #fff;
-  background-position: right 0;
-}
-.login-popup-hint i {
-  position: absolute;
-  top: 0;
-  left: -10px;
-  width: 10px;
-  height: 30px;
-  overflow: hidden;
-  background-position: 0 0;
-}
-.header {
-  position: relative;
-  z-index: 3;
-  min-width: 980px;
-  height: 100px;
-}
-.header .con {
-  position: relative;
-  width: 980px;
-  height: 80px;
-  margin: auto;
-}
-h1.logo {
-  position: absolute;
-  top: 15px;
-  left: -100px;
-  width: 400px;
-  height: 64px;
-  line-height: 20;
-  overflow: hidden;
-  font-size: 12px;
-  background: url(./../assets/images/logo2.png) no-repeat 0 0;
-}
-.top-login {
-  position: absolute;
-  top: 8px;
-  right: -100px;
-  zoom: 1;
-}
-.top-login .cell {
-  position: relative;
-  z-index: 1;
-  float: left;
-  width: 162px;
-  height: 32px;
-}
-.top-login .cell label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding: 0 10px;
-  line-height: 32px;
-  font-size: 12px;
-  color: #999;
-  cursor: text;
-}
-.top-login .cell .text {
-  float: left;
-  width: 132px;
-  height: 16px;
-  padding: 7px 9px;
-  line-height: 16px;
-  font-size: 14px;
-  font-weight: bold;
-}
-.top-login button.button {
-  float: left;
-  width: 76px;
-  height: 32px;
-  padding: 0;
-  font-size: 16px;
-  *line-height: 28px;
-  _line-height: 30px;
-  background-position: 0 -8px;
-}
-.top-login button.button:hover {
-  background-position: 0 -48px;
-}
-.top-login button.button:active {
-  background-position: 0 -88px;
-}
-.top-login button.btn-gray {
-  background-position: 0 -128px;
-}
-.top-login button.btn-gray:hover {
-  background-position: 0 -168px;
-}
-.top-login button.btn-gray:active {
-  background-position: 0 -208px;
-}
-.top-login .bottom {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 400px;
-  height: 16px;
-  line-height: 16px;
-  font-size: 12px;
-  color: #6b7284;
-}
-.top-login .bottom a {
-  color: #6b7284;
-}
-.top-login .bottom .qcode-switch {
-  float: left;
-  height: 16px;
-  margin-right: 81px;
-}
-.top-login .bottom .qcode-switch s {
-  float: left;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  overflow: hidden;
-  background-position: 0 0;
-}
-.top-login .bottom .qcode-switch:hover {
-  text-decoration: none;
-}
-.top-login .bottom input {
-  position: relative;
-  top: 1px;
-  float: left;
-  width: 14px;
-  height: 14px;
-  margin-right: 4px;
-}
-.top-login .bottom label {
-  position: relative;
-  top: 1px;
-  float: left;
-  height: 14px;
-  line-height: 14px;
-  margin-right: 10px;
-  padding-right: 10px;
-  border-right: 1px solid #6b7284;
-}
-.top-login .icon-form {
-  top: 7px;
-  right: 15px;
-}
-.top-login .login-popup-hint,
-.top-login .login-popup-hint i {
-  background-image: url(./../assets/images/popup_hint_bottom.png);
-  _background-image: url(./../assets/images/popup_hint_bottom.gif);
-}
-.top-login .login-popup-hint {
-  top: 26px;
-  right: 4px;
-  height: 30px;
-  padding-top: 5px;
-}
-.top-login .login-popup-hint i {
-  top: 5px;
-  background-position: 0 -5px;
-}
-.quick-login {
-  position: absolute;
-  right: 0;
-  top: 40px;
-}
-.quick-login dt {
-  position: absolute;
-  top: 0;
-  right: 1px;
-  width: 74px;
-  height: 16px;
-  line-height: 10;
-  overflow: hidden;
-  background-position: -18px 0;
-  cursor: pointer;
-}
-.quick-login dd {
-  position: absolute;
-  top: -8px;
-  right: -4px;
-  width: 260px;
-  border: 1px solid #4b628b;
-  border-radius: 3px;
-  background: #f9faff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 4;
-}
-.quick-login dd s {
-  position: absolute;
-  top: 6px;
-  right: 5px;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  border: 6px solid;
-  border-color: transparent transparent #1c3e7b;
-  _border-color: pink pink #1c3e7b;
-  _filter: chroma(color=pink);
-}
-.quick-login h3 {
-  height: 30px;
-  padding: 0 10px;
-  line-height: 30px;
-  font-size: 12px;
-  font-weight: normal;
-  color: #666;
-  cursor: pointer;
-}
-.quick-login ul {
-  padding: 2px 0 0 10px;
-  overflow: hidden;
-  zoom: 1;
-}
-.quick-login li {
-  float: left;
-  width: 115px;
-  padding: 0 10px 10px 0;
-}
-.quick-login li a {
-  position: relative;
-  display: block;
-  height: 28px;
-  padding-left: 30px;
-  line-height: 28px;
-  color: #666;
-  border: 1px solid #afb7c8;
-  border-radius: 3px;
-  background: white;
-  cursor: pointer;
-}
-.quick-login li a:hover {
-  text-decoration: none;
-  border-color: #909db7;
-  background: #f7f9ff;
-  background: -webkit-linear-gradient(top, #f7f9ff, #e5e9f8);
-  background: -moz-linear-gradient(top, #f7f9ff, #e5e9f8);
-  background: -ms-linear-gradient(top, #f7f9ff, #e5e9f8);
-  background: linear-gradient(top, #f7f9ff, #e5e9f8);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF7F9FF', endColorstr='#FFE5E9F8');
-}
-.quick-login li .ico-acc {
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  width: 16px;
-  height: 16px;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_access.gif);
-  background-repeat: no-repeat;
-}
-.acc-qq {
-  background-position: 0 0;
-}
-.acc-sina {
-  background-position: -16px 0;
-}
-.acc-tencent {
-  background-position: -32px 0;
-}
-.acc-renren {
-  background-position: -48px 0;
-}
-.acc-neteasy {
-  background-position: -64px 0;
-}
-.acc-douban {
-  background-position: -80px 0;
-}
-.acc-baidu {
-  background-position: -96px 0;
-}
-.acc-surfing {
-  background-position: -112px 0;
-}
-.acc-alipay {
-  background-position: -128px 0;
-}
-.wrap {
-  position: relative;
-  z-index: 0;
-  height: 600px;
-}
-.banner-show {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100%;
-  min-width: 980px;
-  height: 600px;
-  overflow: hidden;
-}
-.banner-show .cell {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  background-repeat: repeat-x;
-  background-position: center top;
-}
-.banner-show .cell .con {
-  position: relative;
-  height: 600px;
-  background-repeat: no-repeat;
-  background-position: center top;
-}
-.bns-01 {
-  background-image: url(./../assets/images/banner_01_repeat.png);
-}
-.bns-01 .con {
-  background-image: url(./../assets/images/banner_01.gif);
-}
-.bns-02 {
-  background-image: url(./../assets/images/banner_02_repeat.gif);
-}
-.bns-02 .con {
-  background-image: url(./../assets/images/banner_02.gif);
-}
-.bns-03 .con {
-  background-image: url(./../assets/images/background.png);
-}
-.banner-link {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  width: 400px;
-  height: 400px;
-  margin-left: -430px;
-}
-.banner-link i {
-  display: none;
-}
-.banner-control {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 980px;
-  margin-left: -490px;
-}
-.banner-control a {
-  position: absolute;
-  top: 258px;
-  width: 30px;
-  height: 30px;
-  line-height: 10;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_control.png);
-  background-repeat: no-repeat;
-  background-repeat: no-repeat;
-}
-.banner-control a.left {
-  left: -55px;
-  background-position: 0 0;
-}
-.banner-control a.left:hover {
-  background-position: 0 -30px;
-}
-.banner-control a.right {
-  right: -55px;
-  background-position: -30px 0;
-}
-.banner-control a.right:hover {
-  background-position: -30px -30px;
-}
-.container {
-  position: relative;
-  top: 600px;
-  z-index: 2;
-  width: 980px;
-  height: 0;
-  margin: auto;
-}
-.storage-info {
-  display: none;
-  position: absolute;
-  top: 0;
-  width: 980px;
-  height: 30px;
-  padding: 20px 0;
-  text-align: right;
-  overflow: hidden;
-}
-.storage-info span {
-  position: relative;
-  display: inline-block;
-  height: 30px;
-  margin: 0 0 0 40px;
-  padding-left: 48px;
-  line-height: 30px;
-  zoom: 1;
-  font-size: 18px;
-  color: white;
-}
-.storage-info i {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 30px;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_storage.gif);
-  background-repeat: no-repeat;
-}
-.ist-user {
-  background-position: 0 0;
-}
-.ist-storage {
-  background-position: -36px 0;
-}
-.ist-file {
-  background-position: -72px 0;
-}
-.register-box {
-  position: absolute;
-  top: -530px;
-  right: -85px;
-  width: 316px;
-  height: 380px;
-  background: white;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.95);
-}
-.reg-tab {
-  position: relative;
-  width: 396px;
-  height: 57px;
-  zoom: 1;
-  overflow: hidden;
-  border-radius: 3px 3px 0 0;
-}
-.reg-tab span {
-  float: left;
-  width: 198px;
-  height: 57px;
-  margin-left: -1px;
-  line-height: 57px;
-  text-align: center;
-  font-size: 24px;
-  color: #444;
-  border-left: 1px solid #d2d3d4;
-  background: url(./../assets/images/bg_tab_x.png) repeat-x 0 0;
-  cursor: pointer;
-}
-.reg-tab span:first-child {
-  border-top-left-radius: 3px;
-}
-.reg-tab span:last-child {
-  border-top-right-radius: 3px;
-}
-.reg-tab span.current {
-  background: none;
-  cursor: default;
-}
-.reg-slogan {
-  margin-top: 20px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  font-size: 16px;
-}
-.reg-form {
-  width: 262px;
-  height: 224px;
-  margin: auto;
-}
-.reg-form .cell {
-  position: relative;
-  height: 40px;
-  margin-bottom: 22px;
-  zoom: 1;
-}
-.reg-form .cell label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding: 0 12px;
-  line-height: 40px;
-  font-size: 16px;
-  color: #999;
-  font-weight: bold;
-  cursor: text;
-}
-.reg-form .cell input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 304px;
-  padding: 7px 11px;
-  font-size: 16px;
-  background: none;
-}
-.reg-form .cell .icon-form {
-  top: 11px;
-  right: 10px;
-}
-.reg-form .vcode #yanzhengma {
-  width: 110px !important;
-}
-.reg-form .vcode .button {
-  position: absolute;
-  top: 0;
-  left: 144px;
-  width: 182px;
-  padding: 0;
-  font-size: 14px;
-}
-.reg-form .vcode img {
-  background: url(./../assets/images/yanzhengma.jpg);
-  position: absolute;
-  top: 0;
-  left: 150px;
-  width: 110px;
-  height: 40px;
-}
-.reg-form .vcode span {
-  position: absolute;
-  top: 0;
-  left: 264px;
-  line-height: 40px;
-  font-size: 14px;
-}
-.reg-form .vcode .icon-form {
-  right: 204px;
-}
-.reg-form .vcode .login-popup-hint {
-  right: 194px;
-}
-.reg-form .user-agreement {
-  height: 16px;
-  margin-top: -22px;
-  padding: 18px 0;
-  line-height: 16px;
-}
-.reg-form .user-agreement input {
-  float: left;
-  width: 14px;
-  height: 14px;
-  margin: 1px 5px 0 0;
-}
-.reg-form .bottom {
-  height: 40px;
-}
-.reg-form .bottom .button {
-  display: block;
-  border-radius: 3px;
-}
-.client-download {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 86px;
-  text-align: center;
-  border-radius: 0 0 3px 3px;
-  background: #f6f3f0;
-}
-.client-download a {
-  position: relative;
-  top: 13px;
-  display: inline-block;
-  width: 64px;
-  margin: 0 10px;
-  color: #999;
-}
-.client-download a i {
-  display: block;
-  width: 32px;
-  height: 32px;
-  margin: 0 auto 4px;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_client.gif);
-  background-repeat: no-repeat;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-.client-download a span {
-  display: block;
-  line-height: 24px;
-  text-align: center;
-  font-size: 14px;
-}
-.client-download a:hover {
-  text-decoration: none;
-  color: #666;
-}
-.client-download a:hover i {
-  opacity: 1;
-  filter: alpha(opacity=100);
-}
-.icd-cloud {
-  background-position: -0px 0;
-}
-.icd-iphone {
-  background-position: -32px 0;
-}
-.icd-ipad {
-  background-position: -64px 0;
-}
-.icd-android {
-  background-position: -96px 0;
-}
-.footer {
-  padding: 25px 0;
-}
-.copy-right {
-  width: 980px;
-  margin: auto;
-  text-align: center;
-  color: #999;
-}
-.copy-right .cell {
-  position: relative;
-  height: 26px;
-  line-height: 26px;
+
+/*=================当屏幕大小宽度超过640小于1400时====================*/
+@media (min-width: 640px)and (max-width:1399px) {
+  .header {
+    position: relative;
+    z-index: 3;
+    min-width: 980px;
+    height: 70px;
+  }
+  .header .con {
+    position: relative;
+    width: 980px;
+    height: 60px;
+    margin: auto;
+  }
+  h1.logo {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    width: 400px;
+    height: 64px;
+    line-height: 20;
+    overflow: hidden;
+    font-size: 12px;
+    background: url(./../assets/images/logo2.png) no-repeat;
+    background-size: 280px 50px;
+  }
+  .top-login {
+    position: absolute;
+    top: 5px;
+    right: 50px;
+    zoom: 1;
+    text-align: center;
+    font-size: 9px;
+  }
+  .top-login #erweima1 {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+    margin-right: 20px;
+  }
+  .top-login #erweima2 {
+    width: 55px;
+    height: 55px;
+    margin-bottom: 14px;
+  }
+  .top-login #explain1 {
+    width: 60px;
+    margin-top:-21px;
+  }
+  .top-login #explain2 {
+    width: 55px;
+    float: right;
+    margin-top:-15px;
+  }
+  .wrap {
+    position: relative;
+    z-index: 0;
+    height: 420px;
+  }
+  .banner-show {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    min-width: 980px;
+    height: 100%;
+    overflow: hidden;
+  }
+  .banner-show .cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-repeat: repeat-x;
+    background-position: center top;
+  }
+  .banner-show .cell .con {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+  }
+  .bns-01 {
+    background-image: url(./../assets/images/banner_01_repeat.png);
+  }
+  .bns-01 .con {
+    background-image: url(./../assets/images/banner_01.gif);
+  }
+  .bns-02 {
+    background-image: url(./../assets/images/banner_02_repeat.gif);
+  }
+  .bns-02 .con {
+    background-image: url(./../assets/images/banner_02.gif);
+  }
+  .bns-03 .con {
+    background-size: 900px 420px;
+    background-image: url(./../assets/images/background.png);
+  }
+  .container {
+    position: relative;
+    top: 420px;
+    z-index: 2;
+    width: 980px;
+    height: 0;
+    margin: auto;
+  }
+  .register-box {
+    position: absolute;
+    top: -383px;
+    right: 66px;
+    width: 220px;
+    height: 270px;
+    background: white;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .reg-slogan {
+    margin-top: 10px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    font-size: 14px;
+  }
+  .reg-form {
+    width: 175px;
+    height: 150px;
+    margin: auto;
+  }
+  .reg-form .cell {
+    position: relative;
+    height: 26px;
+    margin-bottom: 14px;
+    zoom: 1;
+  }
+  .reg-form .cell label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 0 12px;
+    line-height: 25px;
+    font-size: 16px;
+    color: #999;
+    font-weight: bold;
+    cursor: text;
+  }
+  .reg-form .cell input {
+    position: absolute;
+    width: 165px;
+    height: 26px;
+    font-size: 16px;
+    background: none;
+  }
+  .reg-form .vcode .el-input {
+    width: 90px;
+  }
+  .reg-form .vcode img {
+    background: url(./../assets/images/yanzhengma.jpg);
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 70px;
+    height: 34px;
+  }
+  .reg-form .vcode span {
+    position: absolute;
+    top: 0;
+    left: 264px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+  .reg-form .user-agreement {
+    height: 16px;
+    margin-top: -22px;
+    padding: 18px 0;
+    line-height: 16px;
+  }
+  .reg-form .user-agreement input {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 1px 5px 0 0;
+  }
+  .reg-form .bottom {
+    height: 26px;
+  }
+  .reg-form .bottom #loginButton {
+    display: block;
+    border-radius: 3px;
+    height: 26px !important;
+    padding: 0 !important;
+  }
+  .footer {
+    padding: 25px 0;
+  }
+  .copy-right {
+    width: 980px;
+    margin: auto;
+    text-align: center;
+    color: #999;
+  }
+  .copy-right .cell {
+    position: relative;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    margin: 20px auto 100px auto;
+    clear: both;
+  }
+}
+@media (min-width: 1400px) {
+  .header {
+    position: relative;
+    z-index: 3;
+    min-width: 980px;
+    height: 100px;
+  }
+  .header .con {
+    position: relative;
+    width: 980px;
+    height: 80px;
+    margin: auto;
+  }
+  h1.logo {
+    position: absolute;
+    top: 15px;
+    left: -100px;
+    width: 400px;
+    height: 64px;
+    line-height: 20;
+    overflow: hidden;
+    font-size: 12px;
+    background: url(./../assets/images/logo2.png) no-repeat 0 0;
+  }
+  .top-login {
+    position: absolute;
+    top: 5px;
+    right: -100px;
+    zoom: 1;
+    text-align: center;
+  }
+  .top-login #erweima1 {
+    width: 84px;
+    height: 84px;
+    margin-bottom: 12px;
+    margin-right: 20px;
+  }
+  .top-login #erweima2 {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 14px;
+  }
+  .top-login #explain1 {
+    width: 80px;
+    margin-top: -25px;
+  }
+  .top-login #explain2 {
+    width: 80px;
+    float: right;
+    margin-top: -20px;
+  }
+  .wrap {
+    position: relative;
+    z-index: 0;
+    height: 600px;
+  }
+  .banner-show {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    min-width: 980px;
+    height: 100%;
+    overflow: hidden;
+  }
+  .banner-show .cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-repeat: repeat-x;
+    background-position: center top;
+  }
+  .banner-show .cell .con {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+  }
+  .bns-01 {
+    background-image: url(./../assets/images/banner_01_repeat.png);
+  }
+  .bns-01 .con {
+    background-image: url(./../assets/images/banner_01.gif);
+  }
+  .bns-02 {
+    background-image: url(./../assets/images/banner_02_repeat.gif);
+  }
+  .bns-02 .con {
+    background-image: url(./../assets/images/banner_02.gif);
+  }
+  .bns-03 .con {
+    background-image: url(./../assets/images/background.png);
+  }
+  .container {
+    position: relative;
+    top: 600px;
+    z-index: 2;
+    width: 980px;
+    height: 0;
+    margin: auto;
+  }
+  .register-box {
+    position: absolute;
+    top: -530px;
+    right: -85px;
+    width: 316px;
+    height: 380px;
+    background: white;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .reg-slogan {
+    margin-top: 20px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .reg-form {
+    width: 262px;
+    height: 224px;
+    margin: auto;
+  }
+  .reg-form .cell {
+    position: relative;
+    height: 40px;
+    margin-bottom: 22px;
+    zoom: 1;
+  }
+  .reg-form .cell label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 0 12px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #999;
+    font-weight: bold;
+    cursor: text;
+  }
+  .reg-form .cell input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 304px;
+    padding: 7px 11px;
+    font-size: 16px;
+    background: none;
+  }
+  .reg-form .vcode .el-input {
+    width: 140px;
+  }
+  .reg-form .vcode img {
+    background: url(./../assets/images/yanzhengma.jpg);
+    position: absolute;
+    top: 0;
+    left: 150px;
+    width: 110px;
+    height: 36px;
+  }
+  .reg-form .vcode span {
+    position: absolute;
+    top: 0;
+    left: 264px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+  .reg-form .user-agreement {
+    height: 16px;
+    margin-top: -22px;
+    padding: 18px 0;
+    line-height: 16px;
+  }
+  .reg-form .user-agreement input {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 1px 5px 0 0;
+  }
+  .reg-form .bottom {
+    height: 40px;
+  }
+  .reg-form .bottom .button {
+    display: block;
+    border-radius: 3px;
+  }
+  .footer {
+    padding: 25px 0;
+  }
+  .copy-right {
+    width: 980px;
+    margin: auto;
+    text-align: center;
+    color: #999;
+  }
+  .copy-right .cell {
+    position: relative;
+    height: 26px;
+    line-height: 26px;
+    font-size: 14px;
+    margin: 20px auto 100px auto;
+    clear: both;
+  }
 }
 .copy-right a {
   color: #999;
@@ -918,271 +678,17 @@ h1.logo {
 .copy-right a:hover {
   color: #333;
 }
-.localization-box {
-  display: inline-block;
-  padding: 4px 0;
-  vertical-align: top;
-  *display: inline;
-  *zoom: 1;
-  *vertical-align: middle;
-}
-.localization-box li {
-  position: relative;
-  float: left;
-  height: 18px;
-  margin-left: 15px;
-  padding-left: 20px;
-  line-height: 19px;
-  vertical-align: top;
-  overflow: hidden;
-  _display: inline;
-}
-.localization-box .ico-local {
-  position: absolute;
-  top: 4px;
-  left: 0;
-  width: 16px;
-  height: 11px;
-  overflow: hidden;
-  background-image: url(./../assets/images/icon_localization.gif);
-  background-repeat: no-repeat;
-}
-.iclo-cn {
-  background-position: 0 0;
-}
-.iclo-tw {
-  background-position: 0 -12px;
-}
-.iclo-us {
-  background-position: 0 -24px;
-}
-.qcode-login {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 11;
-  width: 100%;
-  height: 600px;
-  background: #333945;
-}
-.qcode-login .con {
-  position: relative;
-  width: 980px;
-  margin: auto;
-}
-.qcode-login .close {
-  position: absolute;
-  top: 20px;
-  right: 0px;
-  width: 48px;
-  height: 48px;
-  line-height: 20;
-  overflow: hidden;
-  background: url(./../assets/images/close_qcode.gif) no-repeat 0 0;
-}
-.qcode-login .close:hover {
-  background-position: 0 -48px;
-}
-.qcode-flag {
-  display: none;
-  position: absolute;
-  top: 15px;
-  left: 67px;
-  width: 836px;
-  height: 77px;
-  overflow: hidden;
-  background: url(./../assets/images/flag_qcode.gif) no-repeat 0 0;
-}
-.qcode-pic {
-  position: absolute;
-  top: 92px;
-  left: 640px;
-  z-index: 1;
-  width: 295px;
-  height: 415px;
-  background: url(./../assets/images/pic_qcode.png) no-repeat right top;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  -webkit-transform: translate(-315px, 0) scale(0.3);
-  -moz-transform: translate(-315px, 0) scale(0.3);
-  -ms-transform: translate(-315px, 0) scale(0.3);
-  -webkit-transform-origin: 50% 40%;
-  -moz-transform-origin: 50% 40%;
-  -ms-transform-origin: 50% 40%;
-  -webkit-transition: all 0.5s ease 0.25s;
-  -moz-transition: all 0.5s ease 0.25s;
-  -ms-transition: all 0.5s ease 0.25s;
-}
-.qcode-show:hover .qcode-pic {
-  opacity: 1;
-  filter: alpha(opacity=100);
-  -webkit-transform: translate(0, 0) scale(1);
-  -moz-transform: translate(0, 0) scale(1);
-  -ms-transform: translate(0, 0) scale(1);
-}
-.qcode-box {
-  position: absolute;
-  top: 118px;
-  left: 50%;
-  width: 300px;
-  height: 300px;
-  margin-left: -150px;
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.qcode-box img {
-  width: 300px;
-  height: 300px;
-}
-.qcode-download {
-  position: absolute;
-  top: 418px;
-  left: 50%;
-  width: 300px;
-  margin-left: -150px;
-  padding-top: 20px;
-}
-.qcode-download a {
-  display: block;
-  height: 24px;
-  padding: 13px;
-  line-height: 24px;
-  text-align: center;
-  font-size: 18px;
-  overflow: hidden;
-  color: #91969e;
-  background: #434954;
-}
-.qcode-download a:before {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 24px;
-  margin: -6px 10px 0 0;
-  vertical-align: middle;
-  background: url(./../assets/images/icon_client_download.png) no-repeat 0 0;
-}
-.qcode-download a:hover {
-  text-decoration: none;
-  color: white;
-  background: #5c616a;
-}
-.qcode-download a:hover:before {
-  background-position: -16px 0;
-}
-.qcode-desc-text {
-  position: absolute;
-  top: 565px;
-  left: 0;
-  width: 100%;
-  line-height: 24px;
-  text-align: center;
-  color: #686f7c;
-}
-.qcode-hint {
-  position: absolute;
-  top: 436px;
-  left: 50%;
-  width: 278px;
-  margin-left: -150px;
-  padding: 10px;
-  line-height: 30px;
-  text-align: center;
-  font-size: 16px;
-  color: white;
-  border: 1px solid #006700;
-  background: #64b832;
-}
-.qcode-hint .arrow {
-  position: absolute;
-  top: -17px;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -8px;
-  overflow: hidden;
-  border: 8px solid;
-  border-color: transparent transparent #006700;
-  _border-color: pink pink #006700;
-  _filter: chroma(color=pink);
-}
-.qcode-hint s.arrow {
-  top: -16px;
-  border-bottom-color: #64b832;
-}
 </style>
 <script>
 import loginSocialSignin from "./../components/loginSocialSignin";
 import shajs from "sha.js";
-(function() {
-  var defaultInd = 0;
-  var list = $("#js_ban_content").children();
-  var count = 0;
-  var change = function(newInd, callback) {
-    if (count) return;
-    count = 2;
-    $(list[defaultInd]).fadeOut(400, function() {
-      count--;
-      if (count <= 0) {
-        if (start.timer) window.clearTimeout(start.timer);
-        callback && callback();
-      }
-    });
-    $(list[newInd]).fadeIn(400, function() {
-      defaultInd = newInd;
-      count--;
-      if (count <= 0) {
-        if (start.timer) window.clearTimeout(start.timer);
-        callback && callback();
-      }
-    });
-  };
-
-  var next = function(callback) {
-    var newInd = defaultInd + 1;
-    if (newInd >= list.length) {
-      newInd = 0;
-    }
-    change(newInd, callback);
-  };
-
-  var start = function() {
-    if (start.timer) window.clearTimeout(start.timer);
-    start.timer = window.setTimeout(function() {
-      next(function() {
-        start();
-      });
-    }, 8000);
-  };
-
-  start();
-
-  $("#js_ban_button_box").on("click", "a", function() {
-    var btn = $(this);
-    if (btn.hasClass("right")) {
-      //next
-      next(function() {
-        start();
-      });
-    } else {
-      //prev
-      var newInd = defaultInd - 1;
-      if (newInd < 0) {
-        newInd = list.length - 1;
-      }
-      change(newInd, function() {
-        start();
-      });
-    }
-    return false;
-  });
-})();
 
 export default {
   components: {},
   name: "login",
   data() {
     return {
+      backPicHeight: window.innerHeight - 280,
       loginForm: {
         username: "",
         password: "",
@@ -1278,7 +784,7 @@ export default {
     },
     handleLogin() {
       // console.log(shajs('sha256').update(this.loginForm.password).digest('hex'))
-      debugger
+      debugger;
       this.loading = true;
       this.$store
         .dispatch("LoginByUsername", {
@@ -1298,9 +804,9 @@ export default {
   },
   created() {
     //获取IP地址
-    var _this=this;
+    var _this = this;
     this.getIp(function(ip) {
-      debugger
+      debugger;
       _this.loginForm.ip = ip;
     });
   },

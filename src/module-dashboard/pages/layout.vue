@@ -5,14 +5,14 @@
 			<layout-navbar></layout-navbar>
 			<!-- <layout-tags></layout-tags> -->
 			<layout-app-main></layout-app-main>
-      <div class="bottom">
+      <!-- <div class="bottom">
         <p>
-          <a href="https://github.com/cobainby" target="_blank">
+          <a target="_blank">
             <svg-icon icon-class="github"></svg-icon>
           </a>
         </p>
         <p>Copyright<svg-icon icon-class="copyright"></svg-icon> 2018 缀术科技公司出品</p>
-      </div>
+      </div> -->
 		</div>
 	</div>
 </template>
@@ -33,6 +33,7 @@ export default {
   },
   computed: {
     sidebar() {
+      debugger
       return this.$store.state.app.sidebar
     }
   }

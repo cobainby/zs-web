@@ -49,7 +49,7 @@
           <el-col :span="12">
             <el-form-item label="角色权限" prop="roleCode">
               <el-select v-model="formBase.roleCode" placeholder="请选择">
-                <el-option id="roleCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+                <el-option id="roleCode" v-for="item in options" :key="item.roleCode" :label="item.label" :value="item.roleCode" :disabled="item.disabled">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -105,32 +105,32 @@ export default {
       importFileUrl: "https://jsonplaceholder.typicode.com/posts/",
       options: [
         {
-          value: "0",
+          roleCode: "0",
           label: "系统管理员",
           disabled: true
         },
         {
-          value: "1",
+          roleCode: "1",
           label: "机构管理员"
         },
         {
-          value: "2",
+          roleCode: "2",
           label: "机构领导"
         },
         {
-          value: "3",
+          roleCode: "3",
           label: "项目负责人"
         },
         {
-          value: "4",
+          roleCode: "4",
           label: "监测人员"
         },
         {
-          value: "5",
+          roleCode: "5",
           label: "监理人员"
         },
         {
-          value: "6",
+          roleCode: "6",
           label: "学习账号"
         }
       ]

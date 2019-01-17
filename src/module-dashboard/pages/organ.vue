@@ -163,10 +163,9 @@ export default {
             ? $("#legalRepresentative").text(organData.legalRepresentative)
             : $("#legalRepresentative").text("");
         } else {
-          MessageBox.confirm(response.data.message, "注意", {
-            showConfirmButton: false,
-            showCancelButton: false,
-            type: "warning"
+          this.$message({
+            type: "warning",
+            message: response.data.message
           });
         }
       });

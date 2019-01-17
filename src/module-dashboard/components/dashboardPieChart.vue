@@ -56,7 +56,7 @@ export default {
         color: ['red', 'yellow', '#F6BA2E'],
         legend: {
           left: 'center',
-          bottom: '10',
+          bottom: '0',
           data: ['红色', '黄色', '橙色']
         },
         calculable: true,
@@ -65,7 +65,7 @@ export default {
             name: '报警统计',
             type: 'pie',
             roseType: 'radius',
-            radius: [15, 95],
+            radius: [15, 90],
             center: ['50%', '38%'],
             data: [
               { value: 12, name: '红色' },

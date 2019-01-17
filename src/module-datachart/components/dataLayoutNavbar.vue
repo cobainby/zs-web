@@ -1,6 +1,6 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
+    <hamburger class="hamburger-container" :toggleClick="toggleDataBar" :isActive="sidebar.closed"></hamburger>
 
     <breadcrumb class="breadcrumb-container"></breadcrumb>
 
@@ -42,7 +42,7 @@
       <el-dropdown class="item">
         <span class="el-dropdown-link">
           <!-- <img class="avatar" src="../assets/bigUserHeader.png"> -->
-          {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{loginEname}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
@@ -73,6 +73,8 @@ import Screenfull from '@/components/Screenfull'
 import LangSelect from '@/components/LangSelect'
 import ThemePicker from '@/components/ThemePicker'
 import {search} from '@/api/base/menus'
+import { detail } from "@/api/base/organ"
+import { getToken } from "@/utils/auth"
 
 export default {
   name: 'layoutNavBar',
@@ -90,14 +92,16 @@ export default {
   data() {
     return {
       searchVal: '',
+      loginEname: "",
       timeout: null,
       showSearchInput: false,
-      restaurants: []
+      restaurants: [],
+      token: getToken()
     }
   },
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('toggleSideBar')
+    toggleDataBar() {
+      this.$store.dispatch('toggleDataBar')
     },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
@@ -139,7 +143,11 @@ export default {
     }
   },
   mounted() {
-    this.restaurants = search()
+    this.restaurants = search();
+    //加载完后右上角显示当前登录人名字
+    detail({ token: this.token }).then(res => {
+      this.loginEname = res.data.accountName;
+    });
   }
 }
 </script>
@@ -153,42 +161,84 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.navbar {
-  height: 50px;
-  line-height: 50px;
-  border-radius: 0px !important;
-  .hamburger-container {
-    line-height: 58px;
-    height: 50px;
-    float: left;
-    padding: 0 10px;
-  }
-  .breadcrumb-container {
-    float: left;
-  }
-  .errLog-container {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .right-menu {
-    float: right;
-    height: 50px;
-    .item {
+@media (min-width: 640px) and (max-width: 1399px) {
+  .navbar {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 0px !important;
+    .hamburger-container {
+      line-height: 33px;
+      height: 30px;
+      float: left;
+      padding: 0 10px;
+    }
+    .breadcrumb-container {
+      float: left;
+    }
+    .errLog-container {
       display: inline-block;
-      margin-right: 10px;
-      i {
-        font-size: 18px;
+      vertical-align: top;
+    }
+    .right-menu {
+      float: right;
+      height: 30px;
+      .item {
+        display: inline-block;
+        margin: -10px 5px 0 0;
+        i {
+          font-size: 15px;
+        }
+        .btnSearch {
+          margin-right: 5px;
+          font-size: 15px;
+          color: rgba(0, 0, 0, 0.65);
+        }
+        .avatar {
+          width: 20px;
+          vertical-align: -5px;
+        }
       }
-      .btnSearch {
-        margin-right: 5px;
-        font-size: 18px;
-        color: rgba(0, 0, 0, 0.65);
+    }
+  }
+}
+@media (min-width: 1400px) {
+  .navbar {
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0px !important;
+    .hamburger-container {
+      line-height: 48px;
+      height: 40px;
+      float: left;
+      padding: 0 10px;
+    }
+    .breadcrumb-container {
+      float: left;
+    }
+    .errLog-container {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .right-menu {
+      float: right;
+      height: 40px;
+      .item {
+        display: inline-block;
+        margin-right: 10px;
+        i {
+          font-size: 18px;
+        }
+        .btnSearch {
+          margin-right: 5px;
+          font-size: 18px;
+          color: rgba(0, 0, 0, 0.65);
+        }
+        .avatar {
+          width: 22px;
+          vertical-align: -5px;
+        }
       }
-      .avatar {
-        width: 22px;
-        vertical-align: -5px;
-      }
-    } 
+    }
   }
 }
 </style>

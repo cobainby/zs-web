@@ -10,47 +10,61 @@
 </template>
 
 <script>
-import {generateTitle} from '@/utils/i18n'
+import { generateTitle } from "@/utils/i18n";
 
 export default {
   created() {
-    this.getBreadcrumb()
+    this.getBreadcrumb();
   },
   data() {
     return {
       levelList: null
-    }
+    };
   },
   watch: {
     $route() {
-      this.getBreadcrumb()
+      this.getBreadcrumb();
     }
   },
   methods: {
     generateTitle,
     getBreadcrumb() {
-      let matched = this.$route.matched.filter(item => item.name)
-      const first = matched[0]
-      if (first && first.name !== 'dashboard') {
-        matched = [{path: '/dashboard', meta: {title: 'dashboard'}}].concat(
+      let matched = this.$route.matched.filter(item => item.name);
+      const first = matched[0];
+      if (first && first.name !== "dashboard") {
+        matched = [{ path: "/dashboard", meta: { title: "dashboard" } }].concat(
           matched
-        )
+        );
       }
-      this.levelList = matched
+      this.levelList = matched;
     }
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.app-breadcrumb.el-breadcrumb {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 50px;
-  margin-left: 10px;
-  .no-redirect {
-    color: #97a8be;
-    cursor: text;
+@media (min-width: 640px) and (max-width: 1399px) {
+  .app-breadcrumb.el-breadcrumb {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 30px;
+    margin-left: 6px;
+    .no-redirect {
+      color: #97a8be;
+      cursor: text;
+    }
+  }
+}
+@media (min-width: 1400px) {
+  .app-breadcrumb.el-breadcrumb {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 40px;
+    margin-left: 8px;
+    .no-redirect {
+      color: #97a8be;
+      cursor: text;
+    }
   }
 }
 </style>

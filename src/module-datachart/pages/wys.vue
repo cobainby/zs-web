@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card shadow="never" v-loading="loading">
+      <el-card class="box-card" shadow="never" v-loading="loading">
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
           <el-tab-pane class="chartsPanel" label="成果数据" name="first-ta">
@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      tableHeight: window.innerHeight - 280,
+      tableHeight: window.innerHeight - 250,
       activeName: "first-ta",
       projectUuid: "",
       monitorItemUuid: "",
@@ -352,6 +352,9 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.box-card {
+  margin: -15px;
+}
 .alert {
   margin: 10px 0px 0px 0px;
 }

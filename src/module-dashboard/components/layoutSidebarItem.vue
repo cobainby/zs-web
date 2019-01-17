@@ -1,9 +1,9 @@
 <template>
   <div class="menu-wrapper">
-    <template v-for="item in routes" v-if="!item.hidden&&item.children">
+    <template  v-for="item in routes" v-if="!item.hidden&&item.children">
       
       <router-link v-if="item.children.length===1 && !item.children[0].children && !item.alwaysShow && item.children[0].meta && item.children[0].meta.icon" :to="item.path+'/'+item.children[0].path" :key="item.children[0].name">
-        <el-menu-item :index="item.path+'/'+item.children[0].path" >
+        <el-menu-item class="mainMenu" :index="item.path+'/'+item.children[0].path" >
           <svg-icon v-if="item.children[0].meta&&item.children[0].meta.icon" :icon-class="item.children[0].meta.icon"></svg-icon>
           <span v-if="item.children[0].meta&&item.children[0].meta.title" slot="title">{{generateTitle(item.children[0].meta.title)}}</span>
         </el-menu-item>
@@ -30,7 +30,13 @@
     </template>
   </div>
 </template>
-
+<style rel="stylesheet/css" scoped>
+@media (min-width: 640px) and (max-width: 1399px) {
+  .mainMenu{
+    font-size: 12px;
+  }
+}
+</style>
 <script>
 import {generateTitle} from '@/utils/i18n'
 

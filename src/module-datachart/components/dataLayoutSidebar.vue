@@ -7,20 +7,31 @@
       </router-link>
       <el-menu-item :index="'dataInfo?id='+this.projectUuid">
         <i class="el-icon-info"></i>
-        <span slot="title">项目信息</span>
+        <span class="projectInfo" slot="title">项目信息</span>
       </el-menu-item>
       <el-menu-item :index="'dailyCheck?id='+this.projectUuid">
         <i class="el-icon-view"></i>
-        <span slot="title">日常巡查</span>
+        <span class="dailyCheck" slot="title">日常巡查</span>
       </el-menu-item>
       <el-menu-item v-for="item in monitorMenu" :index="item.src" :key="item.src">
-        <i :class="item.icon"></i>
-        <span>{{item.title}}</span>
+        <i id="monitorIcon" :class="item.icon"></i>
+        <span class="monitorItem" slot="title">{{item.title}}</span>
       </el-menu-item>
       <!-- <sidebar-item :routes="permission_routers"></sidebar-item> -->
     </el-menu>
   </scroll-bar>
 </template>
+<style rel="stylesheet/css" scoped>
+@media (min-width: 640px) and (max-width: 1399px) {
+  .projectInfo,.dailyCheck,.monitorItem{
+    font-size: 10px;
+    margin-left:-5px;
+  }
+  .el-icon-info,.el-icon-view,#monitorIcon{
+    margin-left:-5px;
+  }
+}
+</style>
 <script>
 import { mapGetters } from "vuex";
 import ScrollBar from "@/components/ScrollBar";
@@ -41,7 +52,7 @@ export default {
   computed: {
     ...mapGetters(["permission_routers", "sidebar"]),
     isCollapse() {
-      return !this.sidebar.opened;
+      return !this.sidebar.closed;
     }
   },
   // 创建完毕状态

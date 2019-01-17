@@ -217,8 +217,11 @@ export default {
           this.alertText = `共 ${this.total} 条记录`;
           this.listLoading = false;
         })
-        .catch(e => {
-          // this.$message.e("错了哦，这是一条错误消息");
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "token失效！无法获取工程列表!"
+          });
         });
     },
     getData(row, event, column) {},

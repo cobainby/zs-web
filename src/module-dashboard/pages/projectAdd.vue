@@ -1006,7 +1006,8 @@ export default {
           .then(response => {
             if (response.data.result == 1) {
               const jsonData = response.data;
-              this.projectId = jsonData.projectUuid;
+              this.projectId = jsonData.data.projectUuid;
+              // this.projectInfo=jsonData.data;
               this.$confirm("创建工程成功!", "提示", {
                 type: "success",
                 showConfirmButton: false,
@@ -1159,6 +1160,8 @@ export default {
           this.changeTimeFormat(this.projectInfo.finishDate)
         );
         $("#projectDetail").val(this.projectInfo.projectDetail);
+      }else if(this.type=="创建"){
+
       }
     },
     getFdSetList() {

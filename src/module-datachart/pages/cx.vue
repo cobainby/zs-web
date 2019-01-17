@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card shadow="never" v-loading="loading">
+      <el-card  class="box-card" shadow="never" v-loading="loading">
         <el-row>
           <el-col :span="12">
             <!-- 搜索栏 -->
@@ -86,8 +86,8 @@ export default {
   },
   data() {
     return {
-      tableHeight: window.innerHeight - 230,
-      chartHeight: window.innerHeight - 140,
+      tableHeight: window.innerHeight - 200,
+      chartHeight: window.innerHeight - 110,
       activeName: "first-ta",
       projectUuid: "",
       monitorItemUuid: "",
@@ -477,6 +477,9 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
+.box-card {
+  margin: -15px;
+}
 .alert {
   margin: 10px 0px 0px 0px;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card shadow="never" v-loading="loading">
+      <el-card class="box-card" shadow="never" v-loading="loading">
         <!-- 数据表格 -->
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane class="chartsPanel" label="概览" name="first-ta">

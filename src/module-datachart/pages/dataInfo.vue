@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never" v-loading="loading">
+    <el-card class="box-card" shadow="never" v-loading="loading">
       <!-- 项目当前信息 / -->
       <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
         <input id="formUrl" type="hidden">
@@ -369,10 +369,14 @@ export default {
             $("#projectLocation").html(this.projectInfo.projectLocation);
             $("#projectLatLon").html(this.projectInfo.projectLatLon);
             $("#projectRegion").html(this.projectInfo.projectRegion);
-            $("#supportingStructure").html(this.projectInfo.supportingStructure);
+            $("#supportingStructure").html(
+              this.projectInfo.supportingStructure
+            );
             $("#safetyClass").html(this.projectInfo.safetyClass);
             $("#foundationDepth").html(this.projectInfo.foundationDepth);
-            $("#foundationPerimeter").html(this.projectInfo.foundationPerimeter);
+            $("#foundationPerimeter").html(
+              this.projectInfo.foundationPerimeter
+            );
             $("#excavationDatePlaned").html(
               this.projectInfo.excavationDatePlaned
             );
@@ -393,7 +397,9 @@ export default {
             $("#designOrg").html(this.projectInfo.designOrg);
             $("#designLinkman").html(this.projectInfo.designLinkman);
             $("#constructionOrg").html(this.projectInfo.constructionOrg);
-            $("#constructionLinkman").html(this.projectInfo.constructionLinkman);
+            $("#constructionLinkman").html(
+              this.projectInfo.constructionLinkman
+            );
             $("#supervisionOrg").html(this.projectInfo.supervisionOrg);
             $("#supervisionLinkman").html(this.projectInfo.supervisionLinkman);
             $("#admDepartment").html(this.projectInfo.admDepartment);
@@ -443,6 +449,14 @@ export default {
 };
 </script>
 <style rel="stylesheet/css" scoped>
+@media (min-width: 640px) and (max-width: 1399px) {
+  #projectForm{
+    margin:-10px;
+  }
+}
+.box-card {
+  margin: -15px;
+}
 .alert {
   margin: 10px 0px 0px 0px;
 }

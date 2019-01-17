@@ -177,7 +177,10 @@ export default {
         ],
         orgCode: [
           { required: true, message: "组织机构代码不能为空", trigger: "blur" }
-        ]
+        ],
+        typeCode:[
+          { required: true, message: "机构类型不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -203,7 +206,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "warning",
-            message: "无法获取机构列表!"
+            message: "token失效！无法获取机构列表!"
           });
         });
     },
@@ -238,6 +241,7 @@ export default {
       this.formData.dateRegister = params.dateRegister;
       this.formData.dateValid = params.dateValid;
       this.formData.legalRepresentative = params.legalRepresentative;
+      // this.formData.type.code=params.type.code;
     },
     // 每页显示信息条数
     handleSizeChange(val) {
