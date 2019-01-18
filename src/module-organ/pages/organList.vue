@@ -73,7 +73,7 @@
               <span v-if="scope.row.dateValid==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作" width="300px">
+          <el-table-column align="center" label="操作" width="300px" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" size="mini" icon="el-icon-info" @click="viewOrgan(scope.row)">查看</el-button>
               <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>

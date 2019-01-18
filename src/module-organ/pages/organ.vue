@@ -93,6 +93,9 @@
             </td>
           </tr>
         </table>
+        <!-- 新增编辑标签弹层 -->
+        <component @refreshList="init" v-bind:is="OrganAdd" ref="editUser" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseModal="handleCloseModal">
+        </component>
       </div>
     </div>
   </div>
@@ -103,9 +106,51 @@ import { Institutes, addInstitutes } from "@/api/base/organ";
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 import { MessageBox } from "element-ui";
+import OrganAdd from "./../components/organAdd";
 export default {
+  components: {
+    OrganAdd
+  },
   data() {
-    return {};
+    return {
+      OrganAdd: "organAdd",
+      text: "", // 新增、编辑文本
+      pageTitle: "机构", // 页面标题
+      formData: {
+        orgUuid: "",
+        orgCode: "",
+        orgName: "",
+        orgAddress: "",
+        orgLinkman: "",
+        orgLinkphone: "",
+        leaderTechnique: "",
+        credentialsnumCheck: "",
+        credentialsnumMeterage: "",
+        dateRegister: "",
+        dateValid: "",
+        type: {
+          name: "",
+          code: ""
+        },
+        legalRepresentative: ""
+      },
+      organData: [],
+      ruleInline: {
+        // 表单验证
+        orgName: [
+          { required: true, message: "用户名不能为空", trigger: "blur" }
+        ],
+        dateRegister: [
+          { required: true, message: "登记日期不能为空", trigger: "blur" }
+        ],
+        orgCode: [
+          { required: true, message: "组织机构代码不能为空", trigger: "blur" }
+        ],
+        typeCode:[
+          { required: true, message: "机构类型不能为空", trigger: "blur" }
+        ]
+      }
+    };
   },
   methods: {
     // 获取列表数据
@@ -122,45 +167,45 @@ export default {
             var superOrg = response.data.data.filter(function(item) {
               return item.orgName == "超级机构";
             });
-            var organData = superOrg[0];
+            this.organData = superOrg[0];
           } else {
             //非超级机构，机构数据则是一个对象
-            var organData = jsonData[0];
+            this.organData = jsonData[0];
           }
-          organData.orgName != null
-            ? $("#organName").text(organData.orgName)
+          this.organData.orgName != null
+            ? $("#organName").text(this.organData.orgName)
             : $("#organName").text("");
-          organData.orgLinkman != null
-            ? $("#orgLinkman").text(organData.orgLinkman)
+          this.organData.orgLinkman != null
+            ? $("#orgLinkman").text(this.organData.orgLinkman)
             : $("#orgLinkman").text("");
-          organData.orgLinkphone != null
-            ? $("#orgLinkphone").text(organData.orgLinkphone)
+          this.organData.orgLinkphone != null
+            ? $("#orgLinkphone").text(this.organData.orgLinkphone)
             : $("#orgLinkphone").text("");
-          organData.orgCode != null
-            ? $("#organCode").text(organData.orgCode)
+          this.organData.orgCode != null
+            ? $("#organCode").text(this.organData.orgCode)
             : $("#organCode").text("");
-          organData.orgAddress != null
-            ? $("#orgAddress").text(organData.orgAddress)
+          this.organData.orgAddress != null
+            ? $("#orgAddress").text(this.organData.orgAddress)
             : $("#orgAddress").text("");
-          organData.leaderTechnique != null
-            ? $("#leaderTechnique").text(organData.leaderTechnique)
+          this.organData.leaderTechnique != null
+            ? $("#leaderTechnique").text(this.organData.leaderTechnique)
             : $("#leaderTechnique").text("");
-          organData.credentialsnumCheck != null
-            ? $("#credentialsnumCheck").text(organData.credentialsnumCheck)
+          this.organData.credentialsnumCheck != null
+            ? $("#credentialsnumCheck").text(this.organData.credentialsnumCheck)
             : $("#credentialsnumCheck").text("");
-          organData.credentialsnumMeterage != null
+          this.organData.credentialsnumMeterage != null
             ? $("#credentialsnumMeterage").text(
-                organData.credentialsnumMeterage
+                this.organData.credentialsnumMeterage
               )
             : $("#credentialsnumMeterage").text("");
-          organData.dateRegister != null
-            ? $("#dateRegister").text(organData.dateRegister)
+          this.organData.dateRegister != null
+            ? $("#dateRegister").text(this.organData.dateRegister)
             : $("#dateRegister").text("");
-          organData.dateValid != null
-            ? $("#dateValid").text(organData.dateValid)
+          this.organData.dateValid != null
+            ? $("#dateValid").text(this.organData.dateValid)
             : $("#dateValid").text("");
-          organData.legalRepresentative != null
-            ? $("#legalRepresentative").text(organData.legalRepresentative)
+          this.organData.legalRepresentative != null
+            ? $("#legalRepresentative").text(this.organData.legalRepresentative)
             : $("#legalRepresentative").text("");
         } else {
           this.$message({
@@ -170,7 +215,34 @@ export default {
         }
       });
     },
-    toEditOrgan() {},
+    toEditOrgan() {
+      // this.query();
+      var _this = this;
+      this.text = "编辑";
+      _this.hanldeEditForm(this.organData);
+      this.$refs.editUser.dialogFormV();
+    },
+    //加载详情
+    hanldeEditForm(params) {
+      debugger;
+      this.formData.orgUuid = params.orgUuid;
+      this.formData.orgCode = params.orgCode;
+      this.formData.orgName = params.orgName;
+      this.formData.orgAddress = params.orgAddress;
+      this.formData.orgLinkman = params.orgLinkman;
+      this.formData.orgLinkphone = params.orgLinkphone;
+      this.formData.leaderTechnique = params.leaderTechnique;
+      this.formData.credentialsnumCheck = params.credentialsnumCheck;
+      this.formData.credentialsnumMeterage = params.credentialsnumMeterage;
+      this.formData.dateRegister = params.dateRegister;
+      this.formData.dateValid = params.dateValid;
+      this.formData.legalRepresentative = params.legalRepresentative;
+      // this.formData.type.code=params.type.code;
+    },
+    // 弹框关闭
+    handleCloseModal() {
+      this.$refs.editUser.dialogFormH();
+    },
     toViewOrgan() {}
   },
   // 挂载结束

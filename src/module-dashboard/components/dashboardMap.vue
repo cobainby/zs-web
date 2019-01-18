@@ -422,7 +422,7 @@ export default {
             border-radius: 9px;
             box-shadow: 3px 3px 3px #cac9c7;
             ul {
-              width: 85px;
+              width: 90px;
               height: 55px;
               margin: 0;
               padding: 10px 0 10px 10px;

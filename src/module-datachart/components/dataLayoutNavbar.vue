@@ -42,7 +42,7 @@
       <el-dropdown class="item">
         <span class="el-dropdown-link">
           <!-- <img class="avatar" src="../assets/bigUserHeader.png"> -->
-          {{loginEname}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{accountName}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
@@ -50,9 +50,9 @@
               {{$t('navbar.dashboard')}}
             </el-dropdown-item>
           </router-link>
-          <a target='_blank' href="https://github.com/cobainby">
+          <a target='_blank' @click="psdchange">
             <el-dropdown-item>
-              {{$t('navbar.github')}}
+             修改密码
             </el-dropdown-item>
           </a>
           <el-dropdown-item divided>
@@ -61,95 +61,170 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+     <!-- 新增修改密码弹层 -->
+    <component v-bind:is="PsdChange" :ruleInline='ruleInline' ref="changePsd" text='修改个人信息' :formBase='formData' v-on:handleCloseModal="handleCloseModal">
+    </component>
   </el-menu>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import LangSelect from '@/components/LangSelect'
-import ThemePicker from '@/components/ThemePicker'
-import {search} from '@/api/base/menus'
-import { detail } from "@/api/base/organ"
-import { getToken } from "@/utils/auth"
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import ErrorLog from "@/components/ErrorLog";
+import Screenfull from "@/components/Screenfull";
+import LangSelect from "@/components/LangSelect";
+import ThemePicker from "@/components/ThemePicker";
+import { search } from "@/api/base/menus";
+import { detail } from "@/api/base/organ";
+import { getToken } from "@/utils/auth";
+import PsdChange from "@/components/psdChange";
+import { viewAccount } from "@/api/base/worker";
 
 export default {
-  name: 'layoutNavBar',
+  name: "layoutNavBar",
   components: {
     Breadcrumb,
     Hamburger,
     ErrorLog,
     Screenfull,
     LangSelect,
-    ThemePicker
+    ThemePicker,
+    PsdChange
   },
   computed: {
-    ...mapGetters(['sidebar', 'name', 'avatar'])
+    ...mapGetters(["sidebar", "name", "avatar"])
   },
   data() {
     return {
-      searchVal: '',
-      loginEname: "",
+      PsdChange: "PsdChange",
+      searchVal: "",
+      accountName: "",
+      accountUuid: "",
+      orgUuid: "",
       timeout: null,
       showSearchInput: false,
       restaurants: [],
-      token: getToken()
-    }
+      token: getToken(),
+      formData: {
+        accountUuid: "",
+        accountName: "",
+        loginName: "",
+        password: "",
+        orgUuid: "",
+        pid: "",
+        email: "",
+        post: "",
+        mobilePhone: "",
+        wechat: "",
+        numCertificate: "",
+        dateRegister: "",
+        dateValid: "",
+        roleCode: ""
+      },
+      ruleInline: {
+        accountName: [
+          { required: true, message: "请输入账户昵称", trigger: "blur" },
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "请输入新密码", trigger: "blur" }
+        ],
+        mobilePhone: [
+          { required: true, message: "请输入手机号码", trigger: "blur" }
+        ]
+      }
+    };
   },
   methods: {
-    toggleDataBar() {
-      this.$store.dispatch('toggleDataBar')
+    getOrgan() {
+      this.$router.push({ path: "organ" });
+    },
+    toggleSideBar() {
+      this.$store.dispatch("toggleSideBar");
+    },
+    psdchange() {
+      viewAccount({
+        token: this.token,
+        accountUuid: this.accountUuid
+      })
+        .then(res => {
+          this.formData.accountUuid = res.data.data.accountUuid;
+          this.formData.accountName = res.data.data.accountName;
+          this.formData.loginName = res.data.data.loginName;
+          this.formData.password = "";
+          this.formData.orgUuid = res.data.data.userInstitutes.orgUuid;
+          this.formData.pid = res.data.data.pid;
+          this.formData.email = res.data.data.email;
+          this.formData.post = res.data.data.post;
+          this.formData.mobilePhone = res.data.data.mobilePhone;
+          this.formData.wechat = res.data.data.wechat;
+          this.formData.numCertificate = res.data.data.numCertificate;
+          this.formData.dateRegister = res.data.data.dateRegister;
+          this.formData.dateValid= res.data.data.dateValid;
+          this.formData.roleCode= res.data.data.sysRole.code;
+        })
+        .catch(() => {
+          this.$message({
+            type: "warning",
+            message: "无法获取个人信息!"
+          });
+        });
+      this.$refs.changePsd.dialogFormV();
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload() // In order to re-instantiate the vue-router object to avoid bugs
-      })
+      this.$store.dispatch("LogOut").then(() => {
+        location.reload(); // In order to re-instantiate the vue-router object to avoid bugs
+      });
     },
     handleBtnSearch() {
-      this.showSearchInput = !this.showSearchInput
+      this.showSearchInput = !this.showSearchInput;
       this.$nextTick(() => {
-        this.$refs['searchInput'].focus()
-      })
+        this.$refs["searchInput"].focus();
+      });
     },
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants
+      var restaurants = this.restaurants;
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants
+        : restaurants;
 
-      clearTimeout(this.timeout)
+      clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        cb(results)
-      }, 1000 * Math.random())
+        cb(results);
+      }, 1000 * Math.random());
     },
     createStateFilter(queryString) {
       return state => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        )
-      }
+        );
+      };
     },
     handleSelect(item) {
-      this.searchVal = ''
-      this.showSearchInput = false
-      console.log(item)
+      this.searchVal = "";
+      this.showSearchInput = false;
+      console.log(item);
       this.$message({
         message: `选取了 ${item.value}`,
-        type: 'success'
-      })
+        type: "success"
+      });
+    },
+    // 弹框关闭
+    handleCloseModal() {
+      this.$refs.changePsd.dialogFormH();
     }
   },
   mounted() {
     this.restaurants = search();
     //加载完后右上角显示当前登录人名字
     detail({ token: this.token }).then(res => {
-      this.loginEname = res.data.accountName;
+      this.accountName = res.data.accountName;
+      this.accountUuid = res.data.userUuid;
+      this.orgUuid = res.data.orgUuid;
     });
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

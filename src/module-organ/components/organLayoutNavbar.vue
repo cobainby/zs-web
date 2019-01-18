@@ -1,11 +1,10 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="!sidebar.opened"></hamburger>
+    <hamburger class="hamburger-container" :toggleClick="toggleDataBar" :isActive="sidebar.closed"></hamburger>
 
     <breadcrumb class="breadcrumb-container"></breadcrumb>
 
     <div class="right-menu">
-      <el-button type="primary" class="item" icon="el-icon-printer" @click="getOrgan" id="organButton" size="small" circle>机构人员</el-button>
       <!-- 站内搜索 -->
       <div class="item">
         <el-tooltip effect="dark" :content="$t('navbar.search')" placement="bottom">
@@ -16,13 +15,13 @@
         </transition>
       </div>
       <!-- 使用文档 -->
-      <a href="http://note.youdao.com/noteshare?id=77fc191241b5c1bb39f5e730dbae7289" class="item" target="_blank">
+      <a href="https://github.com/cobainby" class="item" target="_blank">
         <el-tooltip class="item" effect="dark" content="使用文档" placement="bottom">
           <i class="el-icon-question"></i>
         </el-tooltip>
       </a>
       <!-- 错误 -->
-      <!-- <error-log class="error item"></error-log> -->
+      <error-log class="error item"></error-log>
       <!-- 全屏 -->
       <el-tooltip effect="dark" :content="$t('navbar.screenfull')" placement="bottom">
         <screenfull class="item"></screenfull>
@@ -36,7 +35,8 @@
       <!-- 用户信息 -->
       <el-dropdown class="item">
         <span class="el-dropdown-link">
-          <img class="avatar" src="../assets/bigUserHeader.png"> {{accountName}}
+          <!-- <img class="avatar" src="../assets/bigUserHeader.png"> -->
+          {{accountName}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -156,8 +156,8 @@ export default {
           this.formData.wechat = res.data.data.wechat;
           this.formData.numCertificate = res.data.data.numCertificate;
           this.formData.dateRegister = res.data.data.dateRegister;
-          this.formData.dateValid= res.data.data.dateValid;
-          this.formData.roleCode= res.data.data.sysRole.code;
+          this.formData.dateValid = res.data.data.dateValid;
+          this.formData.roleCode = res.data.data.sysRole.code;
         })
         .catch(() => {
           this.$message({
@@ -252,9 +252,6 @@ export default {
     .right-menu {
       float: right;
       height: 30px;
-      #organButton {
-        height: 28px;
-      }
       .item {
         display: inline-block;
         margin: -10px 5px 0 0;

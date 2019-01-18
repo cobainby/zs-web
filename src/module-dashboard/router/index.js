@@ -10,29 +10,6 @@ export default [
     meta: {
       title: 'manage',
       icon: 'component'
-    },
-    children: [
-      {
-        path: 'organ', 
-        name: 'base-organ',
-        component: _import('dashboard/pages/organ'),
-        meta: {title: 'organ'}
-      },
-      {
-        path: 'organList', 
-        name: 'base-organList',
-        component: _import('dashboard/pages/organList'),
-        meta: {title: '机构列表'}
-      },
-      { 
-        path: 'worker',
-        name: 'base-worker',
-        component: _import('dashboard/pages/worker'),
-        meta: {
-          title: 'worker',
-          noCache: true
-        }
-      }
-    ]
+    }
   }
 ]

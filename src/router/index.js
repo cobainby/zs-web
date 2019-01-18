@@ -5,6 +5,7 @@ import { Message, Loading } from "element-ui";
 import NProgress from "nprogress";
 import Layout from "@/module-dashboard/pages/layout";
 import dataLayout from "@/module-datachart/pages/dataLayout";
+import organLayout from "@/module-organ/pages/organLayout";
 import { getToken } from "@/utils/auth";
 import { hasPermissionPoint, hasPermission } from "@/utils/permission";
 
@@ -76,18 +77,6 @@ export const constantRouterMap = [
     component: _import("dashboard/pages/detailedInfo")
   },
   {
-    path: "/basicList",
-    component: _import("list/pages/basicList")
-  },
-  {
-    path: "/cardList",
-    component: _import("list/pages/cardList")
-  },
-  {
-    path: "/tableList",
-    component: _import("list/pages/tableList")
-  },
-  {
     path: "",
     component: dataLayout,
     redirect: "dataInfo",
@@ -156,6 +145,31 @@ export const constantRouterMap = [
         meta: { title: "周边管线竖向位移" }
       }
 
+    ]
+  },
+  {
+    path: "",
+    component: organLayout,
+    redirect: "organ",
+    hidden: true,
+    children: [
+      {
+        path: "organ",
+        component: _import("organ/pages/organ"),
+        name: "organ",
+        meta: { title: "机构信息", icon: "component", noCache: true }
+      },
+      {
+        path: "organList",
+        component: _import("organ/pages/organList"),
+        name: "organList",
+        meta: { title: "机构列表"}
+      },{
+        path: "worker",
+        component: _import("organ/pages/worker"),
+        name: "worker",
+        meta: { title: "人员列表" }
+      }
     ]
   }
 ];

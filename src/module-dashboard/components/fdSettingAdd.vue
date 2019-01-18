@@ -77,7 +77,7 @@ import shajs from "sha.js";
 import { getToken } from "@/utils/auth";
 import { Message } from "element-ui";
 import axios from "axios";
-import {addFdSet,getSection}from "@/api/base/project";
+import {addFdSet,getSection,updateFdSet}from "@/api/base/project";
 
 export default {
   name: "organAdd",
@@ -176,7 +176,7 @@ export default {
                 });
               });
           } else if (this.text == "修改") {
-            updateEquip(fdData)
+            updateFdSet(fdData)
               .then(response => {
                 if (response.data.result == 1) {
                   const jsonData = response.data;

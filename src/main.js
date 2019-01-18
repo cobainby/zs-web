@@ -24,10 +24,10 @@ Vue.use(MuseUI);
 * 注册 - 业务模块
 */
 import dashboard from "@/module-dashboard/"; // 面板
-import list from "@/module-list/"; // 列表页
+import organ from "@/module-organ/"; // 列表页
 import datachart from "@/module-datachart/"; // 各种数据展示图表
 Vue.use(dashboard, store);
-Vue.use(list, store);
+Vue.use(organ, store);
 Vue.use(datachart, store);
 /*
 * 注册 - 组件

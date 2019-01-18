@@ -71,7 +71,7 @@
               <span v-if="scope.row.sysRole.name==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作" width="300px">
+          <el-table-column align="center" label="操作" width="300px" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" size="mini" icon="el-icon-info" @click="viewUser(scope.row)">查看</el-button>
               <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
@@ -279,7 +279,7 @@ export default {
       this.formData.accountUuid = params.accountUuid;
       this.formData.accountName = params.accountName;
       this.formData.loginName = params.accountName;
-      this.formData.password = params.accountName;
+      this.formData.password = params.password;
       this.formData.orgUuid = params.userInstitutes.orgUuid;
       this.formData.pid = params.pid;
       this.formData.email = params.email;

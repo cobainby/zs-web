@@ -33,7 +33,7 @@
 <style rel="stylesheet/css" scoped>
 @media (min-width: 640px) and (max-width: 1399px) {
   .mainMenu{
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 </style>

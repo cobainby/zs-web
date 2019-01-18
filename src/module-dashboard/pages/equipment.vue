@@ -55,9 +55,9 @@
               </el-table-column>
               <el-table-column align="center" :label="$t('table.actions')" width="250px" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success" icon="el-icon-info" @click="modelView(scope.row.modelUuid)">查看</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit"  @click="modelUpdate(scope.row)">修改</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger"  icon="el-icon-delete" @click="modelRemove(scope.row.modelUuid)">删除</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success" icon="el-icon-info" @click="modelView(scope.row)">查看</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit" @click="modelUpdate(scope.row)">修改</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" icon="el-icon-delete" @click="modelRemove(scope.row.modelUuid)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -149,9 +149,9 @@
               </el-table-column>
               <el-table-column align="center" :label="$t('table.actions')" width="250px" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success"  icon="el-icon-info" @click="equipView(scope.row.equipUuid)">查看</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini"  icon="el-icon-edit"  @click="equipUpdate(scope.row)">修改</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger"   icon="el-icon-delete" @click="equipRemove(scope.row.equipUuid)">删除</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success" icon="el-icon-info" @click="equipView(scope.row)">查看</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit" @click="equipUpdate(scope.row)">修改</el-button>
+                  <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" icon="el-icon-delete" @click="equipRemove(scope.row.equipUuid)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -164,11 +164,17 @@
           </el-tab-pane>
         </el-tabs>
         <!-- end -->
-        <!-- 新增标签弹层 -->
+        <!-- 新增型号弹层 -->
         <component @refreshModelList="getEquipModelList" v-bind:is="ModelAdd" ref="editModel" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase1='formData1' :ruleInline1='ruleInline1' :PermissionGroupsList='PermissionGroupsList' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
+        </component>
+        <!-- 新增查看型号弹层 -->
+        <component v-bind:is="ModelView" ref="viewModel" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase1='formData1' :ruleInline1='ruleInline1' :PermissionGroupsList='PermissionGroupsList' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
         </component>
         <!-- 新增标签弹层 -->
         <component @refreshEquipList="getEquipList" v-bind:is="EquipAdd" ref="editEquip" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase2='formData2' :modelDropdownList='modelDropdownList' :projectDropdownList='projectDropdownList' :ruleInline2='ruleInline2' :PermissionGroupsList='PermissionGroupsList' v-on:newDataes="handleLoadDataList" v-on:handleCloseEquip="handleCloseEquip">
+        </component>
+        <!-- 新增查看设备弹层 -->
+        <component v-bind:is="EquipView" ref="viewEquip" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase2='formData2' :ruleInline1='ruleInline1' :PermissionGroupsList='PermissionGroupsList' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
         </component>
       </el-card>
     </div>
@@ -186,26 +192,39 @@
 </style>
 
 <script>
-import { equipModelList, equipList,viewEquipModel,viewEquip,removeEquipModel,removeEquip } from "@/api/base/equip";
+import {
+  equipModelList,
+  equipList,
+  viewEquipModel,
+  viewEquip,
+  removeEquipModel,
+  removeEquip
+} from "@/api/base/equip";
 import PageTool from "./../components/pageTool";
 import { getToken } from "@/utils/auth";
 import { Institutes } from "@/api/base/organ";
 import normalGif from "@/assets/green.png";
 import disableGif from "@/assets/red.gif";
 import ModelAdd from "./../components/equipModelAdd.vue";
+import ModelView from "./../components/equipModelView.vue";
 import EquipAdd from "./../components/equipAdd.vue";
+import EquipView from "./../components/equipView.vue";
 import { projectList } from "@/api/base/project";
 export default {
   name: "base-users",
   components: {
     ModelAdd,
     EquipAdd,
+    ModelView,
+    EquipView,
     PageTool
   },
   data() {
     return {
       ModelAdd: "ModelAdd",
+      ModelView: "ModelView",
       EquipAdd: "EquipAdd",
+      EquipView: "EquipView",
       normalGif,
       disableGif,
       pageTitle: "", // 页面标题
@@ -486,9 +505,14 @@ export default {
     handleCloseEquip() {
       this.$refs.editEquip.dialogFormH();
     },
-    modelView(modelUuid){
+    modelView(params) {
       // this.queryModel();
-      
+      // this.queryModel();
+      var _this = this;
+      this.text = "查看";
+      this.pageTitle = "型号";
+      this.$refs.viewModel.dialogFormV();
+      _this.modelEditForm(params);
     },
     //
     modelUpdate(params) {
@@ -498,6 +522,14 @@ export default {
       this.pageTitle = "型号";
       this.$refs.editModel.dialogFormV();
       _this.modelEditForm(params);
+    },
+    equipView(params){
+      // this.queryModel();
+      var _this = this;
+      this.text = "查看";
+      this.pageTitle = "设备";
+      this.$refs.viewEquip.dialogFormV();
+      _this.equipEditForm(params);
     },
     equipUpdate(params) {
       // this.queryModel();
@@ -531,15 +563,24 @@ export default {
       this.formData2.verifyValidDate = params.verifyValidDate;
       this.formData2.verifyOrg = params.verifyOrg;
       this.formData2.verifyNumber = params.verifyNumber;
-      this.formData2.projectUuid =params.projectFoundationDitch != null? params.projectFoundationDitch.projectUuid: "";
+      this.formData2.projectUuid =
+        params.projectFoundationDitch != null
+          ? params.projectFoundationDitch.projectUuid
+          : "";
       this.formData2.equipStatus = params.equipStatus == 0 ? "停用" : "启用";
       this.formData2.orgOwner = params.orgOwner;
       this.formData2.orgUse = params.orgUse;
       this.formData2.imageEquipment = params.imageEquipment;
       this.formData2.imageVerify = params.imageVerify;
-      this.formData2.entryAccUuid =params.userAccountEntry != null? params.userAccountEntry.accountUuid: "";
+      this.formData2.entryAccUuid =
+        params.userAccountEntry != null
+          ? params.userAccountEntry.accountUuid
+          : "";
       this.formData2.entryDate = params.entryDate;
-      this.formData2.confirmAccUuid =params.userAccountConfirm != null? params.userAccountConfirm.accountUuid: "";
+      this.formData2.confirmAccUuid =
+        params.userAccountConfirm != null
+          ? params.userAccountConfirm.accountUuid
+          : "";
       this.formData2.confirmDate = params.confirmDate;
     },
     // 删除
@@ -578,7 +619,7 @@ export default {
         .then(() => {
           removeEquip({ equipUuid, token: this.token })
             .then(response => {
-              debugger
+              debugger;
               if (response.data.result == 1) {
                 this.$message({
                   type: "success",

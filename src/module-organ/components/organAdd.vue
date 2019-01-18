@@ -55,7 +55,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="机构类型" prop="typeCode">
-              <el-select v-model="formBase.type.code" placeholder="请选择">
+              <el-select v-model="formBase.typeCode" placeholder="请选择">
                 <el-option id="typeCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
                 </el-option>
               </el-select>
@@ -178,6 +178,7 @@ export default {
             $("#dateRegister").val() != "" ? $("#dateRegister").val() : null;
           organData.data.dateValid =
             $("#dateValid").val() != "" ? $("#dateValid").val() : null;
+          organData.data.type.code=data.typeCode;
           if (this.text == "创建") {
             addInstitutes(organData)
               .then(response => {

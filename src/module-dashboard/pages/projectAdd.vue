@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="23">
         <div class="tableListTitle2" style="margin-top:5px;">
-          <label id="proName">基坑测试项目</label>
+          <label id="proName">{{projectName}}</label>
         </div>
       </el-col>
       <el-col :span="1">
@@ -109,13 +109,13 @@
                   计划开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
+                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
                 </td>
                 <th>
                   计划回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
+                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
                 </td>
               </tr>
               <tr>
@@ -123,13 +123,13 @@
                   实际开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
+                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
                 </td>
                 <th>
                   实际回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(xxxx/xx/xx)
+                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
                 </td>
               </tr>
               <tr>
@@ -206,14 +206,18 @@
                   <input name="superviseCompany" rows="2" cols="20" id="createAccUuid" class="input" style="height:30px;width:80%;"></input>
                 </td>
                 <th>
+                </th>
+                <td colspan="1">
+                </td>
+              </tr>
+              <tr>
+                <th>
                   项目创建时间
                 </th>
                 <td colspan="1">
                   <el-date-picker id="createDate" v-model="formBase.createDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
                   </el-date-picker>
                 </td>
-              </tr>
-              <tr>
                 <th>
                   项目结束时间
                 </th>
@@ -221,11 +225,13 @@
                   <el-date-picker id="finishDate" v-model="formBase.finishDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
                   </el-date-picker>
                 </td>
+              </tr>
+              <tr>
                 <th>
                   工程概况描述
                 </th>
-                <td colspan="1">
-                  <input name="superviseWorker" rows="2" cols="20" id="projectDetail" class="input" style="height:30px;width:80%;"></input>
+                <td colspan="3">
+                  <textarea name="projectDetail" rows="2" cols="20" id="projectDetail" class="input" style="height:85px;line-height:85px;width:95%;"></textarea>
                 </td>
               </tr>
             </table>
@@ -492,6 +498,7 @@
             </el-table-column>
             <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
               <template slot-scope="scope">
+                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success" @click="updateFd(scope.row)">修改</el-button>
                 <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeFd(scope.row.monitorItemUuid)">{{$t('table.delete')}}</el-button>
               </template>
             </el-table-column>
@@ -589,6 +596,7 @@ export default {
   },
   data() {
     return {
+      projectName: "",
       createUuid: "", //当前登陆人的id
       dialogImageUrl: "",
       dialogVisible: false,
@@ -706,6 +714,12 @@ export default {
         // 表单验证
         mItemName: [
           { required: true, message: "监测项名称不能为空", trigger: "blur" }
+        ],
+        mItemMode: [
+          { required: true, message: "采集模式不能为空", trigger: "blur" }
+        ],
+        mItemValid: [
+          { required: true, message: "有效状态不能为空", trigger: "blur" }
         ]
       }
     };
@@ -1013,6 +1027,8 @@ export default {
                 showConfirmButton: false,
                 showCancelButton: false
               });
+              //编辑成功后跳转到工程列表
+              this.$router.push({ path: "itemList" });
             } else {
               this.$confirm(response.data.message, "提示", {
                 type: "error",
@@ -1074,6 +1090,32 @@ export default {
       );
       this.$refs.editFd.dialogFormV();
     },
+    updateFd(params) {
+      this.text = "修改";
+      this.pageTitle = "监测项";
+      //获取监测项下拉表
+      getMonitor().then(res => {
+        this.itemDropdownList = res.data;
+      });
+      //获取断面设置列表
+      getSectionSet({ token: this.token, projectUuid: this.projectId }).then(
+        res => {
+          // debugger;
+          this.sectionDropdownList = res.data.data;
+        }
+      );
+      this.formData.monitorItemUuid = params.monitorItemUuid;
+      this.formData.projectUuid = params.projectFoundationDitch.projectUuid;
+      this.formData.mItemName = params.mItemName;
+      this.formData.mItemEname = params.mItemEname;
+      this.formData.mItemDevices = params.mItemDevices;
+      this.formData.mItemFrequency = params.mItemFrequency;
+      this.formData.mItemMode = params.mItemMode;
+      this.formData.sectionUuid = params.sectionUuid;
+      this.formData.mItemOrder = params.mItemOrder;
+      this.formData.mItemValid = params.mItemValid;
+      this.$refs.editFd.dialogFormV();
+    },
     getLoadFile(type) {
       if (type == "1") {
         $("#approvalUpload").trigger("click");
@@ -1123,6 +1165,7 @@ export default {
         console.log(this.projectInfo);
         this.projectInfo = this.$route.params.projectInfo;
         this.projectId = this.projectInfo.projectUuid;
+        this.projectName = this.projectInfo.projectName;
         $("#projectCode").val(this.projectInfo.projectCode);
         $("#superviseCode").val(this.projectInfo.superviseCode);
         $("#projectName").val(this.projectInfo.projectName);
@@ -1160,8 +1203,7 @@ export default {
           this.changeTimeFormat(this.projectInfo.finishDate)
         );
         $("#projectDetail").val(this.projectInfo.projectDetail);
-      }else if(this.type=="创建"){
-
+      } else if (this.type == "创建") {
       }
     },
     getFdSetList() {
