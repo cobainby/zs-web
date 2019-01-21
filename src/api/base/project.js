@@ -11,7 +11,7 @@ export const addProjectFile=data=>createFormAPI(`/Foundation/programme/add.data`
 export const getFileList=data=>createAPI(`/Foundation/programme/get`,'get',data);//获取项目当前上传的文件列表
 export const deleteFile=data=>createAPI(`/Foundation/programme/delete/${data.progUuid}`,'delete',data);//删除上传的文件
 export const downFile=data=>createAPI(`/Foundation/programme/viewFile`,'get',data);//下载该文件
-export const addProjectPic=data=>createFormAPI(`Foundation/plan/add`,'post',data);//上传工程平面图
+export const addProjectPic=data=>createFormAPI(`/Foundation/plan/add`,'post',data);//上传工程平面图
 export const getProjectPic=data=>createAPI(`/Foundation/plan/get`,'get',data);//获取上传的工程平面图
 //监测项设置相关
 export const getFdSet=data=>createAPI(`/fdSetting/mitem/get`,'get',data);//查询监测项设置信息
