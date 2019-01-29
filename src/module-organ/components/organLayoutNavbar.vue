@@ -104,18 +104,7 @@ export default {
       formData: {
         accountUuid: "",
         accountName: "",
-        loginName: "",
-        password: "",
-        orgUuid: "",
-        pid: "",
-        email: "",
-        post: "",
-        mobilePhone: "",
-        wechat: "",
-        numCertificate: "",
-        dateRegister: "",
-        dateValid: "",
-        roleCode: ""
+        password: ""
       },
       ruleInline: {
         accountName: [
@@ -135,36 +124,13 @@ export default {
     getOrgan() {
       this.$router.push({ path: "organ" });
     },
-    toggleSideBar() {
-      this.$store.dispatch("toggleSideBar");
+    toggleDataBar() {
+      this.$store.dispatch("toggleDataBar");
     },
     psdchange() {
-      viewAccount({
-        token: this.token,
-        accountUuid: this.accountUuid
-      })
-        .then(res => {
-          this.formData.accountUuid = res.data.data.accountUuid;
-          this.formData.accountName = res.data.data.accountName;
-          this.formData.loginName = res.data.data.loginName;
-          this.formData.password = "";
-          this.formData.orgUuid = res.data.data.userInstitutes.orgUuid;
-          this.formData.pid = res.data.data.pid;
-          this.formData.email = res.data.data.email;
-          this.formData.post = res.data.data.post;
-          this.formData.mobilePhone = res.data.data.mobilePhone;
-          this.formData.wechat = res.data.data.wechat;
-          this.formData.numCertificate = res.data.data.numCertificate;
-          this.formData.dateRegister = res.data.data.dateRegister;
-          this.formData.dateValid = res.data.data.dateValid;
-          this.formData.roleCode = res.data.data.sysRole.code;
-        })
-        .catch(() => {
-          this.$message({
-            type: "warning",
-            message: "无法获取个人信息!"
-          });
-        });
+      this.formData.accountUuid = this.accountUuid;
+      this.formData.accountName = this.accountName;
+      this.formData.password = "";
       this.$refs.changePsd.dialogFormV();
     },
     logout() {

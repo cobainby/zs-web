@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="账户昵称" prop="accountName">
-              <el-input v-model="formBase.accountName" placeholder="Please input"></el-input>
+              <el-input v-model="formBase.accountName" placeholder="Please input" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -13,25 +13,6 @@
           <el-col :span="24">
             <el-form-item label="新密码" prop="password">
               <el-input v-model="formBase.password" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="手机号码" prop="mobilePhone">
-              <el-input v-model="formBase.mobilePhone" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="email" prop="email">
-              <el-input v-model="formBase.email" placeholder="Please input"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="身份证号码" prop="pid">
-              <el-input v-model="formBase.pid" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -48,7 +29,7 @@
 
 <script>
 import shajs from "sha.js";
-import { updateAccount } from "@/api/base/worker";
+import { updatePassword } from "@/api/base/worker";
 import { getToken } from "@/utils/auth";
 import { Message } from "element-ui";
 import axios from "axios";
@@ -64,7 +45,8 @@ export default {
   ],
   data() {
     return {
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      token:getToken()
     };
   },
   computed: {},
@@ -92,14 +74,11 @@ export default {
           let data = {
             ...this.formBase
           };
-          var workerData = new Object();
-          workerData.token = getToken();
-          workerData.data = data;
-          updateAccount(workerData).then(response => {
+          updatePassword({token:this.token,newpassword:data.password}).then(response => {
             if (response.data.result == 1) {
               this.$emit("handleCloseModal");
               const jsonData = response.data;
-              this.$confirm("编辑个人信息成功!", "提示", {
+              this.$confirm("修改密码成功!", "提示", {
                 type: "success",
                 showConfirmButton: false,
                 showCancelButton: false

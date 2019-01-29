@@ -11,21 +11,15 @@
           <el-button icon="el-icon-search" type="text" class="btnSearch" @click="handleBtnSearch"></el-button>
         </el-tooltip>
         <transition name="el-fade-in-linear">
-          <el-autocomplete 
-            ref="searchInput"
-            v-model="searchVal"
-            :fetch-suggestions="querySearchAsync" 
-            @select="handleSelect" 
-            @blur="showSearchInput = false"
-            placeholder="站内搜索" 
-            :trigger-on-focus="true"
-            v-show="showSearchInput" ></el-autocomplete>
+          <el-autocomplete ref="searchInput" v-model="searchVal" :fetch-suggestions="querySearchAsync" @select="handleSelect" @blur="showSearchInput = false" placeholder="站内搜索" :trigger-on-focus="true" v-show="showSearchInput"></el-autocomplete>
         </transition>
       </div>
       <!-- 使用文档 -->
       <a href="https://github.com/cobainby" class="item" target="_blank">
-        <el-tooltip class="item" effect="dark" content="使用文档" placement="bottom"><i class="el-icon-question"></i></el-tooltip>
-      </a>
+        <el-tooltip class="item" effect="dark" content="使用文档" placement="bottom">
+          <i class="el-icon-question"></i>
+        </el-tooltip>
+      </a> 
       <!-- 错误 -->
       <error-log class="error item"></error-log>
       <!-- 全屏 -->
@@ -42,7 +36,8 @@
       <el-dropdown class="item">
         <span class="el-dropdown-link">
           <!-- <img class="avatar" src="../assets/bigUserHeader.png"> -->
-          {{accountName}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{accountName}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
@@ -52,7 +47,7 @@
           </router-link>
           <a target='_blank' @click="psdchange">
             <el-dropdown-item>
-             修改密码
+              修改密码
             </el-dropdown-item>
           </a>
           <el-dropdown-item divided>
@@ -61,7 +56,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-     <!-- 新增修改密码弹层 -->
+    <!-- 新增修改密码弹层 -->
     <component v-bind:is="PsdChange" :ruleInline='ruleInline' ref="changePsd" text='修改个人信息' :formBase='formData' v-on:handleCloseModal="handleCloseModal">
     </component>
   </el-menu>
@@ -79,7 +74,6 @@ import { search } from "@/api/base/menus";
 import { detail } from "@/api/base/organ";
 import { getToken } from "@/utils/auth";
 import PsdChange from "@/components/psdChange";
-import { viewAccount } from "@/api/base/worker";
 
 export default {
   name: "layoutNavBar",
@@ -109,18 +103,7 @@ export default {
       formData: {
         accountUuid: "",
         accountName: "",
-        loginName: "",
-        password: "",
-        orgUuid: "",
-        pid: "",
-        email: "",
-        post: "",
-        mobilePhone: "",
-        wechat: "",
-        numCertificate: "",
-        dateRegister: "",
-        dateValid: "",
-        roleCode: ""
+        password: ""
       },
       ruleInline: {
         accountName: [
@@ -140,36 +123,13 @@ export default {
     getOrgan() {
       this.$router.push({ path: "organ" });
     },
-    toggleSideBar() {
-      this.$store.dispatch("toggleSideBar");
+    toggleDataBar() {
+      this.$store.dispatch("toggleDataBar");
     },
     psdchange() {
-      viewAccount({
-        token: this.token,
-        accountUuid: this.accountUuid
-      })
-        .then(res => {
-          this.formData.accountUuid = res.data.data.accountUuid;
-          this.formData.accountName = res.data.data.accountName;
-          this.formData.loginName = res.data.data.loginName;
-          this.formData.password = "";
-          this.formData.orgUuid = res.data.data.userInstitutes.orgUuid;
-          this.formData.pid = res.data.data.pid;
-          this.formData.email = res.data.data.email;
-          this.formData.post = res.data.data.post;
-          this.formData.mobilePhone = res.data.data.mobilePhone;
-          this.formData.wechat = res.data.data.wechat;
-          this.formData.numCertificate = res.data.data.numCertificate;
-          this.formData.dateRegister = res.data.data.dateRegister;
-          this.formData.dateValid= res.data.data.dateValid;
-          this.formData.roleCode= res.data.data.sysRole.code;
-        })
-        .catch(() => {
-          this.$message({
-            type: "warning",
-            message: "无法获取个人信息!"
-          });
-        });
+      this.formData.accountUuid = this.accountUuid;
+      this.formData.accountName = this.accountName;
+      this.formData.password = "";
       this.$refs.changePsd.dialogFormV();
     },
     logout() {

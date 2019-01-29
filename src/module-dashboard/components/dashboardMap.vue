@@ -62,11 +62,8 @@
           {{ nowItem.projectName }}
         </div>
         <div class="dialog-content">
-          <!-- <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
-            <img :src="nowItem.bigPic" ref="bigPic">
-          </div> -->
           <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
-            <img src="../../../static/images/test/video.png" ref="bigPic">
+            <img src="../../../static/images/test/default.png" ref="bigPic">
           </div>
           <no-data v-else></no-data>
         </div>
@@ -278,7 +275,7 @@ export default {
               <div class="location-name" title="${item.projectName}">${
           item.projectName
         }</div>
-              <img class="small-img" src="../../../static/images/test/video.png" alt="${
+              <img class="small-img" src="../../../static/images/test/default.png" alt="${
                 item.projectName
               }">
               <div class="line">工程地址：${item.projectLocation}</div>
@@ -395,7 +392,7 @@ export default {
                 margin-top: -2px;
               }
               .small-img {
-                width: 150px;
+                width: 140px;
                 height: 80px;
                 cursor: pointer;
                 margin-top: 2px;
@@ -586,7 +583,7 @@ export default {
                 white-space: nowrap;
               }
               .small-img {
-                width: 207px;
+                width: 187px;
                 height: 130px;
                 cursor: pointer;
                 margin-top: 3px;

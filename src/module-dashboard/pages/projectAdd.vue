@@ -816,7 +816,7 @@ export default {
         cache: false, //不设置缓存
         processData: false, // 不处理数据
         contentType: false, // 不设置内容类型
-        dataType: "json",
+        dataType: "json", 
         success: function(res) {
           if (res.result == 1) {
             _this.$confirm(res.message, "提示", {
