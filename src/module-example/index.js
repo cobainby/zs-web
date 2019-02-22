@@ -1,6 +1,6 @@
 /*
- * @Author: baiyang 
- * @Description: 数据展示分图 
+ * @Author: coderbaiyang <619148077@qq.com> 
+ * @Description: 项目详细信息 
  * @Date: 2018-04-13 16:13:27 
  * @Last Modified by: baiyang
  * @Last Modified time: 2018-04-13 16:15:04
