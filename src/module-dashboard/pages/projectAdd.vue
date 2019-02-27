@@ -163,9 +163,9 @@
                   监测负责人
                 </th>
                 <td>
-                  <input name="monitorWorker" type="text" id="monitoringHead" class="input" style="width:60%;height:30px;" disabled="true " />
-                  <el-button id="addMonitorWorker" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                  <el-button id="deleteMonitorWorker" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                  <input name="monitorWorker" v-model="monitoringHead" type="text" id="monitoringHead" class="input" style="width:60%;height:30px;" disabled="true " />
+                  <el-button id="addMonitorWorker" @click="addWorker('head')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                  <el-button id="deleteMonitorWorker" @click="deleteWorker('head')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
                 </td>
               </tr>
               <tr>
@@ -173,9 +173,9 @@
                   监测人员
                 </th>
                 <td>
-                  <input name="monitorWorker" type="text" id="monitoringSurveyor" class="input" style="width:60%;height:30px;" disabled="true " />
-                  <el-button id="addMonitorWorker" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                  <el-button id="deleteMonitorWorker" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                  <input name="monitorWorker" v-model="monitoringSurveyor" type="text" id="monitoringSurveyor" class="input" style="width:60%;height:30px;" disabled="true " />
+                  <el-button id="addMonitorWorker" size="mini" @click="addWorker('worker')" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                  <el-button id="deleteMonitorWorker" size="mini" @click="deleteWorker('worker')" type="danger" icon="el-icon-circle-close">清空</el-button>
                 </td>
                 <th>
                   行政主管部门
@@ -250,11 +250,11 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="proprietorLinkman" class="input" style="width:99%;"></label>
+                        <input id="proprietorLinkman" v-model="buildName" class="input" style="width:99%;height:30px" />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addBuildName" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                        <el-button id="deleteBuildName" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                        <el-button id="addBuildName" @click="addWorker('build')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                        <el-button id="deleteBuildName" @click="deleteWorker('build')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -274,11 +274,11 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="designLinkman" class="input" style="width:99%;"></label>
+                        <input id="designLinkman" v-model="designName" class="input" style="width:99%;height:30px;" />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addDesign" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                        <el-button id="deleteDesign" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                        <el-button id="addDesign" size="mini" @click="addWorker('design')" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                        <el-button id="deleteDesign" size="mini" @click="deleteWorker('design')" type="danger" icon="el-icon-circle-close">清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -298,11 +298,11 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="constructionLinkman" class="input" style="width:99%;"></label>
+                        <input id="constructionLinkman" v-model="constructionName" class="input" style="width:99%;height:30px;"></input>
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addMonitorLeader" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                        <el-button id="deleteMonitorLeader" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                        <el-button id="addConstruction" size="mini" @click="addWorker('construction')" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                        <el-button id="deleteConstruction" size="mini" @click="deleteWorker('construction')" type="danger" icon="el-icon-circle-close">清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -322,11 +322,11 @@
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <label id="supervisionLinkman" class="input" style="width:99%;"></label>
+                        <input id="supervisionLinkman" v-model="supervisionName" class="input" style="width:99%;height:30px;" />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addMonitorLeader" size="mini" type="primary" icon="el-icon-circle-plus">添加</el-button>
-                        <el-button id="deleteMonitorLeader" size="mini" type="danger" icon="el-icon-circle-close">删除</el-button>
+                        <el-button id="addSupervision" @click="addWorker('supervision')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
+                        <el-button id="deleteSupervision" @click="deleteWorker('supervision')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -517,7 +517,7 @@
         <div class="dialog-content">
           <div class="clearfix">
             <div class="left-form">
-              <div class="form-group">
+              <div class="form-group" style="display:none">
                 <label class="control-label">工程地址</label>
                 <input type="text" id="tipinput" class="form-control" v-model="addData.rtmp" placeholder="工程地址" autocomplete="off">
               </div>
@@ -532,6 +532,29 @@
                 <div id="map"></div>
               </div>
               <div>按住左键拖动地图上红色标注到相应位置，即可完成经纬度标注，并自动获取该地址</div>
+            </div>
+          </div>
+        </div>
+      </mu-dialog>
+      <mu-dialog :open="workerAdd" dialogClass="location-add-dialog" @close="closeAddWorker">
+        <div class="dialog-title">
+          选择人员
+          <i class="material-icons close-icon" @click="closeAddWorker">X</i>
+        </div>
+        <div class="dialog-content">
+          <div class="clearfix">
+            <el-table :height="tableHeight" id="workerTable" ref="multipleTable" :data="workerData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+              <el-table-column type="selection" width="55">
+              </el-table-column>
+              <el-table-column label="姓名">
+                <template slot-scope="scope">
+                  <span>{{scope.row.accountName}}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div style="margin-top: 20px">
+              <el-button @click="toggleSelection">确认选择</el-button>
+              <el-button @click="closeAddWorker">取消选择</el-button>
             </div>
           </div>
         </div>
@@ -570,6 +593,7 @@ import {
   getProjectPic
 } from "@/api/base/project";
 import { detail } from "@/api/base/organ";
+import { UserAccount } from "@/api/base/worker";
 import echarts from "echarts";
 import FdSettingAdd from "./../components/fdSettingAdd";
 import WarningSet from "./../components/warningSet.vue";
@@ -598,6 +622,10 @@ export default {
     return {
       projectName: "",
       createUuid: "", //当前登陆人的id
+      orgUuid: "", //当前登录人的机构ID
+      workerData: "", //当前选择人员的列表
+      selectType: "", //选择人员的类型
+      tableHeight: window.innerHeight - 290, //table高度
       dialogImageUrl: "",
       dialogVisible: false,
       limitNum: 5,
@@ -620,6 +648,7 @@ export default {
       activeName: "first-ta", //切换tab的值
       projectId: "", //判断是否有projectUuid来进入下几个tab，如果projectuuid没有值，则必须新建项目
       dialogAdd: false,
+      workerAdd: false,
       addData: {
         location_id: "", // 以萨卡口编号
         loc_id: "", // 厂商卡口编号
@@ -629,6 +658,12 @@ export default {
         rtmp: "" // rtmp地址或rtsp地址
       },
       location: "",
+      monitoringHead: "", //监测负责人
+      monitoringSurveyor: "", //监测人员
+      buildName: "", //建设单位人员
+      designName: "", //设计单位人员
+      constructionName: "", //建设单位人员
+      supervisionName: "", //监理单位人员
       iconUrl: "./../static/images/map/",
       size: new AMap.Size(17, 23),
       offset: new AMap.Pixel(-8, -23),
@@ -816,7 +851,7 @@ export default {
         cache: false, //不设置缓存
         processData: false, // 不处理数据
         contentType: false, // 不设置内容类型
-        dataType: "json", 
+        dataType: "json",
         success: function(res) {
           if (res.result == 1) {
             _this.$confirm(res.message, "提示", {
@@ -944,8 +979,88 @@ export default {
     closeAddLocation() {
       this.dialogAdd = false;
     },
-    changeLocation() {
-      this.dialogAdd = false;
+    initWorker() {
+      detail({ token: this.token }).then(res => {
+        this.orgUuid = res.data.orgUuid;
+        this.workerData = []; //初始化一次
+        UserAccount({ token: this.token, orguuid: this.orgUuid }).then(res => {
+          debugger;
+          this.workerData = res.data.data;
+        });
+      });
+    },
+    //创建项目时添加人员
+    addWorker(type) {
+      debugger;
+      if (type == "head") {
+        this.selectType = "head";
+      } else if (type == "worker") {
+        this.selectType = "worker";
+      } else if (type == "build") {
+        this.selectType = "build";
+      } else if (type == "design") {
+        this.selectType = "design";
+      } else if (type == "construction") {
+        this.selectType = "construction";
+      } else if (type == "supervision") {
+        this.selectType = "supervision";
+      }
+      this.workerAdd = true;
+    },
+    //创建项目时删除人员
+    deleteWorker(type) {
+      if (type == "head") {
+        this.monitoringHead = "";
+      } else if (type == "worker") {
+        this.monitoringSurveyor = "";
+      } else if (type == "build") {
+        this.buildName = "";
+      } else if (type == "design") {
+        this.designName = "";
+      } else if (type == "construction") {
+        this.constructionName = "";
+      } else if (type == "supervision") {
+        this.supervisionName = "";
+      }
+    },
+    toggleSelection() {
+      debugger;
+      var workerSelectList = this.$refs.multipleTable.store.states.selection;
+      if (this.selectType == "head") {
+        this.monitoringHead = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.monitoringHead += workerSelectList[i].accountName + "、";
+        }
+      } else if (this.selectType == "worker") {
+        this.monitoringSurveyor = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.monitoringSurveyor += workerSelectList[i].accountName + "、";
+        }
+      } else if (this.selectType == "build") {
+        this.buildName = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.buildName += workerSelectList[i].accountName + "、";
+        }
+      } else if (this.selectType == "design") {
+        this.designName = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.designName += workerSelectList[i].accountName + "、";
+        }
+      } else if (this.selectType == "construction") {
+        this.constructionName = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.constructionName += workerSelectList[i].accountName + "、";
+        }
+      } else if (this.selectType == "supervision") {
+        this.supervisionName = "";
+        for (var i = 0; i < workerSelectList.length; i++) {
+          this.supervisionName += workerSelectList[i].accountName + "、";
+        }
+      }
+      this.workerAdd = false;
+    },
+    closeAddWorker() {
+      this.workerAdd = false;
     },
     addMarkerOne(lng, lat) {
       let marker = null;
@@ -1183,18 +1298,18 @@ export default {
         $("#constructionStep").val(this.projectInfo.constructionStep);
         $("#constructionState").val(this.projectInfo.constructionState);
         $("#monitoringOrg").val(this.projectInfo.monitoringOrg);
-        $("#monitoringHead").val(this.projectInfo.monitoringHead);
-        $("#monitoringSurveyor").val(this.projectInfo.monitoringSurveyor);
+        this.monitoringHead = this.projectInfo.monitoringHead;
+        this.monitoringSurveyor = this.projectInfo.monitoringSurveyor;
         $("#supervisorOrg").val(this.projectInfo.supervisorOrg);
         $("#supervisorLinkman").val(this.projectInfo.supervisorLinkman);
         $("#proprietorOrg").val(this.projectInfo.proprietorOrg);
-        $("#proprietorLinkman").val(this.projectInfo.proprietorLinkman);
+        this.buildName = this.projectInfo.proprietorLinkman;
         $("#designOrg").val(this.projectInfo.designOrg);
-        $("#designLinkman").val(this.projectInfo.designLinkman);
+        this.designName = this.projectInfo.designLinkman;
         $("#constructionOrg").val(this.projectInfo.constructionOrg);
-        $("#constructionLinkman").val(this.projectInfo.constructionLinkman);
+        this.constructionName = this.projectInfo.constructionLinkman;
         $("#supervisionOrg").val(this.projectInfo.supervisionOrg);
-        $("#supervisionLinkman").val(this.projectInfo.supervisionLinkman);
+        this.supervisionName = this.projectInfo.supervisionLinkman;
         $("#admDepartment").val(this.projectInfo.admDepartment);
         $("#createDate").val(
           this.changeTimeFormat(this.projectInfo.createDate)
@@ -1417,6 +1532,8 @@ export default {
     this.getFdSetList();
     //获取当前登陆人员的信息
     this.getDetil();
+    //获取当前机构人员列表
+    this.initWorker();
   },
   watch: {
     //监测路由变化
