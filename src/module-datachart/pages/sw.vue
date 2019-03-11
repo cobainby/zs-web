@@ -20,6 +20,12 @@
                 <el-button @click="handleRest" size="small">重置</el-button>
               </el-form-item>
               <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
+              <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">附件上传
+                  <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+              <form enctype="multipart/form-data" id="form_example" style="display:none">
+                  <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
+              </form>
             </el-form>
             <el-table :data="selectDatas" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" label="测点编号" :show-overflow-tooltip="true">
@@ -170,6 +176,60 @@ export default {
       $("#swLineAccum").width($(".chartsPanel").width());
       $("#swLineAccum").height($(window).height() - 180);
       this.initChart();
+    },
+    //点击上传成果数据
+    getLoadFile() {
+        $("#approvalUpload").trigger("click");
+    },
+    //附件上传
+    addFiles(fileType, fileInputId) {
+      debugger;
+      //拿到全局vue的指向
+      var _this = this;
+      var files = document.getElementById(fileInputId);
+      this.fileList = [];
+      this.fileType = fileType;
+      for (var i = 0; i < files.files.length; i++) {
+        this.fileList.push(files.files[i]);
+      }
+      var formData = new FormData();
+      // var request = new XMLHttpRequest();
+      //循环添加到formData中
+      this.fileList.forEach(function(file) {
+        formData.append("files", file, file.name);
+      });
+      formData.append("fileType", this.fileType);
+      formData.append("projectUuid", this.projectId);
+      formData.append("monitorItemUuid",this.monitorItemUuid);
+      formData.append("token", this.token);
+      $.ajax({
+        url: "/api/fdData/water/add.filedata",
+        type: "POST",
+        data: formData,
+        cache: false, //不设置缓存
+        processData: false, // 不处理数据
+        contentType: false, // 不设置内容类型
+        dataType: "json",
+        success: function(res) {
+          if (res.result == 1) {
+            _this.$confirm(res.message, "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            _this.getAllFile();
+          } else {
+            _this.$confirm(res.message, "提示", {
+              type: "danger",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        },
+        error: function(res) {
+          alert("上传失败!无法获取上传接口");
+        }
+      });
     },
     //图形展示
     initChart() {
