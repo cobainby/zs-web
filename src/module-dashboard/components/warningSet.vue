@@ -54,12 +54,8 @@
         </div>
       </el-dialog>
       <el-button type="primary" size="small" icon="el-icon-circle-plus" style="margin-bottom:10px;" @click="addWarning">新增</el-button>
-      <el-table :key='tableKey' :height="tableHeight" :data="warningSetData" highlight-current-row border>
-        <el-table-column align="center" label="报警设置名称">
-          <template slot-scope="scope">
-            <span v-if="scope.row.warningName!=null">{{scope.row.warningName}}</span>
-            <span v-if="scope.row.warningName==null">/</span>
-          </template>
+      <el-table :key='tableKey' :height="tableHeight" :data="warningSetData" :default-sort="{prop:'warningName'}" highlight-current-row border>
+        <el-table-column align="center" label="报警设置名称" prop="warningName" sortable>
         </el-table-column>
         <el-table-column align="center" label="速率预警值">
           <template slot-scope="scope">

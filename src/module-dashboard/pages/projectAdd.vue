@@ -2,42 +2,95 @@
   <div class="app-container">
     <el-row>
       <el-col :span="23">
-        <div class="tableListTitle2" style="margin-top:5px;">
+        <div
+          class="tableListTitle2"
+          style="margin-top:5px;"
+        >
           <label id="proName">{{projectName}}</label>
         </div>
       </el-col>
       <el-col :span="1">
-        <el-button id="backButton" @click="getBack" style="margin-bottom:5px;" size="mini" type="primary" icon="el-icon-caret-left">返回</el-button>
+        <el-button
+          id="backButton"
+          @click="getBack"
+          style="margin-bottom:5px;"
+          size="mini"
+          type="primary"
+          icon="el-icon-caret-left"
+        >返回</el-button>
       </el-col>
     </el-row>
-    <el-card shadow="never" v-loading="loading">
+    <el-card
+      shadow="never"
+      v-loading="loading"
+    >
       <!-- 搜索栏 -->
-      <el-tabs v-model="activeName" :before-leave="beforeClick">
-        <el-tab-pane class="chartsPanel" label="工程概况" name="first-ta">
+      <el-tabs
+        v-model="activeName"
+        :before-leave="beforeClick"
+      >
+        <el-tab-pane
+          class="chartsPanel"
+          label="工程概况"
+          name="first-ta"
+        >
           <!-- 项目当前信息 / -->
-          <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
-            <input id="formUrl" type="hidden">
-            <input id="projectUuid" type="hidden">
-            <table id="tableHeader" cellpadding="0" cellspacing="0">
+          <el-form
+            id="projectForm"
+            style="height:100%;overflow:auto;"
+            ref="formBase"
+          >
+            <input
+              id="formUrl"
+              type="hidden"
+            >
+            <input
+              id="projectUuid"
+              type="hidden"
+            >
+            <table
+              id="tableHeader"
+              cellpadding="0"
+              cellspacing="0"
+            >
               <tr>
                 <th id="tableName">
                   工程概况
                 </th>
               </tr>
             </table>
-            <table class="tableEditDetail" style="height:45%;" cellpadding="0" cellspacing="1">
+            <table
+              class="tableEditDetail"
+              style="height:45%;"
+              cellpadding="0"
+              cellspacing="1"
+            >
               <tr>
                 <th style="width: 15%;">
                   工程编号
                 </th>
                 <td style="width: 35%">
-                  <input name="code" rows="2" cols="20" class="input" id="projectCode" style="height:30px;width:80%;"></input>
+                  <input
+                    name="code"
+                    rows="2"
+                    cols="20"
+                    class="input"
+                    id="projectCode"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
                 <th style="width: 15%">
                   监督编号
                 </th>
                 <td>
-                  <input name="superviseCode" rows="2" cols="20" class="input" id="superviseCode" style="height:30px;width:80%;"></input>
+                  <input
+                    name="superviseCode"
+                    rows="2"
+                    cols="20"
+                    class="input"
+                    id="superviseCode"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
               </tr>
               <tr>
@@ -45,16 +98,40 @@
                   工程名称
                 </th>
                 <td>
-                  <input name="projectName" rows="2" cols="20" id="projectName" class="input" style="height:30px;width:80%;" required></input>
+                  <input
+                    name="projectName"
+                    rows="2"
+                    cols="20"
+                    id="projectName"
+                    class="input"
+                    style="height:30px;width:80%;"
+                    required
+                  ></input>
                   <label style="color:red">*</label>
                 </td>
                 <th>
                   工程地址
                 </th>
                 <td>
-                  <input name="address" rows="2" cols="20" id="projectLocation" class="input" style="height:30px;width:80%;" required></input>
-                  <input type="hidden" name="" id="" />
-                  <input type="hidden" name="" id="" />
+                  <input
+                    name="address"
+                    rows="2"
+                    cols="20"
+                    id="projectLocation"
+                    class="input"
+                    style="height:30px;width:80%;"
+                    required
+                  ></input>
+                  <input
+                    type="hidden"
+                    name=""
+                    id=""
+                  />
+                  <input
+                    type="hidden"
+                    name=""
+                    id=""
+                  />
                 </td>
               </tr>
               <tr>
@@ -62,14 +139,36 @@
                   所属区域
                 </th>
                 <td>
-                  <input name="projectRegion" id="projectRegion" class="easyui-combobox" data-options="valueField: 'value',textField: 'label'" style="width:80%;height:30px;" />
+                  <input
+                    name="projectRegion"
+                    id="projectRegion"
+                    class="easyui-combobox"
+                    data-options="valueField: 'value',textField: 'label'"
+                    style="width:80%;height:30px;"
+                  />
                 </td>
                 <th>
                   经纬度
                 </th>
                 <td>
-                  <input name="lon" maxlength="20" v-model="location" type="text" id="projectLatLon" class="input" style="width:30%;" disabled="true " />
-                  <input type="button" @click="selectLonlat" data-toggle="modal" id="lonlatSelect" class="btton85" value="获取经纬度" />
+                  <input
+                    name="lon"
+                    maxlength="20"
+                    v-model="location"
+                    type="text"
+                    id="projectLatLon"
+                    class="input"
+                    style="width:30%;"
+                    disabled="true "
+                  />
+                  <input
+                    type="button"
+                    @click="selectLonlat"
+                    data-toggle="modal"
+                    id="lonlatSelect"
+                    class="btton85"
+                    value="获取经纬度"
+                  />
                   <label style="color:red">(*请选择位置)</label>
                 </td>
               </tr>
@@ -78,14 +177,31 @@
                   支护形式
                 </th>
                 <td>
-                  <input name="structure" rows="2" cols="20" id="supportingStructure" class="input" style="height:30px;width:80%;"></input>
+                  <input
+                    name="structure"
+                    rows="2"
+                    cols="20"
+                    id="supportingStructure"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
                 <th>
                   安全等级
                 </th>
                 <td>
-                  <el-select v-model="formBase.safetyClass" placeholder="请选择">
-                    <el-option id="safetyClass" v-for="item in safetyOption" :key="item.classCode" :label="item.className" :value="item.classCode" :disabled="item.disabled">
+                  <el-select
+                    v-model="formBase.safetyClass"
+                    placeholder="请选择"
+                  >
+                    <el-option
+                      id="safetyClass"
+                      v-for="item in safetyOption"
+                      :key="item.classCode"
+                      :label="item.className"
+                      :value="item.classCode"
+                      :disabled="item.disabled"
+                    >
                     </el-option>
                   </el-select>
                 </td>
@@ -95,13 +211,27 @@
                   基坑设计深度
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="foundationDepth" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input
+                    name="deep"
+                    rows="2"
+                    cols="20"
+                    id="foundationDepth"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(M)
                 </td>
                 <th>
                   基坑周长:
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="foundationPerimeter" class="input" style="height:30px;width:80%;"></input>(M)
+                  <input
+                    name="perimeter"
+                    rows="2"
+                    cols="20"
+                    id="foundationPerimeter"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(M)
                 </td>
               </tr>
               <tr>
@@ -109,13 +239,27 @@
                   计划开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDatePlaned" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
+                  <input
+                    name="deep"
+                    rows="2"
+                    cols="20"
+                    id="excavationDatePlaned"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(yyyy/mm/dd)
                 </td>
                 <th>
                   计划回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
+                  <input
+                    name="perimeter"
+                    rows="2"
+                    cols="20"
+                    id="backfillDatePlaned"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(yyyy/mm/dd)
                 </td>
               </tr>
               <tr>
@@ -123,13 +267,27 @@
                   实际开挖时间
                 </th>
                 <td>
-                  <input name="deep" rows="2" cols="20" id="excavationDateActual" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
+                  <input
+                    name="deep"
+                    rows="2"
+                    cols="20"
+                    id="excavationDateActual"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(yyyy/mm/dd)
                 </td>
                 <th>
                   实际回填时间
                 </th>
                 <td>
-                  <input name="perimeter" rows="2" cols="20" id="backfillDateActual" class="input" style="height:30px;width:80%;"></input>(yyyy/mm/dd)
+                  <input
+                    name="perimeter"
+                    rows="2"
+                    cols="20"
+                    id="backfillDateActual"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>(yyyy/mm/dd)
                 </td>
               </tr>
               <tr>
@@ -137,8 +295,18 @@
                   施工工况
                 </th>
                 <td>
-                  <el-select v-model="formBase.constructionStep" placeholder="请选择">
-                    <el-option id="constructionStep" v-for="item in stepOption" :key="item.stepCode" :label="item.stepName" :value="item.stepCode" :disabled="item.disabled">
+                  <el-select
+                    v-model="formBase.constructionStep"
+                    placeholder="请选择"
+                  >
+                    <el-option
+                      id="constructionStep"
+                      v-for="item in stepOption"
+                      :key="item.stepCode"
+                      :label="item.stepName"
+                      :value="item.stepCode"
+                      :disabled="item.disabled"
+                    >
                     </el-option>
                   </el-select>
                 </td>
@@ -146,8 +314,18 @@
                   项目状态
                 </th>
                 <td>
-                  <el-select v-model="formBase.constructionState" placeholder="请选择">
-                    <el-option id="constructionState" v-for="item in stateOption" :key="item.stateCode" :label="item.stateName" :value="item.stateCode" :disabled="item.disabled">
+                  <el-select
+                    v-model="formBase.constructionState"
+                    placeholder="请选择"
+                  >
+                    <el-option
+                      id="constructionState"
+                      v-for="item in stateOption"
+                      :key="item.stateCode"
+                      :label="item.stateName"
+                      :value="item.stateCode"
+                      :disabled="item.disabled"
+                    >
                     </el-option>
                   </el-select>
                 </td>
@@ -157,15 +335,41 @@
                   监测单位
                 </th>
                 <td>
-                  <input name="monitorLeader" type="text" id="monitoringOrg" class="input" style="width:40%;height:30px;" />
+                  <input
+                    name="monitorLeader"
+                    type="text"
+                    id="monitoringOrg"
+                    class="input"
+                    style="width:40%;height:30px;"
+                  />
                 </td>
                 <th>
                   监测负责人
                 </th>
                 <td>
-                  <input name="monitorWorker" v-model="monitoringHead" type="text" id="monitoringHead" class="input" style="width:60%;height:30px;" disabled="true " />
-                  <el-button id="addMonitorWorker" @click="addWorker('head')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                  <el-button id="deleteMonitorWorker" @click="deleteWorker('head')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
+                  <input
+                    name="monitorWorker"
+                    v-model="monitoringHead"
+                    type="text"
+                    id="monitoringHead"
+                    class="input"
+                    style="width:60%;height:30px;"
+                    disabled="true "
+                  />
+                  <el-button
+                    id="addMonitorWorker"
+                    @click="addWorker('head')"
+                    size="mini"
+                    type="primary"
+                    icon="el-icon-circle-plus"
+                  >选择</el-button>
+                  <el-button
+                    id="deleteMonitorWorker"
+                    @click="deleteWorker('head')"
+                    size="mini"
+                    type="danger"
+                    icon="el-icon-circle-close"
+                  >清空</el-button>
                 </td>
               </tr>
               <tr>
@@ -173,15 +377,42 @@
                   监测人员
                 </th>
                 <td>
-                  <input name="monitorWorker" v-model="monitoringSurveyor" type="text" id="monitoringSurveyor" class="input" style="width:60%;height:30px;" disabled="true " />
-                  <el-button id="addMonitorWorker" size="mini" @click="addWorker('worker')" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                  <el-button id="deleteMonitorWorker" size="mini" @click="deleteWorker('worker')" type="danger" icon="el-icon-circle-close">清空</el-button>
+                  <input
+                    name="monitorWorker"
+                    v-model="monitoringSurveyor"
+                    type="text"
+                    id="monitoringSurveyor"
+                    class="input"
+                    style="width:60%;height:30px;"
+                    disabled="true "
+                  />
+                  <el-button
+                    id="addMonitorWorker"
+                    size="mini"
+                    @click="addWorker('worker')"
+                    type="primary"
+                    icon="el-icon-circle-plus"
+                  >选择</el-button>
+                  <el-button
+                    id="deleteMonitorWorker"
+                    size="mini"
+                    @click="deleteWorker('worker')"
+                    type="danger"
+                    icon="el-icon-circle-close"
+                  >清空</el-button>
                 </td>
                 <th>
                   行政主管部门
                 </th>
                 <td colspan="1">
-                  <input name="superviseWorker" rows="2" cols="20" id="admDepartment" class="input" style="height:30px;width:80%;"></input>
+                  <input
+                    name="superviseWorker"
+                    rows="2"
+                    cols="20"
+                    id="admDepartment"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
               </tr>
               <tr>
@@ -189,13 +420,27 @@
                   监督单位
                 </th>
                 <td>
-                  <input name="superviseCompany" rows="2" cols="20" id="supervisorOrg" class="input" style="height:30px;width:80%;"></input>
+                  <input
+                    name="superviseCompany"
+                    rows="2"
+                    cols="20"
+                    id="supervisorOrg"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
                 <th>
                   监督人员
                 </th>
                 <td>
-                  <input name="superviseCompany" rows="2" cols="20" id="supervisorLinkman" class="input" style="height:30px;width:80%;"></input>
+                  <input
+                    name="superviseCompany"
+                    rows="2"
+                    cols="20"
+                    id="supervisorLinkman"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
               </tr>
               <tr>
@@ -203,7 +448,14 @@
                   项目创建人
                 </th>
                 <td>
-                  <input name="superviseCompany" rows="2" cols="20" id="createAccUuid" class="input" style="height:30px;width:80%;"></input>
+                  <input
+                    name="superviseCompany"
+                    rows="2"
+                    cols="20"
+                    id="createAccUuid"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
                 </td>
                 <th>
                 </th>
@@ -215,14 +467,26 @@
                   项目创建时间
                 </th>
                 <td colspan="1">
-                  <el-date-picker id="createDate" v-model="formBase.createDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+                  <el-date-picker
+                    id="createDate"
+                    v-model="formBase.createDate"
+                    type="datetime"
+                    placeholder="选择日期时间"
+                    default-time="12:00:00"
+                  >
                   </el-date-picker>
                 </td>
                 <th>
                   项目结束时间
                 </th>
                 <td>
-                  <el-date-picker id="finishDate" v-model="formBase.finishDate" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
+                  <el-date-picker
+                    id="finishDate"
+                    v-model="formBase.finishDate"
+                    type="datetime"
+                    placeholder="选择日期时间"
+                    default-time="12:00:00"
+                  >
                   </el-date-picker>
                 </td>
               </tr>
@@ -231,30 +495,72 @@
                   工程概况描述
                 </th>
                 <td colspan="3">
-                  <textarea name="projectDetail" rows="2" cols="20" id="projectDetail" class="input" style="height:85px;line-height:85px;width:95%;"></textarea>
+                  <textarea
+                    name="projectDetail"
+                    rows="2"
+                    cols="20"
+                    id="projectDetail"
+                    class="input"
+                    style="height:85px;line-height:85px;width:95%;"
+                  ></textarea>
                 </td>
               </tr>
             </table>
-            <table class="tableEditDetail" id="projectInfo1" cellpadding="0" cellspacing="1" style="margin-top: -1px;height:41%;">
+            <table
+              class="tableEditDetail"
+              id="projectInfo1"
+              cellpadding="0"
+              cellspacing="1"
+              style="margin-top: -1px;height:41%;"
+            >
               <tr>
                 <th style="width: 15%;">
                   建设单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="buildCompany" rows="2" cols="20" id="proprietorOrg" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea
+                    name="buildCompany"
+                    rows="2"
+                    cols="20"
+                    id="proprietorOrg"
+                    class="input"
+                    style="height:55px;width:80%;"
+                  ></textarea>
                 </td>
                 <td style="width: 50%;">
-                  <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+                  <table
+                    class="tableEditDetail"
+                    cellpadding="0"
+                    cellspacing="1"
+                    width="100%"
+                  >
                     <tr>
                       <th style="width: 25%; background-color: #fff2ec;">
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <input id="proprietorLinkman" v-model="buildName" class="input" style="width:99%;height:30px" />
+                        <input
+                          id="proprietorLinkman"
+                          v-model="buildName"
+                          class="input"
+                          style="width:99%;height:30px"
+                        />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addBuildName" @click="addWorker('build')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                        <el-button id="deleteBuildName" @click="deleteWorker('build')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
+                        <el-button
+                          id="addBuildName"
+                          @click="addWorker('build')"
+                          size="mini"
+                          type="primary"
+                          icon="el-icon-circle-plus"
+                        >选择</el-button>
+                        <el-button
+                          id="deleteBuildName"
+                          @click="deleteWorker('build')"
+                          size="mini"
+                          type="danger"
+                          icon="el-icon-circle-close"
+                        >清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -265,20 +571,49 @@
                   设计单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="designCompany" rows="2" cols="20" id="designOrg" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea
+                    name="designCompany"
+                    rows="2"
+                    cols="20"
+                    id="designOrg"
+                    class="input"
+                    style="height:55px;width:80%;"
+                  ></textarea>
                 </td>
                 <td style="width: 50%;">
-                  <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+                  <table
+                    class="tableEditDetail"
+                    cellpadding="0"
+                    cellspacing="1"
+                    width="100%"
+                  >
                     <tr>
                       <th style="width: 25%; background-color: #fff2ec;">
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <input id="designLinkman" v-model="designName" class="input" style="width:99%;height:30px;" />
+                        <input
+                          id="designLinkman"
+                          v-model="designName"
+                          class="input"
+                          style="width:99%;height:30px;"
+                        />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addDesign" size="mini" @click="addWorker('design')" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                        <el-button id="deleteDesign" size="mini" @click="deleteWorker('design')" type="danger" icon="el-icon-circle-close">清空</el-button>
+                        <el-button
+                          id="addDesign"
+                          size="mini"
+                          @click="addWorker('design')"
+                          type="primary"
+                          icon="el-icon-circle-plus"
+                        >选择</el-button>
+                        <el-button
+                          id="deleteDesign"
+                          size="mini"
+                          @click="deleteWorker('design')"
+                          type="danger"
+                          icon="el-icon-circle-close"
+                        >清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -289,20 +624,48 @@
                   施工单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="constructCompany" rows="2" cols="20" id="constructionOrg" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea
+                    name="constructCompany"
+                    rows="2"
+                    cols="20"
+                    id="constructionOrg"
+                    class="input"
+                    style="height:55px;width:80%;"
+                  ></textarea>
                 </td>
                 <td style="width: 50%;">
-                  <table class="tableEditDetail" cellpadding="0" cellspacing="1">
+                  <table
+                    class="tableEditDetail"
+                    cellpadding="0"
+                    cellspacing="1"
+                  >
                     <tr>
                       <th style="width: 25%; background-color: #fff2ec;">
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <input id="constructionLinkman" v-model="constructionName" class="input" style="width:99%;height:30px;"></input>
+                        <input
+                          id="constructionLinkman"
+                          v-model="constructionName"
+                          class="input"
+                          style="width:99%;height:30px;"
+                        ></input>
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addConstruction" size="mini" @click="addWorker('construction')" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                        <el-button id="deleteConstruction" size="mini" @click="deleteWorker('construction')" type="danger" icon="el-icon-circle-close">清空</el-button>
+                        <el-button
+                          id="addConstruction"
+                          size="mini"
+                          @click="addWorker('construction')"
+                          type="primary"
+                          icon="el-icon-circle-plus"
+                        >选择</el-button>
+                        <el-button
+                          id="deleteConstruction"
+                          size="mini"
+                          @click="deleteWorker('construction')"
+                          type="danger"
+                          icon="el-icon-circle-close"
+                        >清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -313,20 +676,49 @@
                   监理单位
                 </th>
                 <td style="width: 35%;">
-                  <textarea name="supervisorCompany" rows="2" cols="20" id="supervisionOrg" class="input" style="height:55px;width:80%;"></textarea>
+                  <textarea
+                    name="supervisorCompany"
+                    rows="2"
+                    cols="20"
+                    id="supervisionOrg"
+                    class="input"
+                    style="height:55px;width:80%;"
+                  ></textarea>
                 </td>
                 <td style="width: 50%;">
-                  <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+                  <table
+                    class="tableEditDetail"
+                    cellpadding="0"
+                    cellspacing="1"
+                    width="100%"
+                  >
                     <tr>
                       <th style="width: 25%;background-color: #fff2ec;">
                         联系人
                       </th>
                       <td style="width: 40%">
-                        <input id="supervisionLinkman" v-model="supervisionName" class="input" style="width:99%;height:30px;" />
+                        <input
+                          id="supervisionLinkman"
+                          v-model="supervisionName"
+                          class="input"
+                          style="width:99%;height:30px;"
+                        />
                       </td>
                       <td style="width: 26%;text-align:center;">
-                        <el-button id="addSupervision" @click="addWorker('supervision')" size="mini" type="primary" icon="el-icon-circle-plus">选择</el-button>
-                        <el-button id="deleteSupervision" @click="deleteWorker('supervision')" size="mini" type="danger" icon="el-icon-circle-close">清空</el-button>
+                        <el-button
+                          id="addSupervision"
+                          @click="addWorker('supervision')"
+                          size="mini"
+                          type="primary"
+                          icon="el-icon-circle-plus"
+                        >选择</el-button>
+                        <el-button
+                          id="deleteSupervision"
+                          @click="deleteWorker('supervision')"
+                          size="mini"
+                          type="danger"
+                          icon="el-icon-circle-close"
+                        >清空</el-button>
                       </td>
                     </tr>
                   </table>
@@ -334,11 +726,23 @@
               </tr>
               <tr>
                 <th colspan="3">
-                  <el-button id="saveBtn" @click="saveProject" type="success" size="mini" icon="el-icon-check">
+                  <el-button
+                    id="saveBtn"
+                    @click="saveProject"
+                    type="success"
+                    size="mini"
+                    icon="el-icon-check"
+                  >
                     <strong>
                       <i class="glyphicon glyphicon-ok"></i>&nbsp提交</strong>
                   </el-button>
-                  <el-button type="info" size="mini" id="cancelBtn" icon="el-icon-delete" data-dismiss="modal">
+                  <el-button
+                    type="info"
+                    size="mini"
+                    id="cancelBtn"
+                    icon="el-icon-delete"
+                    data-dismiss="modal"
+                  >
                     <strong>
                       <i class="glyphicon glyphicon-remove"></i>&nbsp重置</strong>
                   </el-button>
@@ -347,184 +751,454 @@
             </table>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane class="chartsPanel" label="监测方案" name="second-ta">
-          <table class="tableEditDetail" cellpadding="0" cellspacing="1">
+        <el-tab-pane
+          class="chartsPanel"
+          label="监测方案"
+          name="second-ta"
+        >
+          <table
+            class="tableEditDetail"
+            cellpadding="0"
+            cellspacing="1"
+          >
             <tr>
-              <th colspan="1" style="background-color: #fff2ec;">
+              <th
+                colspan="1"
+                style="background-color: #fff2ec;"
+              >
                 <label>方案类别</label>
               </th>
-              <th colspan="1" style="background-color: #fff2ec;">
+              <th
+                colspan="1"
+                style="background-color: #fff2ec;"
+              >
                 <label>操作(支持批量上传文件)</label>
               </th>
             </tr>
             <tr>
-              <th class="fieldLabel" colspan="1">
+              <th
+                class="fieldLabel"
+                colspan="1"
+              >
                 <label style="font-weight:normal;">方案审批表:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary" @click="getLoadFile('1')">附件上传
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="getLoadFile('1')"
+                >附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <form enctype="multipart/form-data" id="form_example" style="display:none">
-                  <input type="file" name="files" id="approvalUpload" @change="addFiles('方案审批表','approvalUpload')" multiple/><br/><br/>
+                <form
+                  enctype="multipart/form-data"
+                  id="form_example"
+                  style="display:none"
+                >
+                  <input
+                    type="file"
+                    name="files"
+                    id="approvalUpload"
+                    @change="addFiles('方案审批表','approvalUpload')"
+                    multiple
+                  /><br /><br />
                 </form>
               </th>
             </tr>
             <tr>
-              <th class="fieldLabel" colspan="1">
+              <th
+                class="fieldLabel"
+                colspan="1"
+              >
                 <label style="font-weight:normal;">基坑监测方案:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary" @click="getLoadFile('2')">附件上传
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="getLoadFile('2')"
+                >附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <form enctype="multipart/form-data" id="form_example" style="display:none">
-                  <input type="file" name="files" id="filesUpload" @change="addFiles('基坑监测方案','filesUpload')" multiple/><br/><br/>
+                <form
+                  enctype="multipart/form-data"
+                  id="form_example"
+                  style="display:none"
+                >
+                  <input
+                    type="file"
+                    name="files"
+                    id="filesUpload"
+                    @change="addFiles('基坑监测方案','filesUpload')"
+                    multiple
+                  /><br /><br />
                 </form>
               </th>
             </tr>
             <tr>
-              <th class="fieldLabel" colspan="1">
+              <th
+                class="fieldLabel"
+                colspan="1"
+              >
                 <label style="font-weight:normal;">其他相关文件:</label>
               </th>
               <th colspan="1">
-                <el-button size="mini" type="primary" @click="getLoadFile('3')">附件上传
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="getLoadFile('3')"
+                >附件上传
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
-                <form enctype="multipart/form-data" id="form_example" style="display:none">
-                  <input type="file" name="files" id="othersUpload" @change="addFiles('其他相关文件','othersUpload')" multiple/><br/><br/>
+                <form
+                  enctype="multipart/form-data"
+                  id="form_example"
+                  style="display:none"
+                >
+                  <input
+                    type="file"
+                    name="files"
+                    id="othersUpload"
+                    @change="addFiles('其他相关文件','othersUpload')"
+                    multiple
+                  /><br /><br />
                 </form>
               </th>
               </td>
             </tr>
           </table>
-          <el-table :data="approvalList" v-loading="fileLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" :height="secondHeight" fit highlight-current-row style="width: 100%" border>
-            <el-table-column align="center" label="方案名称">
+          <el-table
+            :data="approvalList"
+            v-loading="fileLoading"
+            :header-cell-style="tableHeaderStyle"
+            element-loading-text="给我一点时间"
+            :height="secondHeight"
+            :default-sort="{prop:'fileName'}"
+            fit
+            highlight-current-row
+            style="width: 100%"
+            border
+          >
+            <el-table-column
+              align="center"
+              label="方案名称"
+              prop="fileName"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="方案类别"
+            >
               <template slot-scope="scope">
-                <span v-if="scope.row.fileName!=null">{{ scope.row.fileName }}</span>
+                <el-tag
+                  v-if="scope.row.fileType === '方案审批表'"
+                  type="success"
+                  disable-transitions
+                >{{scope.row.fileType}}</el-tag>
+                <el-tag
+                  v-if="scope.row.fileType === '基坑监测方案'"
+                  type="primary"
+                  disable-transitions
+                >{{scope.row.fileType}}</el-tag>
+                <el-tag
+                  v-if="scope.row.fileType === '其他相关文件'"
+                  type="warning"
+                  disable-transitions
+                >{{scope.row.fileType}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="方案类别">
+            <el-table-column
+              align="center"
+              :label="$t('table.actions')"
+              width="200px"
+              class-name="small-padding fixed-width"
+            >
               <template slot-scope="scope">
-                <el-tag v-if="scope.row.fileType === '方案审批表'" type="success" disable-transitions>{{scope.row.fileType}}</el-tag>
-                <el-tag v-if="scope.row.fileType === '基坑监测方案'" type="primary" disable-transitions>{{scope.row.fileType}}</el-tag>
-                <el-tag v-if="scope.row.fileType === '其他相关文件'" type="warning" disable-transitions>{{scope.row.fileType}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" :label="$t('table.actions')" width="200px" class-name="small-padding fixed-width">
-              <template slot-scope="scope">
-                <el-button size="mini" type="success" @click="uploadFile(scope.row.progUuid)" icon="el-icon-download">下载
+                <el-button
+                  size="mini"
+                  type="success"
+                  @click="uploadFile(scope.row.progUuid)"
+                  icon="el-icon-download"
+                >下载
                 </el-button>
-                <el-button size="mini" type="danger" @click="removeFile(scope.row.progUuid)" icon="el-icon-delete">删除
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="removeFile(scope.row.progUuid)"
+                  icon="el-icon-delete"
+                >删除
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane class="chartsPanel" label="监测平面图" name="third-ta">
-          <table class="tableEditDetail" cellpadding="0" cellspacing="1">
+        <el-tab-pane
+          class="chartsPanel"
+          label="监测平面图"
+          name="third-ta"
+        >
+          <table
+            class="tableEditDetail"
+            cellpadding="0"
+            cellspacing="1"
+          >
             <tr>
-              <th class="fieldLabel" colspan="1">
+              <th
+                class="fieldLabel"
+                colspan="1"
+              >
                 <label>监测平面图:</label>
               </th>
               <th colspan="2">
                 <el-form :model="form">
                   <el-form-item>
-                    <el-upload style="height:150px;" :on-change="onUploadChange" ref="upload" action="#" :file-list="picFiles" accept="image/png,image/gif,image/jpg,image/jpeg" list-type="picture-card" :limit="limitNum" :auto-upload="false" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                    <el-upload
+                      style="height:150px;"
+                      :on-change="onUploadChange"
+                      ref="upload"
+                      action="#"
+                      :file-list="picFiles"
+                      accept="image/png,image/gif,image/jpg,image/jpeg"
+                      list-type="picture-card"
+                      :limit="limitNum"
+                      :auto-upload="false"
+                      :on-preview="handlePictureCardPreview"
+                      :on-remove="handleRemove"
+                    >
                       <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog :visible.sync="dialogVisible">
-                      <img width="100%" height="100%" :src="dialogImageUrl" alt="">
+                      <img
+                        width="100%"
+                        height="100%"
+                        :src="dialogImageUrl"
+                        alt=""
+                      >
                     </el-dialog>
                   </el-form-item>
                 </el-form>
               </th>
             </tr>
           </table>
-          <el-table :data="picShowList" v-loading="fileLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" :height="thirdHeight" fit highlight-current-row style="width: 100%" border>
-            <el-table-column align="center" label="平面图名称">
-              <template slot-scope="scope">
-                <span v-if="scope.row.fileName!=null">{{ scope.row.fileName }}</span>
-              </template>
+          <el-table
+            :data="picShowList"
+            v-loading="fileLoading"
+            :header-cell-style="tableHeaderStyle"
+            element-loading-text="给我一点时间"
+            :height="thirdHeight"
+            :default-sort="{prop:'fileName'}"
+            fit
+            highlight-current-row
+            style="width: 100%"
+            border
+          >
+            <el-table-column
+              align="center"
+              label="平面图名称"
+              prop="fileName"
+              sortable
+            >
             </el-table-column>
-            <el-table-column align="center" :label="$t('table.actions')" width="200px" class-name="small-padding fixed-width">
+            <el-table-column
+              align="center"
+              :label="$t('table.actions')"
+              width="200px"
+              class-name="small-padding fixed-width"
+            >
               <template slot-scope="scope">
-                <el-button size="mini" type="success" @click="uploadFile(scope.row.progUuid)" icon="el-icon-download">下载
+                <el-button
+                  size="mini"
+                  type="success"
+                  @click="uploadFile(scope.row.progUuid)"
+                  icon="el-icon-download"
+                >下载
                 </el-button>
-                <el-button size="mini" type="danger" @click="removeFile(scope.row.progUuid)" icon="el-icon-delete">删除
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="removeFile(scope.row.progUuid)"
+                  icon="el-icon-delete"
+                >删除
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane class="chartsPanel" label="监测项设置" name="fouth-ta">
-          <el-button id="addFdButton" @click="addFdSetting" style="margin-bottom:5px;" size="mini" type="success" icon="el-icon-circle-plus-outline">新增</el-button>
-          <el-table :data="items" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-            <el-table-column align="center" label="监测项名称">
+        <el-tab-pane
+          class="chartsPanel"
+          label="监测项设置"
+          name="fouth-ta"
+        >
+          <el-button
+            id="addFdButton"
+            @click="addFdSetting"
+            style="margin-bottom:5px;"
+            size="mini"
+            type="success"
+            icon="el-icon-circle-plus-outline"
+          >新增</el-button>
+          <el-table
+            :data="items"
+            v-loading="listLoading"
+            element-loading-text="给我一点时间"
+            fit
+            highlight-current-row
+            style="width: 100%"
+            :height="forthHeight"
+            border
+          > 
+            <el-table-column
+              align="center"
+              label="监测项名称"
+            >
               <template slot-scope="scope">
-                <span v-if="scope.row.mItemName!=null">{{scope.row.mItemName}}</span>
-                <span v-if="scope.row.mItemName==null">/</span>
+                <el-tag
+                  :type="primary"
+                  disable-transitions
+                ><span v-if="scope.row.mItemName!=null">{{scope.row.mItemName}}</span>
+                <span v-if="scope.row.mItemName==null">/</span></el-tag>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="报警设置">
+            <el-table-column
+              align="center"
+              label="报警设置"
+            >
               <template slot-scope="scope">
-                <el-button type="danger" icon="el-icon-warning" @click="warningClick(scope.row.monitorItemUuid)" size="small">报警设置</el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-warning"
+                  @click="warningClick(scope.row.monitorItemUuid)"
+                  size="small"
+                >报警设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="断面设置">
+            <el-table-column
+              align="center"
+              label="断面设置"
+            >
               <template slot-scope="scope">
                 <span v-if="scope.row.mItemName=='围护墙（边坡）顶部水平位移'">
-                  <el-button type="success" icon="el-icon-news" @click="sectionClick(scope.row.monitorItemUuid)" size="small">断面设置</el-button>
+                  <el-button
+                    type="success"
+                    icon="el-icon-news"
+                    @click="sectionClick(scope.row.monitorItemUuid)"
+                    size="small"
+                  >断面设置</el-button>
                 </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="采集模式">
+            <el-table-column
+              align="center"
+              label="采集模式"
+            >
               <template slot-scope="scope">
                 <span v-if="scope.row.mItemMode=0">手动采集</span>
                 <span v-if="scope.row.mItemMode=1">自动采集</span>
               </template>
             </el-table-column>
             <!-- 头像 -->
-            <el-table-column align="center" label="测点设置">
+            <el-table-column
+              align="center"
+              label="测点设置"
+            >
               <template slot-scope="scope">
-                <el-button type="warning" icon="el-icon-location-outline" @click="surveypointClick(scope.row.monitorItemUuid)" size="small">测点设置</el-button>
+                <el-button
+                  type="warning"
+                  icon="el-icon-location-outline"
+                  @click="surveypointClick(scope.row.monitorItemUuid)"
+                  size="small"
+                >测点设置</el-button>
               </template>
             </el-table-column>
-            <el-table-column align="center" label="监测频率">
+            <el-table-column
+              align="center"
+              label="监测频率"
+            >
               <template slot-scope="scope">
                 <span v-if="scope.row.mItemFrequency!=null">{{scope.row.mItemFrequency+"天/次"}}</span>
                 <span v-if="scope.row.mItemFrequency==null">/</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" :label="$t('table.actions')" width="150px" class-name="small-padding fixed-width">
+            <el-table-column
+              align="center"
+              :label="$t('table.actions')"
+              width="150px"
+              class-name="small-padding fixed-width"
+            >
               <template slot-scope="scope">
-                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="success" @click="updateFd(scope.row)">修改</el-button>
-                <el-button :disabled="scope.row.is_deleted===1" size="mini" type="danger" @click="removeFd(scope.row.monitorItemUuid)">{{$t('table.delete')}}</el-button>
+                <el-button
+                  :disabled="scope.row.is_deleted===1"
+                  size="mini"
+                  type="success"
+                  @click="updateFd(scope.row)"
+                >修改</el-button>
+                <el-button
+                  :disabled="scope.row.is_deleted===1"
+                  size="mini"
+                  type="danger"
+                  @click="removeFd(scope.row.monitorItemUuid)"
+                >{{$t('table.delete')}}</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane class="chartsPanel" label="自动化设置" name="fifth-ta">
+        <el-tab-pane
+          class="chartsPanel"
+          label="自动化设置"
+          name="fifth-ta"
+        >
           <span style="font-size:60px;color:blue;">
             尚在开发中！！</span>
         </el-tab-pane>
       </el-tabs>
-      <mu-dialog :open="dialogAdd" dialogClass="location-add-dialog" @close="closeAddLocation" @show="initMap">
+      <mu-dialog
+        :open="dialogAdd"
+        dialogClass="location-add-dialog"
+        @close="closeAddLocation"
+        @show="initMap"
+      >
         <div class="dialog-title">
           标注经纬度
-          <i class="material-icons close-icon" @click="closeAddLocation">X</i>
+          <i
+            class="material-icons close-icon"
+            @click="closeAddLocation"
+          >X</i>
         </div>
         <div class="dialog-content">
           <div class="clearfix">
             <div class="left-form">
-              <div class="form-group" style="display:none">
+              <div
+                class="form-group"
+                style="display:none"
+              >
                 <label class="control-label">工程地址</label>
-                <input type="text" id="tipinput" class="form-control" v-model="addData.rtmp" placeholder="工程地址" autocomplete="off">
+                <input
+                  type="text"
+                  id="tipinput"
+                  class="form-control"
+                  v-model="addData.rtmp"
+                  placeholder="工程地址"
+                  autocomplete="off"
+                >
               </div>
               <div class="form-group">
                 <label class="control-label">经纬度</label>
-                <input type="text" class="form-control half" v-model="addData.lng" placeholder="经度" autocomplete="off" style="margin-right: 30px">
-                <input type="text" class="form-control half" v-model="addData.lat" placeholder="纬度" autocomplete="off">
+                <input
+                  type="text"
+                  class="form-control half"
+                  v-model="addData.lng"
+                  placeholder="经度"
+                  autocomplete="off"
+                  style="margin-right: 30px"
+                >
+                <input
+                  type="text"
+                  class="form-control half"
+                  v-model="addData.lat"
+                  placeholder="纬度"
+                  autocomplete="off"
+                >
               </div>
             </div>
             <div class="right-map">
@@ -536,15 +1210,33 @@
           </div>
         </div>
       </mu-dialog>
-      <mu-dialog :open="workerAdd" dialogClass="location-add-dialog" @close="closeAddWorker">
+      <mu-dialog
+        :open="workerAdd"
+        dialogClass="location-add-dialog"
+        @close="closeAddWorker"
+      >
         <div class="dialog-title">
           选择人员
-          <i class="material-icons close-icon" @click="closeAddWorker">X</i>
+          <i
+            class="material-icons close-icon"
+            @click="closeAddWorker"
+          >X</i>
         </div>
         <div class="dialog-content">
           <div class="clearfix">
-            <el-table :height="tableHeight" id="workerTable" ref="multipleTable" :data="workerData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="55">
+            <el-table
+              :height="tableHeight"
+              id="workerTable"
+              ref="multipleTable"
+              :data="workerData"
+              tooltip-effect="dark"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                type="selection"
+                width="55"
+              >
               </el-table-column>
               <el-table-column label="姓名">
                 <template slot-scope="scope">
@@ -560,16 +1252,43 @@
         </div>
       </mu-dialog>
       <!-- 新增修改监测项设置弹窗 -->
-      <component @refreshFdList="getFdSetList" :itemDropdownList="itemDropdownList" :sectionDropdownList="sectionDropdownList" :projectId="projectId" v-bind:is="FdSettingAdd" ref="editFd" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:handleCloseFd="handleCloseFd">
+      <component
+        @refreshFdList="getFdSetList"
+        :itemDropdownList="itemDropdownList"
+        :sectionDropdownList="sectionDropdownList"
+        :projectId="projectId"
+        v-bind:is="FdSettingAdd"
+        ref="editFd"
+        :text='text'
+        :pageTitle='pageTitle'
+        :formBase='formData'
+        :ruleInline='ruleInline'
+        v-on:handleCloseFd="handleCloseFd"
+      >
       </component>
       <!-- 报警设置窗口-->
-      <component v-bind:is="WarningSet" :projectId="projectId" ref="warningModel" v-on:handleCloseWarning="handleCloseWarning">
+      <component
+        v-bind:is="WarningSet"
+        :projectId="projectId"
+        ref="warningModel"
+        v-on:handleCloseWarning="handleCloseWarning"
+      >
       </component>
       <!-- 断面设置窗口-->
-      <component v-bind:is="SectionSet" :projectId="projectId" ref="sectionModel" v-on:handleCloseSection="handleCloseSection">
+      <component
+        v-bind:is="SectionSet"
+        :projectId="projectId"
+        ref="sectionModel"
+        v-on:handleCloseSection="handleCloseSection"
+      >
       </component>
       <!-- 监测点设置窗口 -->
-      <component v-bind:is="SurveypointSet" :projectId="projectId" ref="surveypointModel" v-on:handleCloseSurveypoint="handleCloseSurveypoint">
+      <component
+        v-bind:is="SurveypointSet"
+        :projectId="projectId"
+        ref="surveypointModel"
+        v-on:handleCloseSurveypoint="handleCloseSurveypoint"
+      >
       </component>
     </el-card>
   </div>
@@ -633,6 +1352,7 @@ export default {
       form: {}, //图片上传相关
       secondHeight: window.innerHeight - 350, //table高度
       thirdHeight: window.innerHeight - 370, //平面图table高度
+      forthHeight: window.innerHeight - 210, //监测项设置table高度
       fileList: [], //上传的文件列表流
       picList: [], //上传的工程图流
       fileType: "", //上传文件类别

@@ -16,12 +16,8 @@
             <el-alert v-if="alertText1 !== ''" :title="alertText1" type="info" class="alert" :closable='false' show-icon></el-alert>
             <!-- end -->
             <!-- 数据 -->
-            <el-table :key='tableKey' :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" :height="tableHeight" :data="EquipModelDataList" :row-class-name="rowClassStatus" v-loading="listLoading1" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" label="型号名称">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.modelName!=null">{{scope.row.modelName}}</span>
-                  <span v-if="scope.row.modelName==null">/</span>
-                </template>
+            <el-table :key='tableKey' :row-style="tableRowStyle" :default-sort="{prop:'modelName'}" :header-cell-style="tableHeaderStyle" :height="tableHeight" :data="EquipModelDataList" :row-class-name="rowClassStatus" v-loading="listLoading1" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+              <el-table-column align="center" label="型号名称" prop="modelName" sortable>
               </el-table-column>
               <el-table-column align="center" label="型号简称">
                 <template slot-scope="scope">
@@ -79,12 +75,8 @@
             <el-alert v-if="alertText2 !== ''" :title="alertText2" type="info" class="alert" :closable='false' show-icon></el-alert>
             <!-- end -->
             <!-- 数据 -->
-            <el-table :key='tableKey' :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" :height="tableHeight" :data="equipDataList" :row-class-name="rowClassStatus" v-loading="listLoading2" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" width="100px;" label="设备型号">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.paraEquipmentModul.modelName!=null">{{scope.row.paraEquipmentModul.modelName}}</span>
-                  <span v-if="scope.row.paraEquipmentModul.modelName==null">/</span>
-                </template>
+            <el-table :key='tableKey' :row-style="tableRowStyle" :default-sort="{prop:'paraEquipmentModul.modelName'}" :header-cell-style="tableHeaderStyle" :height="tableHeight" :data="equipDataList" :row-class-name="rowClassStatus" v-loading="listLoading2" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+              <el-table-column align="center" width="100px;" label="设备型号" prop="paraEquipmentModul.modelName" sortable>
               </el-table-column>
               <el-table-column align="center" label="仪器名称">
                 <template slot-scope="scope">

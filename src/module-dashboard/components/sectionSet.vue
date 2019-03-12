@@ -45,12 +45,8 @@
         </div>
       </el-dialog>
       <el-button type="primary" size="small" icon="el-icon-circle-plus" style="margin-bottom:10px;" @click="addsection">新增</el-button>
-      <el-table :key='tableKey' :height="tableHeight" :data="sectionSetData" highlight-current-row border>
-        <el-table-column align="center" label="断面设置名称">
-          <template slot-scope="scope">
-            <span v-if="scope.row.sectionName!=null">{{scope.row.sectionName}}</span>
-            <span v-if="scope.row.sectionName==null">/</span>
-          </template>
+      <el-table :key='tableKey' :height="tableHeight" :data="sectionSetData" :default-sort="{prop:'sectionName'}" highlight-current-row border>
+        <el-table-column align="center" label="断面设置名称" prop="sectionName" sortable>
         </el-table-column>
         <el-table-column align="center" label="断面方向">
           <template slot-scope="scope">

@@ -6,12 +6,8 @@
         <el-button class="filter-item fr" size="small" style="margin: -10px 0 10px 0;" @click="toAddOrgan" type="primary" icon="el-icon-circle-plus-outline">添加机构</el-button>
         <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
         <!-- 数据 -->
-        <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-          <el-table-column align="center" width="80px" label="机构名称">
-            <template slot-scope="scope">
-              <span v-if="scope.row.orgName!=null">{{scope.row.orgName}}</span>
-              <span v-if="scope.row.orgName==null">/</span>
-            </template>
+        <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :default-sort="{prop:'orgName'}" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+          <el-table-column align="center" width="80px" label="机构名称" prop="orgName" sortable>
           </el-table-column>
           <el-table-column align="center" label="机构地址">
             <template slot-scope="scope">

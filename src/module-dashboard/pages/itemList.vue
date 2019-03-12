@@ -14,11 +14,8 @@
         <el-row :gutter="10">
           <!-- 数据 -->
           <el-col :span="18">
-            <el-table :key='tableKey' :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" label="工程名称" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <span>{{scope.row.projectName}}</span>
-                </template>
+            <el-table :key='tableKey' :row-style="tableRowStyle" :default-sort="{prop:'projectName'}" :header-cell-style="tableHeaderStyle" @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+              <el-table-column align="center" label="工程名称" prop="projectName" :show-overflow-tooltip="true" sortable>
               </el-table-column>
               <el-table-column align="center" label="工程地址" :show-overflow-tooltip="true">
                 <template slot-scope="scope">

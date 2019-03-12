@@ -150,6 +150,7 @@
         :key='tableKey'
         :height="tableHeight"
         :data="surveypointSetData"
+        :default-sort="{prop:'surveypointNumber'}"
         highlight-current-row
         border
       >
@@ -157,11 +158,9 @@
           align="center"
           width="80px"
           label="测点编号"
+          prop="surveypointNumber"
+          sortable
         >
-          <template slot-scope="scope">
-            <span v-if="scope.row.surveypointNumber!=null">{{scope.row.surveypointNumber}}</span>
-            <span v-if="scope.row.surveypointNumber==null">/</span>
-          </template>
         </el-table-column>
         <el-table-column
           align="center"

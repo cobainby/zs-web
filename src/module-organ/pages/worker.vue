@@ -10,12 +10,8 @@
         <el-button class="filter-item fr" size="small" @click="toAddWorker" type="primary" icon="el-icon-circle-plus-outline">增加人员</el-button>
         <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
         <!-- 数据 -->
-        <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-          <el-table-column align="center" width="80px" label="账户名称">
-            <template slot-scope="scope">
-              <span v-if="scope.row.accountName!=null">{{scope.row.accountName}}</span>
-              <span v-if="scope.row.accountName==null">/</span>
-            </template>
+        <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :default-sort="{prop:'accountName'}" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
+          <el-table-column align="center" width="80px" prop="accountName" label="账户名称" sortable>
           </el-table-column>
           <el-table-column align="center" label="身份证号码">
             <template slot-scope="scope">
