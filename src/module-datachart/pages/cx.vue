@@ -20,11 +20,8 @@
               </el-form-item>
               <el-button class="filter-item fr" size="small" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;margin-top:-10px;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" label="埋深" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <span>{{scope.row.depth}}</span>
-                </template>
+            <el-table :data="selectDatas" border :default-sort="{prop:'depth'}" :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;margin-top:-10px;" :height="tableHeight" @selection-change="handleSelectionChange">
+              <el-table-column align="center" label="埋深" prop="depth" :show-overflow-tooltip="true" sortable>
               </el-table-column>
               <el-table-column align="center" label="上次累计位移(mm)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">

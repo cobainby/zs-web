@@ -27,11 +27,8 @@
                   <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
               </form>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" label="测点编号" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <span>{{scope.row.pointCode}}</span>
-                </template>
+            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'pointCode'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+              <el-table-column align="center" label="测点编号" prop="pointCode" :show-overflow-tooltip="true" sortable>
               </el-table-column>
               <el-table-column align="center" label="计算值" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
@@ -217,7 +214,7 @@ export default {
               showConfirmButton: false,
               showCancelButton: false
             });
-            _this.getAllFile();
+            _this.init(1, 20);
           } else {
             _this.$confirm(res.message, "提示", {
               type: "danger",
