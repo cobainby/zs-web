@@ -275,7 +275,7 @@ export default {
           var singleTime = new Object(); //测量时间
           for (var j = 0; j < qxDatas.length; j++) {
             singleTime = this.changeTimeFormat(qxDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, qxDatas[j].rateVary];
+            lastVaryData[j] = [singleTime, qxDatas[j].lastVary];
             accumVaryData[j] = [singleTime, qxDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);

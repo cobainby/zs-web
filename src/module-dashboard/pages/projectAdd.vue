@@ -32,7 +32,7 @@
         <el-tab-pane
           class="chartsPanel"
           label="工程概况"
-          name="first-ta"
+          name="first-ta" 
         >
           <!-- 项目当前信息 / -->
           <el-form
@@ -1592,6 +1592,9 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
+      $("#approvalUpload")[0].value="";
+      $("#filesUpload")[0].value="";
+      $("#othersUpload")[0].value="";
     },
     //下载文件
     uploadFile(progUuid) {

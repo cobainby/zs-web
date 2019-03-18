@@ -41,7 +41,7 @@
               </el-table-column>
               <el-table-column align="center" label="变化速率(mm/d)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>{{scope.row.lastVary}}</span>
+                  <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true">
@@ -262,7 +262,7 @@ export default {
           var singleTime = new Object(); //测量时间
           for (var j = 0; j < wysDatas.length; j++) {
             singleTime = this.changeTimeFormat(wysDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, wysDatas[j].rateVary];
+            lastVaryData[j] = [singleTime, wysDatas[j].lastVary];
             accumVaryData[j] = [singleTime, wysDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);

@@ -227,6 +227,7 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
+      $("#approvalUpload")[0].value="";
     },
     //图形展示
     initChart() {
@@ -328,7 +329,7 @@ export default {
           var singleTime = new Object(); //测量时间
           for (var j = 0; j < swDatas.length; j++) {
             singleTime = this.changeTimeFormat(swDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, swDatas[j].rateVary];
+            lastVaryData[j] = [singleTime, swDatas[j].lastVary];
             accumVaryData[j] = [singleTime, swDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);

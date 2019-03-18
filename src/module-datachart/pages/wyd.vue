@@ -23,7 +23,7 @@
               <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">附件上传
                   <i class="el-icon-upload el-icon--right"></i>
               </el-button>
-              <form enctype="multipart/form-data" id="form_example" style="display:none">
+              <form enctype="multipart/form-data" id="form_example" style="display:none;">
                   <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
               </form>
             </el-form>
@@ -37,7 +37,7 @@
                   <span v-if="scope.row.verticalType==2">周边管线竖向位移</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="高程值" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="高程值(m)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.heightValue}}</span>
                 </template>
@@ -228,6 +228,8 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
+      //清空文件上传的存放
+      $("#approvalUpload")[0].value="";
     },
     //图形展示
     initChart() {
@@ -324,12 +326,13 @@ export default {
           this.lastWydDatas.push(lastData); //最新一条数据的集合，用于表格
           this.selectDatas = this.lastWydDatas; //初始化为限定时间时，表格数据就是所有点的最新数据
           //折线图数据源的获取
+          debugger
           var lastVaryData = []; //单次变化量的data二维数组，存放时间和单次变化量
           var accumVaryData = []; //累计变化量的data二维数组，存放时间和累计变化量
           var singleTime = new Object(); //测量时间
           for (var j = 0; j < wydDatas.length; j++) {
             singleTime = this.changeTimeFormat(wydDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, wydDatas[j].rateVary];
+            lastVaryData[j] = [singleTime, wydDatas[j].lastVary];
             accumVaryData[j] = [singleTime, wydDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);

@@ -37,7 +37,7 @@
                   <span v-if="scope.row.verticalType==2">周边管线竖向位移</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="高程值" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="高程值(m)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.heightValue}}</span>
                 </template>
@@ -228,6 +228,7 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
+      $("#approvalUpload")[0].value="";
     },
     //图形展示
     initChart() {
@@ -295,6 +296,7 @@ export default {
     },
     // 业务方法
     init(page, limit) {
+      debugger
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
       getForce({
         monitorItemUuid: this.monitorItemUuid,
@@ -329,7 +331,7 @@ export default {
           var singleTime = new Object(); //测量时间
           for (var j = 0; j < zgdDatas.length; j++) {
             singleTime = this.changeTimeFormat(zgdDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, zgdDatas[j].rateVary];
+            lastVaryData[j] = [singleTime, zgdDatas[j].lastVary];
             accumVaryData[j] = [singleTime, zgdDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);
