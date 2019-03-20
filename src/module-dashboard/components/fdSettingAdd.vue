@@ -4,24 +4,21 @@
       <el-form :rules="ruleInline" ref="formBase" :model="formBase" label-position="right" label-width="100px" style='margin:0 20px;'>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="监测项名称" prop="mItemName">
+            <el-form-item label="监测项别名" prop="mItemEname">
+              <el-input v-model="formBase.mItemEname" placeholder="Please input"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="监测项类型" prop="mItemName">
               <el-select v-model="formBase.mItemName" placeholder="请选择">
                 <el-option id="mItemName" v-for="item in itemDropdownList" :key="item.itemName" :label="item.itemName" :value="item.itemName" :disabled="item.disabled">
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="虚拟断面" prop="sectionUuid" >
-              <el-select v-model="formBase.sectionUuid" placeholder="请选择">
-                <el-option id="sectionUuid" v-for="item in sectionDropdownList" :key="item.sectionUuid" :label="item.sectionName" :value="item.sectionUuid" :disabled="item.disabled">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="采集模式" prop="mItemMode">
               <el-select v-model="formBase.mItemMode" placeholder="请选择">
                 <el-option id="mItemMode" v-for="item in options1" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
@@ -29,10 +26,18 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="有效状态" prop="mItemValid">
              <el-select v-model="formBase.mItemValid" placeholder="请选择">
                 <el-option id="mItemValid" v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="虚拟断面" prop="sectionUuid" >
+              <el-select v-model="formBase.sectionUuid" placeholder="请选择">
+                <el-option id="sectionUuid" v-for="item in sectionDropdownList" :key="item.sectionUuid" :label="item.sectionName" :value="item.sectionUuid" :disabled="item.disabled">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -153,6 +158,7 @@ export default {
             addFdSet(fdData)
               .then(response => {
                 if (response.data.result == 1) {
+                  debugger
                   const jsonData = response.data;
                   this.$emit("handleCloseFd");
                   this.$confirm("创建监测项设置信息成功!", "提示", {

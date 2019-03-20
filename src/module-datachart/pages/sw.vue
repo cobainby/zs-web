@@ -20,7 +20,7 @@
                 <el-button @click="handleRest" size="small">重置</el-button>
               </el-form-item>
               <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
-              <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">附件上传
+              <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">数据上传
                   <i class="el-icon-upload el-icon--right"></i>
               </el-button>
               <form enctype="multipart/form-data" id="form_example" style="display:none">
@@ -30,7 +30,7 @@
             <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'pointCode'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" label="测点编号" prop="pointCode" :show-overflow-tooltip="true" sortable>
               </el-table-column>
-              <el-table-column align="center" label="计算值" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="距离地面(m)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.calValue}}</span>
                 </template>
@@ -178,7 +178,7 @@ export default {
     getLoadFile() {
         $("#approvalUpload").trigger("click");
     },
-    //附件上传
+    //数据上传
     addFiles(fileType, fileInputId) {
       debugger;
       //拿到全局vue的指向
@@ -296,6 +296,7 @@ export default {
     // 业务方法
     init(page, limit) {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
+      this.projectUuid=this.$route.query.id;
       getWater({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
@@ -411,7 +412,13 @@ export default {
     this.init(1, 20);
   },
   // 挂载结束
-  mounted: function() {}
+  mounted: function() {},
+  watch: {
+    $route: function(to, from) {
+      // 通过监听跳转来重新刷新数据
+      this.init(1, 20);
+    }
+  }
 };
 </script>
 

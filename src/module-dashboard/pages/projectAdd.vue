@@ -32,7 +32,7 @@
         <el-tab-pane
           class="chartsPanel"
           label="工程概况"
-          name="first-ta" 
+          name="first-ta"
         >
           <!-- 项目当前信息 / -->
           <el-form
@@ -1047,17 +1047,25 @@
             style="width: 100%"
             :height="forthHeight"
             border
-          > 
+            :default-sort="{prop:'mItemEname'}"
+          >
             <el-table-column
               align="center"
-              label="监测项名称"
+              label="监测项别名"
+              prop="mItemEname"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="监测项类型"
             >
               <template slot-scope="scope">
                 <el-tag
                   :type="primary"
                   disable-transitions
                 ><span v-if="scope.row.mItemName!=null">{{scope.row.mItemName}}</span>
-                <span v-if="scope.row.mItemName==null">/</span></el-tag>
+                  <span v-if="scope.row.mItemName==null">/</span></el-tag>
               </template>
             </el-table-column>
             <el-table-column
@@ -1078,7 +1086,7 @@
               label="断面设置"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.mItemName=='围护墙（边坡）顶部水平位移'">
+                <span v-if="scope.row.mItemName=='水平位移'">
                   <el-button
                     type="success"
                     icon="el-icon-news"
@@ -1467,6 +1475,9 @@ export default {
       stateOption: [],
       ruleInline: {
         // 表单验证
+        mItemEname: [
+          { required: true, message: "监测项别名不能为空", trigger: "blur" }
+        ],
         mItemName: [
           { required: true, message: "监测项名称不能为空", trigger: "blur" }
         ],
@@ -1592,9 +1603,9 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
-      $("#approvalUpload")[0].value="";
-      $("#filesUpload")[0].value="";
-      $("#othersUpload")[0].value="";
+      $("#approvalUpload")[0].value = "";
+      $("#filesUpload")[0].value = "";
+      $("#othersUpload")[0].value = "";
     },
     //下载文件
     uploadFile(progUuid) {

@@ -323,11 +323,13 @@ export default {
     },
     init() {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
+      this.projectUuid=this.$route.query.id;
       //拿到点的集合
       getCliPointNumbers({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
       }).then(res => {
+        debugger
         this.allItems = res.data.data;
         var cxPoints = []; //测点的集合
         $.each(res.data.data, function(i) {
@@ -469,7 +471,13 @@ export default {
     this.init(1, 20);
   },
   // 挂载结束
-  mounted: function() {}
+  mounted: function() {},
+  watch: {
+    $route: function(to, from) {
+      // 通过监听跳转来重新刷新数据
+      this.init(1, 20);
+    }
+  }
 };
 </script>
 

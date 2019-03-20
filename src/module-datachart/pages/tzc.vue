@@ -20,39 +20,39 @@
                 <el-button @click="handleRest" size="small">重置</el-button>
               </el-form-item>
               <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
-              <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">附件上传
-                  <i class="el-icon-upload el-icon--right"></i>
-              </el-button>
-              <form enctype="multipart/form-data" id="form_example" style="display:none">
-                  <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
-              </form>
             </el-form>
-            <el-table :data="selectDatas" border :default-sort ="{prop: 'pointCode'}" :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" prop="pointCode" label="测点编号" :show-overflow-tooltip="true" sortable>
+            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'pointCode'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+              <el-table-column align="center" label="测点编号" prop="pointCode" :show-overflow-tooltip="true" sortable>
               </el-table-column>
-              <el-table-column align="center" label="位移类型">
+              <el-table-column align="center" label="支撑类型">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.verticalType==0">基坑顶部竖向位移</span>
-                  <span v-if="scope.row.verticalType==1">周边地表竖向位移</span>
-                  <span v-if="scope.row.verticalType==2">周边管线竖向位移</span>
+                  <span v-if="scope.row.forceType==0">锚索内力</span>
+                  <span v-if="scope.row.forceType==1">钢支撑内力</span>
+                  <span v-if="scope.row.forceType==2">硂支撑内力</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="高程值(m)" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="支撑轴力(KN)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                  <span>{{scope.row.heightValue}}</span>
+                  <span>{{scope.row.calValue}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="采集模数" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <span>{{scope.row.moduleData}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="单次变化量(KN)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化速率(mm/d)" :show-overflow-tooltip="true">
+
+              <el-table-column align="center" label="单次变化速率(KN/d)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="累计变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="累计变化量(KN)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.accumVary}}</span>
                 </template>
@@ -69,10 +69,10 @@
             <!-- 数据表格 / -->
           </el-tab-pane>
           <el-tab-pane label="单次变化量" name="second-ta">
-            <div :class="className" id="zgdLineGap"></div>
+            <div :class="className" id="tzcLineGap"></div>
           </el-tab-pane>
           <el-tab-pane label="累计变化量" name="third-ta">
-            <div :class="className" id="zgdLineAccum"></div>
+            <div :class="className" id="tzcLineAccum"></div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -135,10 +135,10 @@ export default {
           }
         }
       },
-      allItems: new Array(), //所有zgd的数据
-      zgdPoints: [], //所有zgd点的集合
-      lastZgdDatas: [], //zgd的最新一条数据
-      selectDatas: [], //zgd的勾选时间以后的表格数据，未限定时间时与lastZgdDatas相等
+      allItems: new Array(), //所有tzc的数据
+      tzcPoints: [], //所有tzc点的集合
+      lasttzcDatas: [], //tzc的最新一条数据
+      selectDatas: [], //tzc的勾选时间以后的表格数据，未限定时间时与lasttzcDatas相等
       pagination: {
         total: 0,
         pageSize: 20,
@@ -169,75 +169,20 @@ export default {
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {
-      $("#zgdLineGap").width($(".chartsPanel").width());
-      $("#zgdLineGap").height($(window).height() - 180);
-      $("#zgdLineAccum").width($(".chartsPanel").width());
-      $("#zgdLineAccum").height($(window).height() - 180);
+      $("#tzcLineGap").width($(".chartsPanel").width());
+      $("#tzcLineGap").height($(window).height() - 180);
+      $("#tzcLineAccum").width($(".chartsPanel").width());
+      $("#tzcLineAccum").height($(window).height() - 180);
       this.initChart();
-    },
-    //点击上传成果数据
-    getLoadFile() {
-        $("#approvalUpload").trigger("click");
-    },
-    //附件上传
-    addFiles(fileType, fileInputId) {
-      debugger;
-      //拿到全局vue的指向
-      var _this = this;
-      var files = document.getElementById(fileInputId);
-      this.fileList = [];
-      this.fileType = fileType;
-      for (var i = 0; i < files.files.length; i++) {
-        this.fileList.push(files.files[i]);
-      }
-      var formData = new FormData();
-      // var request = new XMLHttpRequest();
-      //循环添加到formData中
-      this.fileList.forEach(function(file) {
-        formData.append("files", file, file.name);
-      });
-      formData.append("fileType", this.fileType);
-      formData.append("projectUuid", this.projectId);
-      formData.append("monitorItemUuid",this.monitorItemUuid);
-      formData.append("token", this.token);
-      $.ajax({
-        url: "/api/fdData/vertical/add.filedata",
-        type: "POST",
-        data: formData,
-        cache: false, //不设置缓存
-        processData: false, // 不处理数据
-        contentType: false, // 不设置内容类型
-        dataType: "json",
-        success: function(res) {
-          if (res.result == 1) {
-            _this.$confirm(res.message, "提示", {
-              type: "success",
-              showConfirmButton: false,
-              showCancelButton: false
-            });
-            _this.init(1, 20);
-          } else {
-            _this.$confirm(res.message, "提示", {
-              type: "danger",
-              showConfirmButton: false,
-              showCancelButton: false
-            });
-          }
-        },
-        error: function(res) {
-          alert("上传失败!无法获取上传接口");
-        }
-      });
-      $("#approvalUpload")[0].value="";
     },
     //图形展示
     initChart() {
       var myChartGap = echarts.init(
-        document.getElementById("zgdLineGap"),
+        document.getElementById("tzcLineGap"),
         "macarons"
       );
       var myChartAccum = echarts.init(
-        document.getElementById("zgdLineAccum"),
+        document.getElementById("tzcLineAccum"),
         "macarons"
       );
       var option = {
@@ -245,7 +190,7 @@ export default {
           trigger: "axis"
         },
         legend: {
-          data: this.zgdPoints
+          data: this.tzcPoints
         },
         grid: {
           left: "60",
@@ -280,7 +225,7 @@ export default {
           {
             type: "value",
             axisLabel: {
-              formatter: "{value} mm"
+              formatter: "{value} KN"
             }
           }
         ]
@@ -296,8 +241,8 @@ export default {
     },
     // 业务方法
     init(page, limit) {
-      debugger
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
+      this.projectUuid=this.$route.query.id;
       getForce({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
@@ -307,32 +252,32 @@ export default {
         this.allItems = res.data.data;
         this.pagination.total = res.data.length;
         this.loading = false;
-        var zgdPoints = []; //测点的集合
+        var tzcPoints = []; //测点的集合
         $.each(res.data.data, function(i) {
           console.log(i);
-          zgdPoints.push(i);
+          tzcPoints.push(i);
         });
-        this.zgdPoints = zgdPoints; //点的集合
+        this.tzcPoints = tzcPoints; //点的集合
         this.lastVarySeries = []; //单次变化量的曲线图数据源集合初始化一次
         this.accumVarySeries=[];//累计变化量的曲线图数据初始化一次
-        this.lastZgdDatas = []; //初始化一次
-        for (var k = 0; k < this.zgdPoints.length; k++) {
-          var zgdDatas = this.allItems[this.zgdPoints[k]]; //每个点的数据
-          var lastData = zgdDatas[zgdDatas.length - 1]; //每个点的最新数据
+        this.lasttzcDatas = []; //初始化一次
+        for (var k = 0; k < this.tzcPoints.length; k++) {
+          var tzcDatas = this.allItems[this.tzcPoints[k]]; //每个点的数据
+          var lastData = tzcDatas[tzcDatas.length - 1]; //每个点的最新数据
           if (lastData == undefined) {
             lastData = new Object();
           }
-          lastData["pointCode"] = this.zgdPoints[k];
-          this.lastZgdDatas.push(lastData); //最新一条数据的集合，用于表格
-          this.selectDatas = this.lastZgdDatas; //初始化为限定时间时，表格数据就是所有点的最新数据
+          lastData["pointCode"] = this.tzcPoints[k];
+          this.lasttzcDatas.push(lastData); //最新一条数据的集合，用于表格
+          this.selectDatas = this.lasttzcDatas; //初始化为限定时间时，表格数据就是所有点的最新数据
           //折线图数据源的获取
           var lastVaryData = []; //单次变化量的data二维数组，存放时间和单次变化量
           var accumVaryData = []; //累计变化量的data二维数组，存放时间和累计变化量
           var singleTime = new Object(); //测量时间
-          for (var j = 0; j < zgdDatas.length; j++) {
-            singleTime = this.changeTimeFormat(zgdDatas[j].surveyTime); //格式化时间
-            lastVaryData[j] = [singleTime, zgdDatas[j].lastVary];
-            accumVaryData[j] = [singleTime, zgdDatas[j].accumVary];
+          for (var j = 0; j < tzcDatas.length; j++) {
+            singleTime = this.changeTimeFormat(tzcDatas[j].surveyTime); //格式化时间
+            lastVaryData[j] = [singleTime, tzcDatas[j].lastVary];
+            accumVaryData[j] = [singleTime, tzcDatas[j].accumVary];
             if (this.timeSeries.indexOf(singleTime) == -1) {
               this.timeSeries.push(singleTime);
             }
@@ -341,12 +286,12 @@ export default {
           var lastVarySingle = new Object(); //单个点的单次变化量数据
           var accumVarySingle = new Object(); //单个点的累计变化量数据
           //构造echart的series格式
-          lastVarySingle["name"] = this.zgdPoints[k];
+          lastVarySingle["name"] = this.tzcPoints[k];
           lastVarySingle["type"] = "line";
           lastVarySingle["smooth"] = false; //决定线图是折线还是曲线
           lastVarySingle["data"] = lastVaryData;
           this.lastVarySeries.push(lastVarySingle);
-          accumVarySingle["name"] = this.zgdPoints[k];
+          accumVarySingle["name"] = this.tzcPoints[k];
           accumVarySingle["type"] = "line";
           accumVarySingle["smooth"] = false; //决定线图是折线还是曲线
           accumVarySingle["data"] = accumVaryData;
@@ -361,7 +306,7 @@ export default {
     handleRest() {
       $("#startTime").val("");
       $("#endTime").val("");
-      this.selectDatas = this.lastZgdDatas;
+      this.selectDatas = this.lasttzcDatas;
     },
     //根据时间查询最新数据
     handleSearch() {
@@ -372,10 +317,10 @@ export default {
       ).getTime();
       var afterTime = new Date(this.filters.column.create_end_date).getTime();
       var newTime;
-      for (var i = 0; i < this.lastZgdDatas.length; i++) {
-        newTime = new Date(this.lastZgdDatas[i].surveyTime).getTime();
+      for (var i = 0; i < this.lasttzcDatas.length; i++) {
+        newTime = new Date(this.lasttzcDatas[i].surveyTime).getTime();
         if (newTime >= beforeTime && newTime <= afterTime) {
-          timesData.push(this.lastZgdDatas[i]);
+          timesData.push(this.lasttzcDatas[i]);
         }
       }
       this.selectDatas = timesData;
@@ -413,7 +358,13 @@ export default {
     this.init(1, 20);
   },
   // 挂载结束
-  mounted: function() {}
+  mounted: function() {},
+  watch: {
+    $route: function(to, from) {
+      // 通过监听跳转来重新刷新数据
+      this.init(1, 20);
+    }
+  }
 };
 </script>
 

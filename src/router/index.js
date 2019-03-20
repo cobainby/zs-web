@@ -87,22 +87,16 @@ export const constantRouterMap = [
         component: _import("datachart/pages/dataInfo"),
         name: "dataInfo",
         meta: { title: "项目信息", icon: "component", noCache: true }
-      },
-      {
-        path: "dailyCheck",
-        component: _import("datachart/pages/dailyCheck"),
-        name: "dailyCheck",
-        meta: { title: "日常巡查" }
       },{
         path: "cx",
         component: _import("datachart/pages/cx"),
         name: "cx",
-        meta: { title: "围护墙深层水平位移" }
+        meta: { title: "深层水平位移" }
       },{
-        path: "db",
-        component: _import("datachart/pages/db"),
-        name: "db",
-        meta: { title: "周边地表竖向位移" }
+        path: "gzc",
+        component: _import("datachart/pages/gzc"),
+        name: "gzc",
+        meta: { title: "钢支撑轴力" }
       },{
         path: "lf",
         component: _import("datachart/pages/lf"),
@@ -114,37 +108,36 @@ export const constantRouterMap = [
         name: "qx",
         meta: { title: "倾斜" }
       },{
-        path: "sm",
-        component: _import("datachart/pages/sm"),
-        name: "sm",
-        meta: { title: "周边建筑物竖向位移" }
+        path: "ms",
+        component: _import("datachart/pages/ms"),
+        name: "ms",
+        meta: { title: "锚索" }
       },{
         path: "sw",
         component: _import("datachart/pages/sw"),
         name: "sw",
-        meta: { title: "地下水位变化" }
+        meta: { title: "地下水位" }
       },{
-        path: "wyd",
-        component: _import("datachart/pages/wyd"),
-        name: "wyd",
-        meta: { title: "围护墙（边坡）顶部竖向位移" }
+        path: "tzc",
+        component: _import("datachart/pages/tzc"),
+        name: "tzc",
+        meta: { title: "砼支撑轴力" }
       },{
         path: "wys",
         component: _import("datachart/pages/wys"),
         name: "wys",
-        meta: { title: "围护墙（边坡）顶部水平位移" }
+        meta: { title: "水平位移" }
       },{
-        path: "zc",
-        component: _import("datachart/pages/zc"),
-        name: "zc",
-        meta: { title: "支撑内力" }
+        path: "xs",
+        component: _import("datachart/pages/xs"),
+        name: "xs",
+        meta: { title: "巡视" }
       },{
-        path: "zgd",
-        component: _import("datachart/pages/zgd"),
-        name: "zgd",
-        meta: { title: "周边管线竖向位移" }
+        path:"wyd",
+        component:_import("datachart/pages/wyd"),
+        name:"wyd",
+        meta:{title:"竖向位移"}
       }
-
     ]
   },
   {

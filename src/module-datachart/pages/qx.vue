@@ -242,6 +242,7 @@ export default {
     // 业务方法
     init(page, limit) {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
+      this.projectUuid=this.$route.query.id;
       getHorizontal({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
@@ -357,7 +358,13 @@ export default {
     this.init(1, 20);
   },
   // 挂载结束
-  mounted: function() {}
+  mounted: function() {},
+  watch: {
+    $route: function(to, from) {
+      // 通过监听跳转来重新刷新数据
+      this.init(1, 20);
+    }
+  }
 };
 </script>
 
