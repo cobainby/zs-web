@@ -99,6 +99,9 @@ const mapConfig = {
 };
 const rank = ["正常", "预警", "报警", "超过控制值"];
 export default {
+  props: [
+    'pageTitle',
+  ],
   components: {
     Layout
   },
@@ -282,9 +285,6 @@ export default {
               <div class="line">计划开挖时间：${item.excavationDatePlaned}</div>
               <div class="line">实际开挖时间：${item.backfillDateActual}</div>
               <div class="line">预警状态：${rank[item.warningGrade]}</div>
-              <div class="line" style="float:left"><a href="#/detailInfo?id=${
-                item.projectUuid
-              }">项目详细信息</a></div>
               <div class="line" ><a style="margin-left:10px" href="#/dataInfo?id=${
                 item.projectUuid
               }">数据展示</a></div>

@@ -191,11 +191,11 @@
                 </th>
                 <td>
                   <el-select
+                    id="safetyClass"
                     v-model="formBase.safetyClass"
                     placeholder="请选择"
                   >
                     <el-option
-                      id="safetyClass"
                       v-for="item in safetyOption"
                       :key="item.classCode"
                       :label="item.className"
@@ -296,11 +296,11 @@
                 </th>
                 <td>
                   <el-select
+                    id="constructionStep"
                     v-model="formBase.constructionStep"
                     placeholder="请选择"
                   >
                     <el-option
-                      id="constructionStep"
                       v-for="item in stepOption"
                       :key="item.stepCode"
                       :label="item.stepName"
@@ -317,9 +317,9 @@
                   <el-select
                     v-model="formBase.constructionState"
                     placeholder="请选择"
+                    id="constructionState"
                   >
                     <el-option
-                      id="constructionState"
                       v-for="item in stateOption"
                       :key="item.stateCode"
                       :label="item.stateName"
@@ -1062,7 +1062,7 @@
             >
               <template slot-scope="scope">
                 <el-tag
-                  :type="primary"
+                  type="primary"
                   disable-transitions
                 ><span v-if="scope.row.mItemName!=null">{{scope.row.mItemName}}</span>
                   <span v-if="scope.row.mItemName==null">/</span></el-tag>
@@ -1101,8 +1101,8 @@
               label="采集模式"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.mItemMode=0">手动采集</span>
-                <span v-if="scope.row.mItemMode=1">自动采集</span>
+                <span v-if="scope.row.mItemMode==0">手动采集</span>
+                <span v-if="scope.row.mItemMode==1">自动采集</span>
               </template>
             </el-table-column>
             <!-- 头像 -->
@@ -1452,7 +1452,11 @@ export default {
         pageSizes: [20, 50, 80, 120],
         currentPage: 1
       },
-      formBase: [],
+      formBase: {
+        safetyClass:"",
+        constructionStep:"",
+        constructionState:""
+      },
       loading: false,
       multipleSelection: [],
       dialogVisible: false,
@@ -1830,7 +1834,15 @@ export default {
       projectData.projectLatLon = $("#projectLatLon").val();
       projectData.projectRegion = $("#projectRegion").val();
       projectData.supportingStructure = $("#supportingStructure").val();
-      projectData.safetyClass = $("#safetyClass").val();
+      if ($("#safetyClass").val() == "安全等级一") {
+        projectData.safetyClass = 1;
+      } else if ($("#safetyClass").val() == "安全等级二") {
+        projectData.safetyClass = 2;
+      } else if ($("#safetyClass").val() == "安全等级三") {
+        projectData.safetyClass = 3;
+      }else if ($("#safetyClass").val() == "") {
+        projectData.safetyClass =1;
+      }
       projectData.foundationDepth =
         $("#foundationDepth").val() != ""
           ? $("#foundationDepth").val() * 1
@@ -1843,8 +1855,30 @@ export default {
       projectData.backfillDatePlaned = $("#backfillDatePlaned").val();
       projectData.excavationDateActual = $("#excavationDateActual").val();
       projectData.backfillDateActual = $("#backfillDateActual").val();
-      projectData.constructionStep = $("#constructionStep").val();
-      projectData.constructionState = $("#constructionState").val();
+      if ($("#constructionStep").val() == "未开始") {
+        projectData.constructionStep = 0;
+      } else if ($("#constructionStep").val() == "打桩") {
+        projectData.constructionStep = 1;
+      } else if ($("#constructionStep").val() == "开挖") {
+        projectData.constructionStep = 2;
+      } else if ($("#constructionStep").val() == "倒底板") {
+        projectData.constructionStep = 3;
+      } else if ($("#constructionStep").val() == "支模") {
+        projectData.constructionStep = 4;
+      } else if ($("#constructionStep").val() == "回填") {
+        projectData.constructionStep = 5;
+      }else if ($("#constructionStep").val() == "") {
+        projectData.constructionStep =0;
+      }
+      if ($("#constructionState").val() == "准备施工") {
+        projectData.constructionState = 0;
+      } else if ($("#constructionState").val() == "正在施工") {
+        projectData.constructionState = 1;
+      } else if ($("#constructionState").val() == "已完工") {
+        projectData.constructionState = 2;
+      }else if ($("#constructionState").val() == "") {
+        projectData.constructionState =1;
+      }
       projectData.monitoringOrg = $("#monitoringOrg").val();
       projectData.monitoringHead = $("#monitoringHead").val();
       projectData.monitoringSurveyor = $("#monitoringSurveyor").val();
@@ -2022,15 +2056,39 @@ export default {
         this.location = this.projectInfo.projectLatLon;
         $("#projectRegion").val(this.projectInfo.projectRegion);
         $("#supportingStructure").val(this.projectInfo.supportingStructure);
-        $("#safetyClass").val(this.projectInfo.safetyClass);
         $("#foundationDepth").val(this.projectInfo.foundationDepth);
         $("#foundationPerimeter").val(this.projectInfo.foundationPerimeter);
         $("#excavationDatePlaned").val(this.projectInfo.excavationDatePlaned);
         $("#backfillDatePlaned").val(this.projectInfo.backfillDatePlaned);
         $("#excavationDateActual").val(this.projectInfo.excavationDateActual);
         $("#backfillDateActual").val(this.projectInfo.backfillDateActual);
-        $("#constructionStep").val(this.projectInfo.constructionStep);
-        $("#constructionState").val(this.projectInfo.constructionState);
+        if (this.projectInfo.safetyClass == 1) {
+          this.formBase.safetyClass = "安全等级一";
+        } else if (this.projectInfo.safetyClass == 2) {
+          this.formBase.safetyClass = "安全等级二";
+        } else if (this.projectInfo.safetyClass == 3) {
+          this.formBase.safetyClass = "安全等级三";
+        }
+        if (this.projectInfo.constructionStep == 0) {
+          this.formBase.constructionStep = "未开始";
+        } else if (this.projectInfo.constructionStep == 1) {
+          this.formBase.constructionStep = "打桩";
+        } else if (this.projectInfo.constructionStep == 2) {
+          this.formBase.constructionStep = "打桩";
+        } else if (this.projectInfo.constructionStep == 3) {
+          this.formBase.constructionStep = "倒底板";
+        } else if (this.projectInfo.constructionStep == 4) {
+          this.formBase.constructionStep = "支模";
+        } else if (this.projectInfo.constructionStep == 5) {
+          this.formBase.constructionStep = "回填";
+        }
+        if (this.projectInfo.constructionState == 0) {
+          this.formBase.constructionState = "准备施工";
+        } else if (this.projectInfo.constructionState == 1) {
+          this.formBase.constructionState = "正在施工";
+        } else if (this.projectInfo.constructionState == 2) {
+          this.formBase.constructionState = "已完工";
+        }
         $("#monitoringOrg").val(this.projectInfo.monitoringOrg);
         this.monitoringHead = this.projectInfo.monitoringHead;
         this.monitoringSurveyor = this.projectInfo.monitoringSurveyor;
@@ -2057,6 +2115,7 @@ export default {
     },
     getFdSetList() {
       getFdSet({ token: this.token, projectUuid: this.projectId }).then(res => {
+        debugger;
         this.items = res.data.data;
         this.pagination.total = res.data.data.length;
         this.barSearch.alertText = `共 ${this.pagination.total} 条记录`;

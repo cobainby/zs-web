@@ -10,20 +10,27 @@
             </el-tooltip>
           </div>
           <div class="total">
-            6560
+            <span>{{proNumber}}</span>
           </div>
           <div class="trends">
-            <span>一级基坑 121
+            <span>一级基坑 {{proSafe1}}
               <i class="el-icon-caret-top"></i>
             </span>
-            <span>二级基坑 111
+            <span>二级基坑 {{proSafe2}}
               <i class="el-icon-caret-bottom"></i>
+            </span>
+            <span>三级基坑 {{proSafe3}}
+              <i class="el-icon-caret-top"></i>
             </span>
           </div>
           <div class="hr"></div>
           <div class="footer">
-            <span>在建基坑</span>
-            <span>383</span>
+            <span>在建基坑 <i style="color:green;" class="el-icon-success"></i>
+            {{probuildNumber}}
+            </span>
+            <span>准备施工基坑 <i style="color:red;" class="el-icon-loading"></i>
+            {{unProbuildNumber}} 
+            </span>
           </div>
         </el-card>
       </el-col>
@@ -100,6 +107,8 @@
 
 <script>
 import { hasPermissionPoint } from "@/utils/permission";
+import { projectList} from "@/api/base/project";
+import { getToken } from "@/utils/auth";
 import LineChart from "./../components/dashboardLineChart";
 import RaddarChart from "./../components/dashboardRaddarChart";
 import PieChart from "./../components/dashboardPieChart";
@@ -138,6 +147,7 @@ export default {
     return {
       lineChartData: lineChartData.newVisitis,
       activeName: "newVisitis",
+      token:getToken(),
       datePicker: "",
       pickerOptions2: {
         shortcuts: [
@@ -170,31 +180,50 @@ export default {
           }
         ]
       },
-      salesTable: [],
-      hotsTableData: [],
-      radioArea: "全渠道"
+      radioArea: "全渠道",
+      proNumber:"",
+      probuildNumber:"",//在建基坑数量
+      unProbuildNumber:"",//准备施工基坑数量
+      proSafe1:"",//一级基坑安全个数
+      proSafe2:"",
+      proSafe3:""
     };
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type.name];
-    }
+    },
+    getList(params) {
+      debugger;
+      var pro1=[],pro2=[],pro3=[],buildPro=[],unbuildPro=[];
+      projectList({token:this.token})
+        .then(res => {
+          this.proNumber= res.data.length;
+          for(var i=0;i<res.data.length;i++){
+            if(res.data[i].constructionState!=0){
+              buildPro.push(res.data[i]);
+            }else if(res.data[i].constructionState==0){
+              unbuildPro.push(res.data[i]);
+            }
+            if(res.data[i].safetyClass==1){
+              pro1.push(res.data[i]);
+            }else if(res.data[i].safetyClass==2){
+              pro2.push(res.data[i]);
+            }else if(res.data[i].safetyClass==3){
+              pro3.push(res.data[i]);
+            }
+          }
+          this.probuildNumber=buildPro.length;
+          this.unProbuildNumber=unbuildPro.length;
+          this.proSafe1=pro1.length;
+          this.proSafe2=pro2.length;
+          this.proSafe3=pro3.length;
+        });
+    },
   },
   computed: {},
   created() {
-    for (let i = 1; i < 9; i++) {
-      this.salesTable.push({
-        num: i,
-        title: `工专路 ${i} 号店`,
-        val: "323,234"
-      });
-      this.hotsTableData.push({
-        num: i,
-        title: `搜索关键词-${i}`,
-        users: Math.round(Math.random() * 500 + 300),
-        increase: `${Math.round(Math.random() * 50 + 40)}%`
-      });
-    }
+    this.getList();
   }
 };
 </script>
