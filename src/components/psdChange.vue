@@ -4,8 +4,8 @@
       <el-form :rules="ruleInline" ref="formBase" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;'>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="账户昵称" prop="accountName">
-              <el-input v-model="formBase.accountName" placeholder="Please input" :disabled="true"></el-input>
+            <el-form-item label="登录id" prop="loginName">
+              <el-input v-model="formBase.loginName" placeholder="Please input" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

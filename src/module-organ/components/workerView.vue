@@ -3,12 +3,17 @@
     <el-dialog width="55%" :title="text+pageTitle" :visible.sync="dialogFormVisible">
       <el-form  ref="formBase" :disabled="true" :model="formBase" label-position="right" label-width="140px" style='margin:0 50px;'>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="账户名称" prop="accountName">
+          <el-col :span="8">
+            <el-form-item label="登录ID" prop="loginName">
+              <el-input v-model="formBase.loginName" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="账户昵称" prop="accountName">
               <el-input v-model="formBase.accountName" placeholder="Please input"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="手机号码" prop="mobilePhone">
               <el-input v-model="formBase.mobilePhone" placeholder="Please input"></el-input>
             </el-form-item>

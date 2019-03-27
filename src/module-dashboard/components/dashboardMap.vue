@@ -44,7 +44,8 @@
             <div class="fog-content-right">
               <div class="location">
                 <span class="tit">监测工程</span>
-                <span class="con" :title="item.projectName">{{ item.projectName }}</span>
+                <span class="con" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;
+    white-space: normal !important;" :title="item.projectName">{{ item.projectName}}</span>
               </div>
               <div class="time">
                 <span class="tit">施工工况</span>
@@ -125,7 +126,8 @@ export default {
       dialogFlag: false,
       nowItem: {},
       targetType: "4",
-      hasFogData: true
+      hasFogData: true,
+      proLineData:[]
     };
   },
   methods: {
@@ -146,6 +148,15 @@ export default {
               _this.addMarker(item);
               _this.warningMarkerIds.push(item.projectUuid);
             });
+            debugger
+            console.log(this.proLineData);
+            var polyline= new AMap.Polyline({
+            path: this.proLineData,            // 设置线覆盖物路径
+       	    showDir:true,
+            strokeColor: '#3366bb',   // 线颜色
+            strokeWeight: 8           // 线宽
+            });
+            this.map.add(polyline);
             this.map.setFitView();
             let newArr = _this.listData.filter(function(item) {
               return $.inArray(item.projectUuid, dataIdArr) === -1;
@@ -196,6 +207,7 @@ export default {
         let opts = {};
         let lon = item.projectLatLon.split(",")[0]; //经度
         let lat = item.projectLatLon.split(",")[1]; //维度
+        this.proLineData.push([lon,lat]);
         opts.map = this.map;
         opts.icon = new AMap.Icon({
           image: this.iconUrl + "/" + this.icon[item.warningGrade] + ".png",
@@ -285,7 +297,7 @@ export default {
               <div class="line">计划开挖时间：${item.excavationDatePlaned}</div>
               <div class="line">实际开挖时间：${item.backfillDateActual}</div>
               <div class="line">预警状态：${rank[item.warningGrade]}</div>
-              <div class="line" ><a style="margin-left:10px" href="#/dataInfo?id=${
+              <div class="line" ><a  href="#/dataInfo?id=${
                 item.projectUuid
               }">数据展示</a></div>
             </div>
@@ -331,6 +343,7 @@ export default {
         .getNiceScroll()
         .resize();
     }, 500);
+    this.proLineData=[];
     this.init();
   },
   destroyed() {
@@ -513,7 +526,6 @@ export default {
         .fog-content {
           overflow: hidden;
           .fog-item {
-            height: 60px;
             border-bottom: 1px dashed #dddddd;
             padding: 10px;
             cursor: pointer;
@@ -535,12 +547,6 @@ export default {
               }
               .con {
                 margin-left: 3px;
-              }
-              .location {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                word-break: break-all;
-                white-space: nowrap;
               }
               .time {
                 margin-top: 5px;
@@ -701,7 +707,6 @@ export default {
         .fog-content {
           overflow: hidden;
           .fog-item {
-            height: 90px;
             border-bottom: 1px dashed #dddddd;
             padding: 20px 10px 20px 20px;
             cursor: pointer;
@@ -723,12 +728,6 @@ export default {
               }
               .con {
                 margin-left: 5px;
-              }
-              .location {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                word-break: break-all;
-                white-space: nowrap;
               }
               .time {
                 margin-top: 7px;

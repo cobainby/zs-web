@@ -94,6 +94,7 @@ export default {
       PsdChange: "PsdChange",
       searchVal: "",
       accountName: "",
+      loginName:"",
       accountUuid: "",
       orgUuid: "",
       timeout: null,
@@ -102,12 +103,12 @@ export default {
       token: getToken(),
       formData: {
         accountUuid: "",
-        accountName: "",
+        loginName: "",
         password: ""
       },
       ruleInline: {
-        accountName: [
-          { required: true, message: "请输入账户昵称", trigger: "blur" },
+        loginName: [
+          { required: true, message: "请输入账号id", trigger: "blur" },
           { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
         ],
         password: [
@@ -128,7 +129,7 @@ export default {
     },
     psdchange() {
       this.formData.accountUuid = this.accountUuid;
-      this.formData.accountName = this.accountName;
+      this.formData.loginName = this.loginName;
       this.formData.password = "";
       this.$refs.changePsd.dialogFormV();
     },
@@ -180,6 +181,7 @@ export default {
     //加载完后右上角显示当前登录人名字
     detail({ token: this.token }).then(res => {
       this.accountName = res.data.accountName;
+      this.loginName=res.data.loginName;
       this.accountUuid = res.data.userUuid;
       this.orgUuid = res.data.orgUuid;
     });
