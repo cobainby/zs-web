@@ -5,7 +5,7 @@
         <el-form ref="formData" :model="formData" label-position="right" label-width="100px" style='margin:0 20px;'>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="速率预警值" prop="rateWarning">
+              <el-form-item label="单次预警值" prop="rateWarning">
                 <el-input v-model="formData.rateWarning" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
@@ -17,7 +17,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="速率报警值" prop="rateAlarm">
+              <el-form-item label="单次报警值" prop="rateAlarm">
                 <el-input v-model="formData.rateAlarm" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
@@ -29,7 +29,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="速率控制值" prop="rateControl">
+              <el-form-item label="单次控制值" prop="rateControl">
                 <el-input v-model="formData.rateControl" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
@@ -57,19 +57,19 @@
       <el-table :key='tableKey' :height="tableHeight" :data="warningSetData" :default-sort="{prop:'warningName'}" highlight-current-row border>
         <el-table-column align="center" label="报警设置名称" prop="warningName" sortable>
         </el-table-column>
-        <el-table-column align="center" label="速率预警值">
+        <el-table-column align="center" label="单次预警值">
           <template slot-scope="scope">
             <span v-if="scope.row.rateWarning!=null">{{scope.row.rateWarning}}</span>
             <span v-if="scope.row.rateWarning==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="速率报警值">
+        <el-table-column align="center" label="单次报警值">
           <template slot-scope="scope">
             <span v-if="scope.row.rateAlarm!=null">{{scope.row.rateAlarm}}</span>
             <span v-if="scope.row.rateAlarm==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="速率控制值">
+        <el-table-column align="center" label="单次控制值">
           <template slot-scope="scope">
             <span v-if="scope.row.rateControl!=null">{{scope.row.rateControl}}</span>
             <span v-if="scope.row.rateControl==null">/</span>

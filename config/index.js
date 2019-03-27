@@ -19,7 +19,7 @@ module.exports = {
       }
     },
     // Various Dev Server settings
-    host: 'localhost', //可以通过process.env.HOST覆盖 
+    host: '192.168.1.109', //可以通过process.env.HOST覆盖 
     port: 8085, // 可以通过process.env覆盖
     autoOpenBrowser: false,
     errorOverlay: true,

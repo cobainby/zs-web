@@ -86,6 +86,7 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getHorizontal } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
+import {getWarningSet} from "@/api/base/project";
 
 export default {
   name: "dataIndex",
@@ -112,6 +113,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
+      rateYmax:"",//单次变化量纵轴最大值
+      rateYmin:"",//单次变化量纵轴最小值
+      accumYmax:"",//累计变化量纵轴最大值
+      accumYmin:"",//累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -232,11 +237,21 @@ export default {
       };
       myChartGap.setOption(option);
       myChartGap.setOption({
-        series: this.lastVarySeries
+        series: this.lastVarySeries,
+        yAxis:[{
+          max:this.rateYmax,
+          min:this.rateYmin
+         }
+        ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
-        series: this.accumVarySeries
+        series: this.accumVarySeries,
+        yAxis:[{
+          max:this.accumYmax,
+          min:this.accumYmin
+         }
+        ]
       });
     },
     // 业务方法
@@ -302,6 +317,17 @@ export default {
         console.log(this.timeSeries);
       });
     },
+    //获取报警设置最大值最小值作为曲线图纵坐标
+    getY(){
+      getWarningSet({monitorItemUuid: this.monitorItemUuid,
+        token: this.token}).then(res=>{
+          debugger
+          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
+          this.rateYmin=-this.rateYmax;
+          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
+          this.accumYmin=-this.accumYmax;
+        });
+    },
     //重置时间选择框的选择项
     handleRest() {
       $("#startTime").val("");
@@ -356,6 +382,7 @@ export default {
   },
   created() {
     this.init(1, 20);
+    this.getY();
   },
   // 挂载结束
   mounted: function() {},
