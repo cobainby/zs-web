@@ -94,7 +94,8 @@ const user = {
             setToken(response.data.token); //登录成功后将token存储在cookie中
             resolve();
           } else {
-            Message.error("账号不存在或密码错误!");
+            debugger
+            Message.error(response.data.message);
           }
         });
       });

@@ -1,11 +1,20 @@
 <template>
   <div class="dashboard-container">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="6" :span="6">
+      <el-col
+        :xs="24"
+        :sm="6"
+        :span="6"
+      >
         <el-card class="box-card">
           <div class="header">
             <span>基坑项目数量</span>
-            <el-tooltip class="item" effect="dark" content="项目说明" placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="项目说明"
+              placement="top"
+            >
               <i class="el-icon-warning"></i>
             </el-tooltip>
           </div>
@@ -25,20 +34,35 @@
           </div>
           <div class="hr"></div>
           <div class="footer">
-            <span>在建基坑 <i style="color:green;" class="el-icon-success"></i>
-            {{probuildNumber}}
+            <span>在建基坑 <i
+                style="color:green;"
+                class="el-icon-success"
+              ></i>
+              {{probuildNumber}}
             </span>
-            <span>准备施工基坑 <i style="color:red;" class="el-icon-loading"></i>
-            {{unProbuildNumber}} 
+            <span>准备施工基坑 <i
+                style="color:red;"
+                class="el-icon-loading"
+              ></i>
+              {{unProbuildNumber}}
             </span>
           </div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="6" :span="6">
+      <el-col
+        :xs="24"
+        :sm="6"
+        :span="6"
+      >
         <el-card class="box-card">
           <div class="header">
             <span>报警统计</span>
-            <el-tooltip class="item" effect="dark" content="报警说明" placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="报警说明"
+              placement="top"
+            >
               <i class="el-icon-warning"></i>
             </el-tooltip>
           </div>
@@ -52,11 +76,20 @@
           </div> -->
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="6" :span="6">
+      <el-col
+        :xs="24"
+        :sm="6"
+        :span="6"
+      >
         <el-card class="box-card">
           <div class="header">
-            <span>待办事项</span>
-            <el-tooltip class="item" effect="dark" content="待办事项说明" placement="top">
+            <span>合同工作量</span>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="说明"
+              placement="top"
+            >
               <i class="el-icon-warning"></i>
             </el-tooltip>
           </div>
@@ -70,29 +103,68 @@
           </div> -->
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="6" :span="6">
+      <el-col
+        :xs="24"
+        :sm="6"
+        :span="6"
+      >
         <el-card class="box-card-right">
-          <div class="header">
-            <span>本人考勤次数</span>
-            <el-tooltip class="item" effect="dark" content="本人考勤次数说明" placement="top">
-              <i class="el-icon-warning"></i>
-            </el-tooltip>
+          <div class="marquee">
+            <div class="marquee_title">
+              <span>合同</span>
+            </div>
+            <div class="rightPic" />
+            <div class="marquee_box">
+              <ul
+                class="marquee_list"
+                :class="{marquee_top:animate}"
+              >
+                <li v-for="(item, index) in marqueeList">
+                  <span>{{item.name}}</span>
+                  <span class="red"> {{item.city}}</span>
+                  <span>还剩</span>
+                  <span class="red"> {{item.amount}}</span>
+                  <span>天</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="chart">
-            <bar-chart></bar-chart>
+          <div class="marquee">
+            <div class="marquee_title">
+              <span>预警</span>
+            </div>
+            <div class="rightPic" />
+            <div class="marquee_box">
+              <ul
+                class="marquee_list"
+                :class="{marquee_middle:animate}"
+              >
+                <li v-for="(item, index) in warnList">
+                  <span>{{item.name}}</span>
+                  <span class="red"> {{item.city}}</span>
+                  <span> {{item.amount}}</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <!-- <div class="hr"></div>
-          <div class="trends">
-            <span>已考勤数 9
-              <i class="el-icon-caret-top"></i>
-            </span>
-            <span>单位缺勤数 33
-              <i class="el-icon-caret-top"></i>
-            </span>
-            <span>单位未处理 12
-              <i class="el-icon-caret-bottom"></i>
-            </span>
-          </div> -->
+          <div class="marquee">
+            <div class="marquee_title">
+              <span>实测</span>
+            </div>
+            <div class="rightPic" />
+            <div class="marquee_box">
+              <ul
+                class="marquee_list"
+                :class="{marquee_bottom:animate}"
+              >
+                <li v-for="(item, index) in pointList">
+                  <span>{{item.name}}</span>
+                  <span class="red"> {{item.city}}</span>
+                  <span class="red"> {{item.amount}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -107,7 +179,7 @@
 
 <script>
 import { hasPermissionPoint } from "@/utils/permission";
-import { projectList} from "@/api/base/project";
+import { projectList } from "@/api/base/project";
 import { getToken } from "@/utils/auth";
 import LineChart from "./../components/dashboardLineChart";
 import RaddarChart from "./../components/dashboardRaddarChart";
@@ -147,7 +219,7 @@ export default {
     return {
       lineChartData: lineChartData.newVisitis,
       activeName: "newVisitis",
-      token:getToken(),
+      token: getToken(),
       datePicker: "",
       pickerOptions2: {
         shortcuts: [
@@ -181,12 +253,34 @@ export default {
         ]
       },
       radioArea: "全渠道",
-      proNumber:"",
-      probuildNumber:"",//在建基坑数量
-      unProbuildNumber:"",//准备施工基坑数量
-      proSafe1:"",//一级基坑安全个数
-      proSafe2:"",
-      proSafe3:""
+      proNumber: "",
+      probuildNumber: "", //在建基坑数量
+      unProbuildNumber: "", //准备施工基坑数量
+      proSafe1: "", //一级基坑安全个数
+      proSafe2: "",
+      proSafe3: "",
+      animate: false,
+      marqueeList: [
+        {
+          name: "距离",
+          city: "合同终止日期",
+          amount: ""
+        }
+      ],
+      warnList: [
+        {
+          name: "暂无",
+          city: "预警",
+          amount: "情况"
+        }
+      ],
+      pointList: [
+        {
+          name: "实测",
+          city: "点数：",
+          amount: ""
+        }
+      ]
     };
   },
   methods: {
@@ -195,35 +289,47 @@ export default {
     },
     getList(params) {
       debugger;
-      var pro1=[],pro2=[],pro3=[],buildPro=[],unbuildPro=[];
-      projectList({token:this.token})
-        .then(res => {
-          this.proNumber= res.data.length;
-          for(var i=0;i<res.data.length;i++){
-            if(res.data[i].constructionState!=0){
-              buildPro.push(res.data[i]);
-            }else if(res.data[i].constructionState==0){
-              unbuildPro.push(res.data[i]);
-            }
-            if(res.data[i].safetyClass==1){
-              pro1.push(res.data[i]);
-            }else if(res.data[i].safetyClass==2){
-              pro2.push(res.data[i]);
-            }else if(res.data[i].safetyClass==3){
-              pro3.push(res.data[i]);
-            }
+      var pro1 = [],
+        pro2 = [],
+        pro3 = [],
+        buildPro = [],
+        unbuildPro = [];
+      projectList({ token: this.token }).then(res => {
+        this.proNumber = res.data.length;
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].constructionState != 0) {
+            buildPro.push(res.data[i]);
+          } else if (res.data[i].constructionState == 0) {
+            unbuildPro.push(res.data[i]);
           }
-          this.probuildNumber=buildPro.length;
-          this.unProbuildNumber=unbuildPro.length;
-          this.proSafe1=pro1.length;
-          this.proSafe2=pro2.length;
-          this.proSafe3=pro3.length;
-        });
+          if (res.data[i].safetyClass == 1) {
+            pro1.push(res.data[i]);
+          } else if (res.data[i].safetyClass == 2) {
+            pro2.push(res.data[i]);
+          } else if (res.data[i].safetyClass == 3) {
+            pro3.push(res.data[i]);
+          }
+        }
+        this.probuildNumber = buildPro.length;
+        this.unProbuildNumber = unbuildPro.length;
+        this.proSafe1 = pro1.length;
+        this.proSafe2 = pro2.length;
+        this.proSafe3 = pro3.length;
+      });
     },
+    showMarquee: function() {
+      this.animate = true;
+      setTimeout(() => {
+        this.marqueeList.push(this.marqueeList[0]);
+        this.marqueeList.shift();
+        this.animate = false;
+      }, 500);
+    }
   },
   computed: {},
   created() {
     this.getList();
+    setInterval(this.showMarquee, 2000);
   }
 };
 </script>
@@ -235,9 +341,9 @@ export default {
 @media (min-width: 640px) and (max-width: 1399px) {
   .box-card {
     min-height: 120px;
-    margin-right:-15px;
+    margin-right: -15px;
     .header {
-      margin:-15px -10px 0 -12px;
+      margin: -15px -10px 0 -12px;
       height: 10px;
       span {
         color: #97a8be;
@@ -274,7 +380,7 @@ export default {
     }
     .chart {
       height: 110px;
-      margin:5px;
+      margin: 5px;
     }
     .hr {
       border-top: 1px solid #e8e8e8;
@@ -291,67 +397,95 @@ export default {
       }
     }
   }
-  .box-card-right{
+  .box-card-right {
     min-height: 120px;
-    .header {
-      margin:-15px -10px 0 -12px;
-      height: 10px;
-      span {
-        color: #97a8be;
-        font-size: 11px;
-      }
-      .item {
-        color: #97a8be;
-        float: right;
-        padding: 3px 0;
-      }
+    div,
+    ul,
+    li,
+    span,
+    img {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    // 总销售额
-    .total {
-      font-size: 20px;
-      height: 60px;
-      line-height: 60px;
+    .marquee {
+      width: 105%;
+      height: 25px;
+      margin: 8px 0 11px -5px;
+      align-items: center;
+      color: #3a3a3a;
+      background-color: #23a0e8;
+      display: flex;
+      box-sizing: border-box;
+      border-radius: 20px;
+      border-top: 0.5px solid #d8d8d8;
+      border-bottom: 0.5px solid #d8d8d8;
     }
-    .trends {
-      height: 30px;
+    .marquee_title {
+      padding: 0 10px;
+      height: 25px;
       font-size: 12px;
-      span {
-        display: inline;
-        i {
-          color: red;
-        }
-      }
-      span:last-child {
-        margin-left: 20px;
-        display: inline;
-        i {
-          color: green;
-        }
-      }
+      line-height: 25px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: Calibri, Tahoma;
+      align-items: center;
     }
-    .chart {
-      height: 110px;
-      margin:5px;
+    .rightPic {
+      background: url("./../assets/images/right-flc-w.png") no-repeat right
+        center;
+      width: 20px;
+      height: 25px;
+      border-top: 0.5px solid #d8d8d8;
+      border-bottom: 0.5px solid #d8d8d8;
     }
-    .hr {
-      border-top: 1px solid #e8e8e8;
-      margin: 0px 0px 5px 0px;
+
+    .marquee_box {
+      display: block;
+      position: relative;
+      width: 66%;
+      height: 25px;
+      overflow: hidden;
+      border-top: 0.5px solid #d8d8d8;
+      border-bottom: 0.5px solid #d8d8d8;
+      background-color: #fff;
     }
-    .footer {
-      span {
-        font-size: 12px;
-        line-height: 22px;
-      }
-      span:last-child {
-        margin-left: 8px;
-        color: rgba(0, 0, 0, 0.85);
-      }
+
+    .marquee_list {
+      width:100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .marquee_top {
+      transition: all 0.5s;
+      margin-top: -20px;
+    }
+    .marquee_middle {
+      transition: all 0.5s;
+      margin-top: -20px;
+    }
+    .marquee_bottom {
+      transition: all 0.5s;
+      margin-top: -20px;
+    }
+    .marquee_list li {
+      height: 20px;
+      line-height: 20px;
+      font-size: 10px;
+      padding-left: 5px;
+    }
+
+    .red {
+      color: #ff0101;
     }
   }
   // 线上热门搜索
   .hots {
     position: relative;
-    margin-top:-18px;
+    margin-top: -18px;
     .header {
       color: #97a8be;
       .ops {
@@ -364,9 +498,9 @@ export default {
 @media (min-width: 1400px) {
   .box-card {
     min-height: 200px;
-    margin-right:-12px;
+    margin-right: -12px;
     .header {
-      margin:-15px -10px 0 -12px;
+      margin: -15px -10px 0 -12px;
       height: 25px;
       span {
         color: #97a8be;
@@ -418,60 +552,88 @@ export default {
       }
     }
   }
-  .box-card-right{
-    min-height: "230px";
-    .header {
-      margin:-15px -10px 0 -12px;
-      height: 25px;
-      span {
-        color: #97a8be;
-        font-size: 14px;
-      }
-      .item {
-        color: #97a8be;
-        float: right;
-        padding: 3px 0;
-      }
+  .box-card-right {
+    min-height: 210px;
+    div,
+    ul,
+    li,
+    span,
+    img {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    
-    .total {
-      font-size: 30px;
-      height: 140px;
-      line-height: 100px;
+    .marquee {
+      width: 105%;
+      height: 30px;
+      margin: 10px 0 20px -10px;
+      align-items: center;
+      color: #3a3a3a;
+      background-color: #23a0e8;
+      display: flex;
+      box-sizing: border-box;
+      border-radius: 20px;
+      border-top: 1px solid #d8d8d8;
+      border-bottom: 1px solid #d8d8d8;
     }
-    .trends {
-      height: 22px;
+    .marquee_title {
+      padding: 0 15px;
+      height: 30px;
       font-size: 14px;
-      span {
-        display: inline;
-        i {
-          color: red;
-        }
-      }
-      span:last-child {
-        margin-left: 20px;
-        display: inline;
-        i {
-          color: green;
-        }
-      }
+      line-height: 30px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: Calibri, Tahoma;
+      align-items: center;
     }
-    .chart {
-      height: 160px;
+    .rightPic {
+      background: url("./../assets/images/right-flc-w.png") no-repeat right
+        center;
+      width: 20px;
+      height: 30px;
+      border-top: 1px solid #d8d8d8;
+      border-bottom: 1px solid #d8d8d8;
     }
-    .hr {
-      border-top: 1px solid #e8e8e8;
-      margin: 0px 0px 10px 0px;
+
+    .marquee_box {
+      display: block;
+      position: relative;
+      width: 70%;
+      height: 30px;
+      overflow: hidden;
+      border-top: 1px solid #d8d8d8;
+      border-bottom: 1px solid #d8d8d8;
+      background-color: #fff;
     }
-    .footer {
-      span {
-        font-size: 14px;
-        line-height: 22px;
-      }
-      span:last-child {
-        margin-left: 8px;
-        color: rgba(0, 0, 0, 0.85);
-      }
+
+    .marquee_list {
+      width:100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .marquee_top {
+      transition: all 0.5s;
+      margin-top: -30px;
+    }
+    .marquee_middle {
+      transition: all 0.5s;
+      margin-top: -20px;
+    }
+    .marquee_bottom {
+      transition: all 0.5s;
+      margin-top: -20px;
+    }
+    .marquee_list li {
+      height: 30px;
+      line-height: 30px;
+      font-size: 14px;
+      padding-left: 10px;
+    }
+    .red {
+      color: #ff0101;
     }
   }
   // 线上热门搜索

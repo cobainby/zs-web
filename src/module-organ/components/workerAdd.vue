@@ -301,6 +301,21 @@ export default {
             $("#dateRegister").val() != "" ? $("#dateRegister").val() : null;
           workerData.data.dateValid =
             $("#dateValid").val() != "" ? $("#dateValid").val() : null;
+          if(data.roleCode=="系统管理员"){
+            data.roleCode=0;
+          }else if(data.roleCode=="机构管理员"){
+            data.roleCode=1;
+          }else if(data.roleCode=="机构领导"){
+            data.roleCode=2;
+          }else if(data.roleCode=="项目负责人"){
+            data.roleCode=3;
+          }else if(data.roleCode=="监测人员"){
+            data.roleCode=4;
+          }else if(data.roleCode=="监理人员"){
+            data.roleCode=5;
+          }else if(data.roleCode=="学习账号"){
+            data.roleCode=6;
+          }
           debugger;
           if (this.text == "创建") {
             addAccount(workerData)

@@ -291,7 +291,7 @@ export default {
       this.formData.numCertificate = params.numCertificate;
       this.formData.dateRegister = params.dateRegister;
       this.formData.dateValid = params.dateValid;
-      // this.formData.roleCode = params.sysRole.name;
+      this.formData.roleCode = params.sysRole.name;
     },
     //删除机构
     removeUser(accountUuid) {

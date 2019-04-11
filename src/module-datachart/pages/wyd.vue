@@ -106,7 +106,7 @@
                 sortable
               >
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 align="center"
                 label="位移类型"
               >
@@ -115,7 +115,7 @@
                   <span v-if="scope.row.verticalType==1">周边地表竖向位移</span>
                   <span v-if="scope.row.verticalType==2">周边管线竖向位移</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 align="center"
                 label="高程值(m)"

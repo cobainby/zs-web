@@ -2,39 +2,39 @@
   <div class="add-form">
     <el-dialog width="50%" title="报警参数设置" :visible.sync="dialogFormVisible">
       <el-dialog width="40%" title="报警参数" :visible.sync="innerVisible" append-to-body>
-        <el-form ref="formData" :model="formData" label-position="right" label-width="100px" style='margin:0 20px;'>
+        <el-form ref="formData" :model="formData" label-position="right" label-width="150px" style='margin:0 20px;'>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="单次预警值" prop="rateWarning">
+              <el-form-item label="速率预警值(mm/d)" prop="rateWarning">
                 <el-input v-model="formData.rateWarning" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="累计预警值" prop="accumWarning">
+              <el-form-item label="累计预警值(mm)" prop="accumWarning">
                 <el-input v-model="formData.accumWarning" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="单次报警值" prop="rateAlarm">
+              <el-form-item label="速率报警值(mm/d)" prop="rateAlarm">
                 <el-input v-model="formData.rateAlarm" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="累计报警值" prop="accumAlarm">
+              <el-form-item label="累计报警值(mm)" prop="accumAlarm">
                 <el-input v-model="formData.accumAlarm" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="单次控制值" prop="rateControl">
+              <el-form-item label="速率控制值(mm/d)" prop="rateControl">
                 <el-input v-model="formData.rateControl" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="累计控制值" prop="accumControl">
+              <el-form-item label="累计控制值(mm)" prop="accumControl">
                 <el-input v-model="formData.accumControl" placeholder="Please input"></el-input>
               </el-form-item>
             </el-col>
@@ -57,37 +57,37 @@
       <el-table :key='tableKey' :height="tableHeight" :data="warningSetData" :default-sort="{prop:'warningName'}" highlight-current-row border>
         <el-table-column align="center" label="报警设置名称" prop="warningName" sortable>
         </el-table-column>
-        <el-table-column align="center" label="单次预警值">
+        <el-table-column align="center" label="速率预警值(mm/d)">
           <template slot-scope="scope">
             <span v-if="scope.row.rateWarning!=null">{{scope.row.rateWarning}}</span>
             <span v-if="scope.row.rateWarning==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="单次报警值">
+        <el-table-column align="center" label="速率报警值(mm/d)">
           <template slot-scope="scope">
             <span v-if="scope.row.rateAlarm!=null">{{scope.row.rateAlarm}}</span>
             <span v-if="scope.row.rateAlarm==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="单次控制值">
+        <el-table-column align="center" label="速率控制值(mm/d)">
           <template slot-scope="scope">
             <span v-if="scope.row.rateControl!=null">{{scope.row.rateControl}}</span>
             <span v-if="scope.row.rateControl==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="累计预警值">
+        <el-table-column align="center" label="累计预警值(mm)">
           <template slot-scope="scope">
             <span v-if="scope.row.accumWarning!=null">{{scope.row.accumWarning}}</span>
             <span v-if="scope.row.accumWarning==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="累计报警值">
+        <el-table-column align="center" label="累计报警值(mm)">
           <template slot-scope="scope">
             <span v-if="scope.row.accumAlarm!=null">{{scope.row.accumAlarm}}</span>
             <span v-if="scope.row.accumAlarm==null">/</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="累计控制值">
+        <el-table-column align="center" label="累计控制值(mm)">
           <template slot-scope="scope">
             <span v-if="scope.row.accumControl!=null">{{scope.row.accumControl}}</span>
             <span v-if="scope.row.accumControl==null">/</span>

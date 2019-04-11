@@ -56,7 +56,7 @@
           <el-col :span="12">
             <el-form-item label="机构类型" prop="typeCode">
               <el-select v-model="formBase.typeCode" placeholder="请选择">
-                <el-option id="typeCode" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+                <el-option id="typeCode" v-for="item in options" :key="item.typeCode" :label="item.typeName" :value="item.typeCode" :disabled="item.disabled">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -117,32 +117,32 @@ export default {
       importFileUrl: "https://jsonplaceholder.typicode.com/posts/",
       options: [
         {
-          value: "0",
-          label: "第三方监测单位"
+          typeCode: "0",
+          typeName: "第三方监测单位"
         },
         {
-          value: "1",
-          label: "施工检测单位"
+          typeCode: "1",
+          typeName: "施工检测单位"
         },
         {
-          value: "2",
-          label: "监理单位"
+          typeCode: "2",
+          typeName: "监理单位"
         },
         {
-          value: "3",
-          label: "安监单位"
+          typeCode: "3",
+          typeName: "安监单位"
         },
         {
-          value: "4",
-          label: "业主单位"
+         typeCode: "4",
+         typeName: "业主单位"
         },
         {
-          value: "5",
-          label: "设计单位"
+          typeCode: "5",
+          typeName: "设计单位"
         },
         {
-          value: "6",
-          label: "施工单位"
+          typeCode: "6",
+          typeName: "施工单位"
         }
       ]
     };
@@ -178,6 +178,21 @@ export default {
             $("#dateRegister").val() != "" ? $("#dateRegister").val() : null;
           organData.data.dateValid =
             $("#dateValid").val() != "" ? $("#dateValid").val() : null;
+          if(data.typeCode=="第三方监测单位"){
+            data.typeCode=0;
+          }else if(data.typeCode=="施工检测单位"){
+            data.typeCode=1;
+          }else if(data.typeCode=="监理单位"){
+            data.typeCode=2;
+          }else if(data.typeCode=="安监单位"){
+            data.typeCode=3;
+          }else if(data.typeCode=="业主单位"){
+            data.typeCode=4;
+          }else if(data.typeCode=="设计单位"){
+            data.typeCode=5;
+          }else if(data.typeCode=="施工单位"){
+            data.typeCode=6;
+          }
           organData.data.type.code=data.typeCode;
           if (this.text == "创建") {
             addInstitutes(organData)

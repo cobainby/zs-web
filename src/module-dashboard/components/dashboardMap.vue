@@ -21,53 +21,114 @@
             </ul>
           </div>
           <div class="map-link">
-            <router-link class="location-link" :to="{path:'/equipment'}">监测设备设置
+            <router-link
+              class="location-link"
+              :to="{path:'/equipment'}"
+            >监测设备设置
             </router-link>
-            <router-link class="history-link" :to="{path:'/itemList'}">工程详细列表</router-link>
+            <router-link
+              class="history-link"
+              :to="{path:'/itemList'}"
+            >工程详细列表</router-link>
           </div>
         </div>
       </div>
       <div class="right-parent">
         <div class="fog-title">
           <span>监测工程</span>
-          <mu-select-field v-model="targetType" label="" class="target-field" :underlineShow="true" @change="changeFilter">
-            <mu-menu-item value="4" title="全部" />
-            <mu-menu-item value="3" title="红色" />
-            <mu-menu-item value="2" title="橙色" />
-            <mu-menu-item value="1" title="黄色" />
-            <mu-menu-item value="0" title="正常" />
+          <mu-select-field
+            v-model="targetType"
+            label=""
+            class="target-field"
+            :underlineShow="true"
+            @change="changeFilter"
+          >
+            <mu-menu-item
+              value="4"
+              title="全部"
+            />
+            <mu-menu-item
+              value="3"
+              title="红色"
+            />
+            <mu-menu-item
+              value="2"
+              title="橙色"
+            />
+            <mu-menu-item
+              value="1"
+              title="黄色"
+            />
+            <mu-menu-item
+              value="0"
+              title="正常"
+            />
           </mu-select-field>
         </div>
-        <div v-show="hasFogData" class="fog-content">
-          <div v-for="(item,index) in listData" :key="item.projectUuid" class="fog-item" v-show="showContent(item)" :data-id="item.projectUuid" @click="listItemClick(item, index)">
+        <div
+          v-show="hasFogData"
+          class="fog-content"
+        >
+          <div
+            v-for="(item,index) in listData"
+            :key="item.projectUuid"
+            class="fog-item"
+            v-show="showContent(item)"
+            :data-id="item.projectUuid"
+            @click="listItemClick(item, index)"
+          >
             <img :src="'../../../static/images/map/' + icon[item.warningGrade] + '-list.png'">
             <div class="fog-content-right">
               <div class="location">
                 <span class="tit">监测工程</span>
-                <span class="con" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;
-    white-space: normal !important;" :title="item.projectName">{{ item.projectName}}</span>
+                <span
+                  class="con"
+                  style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;
+    white-space: normal !important;"
+                  :title="item.projectName"
+                >{{ item.projectName}}</span>
               </div>
               <div class="time">
                 <span class="tit">施工工况</span>
-                <span class="con" v-if="item.constructionStep==0">未开始</span>
-                <span class="con" v-if="item.constructionStep==1">施工中</span>
-                <span class="con" v-if="item.constructionStep==2">已结束</span>
+                <span
+                  class="con"
+                  v-if="item.constructionStep==0"
+                >未开始</span>
+                <span
+                  class="con"
+                  v-if="item.constructionStep==1"
+                >施工中</span>
+                <span
+                  class="con"
+                  v-if="item.constructionStep==2"
+                >已结束</span>
               </div>
             </div>
           </div>
         </div>
         <!-- <no-data-img v-show="!hasFogData" text="暂无数据"></no-data-img> -->
       </div>
-      <mu-dialog :open="dialogFlag" dialogClass="fog-detection-dialog" @close="closeDialog">
+      <mu-dialog
+        :open="dialogFlag"
+        dialogClass="fog-detection-dialog"
+        @close="closeDialog"
+      >
         <div class="dialog-title">
           {{ nowItem.projectName }}
         </div>
         <div class="dialog-content">
-          <div v-if="nowItem.bigPic !== ''" id="pic-wrap" class="pic">
-            <img src="../../../static/images/test/default.png" ref="bigPic">
+          <div
+            v-if="nowItem.bigPic !== ''"
+            id="pic-wrap"
+            class="pic"
+          >
+            <img
+              src="../../../static/images/test/default.png"
+              ref="bigPic"
+            >
           </div>
           <no-data v-else></no-data>
-        </div>
+        </div> 
       </mu-dialog>
     </layout>
   </div>
@@ -78,7 +139,7 @@ import Layout from "../components/mapLayout";
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 import "../../../static/jquery-plugin/jquery.nicescroll.min.js";
-import { projectList } from "@/api/base/project";
+import { projectList, getProjectOrder } from "@/api/base/project";
 
 let mapHeight = (winH = $(window).height()) => {
   $(".map-parent").css({
@@ -100,9 +161,7 @@ const mapConfig = {
 };
 const rank = ["正常", "预警", "报警", "超过控制值"];
 export default {
-  props: [
-    'pageTitle',
-  ],
+  props: ["pageTitle"],
   components: {
     Layout
   },
@@ -127,7 +186,7 @@ export default {
       nowItem: {},
       targetType: "4",
       hasFogData: true,
-      proLineData:[]
+      proLineData: []
     };
   },
   methods: {
@@ -148,15 +207,23 @@ export default {
               _this.addMarker(item);
               _this.warningMarkerIds.push(item.projectUuid);
             });
-            debugger
-            console.log(this.proLineData);
-            var polyline= new AMap.Polyline({
-            path: this.proLineData,            // 设置线覆盖物路径
-       	    showDir:true,
-            strokeColor: '#3366bb',   // 线颜色
-            strokeWeight: 8           // 线宽
+            debugger;
+            getProjectOrder({ token: this.token }).then(res => {
+              var startPoint="",endPoint="";
+              for (var i = 0; i < res.data.length; i++) {
+                startPoint=res.data[i].startPoint;
+                endPoint=res.data[i].endPoint;
+                this.proLineData=[];
+                this.proLineData.push(startPoint,endPoint);
+                var polyline = new AMap.Polyline({
+                  path: this.proLineData, // 设置线覆盖物路径
+                  showDir: true,
+                  strokeColor: "#3366bb", // 线颜色
+                  strokeWeight: 6 // 线宽
+                });
+                this.map.add(polyline);
+              }
             });
-            this.map.add(polyline);
             this.map.setFitView();
             let newArr = _this.listData.filter(function(item) {
               return $.inArray(item.projectUuid, dataIdArr) === -1;
@@ -207,7 +274,6 @@ export default {
         let opts = {};
         let lon = item.projectLatLon.split(",")[0]; //经度
         let lat = item.projectLatLon.split(",")[1]; //维度
-        this.proLineData.push([lon,lat]);
         opts.map = this.map;
         opts.icon = new AMap.Icon({
           image: this.iconUrl + "/" + this.icon[item.warningGrade] + ".png",
@@ -252,8 +318,8 @@ export default {
       // 可见宽度大于1400时地图点击后展示大窗口
       if (document.body.offsetWidth >= 1400) {
         infowindowOpts.size = new AMap.Size(240, 290);
-      }else{
-        infowindowOpts.size = new AMap.Size(200,210);
+      } else {
+        infowindowOpts.size = new AMap.Size(200, 210);
       }
       infowindowOpts.position = new AMap.LngLat(
         parseFloat(lon),
@@ -343,7 +409,7 @@ export default {
         .getNiceScroll()
         .resize();
     }, 500);
-    this.proLineData=[];
+    this.proLineData = [];
     this.init();
   },
   destroyed() {

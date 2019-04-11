@@ -354,6 +354,7 @@ export default {
     addSuveyPoint() {
       this.type = "新增";
       this.innerVisible = true;
+      this.formData=[];
     },
     updateSuveyPoint(params) {
       this.type = "修改";
@@ -381,7 +382,7 @@ export default {
           data.projectUuid = this.projectId;
           data.monitorItemUuid = this.monitorItemUuid;
           data.dateSet = $("#dateSet").val();
-          data.surveypointCondition = $("#surveypointCondition").val();
+          // data.surveypointCondition = $("#surveypointCondition").val();
           var surveypointData = new Object();
           surveypointData.token = getToken();
           surveypointData.data = data;

@@ -189,15 +189,15 @@ export default {
       //拿到全局vue的指向
       var _this = this;
       var files = document.getElementById(fileInputId);
-      this.fileList = [];
+      var fileList = [];
       this.fileType = fileType;
       for (var i = 0; i < files.files.length; i++) {
-        this.fileList.push(files.files[i]);
+        fileList.push(files.files[i]);
       }
       var formData = new FormData();
       // var request = new XMLHttpRequest();
       //循环添加到formData中
-      this.fileList.forEach(function(file) {
+      fileList.forEach(function(file) {
         formData.append("files", file, file.name);
       });
       formData.append("fileType", this.fileType);

@@ -72,15 +72,15 @@ export default {
             }
           },
           indicator: [                                                                      
-            { name: '事项总数', max: 20000 },
-            { name: '已办', max: 20000 },
-            { name: '待办', max: 20000 }
+            { name: '测点总数', max: 20000 },
+            { name: '实测', max: 20000 },
+            { name: '合同测点数', max: 20000 }
           ]
         },
         legend: {
           orient: 'horizontal',
           bottom: '-5',
-          data: ['事项总数', '已办', '待办']
+          data: ['测点总数', '实测', '合同测点数']
         },
         series: [{
           type: 'radar',
@@ -96,16 +96,16 @@ export default {
           },
           data: [
             {
-              value: [15],
-              name: '事项总数'
+              value: 15,
+              name: '测点总数'
             },
             {
-              value: [12],
-              name: '已办'
+              value: 12,
+              name: '实测'
             },
             {
-              value: [3],
-              name: '待办'
+              value: 3,
+              name: '合同测点数'
             }
           ],
           animationDuration: animationDuration

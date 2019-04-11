@@ -92,7 +92,7 @@
 import {simple} from '@/api/base/permissions'
 import {list, remove, detail, update, add} from '@/api/base/users'
 import PageTool from './../components/pageTool'
-import UserAdd from './../components/userAdd'
+import UserAdd from './../components/proSelect'
 export default {
   name: 'base-users',
   components: {

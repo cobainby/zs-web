@@ -13,6 +13,10 @@ export const deleteFile=data=>createAPI(`/Foundation/programme/delete/${data.pro
 export const downFile=data=>createAPI(`/Foundation/programme/viewFile`,'get',data);//下载该文件
 export const addProjectPic=data=>createFormAPI(`/Foundation/plan/add`,'post',data);//上传工程平面图
 export const getProjectPic=data=>createAPI(`/Foundation/plan/get`,'get',data);//获取上传的工程平面图
+//工程工段顺序
+export const getProjectOrder=data=>createAPI("/Foundation/getOrder",'get',data);//获取所有工程的连线顺序
+export const addProjectOrder=data=>createAPI("/Foundation/addOrder",'post',data);//添加线段起始终止点
+
 //监测项设置相关
 export const getFdSet=data=>createAPI(`/fdSetting/mitem/get`,'get',data);//查询监测项设置信息
 export const viewFdSet=data=>createAPI(`/fdSetting/mitem/${data.monitorItemUuid}`,"get",data);//查询具体某个监测项设置信息
@@ -20,7 +24,7 @@ export const addFdSet=data=>createAPI(`/fdSetting/mitem/add.data`,"post",data);/
 export const updateFdSet=data=>createAPI(`/fdSetting/mitem/update.data`,'post',data);//编辑监测项设置信息
 export const removeFdSet=data=>createAPI(`/fdSetting/mitem/delete/${data.monitorItemUuid}`,"delete",data);//删除监测项设置信息
 export const getMonitor=data=>createAPI(`/getSysMonitorItem`,"get",data);//获得当前监测项种类
-// 监测点设置相关
+// 监测点设置
 export const getSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/get`,'get',data);//查询具体某个监测项的监测点信息
 export const viewSuveryPointSet=data=>createAPI(`/fdSetting/surveypoint/${data.surveypointUuid}`,"get",data);//查询指定监测点的测点设置信息
 export const addSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/add.data`,'post',data);//添加某个监测项的监测点信息

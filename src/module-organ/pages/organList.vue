@@ -3,92 +3,201 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card shadow="never">
-        <el-button class="filter-item fr" size="small" style="margin: -10px 0 10px 0;" @click="toAddOrgan" type="primary" icon="el-icon-circle-plus-outline">添加机构</el-button>
-        <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
+        <el-button
+          class="filter-item fr"
+          size="small"
+          style="margin: -10px 0 10px 0;"
+          @click="toAddOrgan"
+          type="primary"
+          icon="el-icon-circle-plus-outline"
+        >添加机构</el-button>
+        <el-alert
+          v-if="alertText !== ''"
+          :title="alertText"
+          type="info"
+          class="alert"
+          :closable='false'
+          show-icon
+        ></el-alert>
         <!-- 数据 -->
-        <el-table :key='tableKey' :data="dataList" v-loading="listLoading" :default-sort="{prop:'orgName'}" :header-cell-style="tableHeaderStyle" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-          <el-table-column align="center" width="80px" label="机构名称" prop="orgName" sortable>
+        <el-table
+          :key='tableKey'
+          :data="dataList"
+          v-loading="listLoading"
+          :default-sort="{prop:'orgName'}"
+          :header-cell-style="tableHeaderStyle"
+          element-loading-text="给我一点时间"
+          fit
+          highlight-current-row
+          style="width: 100%"
+          border
+        >
+          <el-table-column
+            align="center"
+            width="80px"
+            label="机构名称"
+            prop="orgName"
+            sortable
+          >
           </el-table-column>
-          <el-table-column align="center" label="机构地址">
+          <el-table-column
+            align="center"
+            label="机构地址"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.orgAddress!=null">{{scope.row.orgAddress}}</span>
               <span v-if="scope.row.orgAddress==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="80px" label="联系人">
+          <el-table-column
+            align="center"
+            width="80px"
+            label="联系人"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.orgLinkman!=null">{{scope.row.orgLinkman}}</span>
               <span v-if="scope.row.orgLinkman==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="100px" label="联系人电话">
+          <el-table-column
+            align="center"
+            width="100px"
+            label="联系人电话"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.orgLinkphone!=null">{{scope.row.orgLinkphone}}</span>
               <span v-if="scope.row.orgLinkphone==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="100px" label="技术负责人">
+          <el-table-column
+            align="center"
+            width="100px"
+            label="技术负责人"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.leaderTechnique!=null">{{scope.row.leaderTechnique}}</span>
               <span v-if="scope.row.leaderTechnique==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="检测资质证书编号">
+          <el-table-column
+            align="center"
+            label="检测资质证书编号"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.credentialsnumCheck!=null">{{scope.row.credentialsnumCheck}}</span>
               <span v-if="scope.row.credentialsnumCheck==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="计量认证证书编号">
+          <el-table-column
+            align="center"
+            label="计量认证证书编号"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.credentialsnumMeterage!=null">{{scope.row.credentialsnumMeterage}}</span>
               <span v-if="scope.row.credentialsnumMeterage==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="100px" label="法定代表人">
+          <el-table-column
+            align="center"
+            width="100px"
+            label="法定代表人"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.legalRepresentative!=null">{{scope.row.legalRepresentative}}</span>
               <span v-if="scope.row.legalRepresentative==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center"  width="100px" label="机构类型">
+          <el-table-column
+            align="center"
+            width="100px"
+            label="机构类型"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.type.name!=null">{{scope.row.type.name}}</span>
               <span v-if="scope.row.type.name==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="登记日期">
+          <el-table-column
+            align="center"
+            label="登记日期"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.dateRegister!=null"> {{ scope.row.dateRegister | dateTimeFormat }}</span>
               <span v-if="scope.row.dateRegister==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="有效日期">
+          <el-table-column
+            align="center"
+            label="有效日期"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.dateValid!=null">{{scope.row.dateValid| dateTimeFormat}}</span>
               <span v-if="scope.row.dateValid==null">/</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作" width="300px" fixed="right">
+          <el-table-column
+            align="center"
+            label="操作"
+            width="300px"
+            fixed="right"
+          >
             <template slot-scope="scope">
-              <el-button type="success" size="mini" icon="el-icon-info" @click="viewOrgan(scope.row)">查看</el-button>
-              <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeOrgan(scope.row.orgUuid)">删除</el-button>
+              <el-button
+                type="success"
+                size="mini"
+                icon="el-icon-info"
+                @click="viewOrgan(scope.row)"
+              >查看</el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                icon="el-icon-edit"
+                @click="handleUpdate(scope.row)"
+              >修改</el-button>
+              <el-button
+                type="danger"
+                size="mini"
+                icon="el-icon-delete"
+                @click="removeOrgan(scope.row.orgUuid)"
+              >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- end -->
         <!-- 分页 -->
         <div class="pagination-container">
-          <PageTool :paginationPage="pagination.page" :paginationPagesize="pagination.pageSize" :total="pagination.total" @pageChange="handleCurrentChange" @pageSizeChange="handleSizeChange">
+          <PageTool
+            :paginationPage="pagination.page"
+            :paginationPagesize="pagination.pageSize"
+            :total="pagination.total"
+            @pageChange="handleCurrentChange"
+            @pageSizeChange="handleSizeChange"
+          >
           </PageTool>
         </div>
         <!-- end -->
         <!-- 新增编辑标签弹层 -->
-        <component @refreshList="getList" v-bind:is="OrganAdd" ref="editUser" :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline' v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
+        <component
+          @refreshList="getList"
+          v-bind:is="OrganAdd"
+          ref="editUser"
+          :text='text'
+          :pageTitle='pageTitle'
+          :formBase='formData'
+          :ruleInline='ruleInline'
+          v-on:newDataes="handleLoadDataList"
+          v-on:handleCloseModal="handleCloseModal"
+        >
         </component>
         <!-- 新增查看标签弹层 -->
-        <component @refreshList="getList" v-bind:is="OrganView" ref="viewUser" :text='text' :pageTitle='pageTitle' :formBase='formData'>
+        <component
+          @refreshList="getList"
+          v-bind:is="OrganView"
+          ref="viewUser"
+          :text='text'
+          :pageTitle='pageTitle'
+          :formBase='formData'
+        >
         </component>
       </el-card>
     </div>
@@ -128,7 +237,7 @@ export default {
   data() {
     return {
       OrganAdd: "organAdd",
-      OrganView:"organView",
+      OrganView: "organView",
       pageTitle: "机构", // 页面标题
       dataList: [],
       text: "", // 新增、编辑文本
@@ -161,6 +270,7 @@ export default {
           name: "",
           code: ""
         },
+        typeCode:"",
         legalRepresentative: ""
       },
       ruleInline: {
@@ -174,9 +284,9 @@ export default {
         orgCode: [
           { required: true, message: "组织机构代码不能为空", trigger: "blur" }
         ],
-        typeCode:[
+        typeCode: [
           { required: true, message: "机构类型不能为空", trigger: "blur" }
-        ],
+        ]
       }
     };
   },
@@ -207,7 +317,7 @@ export default {
         });
     },
     //查看机构信息
-    viewOrgan(params){
+    viewOrgan(params) {
       this.query();
       var _this = this;
       this.text = "查看";
@@ -237,7 +347,7 @@ export default {
       this.formData.dateRegister = params.dateRegister;
       this.formData.dateValid = params.dateValid;
       this.formData.legalRepresentative = params.legalRepresentative;
-      // this.formData.type.code=params.type.code;
+      this.formData.typeCode=params.type.name;
     },
     // 每页显示信息条数
     handleSizeChange(val) {
@@ -273,6 +383,7 @@ export default {
           name: null,
           code: null
         },
+        typeCode:"",
         legalRepresentative: null
       };
     },

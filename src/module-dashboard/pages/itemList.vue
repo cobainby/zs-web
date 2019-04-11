@@ -3,41 +3,115 @@
     <div class="app-container">
       <el-card shadow="never">
         <!-- 搜索 -->
-        <el-form :model="requestParameters" ref="requestParameters">
+        <el-form
+          :model="requestParameters"
+          ref="requestParameters"
+        >
           <div class="filter-container">
-            <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回首页</el-button>
-            <el-button class="filter-item fr" size="small" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">新增项目</el-button>
+            <el-button
+              class="filter-item fr"
+              size="small"
+              style="margin-left: 10px;"
+              @click="getBack"
+              type="primary"
+              icon="el-icon-back"
+            >返回首页</el-button>
+            <el-button
+              class="filter-item fr"
+              size="small"
+              style="margin-left: 10px;"
+              @click="handleCreate"
+              type="primary"
+              icon="el-icon-edit"
+            >新增项目</el-button>
+            <el-button
+              class="filter-item fr"
+              size="small"
+              style="margin-left: 10px;"
+              @click="selectLonlat"
+              type="primary"
+              icon="el-icon-star-on"
+            >路段划分</el-button>
           </div>
         </el-form>
-        <el-alert v-if="alertText !== ''" :title="alertText" type="info" class="alert" :closable='false' show-icon></el-alert>
+        <el-alert
+          v-if="alertText !== ''"
+          :title="alertText"
+          type="info"
+          class="alert"
+          :closable='false'
+          show-icon
+        ></el-alert>
         <!-- end -->
         <el-row :gutter="10">
           <!-- 数据 -->
           <el-col :span="18">
-            <el-table :key='tableKey' :row-style="tableRowStyle" :default-sort="{prop:'projectName'}" :header-cell-style="tableHeaderStyle" @row-click="getData" :data="dataList" :row-class-name="rowClassStatus" v-loading="listLoading" element-loading-text="给我一点时间" fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" label="工程名称" prop="projectName" :show-overflow-tooltip="true" sortable>
+            <el-table
+              :key='tableKey'
+              :row-style="tableRowStyle"
+              :default-sort="{prop:'projectName'}"
+              :header-cell-style="tableHeaderStyle"
+              @row-click="getData"
+              :data="dataList"
+              :row-class-name="rowClassStatus"
+              v-loading="listLoading"
+              element-loading-text="给我一点时间"
+              fit
+              highlight-current-row
+              style="width: 100%"
+              border
+            >
+              <el-table-column
+                align="center"
+                label="工程名称"
+                prop="projectName"
+                :show-overflow-tooltip="true"
+                sortable
+              >
               </el-table-column>
-              <el-table-column align="center" label="工程地址" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="工程地址"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.projectLocation}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="80px" label="支护形式" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                width="80px"
+                label="支护形式"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.supportingStructure}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="建设单位" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="建设单位"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.proprietorOrg}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  width="100px" label="监督机构" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                width="100px"
+                label="监督机构"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.supervisorOrg}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="80px"  label="预警状态">
+              <el-table-column
+                align="center"
+                width="80px"
+                label="预警状态"
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.warningGrade==0">正常</span>
                   <span v-if="scope.row.warningGrade==1">预警</span>
@@ -45,11 +119,34 @@
                   <span v-if="scope.row.warningGrade==3">超限</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  width="230px" :label="$t('table.actions')" class-name="small-padding fixed-width">
+              <el-table-column
+                align="center"
+                width="230px"
+                :label="$t('table.actions')"
+                class-name="small-padding fixed-width"
+              >
                 <template slot-scope="scope">
-                  <el-button :disabled="scope.row.is_deleted===1" type="success" size="mini" icon="el-icon-picture-outline" @click="viewData(scope.row.projectUuid)">图表</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-                  <el-button :disabled="scope.row.is_deleted===1" type="danger" size="mini" icon="el-icon-delete"  @click="removeUser(scope.row.projectUuid)">删除</el-button>
+                  <el-button
+                    :disabled="scope.row.is_deleted===1"
+                    type="success"
+                    size="mini"
+                    icon="el-icon-picture-outline"
+                    @click="viewData(scope.row.projectUuid)"
+                  >图表</el-button>
+                  <el-button
+                    :disabled="scope.row.is_deleted===1"
+                    type="primary"
+                    size="mini"
+                    icon="el-icon-edit"
+                    @click="handleUpdate(scope.row)"
+                  >修改</el-button>
+                  <el-button
+                    :disabled="scope.row.is_deleted===1"
+                    type="danger"
+                    size="mini"
+                    icon="el-icon-delete"
+                    @click="removeUser(scope.row.projectUuid)"
+                  >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -85,13 +182,24 @@
                 </td>
               </tr>
             </table>
-            <el-table fit highlight-current-row style="width: 100%" border>
-              <el-table-column align="center" label="监测项目">
+            <el-table
+              fit
+              highlight-current-row
+              style="width: 100%"
+              border
+            >
+              <el-table-column
+                align="center"
+                label="监测项目"
+              >
                 <template slot-scope="scope">
                   <span>监测项目</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center"  label="安全状态">
+              <el-table-column
+                align="center"
+                label="安全状态"
+              >
                 <template slot-scope="scope">
                   <span>安全状态</span>
                 </template>
@@ -101,13 +209,75 @@
         </el-row>
         <!-- 分页 -->
         <div class="pagination">
-          <PageTool :paginationPage="requestParameters.page" :paginationPagesize="requestParameters.pagesize" :total="total" @pageChange="handleCurrentChange" @pageSizeChange="handleSizeChange">
+          <PageTool
+            :paginationPage="requestParameters.page"
+            :paginationPagesize="requestParameters.pagesize"
+            :total="total"
+            @pageChange="handleCurrentChange"
+            @pageSizeChange="handleSizeChange"
+          >
           </PageTool>
         </div>
         <!-- end -->
         <!-- 新增标签弹层 -->
-        <component v-bind:is="UserAdd" ref="editUser" :formData.sync='requestParameters' :text='text' :pageTitle='pageTitle' :formBase='formData' :ruleInline='ruleInline'  v-on:newDataes="handleLoadDataList" v-on:handleCloseModal="handleCloseModal">
-        </component>
+        <mu-dialog
+          :open="dialogAdd"
+          dialogClass="location-add-dialog"
+          @close="closeAddLocation"
+          @show="initMap"
+        >
+          <div class="dialog-title">
+            标注经纬度
+            <i
+              class="material-icons close-icon"
+              @click="closeAddLocation"
+            >X</i>
+          </div>
+          <div class="dialog-content">
+            <div class="clearfix">
+              <div class="left-form">
+                <div
+                  class="form-group"
+                  style="display:none"
+                >
+                  <label class="control-label">工程地址</label>
+                  <input
+                    type="text"
+                    id="tipinput"
+                    class="form-control"
+                    v-model="addData.rtmp"
+                    placeholder="工程地址"
+                    autocomplete="off"
+                  >
+                </div>
+                <div class="form-group">
+                  <label
+                    id="mapTips"
+                    class="control-label"
+                  >地图加载中.....</label>
+                  <el-button
+                    size="small"
+                    @click="drawCheck"
+                    type="success"
+                    icon="el-icon-success"
+                  >确定</el-button>
+                  <!-- <el-button
+                    size="small"
+                    @click="drawBack"
+                    type="primary"
+                    icon="el-icon-edit"
+                  >重绘</el-button> -->
+                </div>
+              </div>
+              <div class="right-map">
+                <div class="map-parent">
+                  <div id="map"></div>
+                </div>
+                <div>注：选中项目，鼠标先选中项目，然后根据顺序进行连接,点击确定后选择的工程为同一线路</div>
+              </div>
+            </div>
+          </div>
+        </mu-dialog>
       </el-card>
     </div>
   </div>
@@ -125,21 +295,32 @@
 
 <script>
 import { simple } from "@/api/base/permissions";
-import { projectList,projectAdd,projectUpdate,projectRemove} from "@/api/base/project";
+import {
+  projectList,
+  projectAdd,
+  projectUpdate,
+  projectRemove,
+  addProjectOrder,
+  getProjectOrder
+} from "@/api/base/project";
+import { detail } from "@/api/base/organ";
 import PageTool from "./../components/pageTool";
-import UserAdd from "./../components/userAdd";
 import { getToken } from "@/utils/auth";
 import axios from "axios";
+/* eslint-disable no-undef */
+const mapConfig = {
+  center: [113.310846, 22.961402],
+  zoom: 12,
+  zooms: [3, 18]
+};
 export default {
   name: "base-itemList",
   components: {
-    UserAdd,
-    PageTool,
+    PageTool
   },
   data() {
     return {
-      editType:null,
-      UserAdd: "userAdd",
+      editType: null,
       pageTitle: "工程", // 页面标题
       text: "", // 新增、编辑文本
       tableKey: 0,
@@ -150,7 +331,7 @@ export default {
       listLoading: true,
       dialogStatus: "",
       alertText: "",
-      token:getToken(),
+      token: getToken(),
       requestParameters: {
         page: 1,
         pagesize: 10,
@@ -183,7 +364,31 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      iconUrl: "./../static/images/map/",
+      size: new AMap.Size(17, 23),
+      offset: new AMap.Pixel(-8, -23),
+      options: {
+        center: new AMap.LngLat(mapConfig.center[0], mapConfig.center[1]),
+        zoom: mapConfig.zoom,
+        zooms: mapConfig.zooms,
+        animateEnable: true
+      },
+      dialogAdd: false,
+      addData: {
+        location_id: "", // 以萨卡口编号
+        loc_id: "", // 厂商卡口编号
+        text: "", // 点位名称
+        lng: "", // 经度
+        lat: "", // 纬度
+        rtmp: "" // rtmp地址或rtsp地址
+      },
+      drawLineData: [], //画线的过程中实时存入的起始点和终止点数据，即一条路段的数据
+      lineData: [], //每个路段的起始终止点
+      proLineData: [], //所画的不同路段所有数据
+      getLinePoint:[],//服务器拿到的线段数据
+      accumUuid: "", //当前登录人的uuid
+      markers: new Map() // 存储所有Marker点位的Map集合
     };
   },
   computed: {},
@@ -202,12 +407,125 @@ export default {
         return "background-color:#FFDCA9;color: #000000;text-align:center;";
       }
     },
+    initMap() {
+      let _this = this;
+      let marker = null;
+      _this.map = new AMap.Map("map", _this.options);
+      _this.map.on("complete", function() {
+        document.getElementById("mapTips").innerHTML = "地图图块加载完毕！";
+      });
+      AMap.plugin(["AMap.ToolBar", "AMap.Scale"], function() {
+        _this.map.addControl(new AMap.ToolBar());
+        _this.map.addControl(new AMap.Scale());
+      });
+      this.map.setFeatures(["bg", "building", "road", "point"]); // 多个种类要素显示
+      _this.warningMarkerIds = [];
+      let dataIdArr = [];
+      let list = [];
+      let data = this.dataList;
+      list = data;
+      data.forEach(function(item) {
+        dataIdArr.push(item.projectUuid);
+        _this.addMarker(item);
+        _this.warningMarkerIds.push(item.projectUuid);
+      });
+      getProjectOrder({ token: this.token }).then(res => {
+        var startPoint = "",
+          endPoint = "";
+        for (var i = 0; i < res.data.length; i++) {
+          startPoint = res.data[i].startPoint;
+          endPoint = res.data[i].endPoint;
+          this.getLinePoint = [];
+          this.getLinePoint.push(startPoint, endPoint);
+          var polyline = new AMap.Polyline({
+            path: this.getLinePoint, // 设置线覆盖物路径
+            showDir: true,
+            strokeColor: "#3366bb", // 线颜色
+            strokeWeight: 6 // 线宽
+          });
+          this.map.add(polyline);
+        }
+      });
+      this.map.setFitView();
+    },
+    closeAddLocation() {
+      this.dialogAdd = false;
+      //每次关闭弹窗时就销毁地图
+      this.map.destroy();
+    },
+    addMarker(item) {
+      if (item.projectLatLon != null) {
+        let _this = this;
+        let opts = {};
+        let lon = item.projectLatLon.split(",")[0]; //经度
+        let lat = item.projectLatLon.split(",")[1]; //维度
+        opts.map = this.map;
+        opts.icon = new AMap.Icon({
+          image: this.iconUrl + "stop-markerh.png",
+          size: new AMap.Size(30, 30)
+        });
+        opts.offset = new AMap.Pixel(-15, -15);
+        let lnglat = new AMap.LngLat(parseFloat(lon), parseFloat(lat));
+        if (lnglat) {
+          opts.position = lnglat;
+          opts.title = item.projectName;
+          let marker = new AMap.Marker(opts);
+          marker.projectUuid = item.projectUuid;
+          marker.projectName = item.projectName;
+          marker.warningGrade = item.warningGrade;
+          this.markers.set(item.projectUuid, marker);
+          marker.on(
+            "click",
+            function(e) {
+              let _marker = e.target;
+              var myIcon = new AMap.Icon();
+              _marker.setIcon(myIcon);
+              debugger;
+              _this.drawLineData.push([lon, lat]);
+              _this.lineData.push([lon, lat]);
+              //把每个线段的起始终止点存为一个数组
+              if (_this.lineData.length > 1) {
+                for (var i = 0, len = _this.lineData.length; i < len; i += 1) {
+                  _this.proLineData.push(_this.lineData.slice(i, i + 2));
+                }
+                console.log(_this.proLineData);
+              }
+              var polyline = new AMap.Polyline({
+                path: _this.drawLineData, // 设置线覆盖物路径
+                showDir: true,
+                strokeColor: "#3366bb", // 线颜色
+                strokeWeight: 5 // 线宽
+              });
+              _this.map.add(polyline);
+            },
+            marker
+          );
+        }
+      }
+    },
+    drawCheck() {
+      debugger;
+      var projectParams = new Object();
+      projectParams.token = this.token;
+      projectParams.accumUuid = this.accumUuid;
+      projectParams.data = this.proLineData;
+      addProjectOrder(projectParams).then(res => {
+        this.$message({
+          type: "success",
+          message: "绘制成功!"
+        });
+      });
+    },
+    drawBack() {
+      this.drawLineData = [];
+      this.map.remove();
+    },
     // 获取列表数据/
     getList(params) {
       this.listLoading = true;
       debugger;
       // list(this.requestParameters)
-      projectList({token:this.token})
+      projectList({ token: this.token })
         .then(res => {
           this.dataList = res.data;
           this.total = this.dataList.length;
@@ -272,48 +590,32 @@ export default {
     },
     // 新增用户
     handleCreate() {
-      this.editType="新增";
+      this.editType = "新增";
       this.$router.push({
         path: "/projectAdd",
         name: "projectAdd",
-        params:{editType:this.editType}
+        params: { editType: this.editType }
       });
+    },
+    //选择当前项目所属路段
+    selectLonlat() {
+      this.dialogAdd = true;
     },
     // 窗口操作**********************************
     // 弹框关闭
     handleCloseModal() {
       this.$refs.editUser.dialogFormH();
     },
-    // 编辑
-    // 表单详情数据加载
-    hanldeEditForm(objeditId) {
-      this.formData.id = objeditId;
-      detail({ id: objeditId }).then((data, err) => {
-        var datalist = data.data;
-        if (err) {
-          return err;
-        }
-        this.formData.id = datalist.id;
-        this.formData.email = datalist.email;
-        this.formData.phone = datalist.phone;
-        this.formData.username = datalist.username;
-        this.formData.password = "";
-        this.formData.avatar = datalist.avatar;
-        this.formData.introduction = datalist.introduction;
-        this.formData.permission_group_id = datalist.permission_group_id;
-        this.formData.permission_group_title = datalist.permission_group_title;
-      });
-    },
     //查看
-    viewData(objectId){
-      this.$router.push({ path: "/dataInfo",query:{id:objectId} });
+    viewData(objectId) {
+      this.$router.push({ path: "/dataInfo", query: { id: objectId } });
     },
     handleUpdate(object) {
-      this.editType="修改";
+      this.editType = "修改";
       this.$router.push({
         path: "/projectAdd",
         name: "projectAdd",
-        params: { projectInfo: object,editType:this.editType }
+        params: { projectInfo: object, editType: this.editType }
       });
     },
     // 删除
@@ -322,8 +624,8 @@ export default {
         type: "warning"
       })
         .then(() => {
-          debugger
-          projectRemove({projectUuid,token:this.token })
+          debugger;
+          projectRemove({ projectUuid, token: this.token })
             .then(response => {
               this.$message.success("成功删除了工程" + "!");
               this.getList(this.requestParameters);
@@ -342,7 +644,11 @@ export default {
     }
   },
   // 挂载结束
-  mounted: function() {},
+  mounted: function() {
+    detail({ token: this.token }).then(res => {
+      this.accumUuid = res.data.userUuid;
+    });
+  },
   // 创建完毕状态
   created() {
     this.getList();

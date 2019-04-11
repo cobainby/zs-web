@@ -106,7 +106,7 @@
                 sortable
               >
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 align="center"
                 label="支撑类型"
               >
@@ -115,7 +115,7 @@
                   <span v-if="scope.row.forceType==1">钢支撑内力</span>
                   <span v-if="scope.row.forceType==2">硂支撑内力</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 align="center"
                 label="支撑轴力(KN)"

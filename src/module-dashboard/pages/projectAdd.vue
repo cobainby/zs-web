@@ -449,17 +449,28 @@
                 </th>
                 <td>
                   <input
-                    name="superviseCompany"
+                    name="createAccName"
+                    rows="2"
+                    cols="20"
+                    id="createAccName"
+                    class="input"
+                    style="height:30px;width:80%;"
+                  ></input>
+                </td>
+                <th></th>
+                <td></td>
+                <th style="display:none;">
+                  项目创建人uuid
+                </th>
+                <td style="display:none;">
+                  <input
+                    name="createAccUuid"
                     rows="2"
                     cols="20"
                     id="createAccUuid"
                     class="input"
                     style="height:30px;width:80%;"
                   ></input>
-                </td>
-                <th>
-                </th>
-                <td colspan="1">
                 </td>
               </tr>
               <tr>
@@ -1213,7 +1224,7 @@
               <div class="map-parent">
                 <div id="map"></div>
               </div>
-              <div>按住左键拖动地图上红色标注到相应位置，即可完成经纬度标注，并自动获取该地址</div>
+              <div>注：按住左键拖动地图上红色标注到相应位置，即可完成经纬度标注，并自动获取该地址</div>
             </div>
           </div>
         </div>
@@ -1453,9 +1464,9 @@ export default {
         currentPage: 1
       },
       formBase: {
-        safetyClass:"",
-        constructionStep:"",
-        constructionState:""
+        safetyClass: "",
+        constructionStep: "",
+        constructionState: ""
       },
       loading: false,
       multipleSelection: [],
@@ -1716,6 +1727,8 @@ export default {
     },
     closeAddLocation() {
       this.dialogAdd = false;
+      //每次关闭弹窗时就销毁地图
+      this.map.destroy();
     },
     initWorker() {
       detail({ token: this.token }).then(res => {
@@ -1840,8 +1853,8 @@ export default {
         projectData.safetyClass = 2;
       } else if ($("#safetyClass").val() == "安全等级三") {
         projectData.safetyClass = 3;
-      }else if ($("#safetyClass").val() == "") {
-        projectData.safetyClass =1;
+      } else if ($("#safetyClass").val() == "") {
+        projectData.safetyClass = 1;
       }
       projectData.foundationDepth =
         $("#foundationDepth").val() != ""
@@ -1867,8 +1880,8 @@ export default {
         projectData.constructionStep = 4;
       } else if ($("#constructionStep").val() == "回填") {
         projectData.constructionStep = 5;
-      }else if ($("#constructionStep").val() == "") {
-        projectData.constructionStep =0;
+      } else if ($("#constructionStep").val() == "") {
+        projectData.constructionStep = 0;
       }
       if ($("#constructionState").val() == "准备施工") {
         projectData.constructionState = 0;
@@ -1876,8 +1889,8 @@ export default {
         projectData.constructionState = 1;
       } else if ($("#constructionState").val() == "已完工") {
         projectData.constructionState = 2;
-      }else if ($("#constructionState").val() == "") {
-        projectData.constructionState =1;
+      } else if ($("#constructionState").val() == "") {
+        projectData.constructionState = 1;
       }
       projectData.monitoringOrg = $("#monitoringOrg").val();
       projectData.monitoringHead = $("#monitoringHead").val();
@@ -1894,7 +1907,12 @@ export default {
       projectData.supervisionLinkman = $("#supervisionLinkman").val();
       projectData.admDepartment = $("#admDepartment").val();
       projectData.createDate = $("#createDate").val();
-      projectData.createAccUuid = this.createUuid;
+      //如果是超级管理员更改工程，则id还是之前的值
+      if (this.createUuid == 0) {
+        projectData.createAccUuid=$("#createAccUuid").val();
+      } else {
+        projectData.createAccUuid = this.createUuid;
+      }
       projectData.finishDate = $("#finishDate").val();
       projectData.foundationLayout = ""; //平面图
       projectData.projectDetail = $("#projectDetail").val();
@@ -2110,6 +2128,8 @@ export default {
           this.changeTimeFormat(this.projectInfo.finishDate)
         );
         $("#projectDetail").val(this.projectInfo.projectDetail);
+        $("#createAccName").val(this.projectInfo.userAccount.accountName);
+        $("#createAccUuid").val(this.projectInfo.userAccount.accountUuid);
       } else if (this.type == "创建") {
       }
     },
