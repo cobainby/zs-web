@@ -111,7 +111,7 @@
         <el-card class="box-card-right">
           <div class="marquee">
             <div class="marquee_title">
-              <span>合同</span>
+              <span>合同&#12288</span>
             </div>
             <div class="rightPic" />
             <div class="marquee_box">
@@ -131,7 +131,7 @@
           </div>
           <div class="marquee">
             <div class="marquee_title">
-              <span>预警</span>
+              <span>预警&#12288</span>
             </div>
             <div class="rightPic" />
             <div class="marquee_box">
@@ -149,7 +149,7 @@
           </div>
           <div class="marquee">
             <div class="marquee_title">
-              <span>实测</span>
+              <span>工作量</span>
             </div>
             <div class="rightPic" />
             <div class="marquee_box">

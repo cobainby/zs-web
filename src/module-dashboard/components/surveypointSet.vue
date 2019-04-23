@@ -2,12 +2,12 @@
   <div class="add-form">
     <el-dialog
       width="50%"
-      title="监测点参数设置"
+      title="测点设置"
       :visible.sync="dialogFormVisible"
     >
       <el-dialog
         width="40%"
-        title="监测点参数"
+        title="新增监测点"
         :visible.sync="innerVisible"
         append-to-body
       >
@@ -38,6 +38,30 @@
               >
                 <el-input
                   v-model="formData.accumInitial"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="起始数"
+                prop="beginNum"
+              >
+                <el-input
+                  v-model="formData.beginNum"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="测点数"
+                prop="spCount"
+              >
+                <el-input
+                  v-model="formData.spCount"
                   placeholder="Please input"
                 ></el-input>
               </el-form-item>
@@ -136,6 +160,140 @@
             icon="el-icon-error"
             size="mini"
             @click="innerVisible=false"
+          >{{$t('table.cancel')}}</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog
+        width="40%"
+        title="修改监测点"
+        :visible.sync="innerUpdateVisible"
+        append-to-body
+      >
+        <el-form
+          :rules="updateRuleInline"
+          ref="updateFormData"
+          :model="updateFormData"
+          label-position="right"
+          label-width="100px"
+          style='margin:0 20px;'
+        >
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="测点编号"
+                prop="surveypointNumber"
+              >
+                <el-input
+                  v-model="updateFormData.surveypointNumber"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="初始累计值"
+                prop="accumInitial"
+              >
+                <el-input
+                  v-model="updateFormData.accumInitial"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="测点状态"
+                prop="surveypointCondition"
+              >
+                <el-select
+                  v-model="updateFormData.surveypointCondition"
+                  placeholder="please input"
+                >
+                  <el-option
+                    id="surveypointCondition"
+                    v-for="item in option"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="报警设置"
+                prop="warningUuid"
+              >
+                <el-select
+                  v-model="updateFormData.warningUuid"
+                  placeholder="please input"
+                >
+                  <el-option
+                    id="warningUuid"
+                    v-for="item in warningSelect"
+                    :key="item.warningUuid"
+                    :label="item.warningName"
+                    :value="item.warningUuid"
+                    :disabled="item.disabled"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="排序号"
+                prop="surveypointOrder"
+              >
+                <el-input
+                  v-model="updateFormData.surveypointOrder"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="设置时间"
+                prop="dateSet"
+              >
+                <el-date-picker
+                  id="dateSet"
+                  v-model="updateFormData.dateSet"
+                  type="datetime"
+                  placeholder="选择日期时间"
+                  default-time="12:00:00"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button
+            icon="el-icon-success"
+            size="mini"
+            type="primary"
+            @click="createData('updateFormData')"
+          >{{$t('table.confirm')}}</el-button>
+          <el-button
+            icon="el-icon-edit-outline"
+            size="mini"
+            type="danger"
+            @click="resetForm('updateFormData')"
+          >重置</el-button>
+          <el-button
+            icon="el-icon-error"
+            size="mini"
+            @click="innerUpdateVisible=false"
           >{{$t('table.cancel')}}</el-button>
         </div>
       </el-dialog>
@@ -269,6 +427,7 @@ export default {
     return {
       dialogFormVisible: false,
       innerVisible: false,
+      innerUpdateVisible: false,
       fileList: [],
       handleChange: [],
       beforeAvatarUpload: [],
@@ -295,6 +454,18 @@ export default {
         surveypointUuid: "",
         monitorItemUuid: "",
         surveypointNumber: "",
+        beginNum: "",
+        spCount: "",
+        accumInitial: null,
+        surveypointCondition: null,
+        warningUuid: "",
+        surveypointOrder: null,
+        dateSet: ""
+      },
+      updateFormData: {
+        surveypointUuid: "",
+        monitorItemUuid: "",
+        surveypointNumber: "",
         accumInitial: null,
         surveypointCondition: null,
         warningUuid: "",
@@ -302,6 +473,27 @@ export default {
         dateSet: ""
       },
       ruleInline: {
+        // 表单验证
+        accumInitial: [
+          { required: true, message: "初始累计值不能为空", trigger: "blur" }
+        ],
+        beginNum: [
+          { required: true, message: "起始数不能为空", trigger: "blur" }
+        ],
+        spCount: [
+          { required: true, message: "测点数不能为空", trigger: "blur" }
+        ],
+        surveypointOrder: [
+          { required: true, message: "排序号不能为空", trigger: "blur" }
+        ],
+        surveypointCondition: [
+          { required: true, message: "测点状态不能为空", trigger: "blur" }
+        ],
+        warningUuid: [
+          { required: true, message: "报警设置不能为空", trigger: "blur" }
+        ]
+      },
+      updateRuleInline: {
         // 表单验证
         accumInitial: [
           { required: true, message: "初始累计值不能为空", trigger: "blur" }
@@ -354,35 +546,48 @@ export default {
     addSuveyPoint() {
       this.type = "新增";
       this.innerVisible = true;
-      this.formData=[];
+      this.formData = [];
     },
     updateSuveyPoint(params) {
       this.type = "修改";
       debugger;
-      this.formData.surveypointUuid = params.surveypointUuid;
-      this.formData.monitorItemUuid = params.fdMonitorItem.monitorItemUuid;
-      this.formData.surveypointNumber = params.surveypointNumber;
-      this.formData.accumInitial = params.accumInitial;
-      this.formData.surveypointCondition =
+      this.updateFormData.surveypointUuid = params.surveypointUuid;
+      this.updateFormData.monitorItemUuid =
+        params.fdMonitorItem.monitorItemUuid;
+      this.updateFormData.surveypointNumber = params.surveypointNumber;
+      this.updateFormData.accumInitial = params.accumInitial;
+      this.updateFormData.surveypointCondition =
         params.surveypointCondition == 0 ? "未启用" : "启用";
-      this.formData.warningUuid = params.paraWarningSet.warningUuid;
-      this.formData.surveypointOrder = params.surveypointOrder;
-      this.formData.dateSet = params.dateSet;
-      this.innerVisible = true;
+      this.updateFormData.warningUuid = params.paraWarningSet.warningUuid;
+      this.updateFormData.surveypointOrder = params.surveypointOrder;
+      this.updateFormData.dateSet = params.dateSet;
+      this.innerUpdateVisible = true;
     },
     // 表单提交
     createData(formData) {
       this.$refs[formData].validate(valid => {
         if (valid) {
-          let data = {
-            ...this.formData
-          };
+          debugger;
+          let data;
+          if (this.type == "新增") {
+            data = {
+              ...this.formData
+            };
+          } else if (this.type == "修改") {
+            data = {
+              ...this.updateFormData
+            };
+          }
           debugger;
           //赋值当前项目和所选监测项
           data.projectUuid = this.projectId;
           data.monitorItemUuid = this.monitorItemUuid;
+          if (this.updateFormData.surveypointCondition == "未启用") {
+            data.surveypointCondition = 0;
+          } else if (this.updateFormData.surveypointCondition == "启用") {
+            data.surveypointCondition = 1;
+          }
           data.dateSet = $("#dateSet").val();
-          // data.surveypointCondition = $("#surveypointCondition").val();
           var surveypointData = new Object();
           surveypointData.token = getToken();
           surveypointData.data = data;
@@ -432,14 +637,14 @@ export default {
                     showCancelButton: false
                   });
                 }
-                this.innerVisible = false;
+                this.innerUpdateVisible = false;
               })
               .catch(() => {
                 this.$message({
                   type: "warning",
                   message: "无法获取修改接口!"
                 });
-                this.innerVisible = false;
+                this.innerUpdateVisible = false;
               });
           }
         }

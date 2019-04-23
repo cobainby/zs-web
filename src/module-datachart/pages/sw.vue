@@ -27,7 +27,7 @@
                   <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
               </form>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'pointCode'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'surveyTime', order: 'descending'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" label="测点编号" prop="pointCode" :show-overflow-tooltip="true" sortable>
               </el-table-column>
               <el-table-column align="center" label="距离地面(m)" :show-overflow-tooltip="true">
@@ -45,7 +45,6 @@
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
-
               <el-table-column align="center" label="单次变化速率(mm/d)" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
@@ -56,7 +55,7 @@
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true">
+              <el-table-column align="center" prop="surveyTime" label="采集时间" :show-overflow-tooltip="true" sortable>
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>
@@ -252,9 +251,9 @@ export default {
           data: this.swPoints
         },
         grid: {
-          left: "60",
+          left: "80",
           top: "32",
-          right: "60",
+          right: "80",
           bottom: "38"
         },
         toolbox: {

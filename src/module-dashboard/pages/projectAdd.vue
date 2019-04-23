@@ -764,8 +764,186 @@
         </el-tab-pane>
         <el-tab-pane
           class="chartsPanel"
-          label="监测方案"
+          label="合同设置"
           name="second-ta"
+        >
+          <!-- 项目当前信息 / -->
+          <el-form
+            id="compactForm"
+            style="height:100%;overflow:auto;"
+            ref="formBase"
+          >
+            <table
+              id="tableHeader"
+              cellpadding="0"
+              cellspacing="0"
+            >
+              <tr>
+                <th id="tableName">
+                  合同概况
+                </th>
+              </tr>
+            </table>
+            <table
+              class="tableEditDetail"
+              style="height:45%;"
+              cellpadding="0"
+              cellspacing="1"
+            >
+              <tr>
+                <th style="width: 15%;">
+                  合同专题
+                </th>
+                <td style="width: 35%">
+                  <input
+                    name="compactSubject"
+                    rows="2"
+                    cols="20"
+                    class="input"
+                    id="compactSubject"
+                    style="height:60px;width:80%;"
+                  ></input>
+                </td>
+                <th style="width: 15%">
+                  合同名称
+                </th>
+                <td>
+                  <input
+                    name="compactName"
+                    rows="2"
+                    cols="20"
+                    class="input"
+                    id="compactName"
+                    style="height:60px;width:80%;"
+                  ></input>
+                </td>
+                <!--  -->
+              </tr>
+              <tr>
+                <th style="width: 15%">
+                  计划监测点数
+                </th>
+                <td>
+                  <input
+                    name="pointNumber"
+                    rows="2"
+                    cols="20"
+                    id="pointNumber"
+                    class="input"
+                    style="height:60px;width:80%;"
+                  ></input>
+                </td>
+                <th>
+                  计划监测次数
+                </th>
+                <td>
+                  <input
+                    name="monitorCount"
+                    rows="2"
+                    cols="20"
+                    id="monitorCount"
+                    class="input"
+                    style="height:60px;width:80%;"
+                  ></input>
+                  <input
+                    type="hidden"
+                    name=""
+                    id=""
+                  />
+                  <input
+                    type="hidden"
+                    name=""
+                    id=""
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  监测项
+                </th>
+                <td>
+                  <input
+                    name="projectMonitor"
+                    id="projectMonitor"
+                    class="easyui-combobox"
+                    data-options="valueField: 'value',textField: 'label'"
+                    style="width:80%;height:60px;"
+                  />
+                </td>
+                <th>
+                  监测工期
+                </th>
+                <td>
+                  <input
+                    name="projectTimelimit"
+                    id="projectTimelimit"
+                    class="easyui-combobox"
+                    data-options="valueField: 'value',textField: 'label'"
+                    style="width:80%;height:60px;"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  开工时间
+                </th>
+                <td colspan="3">
+                  <el-date-picker
+                    id="startTime"
+                    v-model="formBase.startTime"
+                    type="datetime"
+                    placeholder="选择日期时间"
+                    default-time="12:00:00"
+                  >
+                  </el-date-picker>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  合同概况描述
+                </th>
+                <td colspan="3">
+                  <input
+                    name="compactDescription"
+                    rows="2"
+                    cols="20"
+                    id="compactDescription"
+                    class="input"
+                    style="height:85px;line-height:85px;width:95%;"
+                  ></input>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="4">
+                  <el-button
+                    id="saveBtn"
+                    @click="saveCompact"
+                    type="success"
+                    size="mini"
+                    icon="el-icon-check"
+                  >
+                    <strong>
+                      <i class="glyphicon glyphicon-ok"></i>&nbsp提交</strong>
+                  </el-button>
+                  <el-button
+                    type="info"
+                    size="mini"
+                    id="cancelBtn"
+                    icon="el-icon-delete"
+                    data-dismiss="modal"
+                  >
+                    <strong>
+                      <i class="glyphicon glyphicon-remove"></i>&nbsp重置</strong>
+                  </el-button>
+                </th>
+              </tr>
+            </table>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane
+          class="chartsPanel"
+          label="监测方案"
+          name="third-ta"
         >
           <table
             class="tableEditDetail"
@@ -947,7 +1125,7 @@
         <el-tab-pane
           class="chartsPanel"
           label="监测平面图"
-          name="third-ta"
+          name="fouth-ta"
         >
           <table
             class="tableEditDetail"
@@ -1039,7 +1217,7 @@
         <el-tab-pane
           class="chartsPanel"
           label="监测项设置"
-          name="fouth-ta"
+          name="fifth-ta"
         >
           <el-button
             id="addFdButton"
@@ -1165,7 +1343,7 @@
         <el-tab-pane
           class="chartsPanel"
           label="自动化设置"
-          name="fifth-ta"
+          name="sixth-ta"
         >
           <span style="font-size:60px;color:blue;">
             尚在开发中！！</span>
@@ -1328,7 +1506,11 @@ import {
   deleteFile,
   downFile,
   addProjectPic,
-  getProjectPic
+  getProjectPic,
+  compactGet,
+  compactAdd,
+  compactUpdate,
+  compactRemove
 } from "@/api/base/project";
 import { detail } from "@/api/base/organ";
 import { UserAccount } from "@/api/base/worker";
@@ -1361,6 +1543,7 @@ export default {
       projectName: "",
       createUuid: "", //当前登陆人的id
       orgUuid: "", //当前登录人的机构ID
+      compactUuid: "", //获取的合同ID
       workerData: "", //当前选择人员的列表
       selectType: "", //选择人员的类型
       tableHeight: window.innerHeight - 290, //table高度
@@ -1510,6 +1693,22 @@ export default {
     getDetil() {
       detail({ token: this.token }).then(res => {
         this.createUuid = res.data.userUuid;
+      });
+    },
+    //获取合同
+    getCompact(projectUuid) {
+      compactGet({ projectUuid, token: this.token }).then(res => {
+        debugger;
+        var compactInfo = res.data.data;
+        $("#compactSubject").val(compactInfo.compactSubject);
+        $("#compactName").val(compactInfo.compactName);
+        $("#pointNumber").val(compactInfo.pointNumber);
+        $("#monitorCount").val(compactInfo.monitorCount);
+        $("#startTime").val(this.changeTimeFormat(compactInfo.startTime));
+        $("#projectMonitor").val(compactInfo.projectMonitor);
+        $("#projectTimelimit").val(compactInfo.projectTimelimit);
+        $("#compactDescription").val(compactInfo.compactDescription);
+        this.compactUuid = compactInfo.compactUuid;
       });
     },
     //获取可下载文件的列表
@@ -1908,8 +2107,8 @@ export default {
       projectData.admDepartment = $("#admDepartment").val();
       projectData.createDate = $("#createDate").val();
       //如果是超级管理员更改工程，则id还是之前的值
-      if (this.createUuid == 0) {
-        projectData.createAccUuid=$("#createAccUuid").val();
+      if (this.createUuid == 0 && $("#createAccUuid").val() != "") {
+        projectData.createAccUuid = $("#createAccUuid").val();
       } else {
         projectData.createAccUuid = this.createUuid;
       }
@@ -1950,6 +2149,86 @@ export default {
             if (response.data.result == 1) {
               const jsonData = response.data;
               this.$confirm("修改工程成功!", "提示", {
+                type: "success",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            } else {
+              this.$confirm(response.data.message, "提示", {
+                type: "error",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "warning",
+              message: "无法获取修改接口!"
+            });
+          });
+      }
+    },
+    //存储合同
+    saveCompact() {
+      debugger;
+      var compactParams = new Object();
+      var compactData = new Object();
+      var projectMonitor = [];
+      compactParams.token = this.token;
+      compactParams.data = compactData;
+      compactData.compactUuid = this.compactUuid;
+      compactData.projectUuid = this.projectId;
+      compactData.compactSubject = $("#compactSubject").val();
+      compactData.compactName = $("#compactName").val();
+      compactData.pointNumber = $("#pointNumber").val();
+      compactData.monitorCount = $("#monitorCount").val();
+      compactData.startTime = $("#startTime").val();
+      projectMonitor.push($("#projectMonitor").val());
+      compactData.projectMonitor = projectMonitor;
+      compactData.projectTimelimit = $("#projectTimelimit").val();
+      compactData.compactDescription = $("#compactDescription").val();
+      //如果是超级管理员更改工程，则id还是之前的值,这里直接使用创建工程中的创建人字段
+      if (this.createUuid == 0 && $("#createAccUuid").val() != "") {
+        compactData.createAccUuid = $("#createAccUuid").val();
+      } else {
+        compactData.createAccUuid = this.createUuid;
+      }
+      if (this.type == "新增") {
+        compactAdd(compactParams)
+          .then(response => {
+            if (response.data.result == 1) {
+              const jsonData = response.data;
+              this.projectId = jsonData.data.projectUuid;
+              // this.projectInfo=jsonData.data;
+              this.$confirm("创建合同成功!", "提示", {
+                type: "success",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+              //编辑成功后跳转到工程列表
+              // this.$router.push({ path: "itemList" });
+            } else {
+              this.$confirm(response.data.message, "提示", {
+                type: "error",
+                showConfirmButton: false,
+                showCancelButton: false
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "warning",
+              message: "无法获取创建接口!"
+            });
+          });
+      } else if (this.type == "修改") {
+        debugger;
+        compactUpdate(compactParams)
+          .then(response => {
+            if (response.data.result == 1) {
+              const jsonData = response.data;
+              this.$confirm("修改合同成功!", "提示", {
                 type: "success",
                 showConfirmButton: false,
                 showCancelButton: false
@@ -2046,7 +2325,7 @@ export default {
     initChart() {},
     // 业务方法
     doQuery(page = 1, limit = 20) {},
-    //工程概况
+    //工程概况与合同概况
     getParams() {
       debugger;
       //获取安全等级，施工工况，工程状态下拉列表
@@ -2062,8 +2341,6 @@ export default {
       this.type = this.$route.params.editType;
       if (this.type == "修改") {
         //取到路由传参
-        debugger;
-        console.log(this.projectInfo);
         this.projectInfo = this.$route.params.projectInfo;
         this.projectId = this.projectInfo.projectUuid;
         this.projectName = this.projectInfo.projectName;
@@ -2148,8 +2425,11 @@ export default {
       if (this.projectId != "" && this.projectId != null) {
         if (activeName == "second-ta") {
           //上传文件的列表
-          this.getAllFile();
+          this.getCompact(this.projectId);
         } else if (activeName == "third-ta") {
+          //上传文件的列表
+          this.getAllFile();
+        } else if (activeName == "fouth-ta") {
           this.getAllPic();
         }
       } else {

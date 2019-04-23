@@ -327,9 +327,9 @@ export default {
           data: this.msPoints
         },
         grid: {
-          left: "60",
+          left: "80",
           top: "32",
-          right: "60",
+          right: "80",
           bottom: "38"
         },
         toolbox: {
