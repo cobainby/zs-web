@@ -35,13 +35,13 @@ export const viewSuveryPointSet=data=>createAPI(`/fdSetting/surveypoint/${data.s
 export const addSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/add.data`,'post',data);//添加某个监测项的监测点信息
 export const updateSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/update.data`,'post',data);//修改某个监测项的某个监测点信息
 export const removeSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/delete/${data.surveypointUuid}`,'delete',data);//删除某个监测项的某个监测点信息
-// 报警设置 
+// 报警设置
 export const getWarningSet=data=>createAPI(`/fdSetting/warning/item`,'get',data);//查询具体某个监测项的所有报警设置信息
 export const viewWarningSet=data=>createAPI(`/fdSetting/warning/${data.warningUuid}`,'get',data);//查询具体某个监测项的某一个报警设置信息
 export const addWarningSet=data=>createAPI(`/fdSetting/warning/add.data`,"post",data);//添加监测项的报警设置
 export const updateWarningSet=data=>createAPI(`/fdSetting/warning/update.data`,'post',data);//修改某个监测项的某个报警设置信息
 export const removeWarningSet=data=>createAPI(`/fdSetting/warning/delete/${data.warningUuid}`,'delete',data);//删除某个监测项的某个报警设置信息 
-// 断面设置 
+// 断面设置
 export const getSectionSet=data=>createAPI(`/fdSetting/section/get`,'get',data);//查询具体某个监测项的所有断面设置信息,暂时以查询该工程下所有断面设置作为替代
 export const viewSectionSet=data=>createAPI(`/fdSetting/section/${data.sectionUuid}`,'get',data);//查询具体某个监测项的某一个断面设置信息
 export const addSectionSet=data=>createAPI(`/fdSetting/section/add.data`,"post",data);//添加监测项的断面设置

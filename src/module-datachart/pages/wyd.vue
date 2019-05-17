@@ -92,7 +92,7 @@
               :data="selectDatas"
               border
               :row-style="tableRowStyle"
-              :default-sort="{prop:'pointCode'}"
+              :default-sort="{prop:'surveyTime', order: 'descending'}"
               :header-cell-style="tableHeaderStyle"
               style="width: 100%;"
               :height="tableHeight"
@@ -156,6 +156,7 @@
                 align="center"
                 label="采集时间"
                 :show-overflow-tooltip="true"
+                sortable
               >
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>

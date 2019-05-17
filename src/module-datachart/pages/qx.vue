@@ -21,7 +21,7 @@
               </el-form-item>
               <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'pointCode'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
+            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'surveyTime', order: 'descending'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" prop="pointCode" label="测点编号" :show-overflow-tooltip="true" sortable>
               </el-table-column>
               <el-table-column align="center" label="支撑类型">
@@ -57,7 +57,7 @@
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true">
+              <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true" sortable>
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>
