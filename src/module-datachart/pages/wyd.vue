@@ -57,7 +57,7 @@
                   size="small"
                 >重置</el-button>
               </el-form-item>
-              <el-button 
+              <el-button
                 class="filter-item fr"
                 size="small"
                 style="margin-right: 10px;"
@@ -73,6 +73,16 @@
                 @click="getLoadFile()"
               >数据上传
                 <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+              <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right:10px;"
+                type="success"
+                @click="exportData()"
+              >
+                报表导出
+                <i class="el-icon-download el-icon--right"></i>
               </el-button>
               <form
                 enctype="multipart/form-data"
@@ -118,6 +128,24 @@
               </el-table-column> -->
               <el-table-column
                 align="center"
+                label="首次高程值(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.initialValue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="上次观测值(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.lastHeightValue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
                 label="高程值(m)"
                 :show-overflow-tooltip="true"
               >
@@ -154,6 +182,7 @@
               </el-table-column>
               <el-table-column
                 align="center"
+                prop="surveyTime"
                 label="采集时间"
                 :show-overflow-tooltip="true"
                 sortable
@@ -205,9 +234,9 @@
 import { list } from "@/api/example/table";
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
-import { getVertical } from "@/api/base/chartData"; //调用轴力接口
+import { getVertical, verticalExport } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
-import {getWarningSet} from "@/api/base/project";
+import { getWarningSet } from "@/api/base/project";
 
 export default {
   name: "dataIndex",
@@ -234,10 +263,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      rateYmax:"",//单次变化量纵轴最大值
-      rateYmin:"",//单次变化量纵轴最小值
-      accumYmax:"",//累计变化量纵轴最大值
-      accumYmin:"",//累计变化量纵轴最小值
+      rateYmax: "", //单次变化量纵轴最大值
+      rateYmin: "", //单次变化量纵轴最小值
+      accumYmax: "", //累计变化量纵轴最大值
+      accumYmin: "", //累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -300,6 +329,30 @@ export default {
       $("#wydLineAccum").width($(".chartsPanel").width());
       $("#wydLineAccum").height($(window).height() - 180);
       this.initChart();
+    },
+    //报表导出
+    exportData() {
+      verticalExport({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token,
+        projectUuid: this.projectUuid
+      }).then(res => {
+        if (res.data.result == 1) {
+          this.$confirm(res.data.message, "提示", {
+            confirmButtonText: "打开报表？",
+            type: 'success',
+            callback: action => {
+              window.open(res.data.data);
+            }
+          });
+        } else {
+          this.$confirm(res.data.message, "提示", {
+            type: "danger",
+            showConfirmButton: false,
+            showCancelButton: false
+          });
+        }
+      });
     },
     //点击上传成果数据
     getLoadFile() {
@@ -415,19 +468,21 @@ export default {
       myChartGap.setOption(option);
       myChartGap.setOption({
         series: this.lastVarySeries,
-        yAxis:[{
-          max:this.rateYmax,
-          min:this.rateYmin
-         }
+        yAxis: [
+          {
+            max: this.rateYmax,
+            min: this.rateYmin
+          }
         ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
         series: this.accumVarySeries,
-        yAxis:[{
-          max:this.accumYmax,
-          min:this.accumYmin
-         }
+        yAxis: [
+          {
+            max: this.accumYmax,
+            min: this.accumYmin
+          }
         ]
       });
     },
@@ -497,15 +552,17 @@ export default {
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
-    getY(){
-      getWarningSet({monitorItemUuid: this.monitorItemUuid,
-        token: this.token}).then(res=>{
-          debugger
-          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
-          this.rateYmin=-this.rateYmax;
-          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
-          this.accumYmin=-this.accumYmax;
-        });
+    getY() {
+      getWarningSet({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        debugger;
+        this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
+        this.rateYmin = -this.rateYmax;
+        this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
+        this.accumYmin = -this.accumYmax;
+      });
     },
     //重置时间选择框的选择项
     handleRest() {

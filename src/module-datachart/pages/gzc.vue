@@ -165,6 +165,7 @@
               <el-table-column
                 align="center"
                 label="采集时间"
+                prop="surveyTime"
                 :show-overflow-tooltip="true"
                 sortable>
                 <template slot-scope="scope">

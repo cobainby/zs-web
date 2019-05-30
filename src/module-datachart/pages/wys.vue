@@ -44,7 +44,7 @@
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集时间" :show-overflow-tooltip="true" sortable>
+              <el-table-column align="center" label="采集时间" prop="surveyTime" :show-overflow-tooltip="true" sortable>
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>

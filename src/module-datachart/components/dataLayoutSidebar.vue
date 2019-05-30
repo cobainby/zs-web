@@ -55,6 +55,7 @@ export default {
   created() {
     this.projectUuid = this.$route.query.id;
     getFdSet({ projectUuid: this.projectUuid, token: this.token }).then(res => {
+      debugger
       for (var i = 0; i < res.data.data.length; i++) {
         var menu = new Object();
         menu["itemName"] = res.data.data[i].mItemName;

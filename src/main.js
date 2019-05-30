@@ -52,13 +52,7 @@ Vue.filter("dateTimeFormat", value => {
     "-" +
     (d.getMonth() + 1) +
     "-" +
-    d.getDate() +
-    " " +
-    d.getHours() +
-    ":" +
-    d.getMinutes() +
-    ":" +
-    d.getSeconds();
+    d.getDate();
   return times;
 });
 /* eslint-disable */

@@ -1,76 +1,199 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card class="box-card" shadow="never" v-loading="loading">
+      <el-card
+        class="box-card"
+        shadow="never"
+        v-loading="loading"
+      >
         <!-- 数据表格 -->
-        <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
-          <el-tab-pane class="chartsPanel" label="成果数据" name="first-ta">
+        <el-tabs
+          v-model="activeName"
+          @tab-click="handleClick"
+          style="margin-top:-10px;"
+        >
+          <el-tab-pane
+            class="chartsPanel"
+            label="成果数据"
+            name="first-ta"
+          >
             <!-- 搜索栏 -->
             <el-form :inline="true">
               <el-form-item label="开始时间">
-                <el-date-picker id="startTime" v-model="filters.column.create_start_date" size="small" type="datetime" :picker-options="pickerBeginDateBefore" placeholder="" default-time="00:00:00">
+                <el-date-picker
+                  id="startTime"
+                  v-model="filters.column.create_start_date"
+                  size="small"
+                  type="datetime"
+                  :picker-options="pickerBeginDateBefore"
+                  placeholder=""
+                  default-time="00:00:00"
+                >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="至" label-width="25px">
-                <el-date-picker id="endTime" v-model="filters.column.create_end_date" size="small" type="datetime" :picker-options="pickerBeginDateAfter" placeholder="" default-time="23:59:59">
+              <el-form-item
+                label="至"
+                label-width="25px"
+              >
+                <el-date-picker
+                  id="endTime"
+                  v-model="filters.column.create_end_date"
+                  size="small"
+                  type="datetime"
+                  :picker-options="pickerBeginDateAfter"
+                  placeholder=""
+                  default-time="23:59:59"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
-                <el-button type="warning" size="small" @click="handleSearch">查询</el-button>
-                <el-button @click="handleRest" size="small">重置</el-button>
+                <el-button
+                  type="warning"
+                  size="small"
+                  @click="handleSearch"
+                >查询</el-button>
+                <el-button
+                  @click="handleRest"
+                  size="small"
+                >重置</el-button>
               </el-form-item>
-              <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
-              <el-button size="small" class="filter-item fr" style="margin-right: 10px;" type="danger" @click="getLoadFile()">数据上传
-                  <i class="el-icon-upload el-icon--right"></i>
+              <el-button
+                class="filter-item fr"
+                size="small"
+                style="margin-right: 10px;"
+                @click="getBack"
+                type="primary"
+                icon="el-icon-back"
+              >返回列表</el-button>
+              <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right: 10px;"
+                type="danger"
+                @click="getLoadFile()"
+              >数据上传
+                <i class="el-icon-upload el-icon--right"></i>
               </el-button>
-              <form enctype="multipart/form-data" id="form_example" style="display:none">
-                  <input type="file" name="files" id="approvalUpload" @change="addFiles('成果数据','approvalUpload')" multiple/><br/><br/>
+              <form
+                enctype="multipart/form-data"
+                id="form_example"
+                style="display:none"
+              >
+                <input
+                  type="file"
+                  name="files"
+                  id="approvalUpload"
+                  @change="addFiles('成果数据','approvalUpload')"
+                  multiple
+                /><br /><br />
               </form>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'surveyTime', order: 'descending'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" label="测点编号" prop="pointCode" :show-overflow-tooltip="true" sortable>
+            <el-table
+              :data="selectDatas"
+              border
+              :row-style="tableRowStyle"
+              :default-sort="{prop:'surveyTime', order: 'descending'}"
+              :header-cell-style="tableHeaderStyle"
+              style="width: 100%;"
+              :height="tableHeight"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                align="center"
+                label="测点编号"
+                prop="pointCode"
+                :show-overflow-tooltip="true"
+                sortable
+              >
               </el-table-column>
-              <el-table-column align="center" label="距离地面(m)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="距离地面(m)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.calValue}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集模数" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="采集模数"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.moduleData}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化量(mm)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化速率(mm/d)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化速率(mm/d)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="累计变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="累计变化量(mm)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" prop="surveyTime" label="采集时间" :show-overflow-tooltip="true" sortable>
+              <el-table-column
+                align="center"
+                prop="surveyTime"
+                label="采集时间"
+                :show-overflow-tooltip="true"
+                sortable
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>
                 </template>
               </el-table-column>
             </el-table>
-            <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
+            <el-pagination
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pagination.currentPage"
+              :page-sizes="pagination.pageSizes"
+              :page-size="pagination.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="pagination.total"
+            >
             </el-pagination>
             <!-- 数据表格 / -->
           </el-tab-pane>
-          <el-tab-pane label="单次变化量" name="second-ta">
-            <div :class="className" id="swLineGap"></div>
+          <el-tab-pane
+            label="单次变化量"
+            name="second-ta"
+          >
+            <div
+              :class="className"
+              id="swLineGap"
+            ></div>
           </el-tab-pane>
-          <el-tab-pane label="累计变化量" name="third-ta">
-            <div :class="className" id="swLineAccum"></div>
+          <el-tab-pane
+            label="累计变化量"
+            name="third-ta"
+          >
+            <div
+              :class="className"
+              id="swLineAccum"
+            ></div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -84,7 +207,7 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getWater } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
-import {getWarningSet} from "@/api/base/project";
+import { getWarningSet } from "@/api/base/project";
 
 export default {
   name: "dataIndex",
@@ -111,10 +234,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      rateYmax:"",//单次变化量纵轴最大值
-      rateYmin:"",//单次变化量纵轴最小值
-      accumYmax:"",//累计变化量纵轴最大值
-      accumYmin:"",//累计变化量纵轴最小值
+      rateYmax: "", //单次变化量纵轴最大值
+      rateYmin: "", //单次变化量纵轴最小值
+      accumYmax: "", //累计变化量纵轴最大值
+      accumYmin: "", //累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -180,7 +303,7 @@ export default {
     },
     //点击上传成果数据
     getLoadFile() {
-        $("#approvalUpload").trigger("click");
+      $("#approvalUpload").trigger("click");
     },
     //数据上传
     addFiles(fileType, fileInputId) {
@@ -201,7 +324,7 @@ export default {
       });
       formData.append("fileType", this.fileType);
       formData.append("projectUuid", this.projectId);
-      formData.append("monitorItemUuid",this.monitorItemUuid);
+      formData.append("monitorItemUuid", this.monitorItemUuid);
       formData.append("token", this.token);
       $.ajax({
         url: "/api/fdData/water/add.filedata",
@@ -231,7 +354,7 @@ export default {
           alert("上传失败!无法获取上传接口");
         }
       });
-      $("#approvalUpload")[0].value="";
+      $("#approvalUpload")[0].value = "";
     },
     //图形展示
     initChart() {
@@ -291,26 +414,28 @@ export default {
       myChartGap.setOption(option);
       myChartGap.setOption({
         series: this.lastVarySeries,
-        yAxis:[{
-          max:this.rateYmax,
-          min:this.rateYmin
-         }
+        yAxis: [
+          {
+            max: this.rateYmax,
+            min: this.rateYmin
+          }
         ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
         series: this.accumVarySeries,
-        yAxis:[{
-          max:this.accumYmax,
-          min:this.accumYmin
-         }
+        yAxis: [
+          {
+            max: this.accumYmax,
+            min: this.accumYmin
+          }
         ]
       });
     },
     // 业务方法
     init(page, limit) {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
-      this.projectUuid=this.$route.query.id;
+      this.projectUuid = this.$route.query.id;
       getWater({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
@@ -327,7 +452,7 @@ export default {
         });
         this.swPoints = swPoints; //点的集合
         this.lastVarySeries = []; //单次变化量的曲线图数据源集合初始化一次
-        this.accumVarySeries=[];//累计变化量的曲线图数据初始化一次
+        this.accumVarySeries = []; //累计变化量的曲线图数据初始化一次
         this.lastSwDatas = []; //初始化一次
         for (var k = 0; k < this.swPoints.length; k++) {
           var swDatas = this.allItems[this.swPoints[k]]; //每个点的数据
@@ -369,15 +494,17 @@ export default {
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
-    getY(){
-      getWarningSet({monitorItemUuid: this.monitorItemUuid,
-        token: this.token}).then(res=>{
-          debugger
-          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
-          this.rateYmin=-this.rateYmax;
-          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
-          this.accumYmin=-this.accumYmax;
-        });
+    getY() {
+      getWarningSet({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        debugger;
+        this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
+        this.rateYmin = -this.rateYmax;
+        this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
+        this.accumYmin = -this.accumYmax;
+      });
     },
     //重置时间选择框的选择项
     handleRest() {
