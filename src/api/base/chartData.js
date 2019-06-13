@@ -8,5 +8,6 @@ export const getClinometer=data=>createAPI(`/fdData/clinometer/surveypoint`,"get
 export const getForce = data => createAPI(`/fdData/force/get`, "get", data);//支撑内力的数据
 export const getQx = data =>createAPI(`/fdData/qx`);//倾斜数据
 export const getLf = data =>createAPI(`/fdData/Lf`);//裂缝数据
-export const getMonitorTotal=data=>createAPI(`/monitorTotal/gets`);//拿到所有监测项数据统计
+export const getMonitorTotal=data=>createAPI(`/monitorTotal/gets`, "get", data);//拿到所有监测项数据统计
 export const verticalExport = data => createAPI("/fdData/vertical/export", "get", data);//获得竖向位移报表导出接口
+export const dailyExport = data=> createAPI("/daily/export","post",data);//日报导出功能

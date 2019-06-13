@@ -107,7 +107,7 @@
                     style="height:30px;width:80%;"
                     required
                   ></input>
-                  <label style="color:red">*</label>
+                  <label style="color:red">*必填</label>
                 </td>
                 <th>
                   工程地址
@@ -169,7 +169,7 @@
                     class="btton85"
                     value="获取经纬度"
                   />
-                  <label style="color:red">(*请选择位置)</label>
+                  <label style="color:red">(*必选)</label>
                 </td>
               </tr>
               <tr>
@@ -457,8 +457,26 @@
                     style="height:30px;width:80%;"
                   ></input>
                 </td>
-                <th></th>
-                <td></td>
+                <th>
+                  项目类别
+                </th>
+                <td>
+                  <el-select
+                    v-model="formBase.projectType"
+                    placeholder="请选择"
+                    id="projectType"
+                  >
+                    <el-option
+                      v-for="item in projectTypeOption"
+                      :key="item.typeCode"
+                      :label="item.typeName"
+                      :value="item.typeCode"
+                      :disabled="item.disabled"
+                    >
+                    </el-option>
+                  </el-select>
+                  <label style="color:red">*必填</label>
+                </td>
                 <th style="display:none;">
                   项目创建人uuid
                 </th>
@@ -1498,6 +1516,7 @@ import {
   getSafety,
   getStep,
   getState,
+  getType,
   getFdSet,
   getMonitor,
   getSectionSet,
@@ -1649,7 +1668,8 @@ export default {
       formBase: {
         safetyClass: "",
         constructionStep: "",
-        constructionState: ""
+        constructionState: "",
+        projectType: ""
       },
       loading: false,
       multipleSelection: [],
@@ -1671,6 +1691,7 @@ export default {
       safetyOption: [],
       stepOption: [],
       stateOption: [],
+      projectTypeOption: [],
       ruleInline: {
         // 表单验证
         mItemEname: [
@@ -2091,6 +2112,13 @@ export default {
       } else if ($("#constructionState").val() == "") {
         projectData.constructionState = 1;
       }
+      if ($("#projectType").val() == "深基坑") {
+        projectData.projectType = 0;
+      } else if ($("#projectType").val() == "盾构区间") {
+        projectData.projectType = 1;
+      } else if ($("#projectType").val() == "其他") {
+        projectData.projectType = 2;
+      }
       projectData.monitoringOrg = $("#monitoringOrg").val();
       projectData.monitoringHead = $("#monitoringHead").val();
       projectData.monitoringSurveyor = $("#monitoringSurveyor").val();
@@ -2328,7 +2356,7 @@ export default {
     //工程概况与合同概况
     getParams() {
       debugger;
-      //获取安全等级，施工工况，工程状态下拉列表
+      //获取安全等级，施工工况，工程状态,项目类别下拉列表
       getSafety().then(res => {
         this.safetyOption = res.data;
       });
@@ -2337,6 +2365,9 @@ export default {
       });
       getState().then(res => {
         this.stateOption = res.data;
+      });
+      getType().then(res => {
+        this.projectTypeOption = res.data;
       });
       this.type = this.$route.params.editType;
       if (this.type == "修改") {
@@ -2383,6 +2414,13 @@ export default {
           this.formBase.constructionState = "正在施工";
         } else if (this.projectInfo.constructionState == 2) {
           this.formBase.constructionState = "已完工";
+        }
+        if (this.projectInfo.projectType == 0) {
+          this.formBase.projectType = "深基坑";
+        } else if (this.projectInfo.projectType == 1) {
+          this.formBase.projectType = "盾构区间";
+        } else if (this.projectInfo.projectType == 2) {
+          this.formBase.projectType = "其他";
         }
         $("#monitoringOrg").val(this.projectInfo.monitoringOrg);
         this.monitoringHead = this.projectInfo.monitoringHead;

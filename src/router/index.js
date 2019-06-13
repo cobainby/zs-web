@@ -88,6 +88,16 @@ export const constantRouterMap = [
         name: "dataInfo",
         meta: { title: "项目信息", icon: "component", noCache: true }
       },{
+        path: "monitorTotal",
+        component: _import("datachart/pages/monitorTotal"),
+        name: "monitorTotal",
+        meta: { title: "数据统计", icon: "component", noCache: true }
+      },{
+        path: "dailyReport",
+        component: _import("datachart/pages/dailyReport"),
+        name: "dailyReport",
+        meta: { title: "日报导出", icon: "component", noCache: true }
+      },{
         path: "cx",
         component: _import("datachart/pages/cx"),
         name: "cx",

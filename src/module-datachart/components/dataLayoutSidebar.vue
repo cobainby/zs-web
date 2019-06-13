@@ -9,6 +9,14 @@
         <i class="el-icon-info"></i>
         <span class="projectInfo" slot="title">项目信息</span>
       </el-menu-item>
+      <el-menu-item :index="'monitorTotal?id='+this.projectUuid">
+        <i class="el-icon-remove"></i>
+        <span class="monitorTotal" slot="title">数据统计</span>
+      </el-menu-item>
+      <el-menu-item :index="'dailyReport?id='+this.projectUuid">
+        <i class="el-icon-download"></i>
+        <span class="dailReport" slot="title">日报导出</span>
+      </el-menu-item>
       <el-menu-item v-for="item in monitorMenu" :index="item.src" :key="item.src">
         <i id="monitorIcon" :class="item.icon"></i>
         <span class="monitorItem" slot="title">{{item.title}}</span>

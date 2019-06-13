@@ -7,6 +7,7 @@ export const projectRemove= data=>createAPI(`/Foundation/delete/${data.projectUu
 export const getSafety=data=>createAPI(`/getSysSafetyClass`,'get',data);//获取安全状态表
 export const getStep=data=>createAPI(`/getSysConstructionStep`,'get',data);//获取施工工况的信息
 export const getState=data=>createAPI(`/getSysConstructionState `,'get',data);//获取项目当前状态
+export const getType=data=>createAPI(`/getSysProjectType`,'get',data);//获取工程类别
 export const addProjectFile=data=>createFormAPI(`/Foundation/programme/add.data`,'post',data);//上传工程相关文件
 export const getFileList=data=>createAPI(`/Foundation/programme/get`,'get',data);//获取项目当前上传的文件列表
 export const deleteFile=data=>createAPI(`/Foundation/programme/delete/${data.progUuid}`,'delete',data);//删除上传的文件

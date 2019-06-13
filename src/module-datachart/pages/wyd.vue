@@ -116,16 +116,6 @@
                 sortable
               >
               </el-table-column>
-              <!-- <el-table-column
-                align="center"
-                label="位移类型"
-              >
-                <template slot-scope="scope">
-                  <span v-if="scope.row.verticalType==0">基坑顶部竖向位移</span>
-                  <span v-if="scope.row.verticalType==1">周边地表竖向位移</span>
-                  <span v-if="scope.row.verticalType==2">周边管线竖向位移</span>
-                </template>
-              </el-table-column> -->
               <el-table-column
                 align="center"
                 label="首次高程值(m)"
