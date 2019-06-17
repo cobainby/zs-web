@@ -30,7 +30,7 @@ export const addFdSet=data=>createAPI(`/fdSetting/mitem/add.data`,"post",data);/
 export const updateFdSet=data=>createAPI(`/fdSetting/mitem/update.data`,'post',data);//编辑监测项设置信息
 export const removeFdSet=data=>createAPI(`/fdSetting/mitem/delete/${data.monitorItemUuid}`,"delete",data);//删除监测项设置信息
 export const getMonitor=data=>createAPI(`/getSysMonitorItem`,"get",data);//获得当前监测项种类
-// 监测点设置 
+// 监测点设置
 export const getSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/get`,'get',data);//查询具体某个监测项的监测点信息
 export const viewSuveryPointSet=data=>createAPI(`/fdSetting/surveypoint/${data.surveypointUuid}`,"get",data);//查询指定监测点的测点设置信息
 export const addSuveyPointSet=data=>createAPI(`/fdSetting/surveypoint/add.data`,'post',data);//添加某个监测项的监测点信息

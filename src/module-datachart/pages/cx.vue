@@ -18,7 +18,17 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-button class="filter-item fr" size="small" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
+              <el-button class="filter-item fr" size="small"  type="primary" icon="el-icon-back">返回列表</el-button>
+           <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right:10px;"
+                type="success"
+                @click="exportData()"
+              >
+                报表导出
+                <i class="el-icon-download el-icon--right"></i>
+              </el-button>
             </el-form>
             <el-table :data="selectDatas" border :default-sort="{prop:'depth'}" :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;margin-top:-10px;" :height="tableHeight" @selection-change="handleSelectionChange">
               <el-table-column align="center" label="埋深" prop="depth" :show-overflow-tooltip="true" sortable>

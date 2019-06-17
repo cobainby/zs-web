@@ -74,6 +74,16 @@
               >数据上传
                 <i class="el-icon-upload el-icon--right"></i>
               </el-button>
+              <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right:10px;"
+                type="success"
+                @click="exportData()"
+              >
+                报表导出
+                <i class="el-icon-download el-icon--right"></i>
+              </el-button>
               <form
                 enctype="multipart/form-data"
                 id="form_example"
@@ -338,7 +348,7 @@ export default {
       formData.append("monitorItemUuid", this.monitorItemUuid);
       formData.append("token", this.token);
       $.ajax({
-        url: "/api/fdData/force/add.filedata",
+        url: "/fdData/force/add.filedata",
         type: "POST",
         data: formData,
         cache: false, //不设置缓存

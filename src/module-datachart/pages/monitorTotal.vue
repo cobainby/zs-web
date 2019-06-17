@@ -11,11 +11,6 @@
         class="clearfix"
       >
         <span>本次最大变化值</span>
-        <el-button
-          style="float: right; padding: 5px;"
-          type="primary"
-          @click="exportDaily"
-        ><i class="el-icon-download" />导出报表</el-button>
       </div>
       <section>
         <el-table
@@ -240,10 +235,6 @@ export default {
       } else if (row.totalConclusion == "黄色预警") {
         return "background-color:#FFDD32;opacity:0.8;";
       }
-    },
-    //导出报表
-    exportDaily() {
-      alert("导出成功！！");
     }
   },
   created() {},

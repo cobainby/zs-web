@@ -370,7 +370,7 @@ export default {
       formData.append("monitorItemUuid", this.monitorItemUuid);
       formData.append("token", this.token);
       $.ajax({
-        url: "/api/fdData/vertical/add.filedata",
+        url: "/fdData/vertical/add.filedata",
         type: "POST",
         data: formData,
         cache: false, //不设置缓存
