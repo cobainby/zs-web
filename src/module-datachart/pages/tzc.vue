@@ -348,7 +348,7 @@ export default {
       formData.append("monitorItemUuid", this.monitorItemUuid);
       formData.append("token", this.token);
       $.ajax({
-        url: "/fdData/force/add.filedata",
+        url: "/api/fdData/force/add.filedata",
         type: "POST",
         data: formData,
         cache: false, //不设置缓存

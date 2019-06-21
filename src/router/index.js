@@ -98,6 +98,11 @@ export const constantRouterMap = [
         name: "dailyReport",
         meta: { title: "日报导出", icon: "component", noCache: true }
       },{
+        path: "xs",
+        component: _import("datachart/pages/xs"),
+        name: "xs",
+        meta: { title: "巡视", icon: "component", noCache: true  }
+      },{
         path: "cx",
         component: _import("datachart/pages/cx"),
         name: "cx",
@@ -137,11 +142,6 @@ export const constantRouterMap = [
         component: _import("datachart/pages/wys"),
         name: "wys",
         meta: { title: "水平位移" }
-      },{
-        path: "xs",
-        component: _import("datachart/pages/xs"),
-        name: "xs",
-        meta: { title: "巡视" }
       },{
         path:"wyd",
         component:_import("datachart/pages/wyd"),

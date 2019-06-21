@@ -1,7 +1,7 @@
 <template>
   <scroll-bar>
     <el-menu router mode="vertical" :default-active="activeIndex" :collapse="isCollapse" background-color="#DE7B1D" text-color="#ffffff" active-text-color="#fff">
-      <router-link to="/">
+      <router-link to="/itemList">
         <div class="sidebar-logo"><img src="@/module-dashboard/assets/zs-logo.png" /></div>
         <div class="sidebar-logo-mini"><img src="@/module-dashboard/assets/zs-logo-mini.png" /></div>
       </router-link>

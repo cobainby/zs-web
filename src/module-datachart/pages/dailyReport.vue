@@ -23,53 +23,69 @@
           >
             <el-input v-model="form.dailyTitle"></el-input>
           </el-form-item>
-          <el-form-item label="隶属标段"
-          prop="superviseCode">
+          <el-form-item
+            label="隶属标段"
+            prop="superviseCode"
+          >
             <el-input v-model="form.superviseCode"></el-input>
           </el-form-item>
           </el-form-item>
-          <el-form-item label="日报名称"
-          prop="dailyName">
+          <el-form-item
+            label="日报名称"
+            prop="dailyName"
+          >
             <el-input v-model="form.dailyName"></el-input>
           </el-form-item>
           </el-form-item>
-          <el-form-item label="日报期数"
-          prop="dailyPeriods">
+          <el-form-item
+            label="日报期数"
+            prop="dailyPeriods"
+          >
             <el-input v-model="form.dailyPeriods"></el-input>
           </el-form-item>
           </el-form-item>
-          <el-form-item label="施工进度"
-          prop="constructionProgress">
+          <el-form-item
+            label="施工进度"
+            prop="constructionProgress"
+          >
             <el-input
               type="textarea"
               v-model="form.constructionProgress"
             ></el-input>
           </el-form-item>
           </el-form-item>
-          <el-form-item label="巡视情况"
-          prop="patrolSituation">
+          <el-form-item
+            label="巡视情况"
+            prop="patrolSituation"
+          >
             <el-input
               type="textarea"
               v-model="form.patrolSituation"
             ></el-input>
           </el-form-item>
           </el-form-item>
-          <el-form-item label="监测点情况"
-          prop="pointsSituation">
+          <el-form-item
+            label="监测点情况"
+            prop="pointsSituation"
+          >
             <el-input
               type="textarea"
               v-model="form.pointsSituation"
             ></el-input>
           </el-form-item>
-          <el-form-item label="监测结论"
-          prop="monitorConclusion">
+          <el-form-item
+            label="监测结论"
+            prop="monitorConclusion"
+          >
             <el-input
               type="textarea"
               v-model="form.monitorConclusion"
             ></el-input>
           </el-form-item>
-          <el-form-item label="监测建议"
-          prop="monitorAdvice">
+          <el-form-item
+            label="监测建议"
+            prop="monitorAdvice"
+          >
             <el-input
               type="textarea"
               v-model="form.monitorAdvice"
@@ -158,17 +174,24 @@ export default {
           dailyParams.token = this.token;
           dailyParams.projectUuid = this.$route.query.id;
           dailyParams.data = data;
-          dailyExport(dailyParams).then(response => {
-            if (response.data.result == 1) {
-              this.$message({
+          dailyExport(dailyParams).then(res => {
+            if (res.data.result == 1) {
+              this.$confirm(res.data.message, "提示", {
+                confirmButtonText: "打开报表？",
                 type: "success",
-                message: "删除成功!"
+                callback: action => {
+                  window.open(res.data.data);
+                }
+              }).catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消"
+                });
               });
-              this.getFdSetList();
             } else {
               this.$message({
-                type: "warning",
-                message: response.data.message
+                type: "danger",
+                message: "res.data.message"
               });
             }
           });

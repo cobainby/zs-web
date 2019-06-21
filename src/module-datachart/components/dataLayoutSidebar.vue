@@ -1,7 +1,7 @@
 <template>
   <scroll-bar>
     <el-menu router mode="vertical" :default-active="activeIndex" :collapse="isCollapse" background-color="#DE7B1D" text-color="#ffffff" active-text-color="#fff">
-      <router-link to="/">
+      <router-link to="/itemList">
         <div class="sidebar-logo"><img src="@/module-dashboard/assets/zs-logo.png" /></div>
         <div class="sidebar-logo-mini"><img src="@/module-dashboard/assets/zs-logo-mini.png" /></div>
       </router-link>
@@ -16,6 +16,10 @@
       <el-menu-item :index="'dailyReport?id='+this.projectUuid">
         <i class="el-icon-download"></i>
         <span class="dailReport" slot="title">日报导出</span>
+      </el-menu-item>
+      <el-menu-item :index="'xs?id='+this.projectUuid">
+        <i class="el-icon-picture-outline"></i>
+        <span class="xs" slot="title">巡视内容</span>
       </el-menu-item>
       <el-menu-item v-for="item in monitorMenu" :index="item.src" :key="item.src">
         <i id="monitorIcon" :class="item.icon"></i>
@@ -90,9 +94,6 @@ export default {
         } else if (res.data.data[i].mItemName == "锚索") {
           menu["src"] = "ms?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
           menu["icon"] = "el-icon-view";
-        } else if (res.data.data[i].mItemName == "巡视") {
-          menu["src"] = "xs?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
-          menu["icon"] = "el-icon-picture-outline";
         } else if (res.data.data[i].mItemName == "倾斜") {
           menu["src"] = "qx?id="+this.projectUuid+"&monitorItemUuid="+res.data.data[i].monitorItemUuid;
           menu["icon"] = "el-icon-message";

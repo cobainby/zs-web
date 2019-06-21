@@ -7,7 +7,7 @@
       text-color="#bfcbd9" 
       active-text-color="#fff"
       >
-      <router-link to="/">
+      <router-link to="/itemList">
         <div class="sidebar-logo"><img src="../assets/zs-logo.png" /></div>
         <div class="sidebar-logo-mini"><img src="../assets/zs-logo-mini.png" /></div>
       </router-link>
