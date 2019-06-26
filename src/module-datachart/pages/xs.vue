@@ -11,94 +11,93 @@
       >
       </div>
       <section>
-        <el-form
-          ref="form"
-          :model="form"
-          label-width="100px"
-          :rules="ruleInline"
+        <el-table
+          :data="selectDatas"
+          border
+          :row-style="tableRowStyle"
+          :default-sort="{prop:'surveyTime', order: 'descending'}"
+          :header-cell-style="tableHeaderStyle"
+          style="width: 100%;"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange"
         >
-          <el-form-item
-            label="日报大标题"
-            prop="dailyTitle"
+          <el-table-column
+            align="center"
+            label="所属项目"
+            prop="pointCode"
+            :show-overflow-tooltip="true"
+            sortable
           >
-            <el-input v-model="form.dailyTitle"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="隶属标段"
-            prop="superviseCode"
+          </el-table-column>
+          <!-- <el-table-column
+                align="center"
+                label="支撑类型"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.forceType==0">锚索内力</span>
+                  <span v-if="scope.row.forceType==1">钢支撑内力</span>
+                  <span v-if="scope.row.forceType==2">硂支撑内力</span>
+                </template>
+              </el-table-column> -->
+          <el-table-column
+            align="center"
+            label="巡视时间"
+            :show-overflow-tooltip="true"
           >
-            <el-input v-model="form.superviseCode"></el-input>
-          </el-form-item>
-          </el-form-item>
-          <el-form-item
-            label="日报名称"
-            prop="dailyName"
+            <template slot-scope="scope">
+              <span>{{scope.row.calValue}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="报警状态"
+            :show-overflow-tooltip="true"
           >
-            <el-input v-model="form.dailyName"></el-input>
-          </el-form-item>
-          </el-form-item>
-          <el-form-item
-            label="日报期数"
-            prop="dailyPeriods"
+            <template slot-scope="scope">
+              <span>{{scope.row.moduleData}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="审核状态"
+            :show-overflow-tooltip="true"
           >
-            <el-input v-model="form.dailyPeriods"></el-input>
-          </el-form-item>
-          </el-form-item>
-          <el-form-item
-            label="施工进度"
-            prop="constructionProgress"
+            <template slot-scope="scope">
+              <span>{{scope.row.lastVary}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="巡视内容"
+            :show-overflow-tooltip="true"
           >
-            <el-input
-              type="textarea"
-              v-model="form.constructionProgress"
-            ></el-input>
-          </el-form-item>
-          </el-form-item>
-          <el-form-item
-            label="巡视情况"
-            prop="patrolSituation"
+            <template slot-scope="scope">
+              <span>{{scope.row.rateVary}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="巡视人"
+            :show-overflow-tooltip="true"
           >
-            <el-input
-              type="textarea"
-              v-model="form.patrolSituation"
-            ></el-input>
-          </el-form-item>
-          </el-form-item>
-          <el-form-item
-            label="监测点情况"
-            prop="pointsSituation"
+            <template slot-scope="scope">
+              <span>{{scope.row.accumVary}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="工程进度说明"
+            prop="surveyTime"
+            :show-overflow-tooltip="true"
+            sortable
           >
-            <el-input
-              type="textarea"
-              v-model="form.pointsSituation"
-            ></el-input>
-          </el-form-item>
-          <el-form-item
-            label="监测结论"
-            prop="monitorConclusion"
-          >
-            <el-input
-              type="textarea"
-              v-model="form.monitorConclusion"
-            ></el-input>
-          </el-form-item>
-          <el-form-item
-            label="监测建议"
-            prop="monitorAdvice"
-          >
-            <el-input
-              type="textarea"
-              v-model="form.monitorAdvice"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              @click="exportDaily('form')"
-            >配置完成并导出</el-button>
-            <el-button @click="resetForm('form')">重置配置项</el-button>
-          </el-form-item>
-        </el-form>
+            <template slot-scope="scope">
+              <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
+              <span v-if="scope.row.surveyTime==null"></span>
+            </template>
+          </el-table-column>
+        </el-table>
       </section>
     </el-card>
   </div>

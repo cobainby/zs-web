@@ -2114,10 +2114,12 @@ export default {
       }
       if ($("#projectType").val() == "深基坑") {
         projectData.projectType = 0;
-      } else if ($("#projectType").val() == "盾构区间") {
+      } else if ($("#projectType").val() == "盾构法隧道") {
         projectData.projectType = 1;
-      } else if ($("#projectType").val() == "其他") {
+      } else if ($("#projectType").val() == "矿山法隧道") {
         projectData.projectType = 2;
+      } else if ($("#projectType").val() == "其他") {
+        projectData.projectType = 3;
       }
       projectData.monitoringOrg = $("#monitoringOrg").val();
       projectData.monitoringHead = $("#monitoringHead").val();
@@ -2418,8 +2420,10 @@ export default {
         if (this.projectInfo.projectType == 0) {
           this.formBase.projectType = "深基坑";
         } else if (this.projectInfo.projectType == 1) {
-          this.formBase.projectType = "盾构区间";
+          this.formBase.projectType = "盾构法隧道";
         } else if (this.projectInfo.projectType == 2) {
+          this.formBase.projectType = "矿山法隧道";
+        }else if (this.projectInfo.projectType == 3) {
           this.formBase.projectType = "其他";
         }
         $("#monitoringOrg").val(this.projectInfo.monitoringOrg);
