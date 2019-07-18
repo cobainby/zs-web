@@ -313,13 +313,7 @@ export default {
       }
     },
     //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      $("#wydLineGap").width($(".chartsPanel").width());
-      $("#wydLineGap").height($(window).height() - 180);
-      $("#wydLineAccum").width($(".chartsPanel").width());
-      $("#wydLineAccum").height($(window).height() - 180);
-      this.initChart();
-    },
+    handleClick: function(tab, event) {},
     //报表导出
     exportData() {
       verticalExport({
@@ -330,7 +324,7 @@ export default {
         if (res.data.result == 1) {
           this.$confirm(res.data.message, "提示", {
             confirmButtonText: "打开报表？",
-            type: 'success',
+            type: "success",
             callback: action => {
               window.open(res.data.data);
             }
@@ -475,6 +469,9 @@ export default {
           }
         ]
       });
+      debugger
+      var wydImgData = myChartAccum.getConnectedDataURL();
+      this.$store.commit("SET_WYDDATA", wydImgData); // SET_ORDER为order值的设置方法的方法名
     },
     // 业务方法
     init(page, limit) {
@@ -537,8 +534,11 @@ export default {
           this.accumVarySeries.push(accumVarySingle);
         }
         this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
-        console.log(this.lastVarySeries);
-        console.log(this.timeSeries);
+        $("#wydLineGap").width($(".chartsPanel").width());
+        $("#wydLineGap").height($(window).height() - 180);
+        $("#wydLineAccum").width($(".chartsPanel").width());
+        $("#wydLineAccum").height($(window).height() - 180);
+        this.initChart();
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标

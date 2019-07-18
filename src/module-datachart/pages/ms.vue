@@ -227,7 +227,7 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getForce } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
-import {getWarningSet} from "@/api/base/project";
+import { getWarningSet } from "@/api/base/project";
 export default {
   name: "dataIndex",
   props: {
@@ -253,10 +253,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      rateYmax:"",//单次变化量纵轴最大值
-      rateYmin:"",//单次变化量纵轴最小值
-      accumYmax:"",//累计变化量纵轴最大值
-      accumYmin:"",//累计变化量纵轴最小值
+      rateYmax: "", //单次变化量纵轴最大值
+      rateYmin: "", //单次变化量纵轴最小值
+      accumYmax: "", //累计变化量纵轴最大值
+      accumYmin: "", //累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -313,13 +313,7 @@ export default {
       }
     },
     //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      $("#msLineGap").width($(".chartsPanel").width());
-      $("#msLineGap").height($(window).height() - 180);
-      $("#msLineAccum").width($(".chartsPanel").width());
-      $("#msLineAccum").height($(window).height() - 180);
-      this.initChart();
-    },
+    handleClick: function(tab, event) {},
     //图形展示
     initChart() {
       var myChartGap = echarts.init(
@@ -378,21 +372,25 @@ export default {
       myChartGap.setOption(option);
       myChartGap.setOption({
         series: this.lastVarySeries,
-        yAxis:[{
-          max:this.rateYmax,
-          min:this.rateYmin
-         }
+        yAxis: [
+          {
+            max: this.rateYmax,
+            min: this.rateYmin
+          }
         ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
         series: this.accumVarySeries,
-        yAxis:[{
-          max:this.accumYmax,
-          min:this.accumYmin
-         }
+        yAxis: [
+          {
+            max: this.accumYmax,
+            min: this.accumYmin
+          }
         ]
       });
+      var imgData = myChartAccum.getConnectedDataURL();
+      this.$store.commit("SET_MSDATA", imgData); // SET_ORDER为order值的设置方法的方法名
     },
     //点击上传成果数据
     getLoadFile() {
@@ -509,20 +507,25 @@ export default {
           this.accumVarySeries.push(accumVarySingle);
         }
         this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
-        console.log(this.lastVarySeries);
-        console.log(this.timeSeries);
+        $("#msLineGap").width($(".chartsPanel").width());
+        $("#msLineGap").height($(window).height() - 180);
+        $("#msLineAccum").width($(".chartsPanel").width());
+        $("#msLineAccum").height($(window).height() - 180);
+        this.initChart();
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
-    getY(){
-      getWarningSet({monitorItemUuid: this.monitorItemUuid,
-        token: this.token}).then(res=>{
-          debugger
-          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
-          this.rateYmin=-this.rateYmax;
-          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
-          this.accumYmin=-this.accumYmax;
-        });
+    getY() {
+      getWarningSet({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        debugger;
+        this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
+        this.rateYmin = -this.rateYmax;
+        this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
+        this.accumYmin = -this.accumYmax;
+      });
     },
     //重置时间选择框的选择项
     handleRest() {

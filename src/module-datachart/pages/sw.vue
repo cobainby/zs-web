@@ -304,20 +304,13 @@ export default {
       }
     },
     //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      $("#swLineGap").width($(".chartsPanel").width());
-      $("#swLineGap").height($(window).height() - 180);
-      $("#swLineAccum").width($(".chartsPanel").width());
-      $("#swLineAccum").height($(window).height() - 180);
-      this.initChart();
-    },
+    handleClick: function(tab, event) {},
     //点击上传成果数据
     getLoadFile() {
       $("#approvalUpload").trigger("click");
     },
     //数据上传
     addFiles(fileType, fileInputId) {
-      debugger;
       //拿到全局vue的指向
       var _this = this;
       var files = document.getElementById(fileInputId);
@@ -441,6 +434,9 @@ export default {
           }
         ]
       });
+      debugger;
+      var swImgData = myChartAccum.getConnectedDataURL();
+      this.$store.commit("SET_SWDATA", swImgData); // SET_ORDER为order值的设置方法的方法名
     },
     // 业务方法
     init(page, limit) {
@@ -448,7 +444,7 @@ export default {
       this.projectUuid = this.$route.query.id;
       getWater({
         monitorItemUuid: this.monitorItemUuid,
-        token: this.token
+        token: this.token 
       }).then(res => {
         this.pagination.currentPage = page;
         this.pagination.pageSize = limit;
@@ -501,6 +497,11 @@ export default {
           this.accumVarySeries.push(accumVarySingle);
         }
         this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
+        $("#swLineGap").width($(".chartsPanel").width());
+        $("#swLineGap").height($(window).height() - 180);
+        $("#swLineAccum").width($(".chartsPanel").width());
+        $("#swLineAccum").height($(window).height() - 180);
+        this.initChart();
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
@@ -509,7 +510,6 @@ export default {
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
       }).then(res => {
-        debugger;
         this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
         this.rateYmin = -this.rateYmax;
         this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
@@ -524,7 +524,6 @@ export default {
     },
     //根据时间查询最新数据
     handleSearch() {
-      debugger;
       var timesData = [];
       var beforeTime = new Date(
         this.filters.column.create_start_date
@@ -551,7 +550,6 @@ export default {
     },
     //格式化时间
     changeTimeFormat(val) {
-      debugger;
       var d = new Date(val);
       var times =
         d.getFullYear() +

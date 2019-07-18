@@ -177,7 +177,8 @@
                 label="采集时间"
                 prop="surveyTime"
                 :show-overflow-tooltip="true"
-                sortable>
+                sortable
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>
@@ -227,10 +228,11 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getForce } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
-import {getWarningSet} from "@/api/base/project";
+import { getWarningSet } from "@/api/base/project";
 
 export default {
-  name: "dataIndex",
+  //设置order的值
+  name: "gzc",
   props: {
     className: {
       type: String,
@@ -254,10 +256,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      rateYmax:"",//单次变化量纵轴最大值
-      rateYmin:"",//单次变化量纵轴最小值
-      accumYmax:"",//累计变化量纵轴最大值
-      accumYmin:"",//累计变化量纵轴最小值
+      rateYmax: "", //单次变化量纵轴最大值
+      rateYmin: "", //单次变化量纵轴最小值
+      accumYmax: "", //累计变化量纵轴最大值
+      accumYmin: "", //累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -314,13 +316,7 @@ export default {
       }
     },
     //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      $("#gzcLineGap").width($(".chartsPanel").width());
-      $("#gzcLineGap").height($(window).height() - 180);
-      $("#gzcLineAccum").width($(".chartsPanel").width());
-      $("#gzcLineAccum").height($(window).height() - 180);
-      this.initChart();
-    },
+    handleClick: function(tab, event) {},
     //图形展示
     initChart() {
       var myChartGap = echarts.init(
@@ -379,21 +375,27 @@ export default {
       myChartGap.setOption(option);
       myChartGap.setOption({
         series: this.lastVarySeries,
-        yAxis:[{
-          max:this.rateYmax,
-          min:this.rateYmin
-         }
+        yAxis: [
+          {
+            max: this.rateYmax,
+            min: this.rateYmin
+          }
         ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
         series: this.accumVarySeries,
-        yAxis:[{
-          max:this.accumYmax,
-          min:this.accumYmin
-         }
+        yAxis: [
+          {
+            max: this.accumYmax,
+            min: this.accumYmin
+          }
         ]
       });
+      debugger;
+      //获取Echart图形报表生成的Base64编码格式的数据
+      var gzcImgData = myChartAccum.getConnectedDataURL();
+      this.$store.commit("SET_GZCDATA", gzcImgData); // SET_ORDER为order值的设置方法的方法名
     },
     //点击上传成果数据
     getLoadFile() {
@@ -510,20 +512,27 @@ export default {
           this.accumVarySeries.push(accumVarySingle);
         }
         this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
-        console.log(this.lastVarySeries);
-        console.log(this.timeSeries);
+        $("#gzcLineGap").width($(".chartsPanel").width());
+        $("#gzcLineGap").height($(window).height() - 180);
+        $("#gzcLineAccum").width($(".chartsPanel").width());
+        $("#gzcLineAccum").height($(window).height() - 180);
+        this.initChart();
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
-    getY(){
-      getWarningSet({monitorItemUuid: this.monitorItemUuid,
-        token: this.token}).then(res=>{
-          debugger
-          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
-          this.rateYmin=-this.rateYmax;
-          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
-          this.accumYmin=-this.accumYmax;
-        });
+    getY() {
+      getWarningSet({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
+        this.rateYmin = -this.rateYmax;
+        this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
+        this.accumYmin = -this.accumYmax;
+      });
+    },
+    handleParentClick(e) {
+      console.info(e);
     },
     //重置时间选择框的选择项
     handleRest() {
@@ -560,7 +569,6 @@ export default {
     },
     //格式化时间
     changeTimeFormat(val) {
-      debugger;
       var d = new Date(val);
       var times =
         d.getFullYear() +

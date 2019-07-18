@@ -608,6 +608,16 @@ export default {
     },
     //查看
     viewData(objectId) {
+       // 先清空一次状态管理里的值
+      this.$store.commit("SET_CXDATA",[]);
+      this.$store.commit("SET_GZCDATA",[]);
+      this.$store.commit("SET_LFDATA",[]);
+      this.$store.commit("SET_MSDATA",[]);
+      this.$store.commit("SET_QXDATA",[]);
+      this.$store.commit("SET_SWDATA",[]);
+      this.$store.commit("SET_TZCDATA",[]);
+      this.$store.commit("SET_WYDDATA",[]);
+      this.$store.commit("SET_WYSDATA",[]);
       this.$router.push({ path: "/dataInfo", query: { id: objectId } });
     },
     handleUpdate(object) {

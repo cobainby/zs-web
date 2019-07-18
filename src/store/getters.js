@@ -13,7 +13,16 @@ const getters = {
   setting: state => state.user.setting,
   permission_routers: state => state.permission.routers,
   addRouters: state => state.permission.addRouters,
-  errorLogs: state => state.errorLog.logs
+  errorLogs: state => state.errorLog.logs,
+  gzcImgData:state=>state.errorLog.gzcImgData,
+  cxImgData:state=>state.errorLog.cxImgData,
+  lfImgData:state=>state.errorLog.lfImgData,
+  msImgData:state=>state.errorLog.msImgData,
+  qxImgData:state=>state.errorLog.qxImgData,
+  swImgData:state=>state.errorLog.swImgData,
+  tzcImgData:state=>state.errorLog.tzcImgData,
+  wydImgData:state=>state.errorLog.wydImgData,
+  wysImgData:state=>state.errorLog.wysImgData
 }
 
 export default getters

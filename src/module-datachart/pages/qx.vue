@@ -1,78 +1,188 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card class="box-card" shadow="never" v-loading="loading">
+      <el-card
+        class="box-card"
+        shadow="never"
+        v-loading="loading"
+      >
         <!-- 数据表格 -->
-        <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top:-10px;">
-          <el-tab-pane class="chartsPanel" label="成果数据" name="first-ta">
+        <el-tabs
+          v-model="activeName"
+          @tab-click="handleClick"
+          style="margin-top:-10px;"
+        >
+          <el-tab-pane
+            class="chartsPanel"
+            label="成果数据"
+            name="first-ta"
+          >
             <!-- 搜索栏 -->
             <el-form :inline="true">
               <el-form-item label="开始时间">
-                <el-date-picker id="startTime" v-model="filters.column.create_start_date" size="small" type="datetime" :picker-options="pickerBeginDateBefore" placeholder="" default-time="00:00:00">
+                <el-date-picker
+                  id="startTime"
+                  v-model="filters.column.create_start_date"
+                  size="small"
+                  type="datetime"
+                  :picker-options="pickerBeginDateBefore"
+                  placeholder=""
+                  default-time="00:00:00"
+                >
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="至" label-width="25px">
-                <el-date-picker id="endTime" v-model="filters.column.create_end_date" size="small" type="datetime" :picker-options="pickerBeginDateAfter" placeholder="" default-time="23:59:59">
+              <el-form-item
+                label="至"
+                label-width="25px"
+              >
+                <el-date-picker
+                  id="endTime"
+                  v-model="filters.column.create_end_date"
+                  size="small"
+                  type="datetime"
+                  :picker-options="pickerBeginDateAfter"
+                  placeholder=""
+                  default-time="23:59:59"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item>
-                <el-button type="warning" size="small" @click="handleSearch">查询</el-button>
-                <el-button @click="handleRest" size="small">重置</el-button>
+                <el-button
+                  type="warning"
+                  size="small"
+                  @click="handleSearch"
+                >查询</el-button>
+                <el-button
+                  @click="handleRest"
+                  size="small"
+                >重置</el-button>
               </el-form-item>
-              <el-button class="filter-item fr" size="small" style="margin-right: 10px;" @click="getBack" type="primary" icon="el-icon-back">返回列表</el-button>
+              <el-button
+                class="filter-item fr"
+                size="small"
+                style="margin-right: 10px;"
+                @click="getBack"
+                type="primary"
+                icon="el-icon-back"
+              >返回列表</el-button>
             </el-form>
-            <el-table :data="selectDatas" border :row-style="tableRowStyle" :default-sort="{prop:'surveyTime', order: 'descending'}" :header-cell-style="tableHeaderStyle" style="width: 100%;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" prop="pointCode" label="测点编号" :show-overflow-tooltip="true" sortable>
+            <el-table
+              :data="selectDatas"
+              border
+              :row-style="tableRowStyle"
+              :default-sort="{prop:'surveyTime', order: 'descending'}"
+              :header-cell-style="tableHeaderStyle"
+              style="width: 100%;"
+              :height="tableHeight"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                align="center"
+                prop="pointCode"
+                label="测点编号"
+                :show-overflow-tooltip="true"
+                sortable
+              >
               </el-table-column>
-              <el-table-column align="center" label="支撑类型">
+              <el-table-column
+                align="center"
+                label="支撑类型"
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.forceType==0">锚索内力</span>
                   <span v-if="scope.row.forceType==1">钢支撑内力</span>
                   <span v-if="scope.row.forceType==2">硂支撑内力</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="计算值" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="计算值"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.calValue}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集模数" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="采集模数"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.moduleData}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化量(KN)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化量(KN)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" label="单次变化速率(KN/d)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化速率(KN/d)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="累计变化量(KN)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="累计变化量(KN)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="采集时间" prop="surveyTime" :show-overflow-tooltip="true" sortable>
+              <el-table-column
+                align="center"
+                label="采集时间"
+                prop="surveyTime"
+                :show-overflow-tooltip="true"
+                sortable
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.surveyTime!=null">{{scope.row.surveyTime|dateTimeFormat}}</span>
                   <span v-if="scope.row.surveyTime==null"></span>
                 </template>
               </el-table-column>
             </el-table>
-            <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
+            <el-pagination
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pagination.currentPage"
+              :page-sizes="pagination.pageSizes"
+              :page-size="pagination.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="pagination.total"
+            >
             </el-pagination>
             <!-- 数据表格 / -->
           </el-tab-pane>
-          <el-tab-pane label="单次变化量" name="second-ta">
-            <div :class="className" id="qxLineGap"></div>
+          <el-tab-pane
+            label="单次变化量"
+            name="second-ta"
+          >
+            <div
+              :class="className"
+              id="qxLineGap"
+            ></div>
           </el-tab-pane>
-          <el-tab-pane label="累计变化量" name="third-ta">
-            <div :class="className" id="qxLineAccum"></div>
+          <el-tab-pane
+            label="累计变化量"
+            name="third-ta"
+          >
+            <div
+              :class="className"
+              id="qxLineAccum"
+            ></div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -86,7 +196,7 @@ import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getHorizontal } from "@/api/base/chartData"; //调用轴力接口
 import { getToken } from "@/utils/auth";
-import {getWarningSet} from "@/api/base/project";
+import { getWarningSet } from "@/api/base/project";
 
 export default {
   name: "dataIndex",
@@ -113,10 +223,10 @@ export default {
       lastVarySeries: [], //曲线图单次变化量的数据
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      rateYmax:"",//单次变化量纵轴最大值
-      rateYmin:"",//单次变化量纵轴最小值
-      accumYmax:"",//累计变化量纵轴最大值
-      accumYmin:"",//累计变化量纵轴最小值
+      rateYmax: "", //单次变化量纵轴最大值
+      rateYmin: "", //单次变化量纵轴最小值
+      accumYmax: "", //累计变化量纵轴最大值
+      accumYmin: "", //累计变化量纵轴最小值
       token: getToken(),
       filters: {
         column: {
@@ -173,13 +283,7 @@ export default {
       }
     },
     //tab切换获取当前ID
-    handleClick: function(tab, event) {
-      $("#qxLineGap").width($(".chartsPanel").width());
-      $("#qxLineGap").height($(window).height() - 180);
-      $("#qxLineAccum").width($(".chartsPanel").width());
-      $("#qxLineAccum").height($(window).height() - 180);
-      this.initChart();
-    },
+    handleClick: function(tab, event) {},
     //图形展示
     initChart() {
       var myChartGap = echarts.init(
@@ -238,26 +342,30 @@ export default {
       myChartGap.setOption(option);
       myChartGap.setOption({
         series: this.lastVarySeries,
-        yAxis:[{
-          max:this.rateYmax,
-          min:this.rateYmin
-         }
+        yAxis: [
+          {
+            max: this.rateYmax,
+            min: this.rateYmin
+          }
         ]
       });
       myChartAccum.setOption(option);
       myChartAccum.setOption({
         series: this.accumVarySeries,
-        yAxis:[{
-          max:this.accumYmax,
-          min:this.accumYmin
-         }
+        yAxis: [
+          {
+            max: this.accumYmax,
+            min: this.accumYmin
+          }
         ]
       });
+      var imgData = myChartAccum.getConnectedDataURL();
+      this.$store.commit("SET_QXDATA", imgData); // SET_ORDER为order值的设置方法的方法名
     },
     // 业务方法
     init(page, limit) {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
-      this.projectUuid=this.$route.query.id;
+      this.projectUuid = this.$route.query.id;
       getHorizontal({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
@@ -274,7 +382,7 @@ export default {
         });
         this.qxPoints = qxPoints; //点的集合
         this.lastVarySeries = []; //单次变化量的曲线图数据源集合初始化一次
-        this.accumVarySeries=[];//累计变化量的曲线图数据初始化一次
+        this.accumVarySeries = []; //累计变化量的曲线图数据初始化一次
         this.lastQxDatas = []; //初始化一次
         for (var k = 0; k < this.qxPoints.length; k++) {
           var qxDatas = this.allItems[this.qxPoints[k]]; //每个点的数据
@@ -313,20 +421,25 @@ export default {
           this.accumVarySeries.push(accumVarySingle);
         }
         this.timeSeries.sort((a, b) => new Date(a) - new Date(b));
-        console.log(this.lastVarySeries);
-        console.log(this.timeSeries);
+        $("#qxLineGap").width($(".chartsPanel").width());
+        $("#qxLineGap").height($(window).height() - 180);
+        $("#qxLineAccum").width($(".chartsPanel").width());
+        $("#qxLineAccum").height($(window).height() - 180);
+        this.initChart();
       });
     },
     //获取报警设置最大值最小值作为曲线图纵坐标
-    getY(){
-      getWarningSet({monitorItemUuid: this.monitorItemUuid,
-        token: this.token}).then(res=>{
-          debugger
-          this.rateYmax=(res.data.data[0].rateControl*1.2).toFixed(1);
-          this.rateYmin=-this.rateYmax;
-          this.accumYmax=(res.data.data[0].accumControl*1.2).toFixed(1);
-          this.accumYmin=-this.accumYmax;
-        });
+    getY() {
+      getWarningSet({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token
+      }).then(res => {
+        debugger;
+        this.rateYmax = (res.data.data[0].rateControl * 1.2).toFixed(1);
+        this.rateYmin = -this.rateYmax;
+        this.accumYmax = (res.data.data[0].accumControl * 1.2).toFixed(1);
+        this.accumYmin = -this.accumYmax;
+      });
     },
     //重置时间选择框的选择项
     handleRest() {

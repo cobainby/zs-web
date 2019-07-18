@@ -106,18 +106,34 @@
 <script>
 import { getToken } from "@/utils/auth";
 import { dailyExport } from "@/api/base/chartData";
+import echarts from "echarts";
+require("echarts/theme/macarons"); // echarts theme
+import { getFdSet } from "@/api/base/project";
+import {
+  getHorizontal,
+  getVertical,
+  getWater,
+  getCliPointNumbers,
+  getClinometer,
+  getForce,
+  getQx,
+  getLf
+} from "@/api/base/project";
 export default {
+  name: "dailyReport",
   data() {
     return {
       projectUuid: "",
       token: getToken(),
+      timeSeries: [], //横轴的时间数据
+      accumVarySeries: [], //曲线图累计变化量的数据
       form: {
         dailyTitle: "",
         superviseCode: "",
         dailyName: "",
         dailyPeriods: "",
         constructionProgress: "",
-        patrolSituation: [],
+        patrolSituation: "",
         monitorConclusion: "",
         monitorAdvice: ""
       },
@@ -160,7 +176,13 @@ export default {
         return "background-color:#FFDCA9;color: #000000;text-align:center;";
       }
     },
-    init() {},
+    init() {
+      debugger;
+      this.$message({
+        type: "warning",
+        message: "请先查看各个监测项数据！"
+      });
+    },
     //导出报表
     exportDaily(form) {
       debugger;
@@ -171,26 +193,39 @@ export default {
           let data = {
             ...this.form
           };
+          let gzcImgData = this.$store.getters.gzcImgData;
+          let swImgData = this.$store.getters.swImgData;
+          let tzcImgData = this.$store.getters.tzcImgData;
+          let wydImgData = this.$store.getters.wydImgData;
+          console.log(wydImgData);
+          let msImgData = this.$store.getters.msImgData;
           dailyParams.token = this.token;
           dailyParams.projectUuid = this.$route.query.id;
           dailyParams.data = data;
+          dailyParams.gzcImgData = gzcImgData;
+          dailyParams.swImgData = swImgData;
+          dailyParams.tzcImgData = tzcImgData;
+          dailyParams.wydImgData = wydImgData;
+          dailyParams.msImgData = msImgData;
           dailyExport(dailyParams).then(res => {
             if (res.data.result == 1) {
               this.$confirm(res.data.message, "提示", {
                 confirmButtonText: "打开报表？",
-                type: "success",
-                callback: action => {
+                cancelButtonText: "取消",
+                type: "success"
+              })
+                .then(res => {
                   window.open(res.data.data);
-                }
-              }).catch(() => {
-                this.$message({
-                  type: "info",
-                  message: "已取消"
+                })
+                .catch(() => {
+                  this.$message({
+                    type: "info",
+                    message: "已取消"
+                  });
                 });
-              });
             } else {
               this.$message({
-                type: "danger",
+                type: "error",
                 message: "res.data.message"
               });
             }
