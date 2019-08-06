@@ -162,7 +162,7 @@ export default {
     },
     //修改table header的背景色和居中显示
     tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
-      return "background-color:#FFDCA9;color: #000000;text-align:center;";
+      return "background-color:#FDA430;color: #ffffff;text-align:center;";
     },
     //tab切换获取当前ID
     handleClick: function(tab, event) {

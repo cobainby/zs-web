@@ -134,6 +134,7 @@ export default {
         dailyPeriods: "",
         constructionProgress: "",
         patrolSituation: "",
+        pointsSituation: "",
         monitorConclusion: "",
         monitorAdvice: ""
       },
@@ -173,15 +174,10 @@ export default {
     //修改table header的背景色和居中显示
     tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
-        return "background-color:#FFDCA9;color: #000000;text-align:center;";
+        return "background-color:#FDA430;color: #ffffff;text-align:center;";
       }
     },
     init() {
-      debugger;
-      this.$message({
-        type: "warning",
-        message: "请先查看各个监测项数据！"
-      });
     },
     //导出报表
     exportDaily(form) {
@@ -202,27 +198,19 @@ export default {
           dailyParams.token = this.token;
           dailyParams.projectUuid = this.$route.query.id;
           dailyParams.data = data;
-          dailyParams.gzcImgData = gzcImgData;
-          dailyParams.swImgData = swImgData;
-          dailyParams.tzcImgData = tzcImgData;
-          dailyParams.wydImgData = wydImgData;
-          dailyParams.msImgData = msImgData;
+          // dailyParams.gzcImgData = gzcImgData;
+          // dailyParams.swImgData = swImgData;
+          // dailyParams.tzcImgData = tzcImgData;
+          // dailyParams.wydImgData = wydImgData;
+          // dailyParams.msImgData = msImgData;
           dailyExport(dailyParams).then(res => {
             if (res.data.result == 1) {
               this.$confirm(res.data.message, "提示", {
-                confirmButtonText: "打开报表？",
-                cancelButtonText: "取消",
-                type: "success"
-              })
-                .then(res => {
+                confirmButtonText: "确定",
+                callback: action => {
                   window.open(res.data.data);
-                })
-                .catch(() => {
-                  this.$message({
-                    type: "info",
-                    message: "已取消"
-                  });
-                });
+                }
+              });
             } else {
               this.$message({
                 type: "error",

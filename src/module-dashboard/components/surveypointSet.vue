@@ -22,13 +22,21 @@
           <el-row>
             <el-col :span="12">
               <el-form-item
-                label="测点编号"
+                label="上传点号"
                 prop="surveypointNumber"
               >
-                <el-input
-                  v-model="formData.surveypointNumber"
-                  placeholder="Please input"
-                ></el-input>
+                <form
+                  enctype="multipart/form-data"
+                  id="form_example"
+                  style="height:40px"
+                >
+                  <input
+                    type="file"
+                    name="files"
+                    id="pointsUpload"
+                    multiple
+                  /><br /><br />
+                </form>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -38,30 +46,6 @@
               >
                 <el-input
                   v-model="formData.accumInitial"
-                  placeholder="Please input"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item
-                label="起始数"
-                prop="beginNum"
-              >
-                <el-input
-                  v-model="formData.beginNum"
-                  placeholder="Please input"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item
-                label="测点数"
-                prop="spCount"
-              >
-                <el-input
-                  v-model="formData.spCount"
                   placeholder="Please input"
                 ></el-input>
               </el-form-item>
@@ -112,17 +96,6 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
-              <el-form-item
-                label="排序号"
-                prop="surveypointOrder"
-              >
-                <el-input
-                  v-model="formData.surveypointOrder"
-                  placeholder="Please input"
-                ></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="12">
               <el-form-item
                 label="设置时间"
@@ -454,12 +427,9 @@ export default {
         surveypointUuid: "",
         monitorItemUuid: "",
         surveypointNumber: "",
-        beginNum: "",
-        spCount: "",
         accumInitial: null,
         surveypointCondition: null,
         warningUuid: "",
-        surveypointOrder: null,
         dateSet: ""
       },
       updateFormData: {
@@ -476,15 +446,6 @@ export default {
         // 表单验证
         accumInitial: [
           { required: true, message: "初始累计值不能为空", trigger: "blur" }
-        ],
-        beginNum: [
-          { required: true, message: "起始数不能为空", trigger: "blur" }
-        ],
-        spCount: [
-          { required: true, message: "测点数不能为空", trigger: "blur" }
-        ],
-        surveypointOrder: [
-          { required: true, message: "排序号不能为空", trigger: "blur" }
         ],
         surveypointCondition: [
           { required: true, message: "测点状态不能为空", trigger: "blur" }
@@ -578,7 +539,6 @@ export default {
               ...this.updateFormData
             };
           }
-          debugger;
           //赋值当前项目和所选监测项
           data.projectUuid = this.projectId;
           data.monitorItemUuid = this.monitorItemUuid;
@@ -592,33 +552,85 @@ export default {
           surveypointData.token = getToken();
           surveypointData.data = data;
           if (this.type == "新增") {
-            addSuveyPointSet(surveypointData)
-              .then(response => {
-                if (response.data.result == 1) {
-                  const jsonData = response.data;
+            debugger;
+            //拿到全局vue的指向
+            var _this = this;
+            var files = document.getElementById('pointsUpload');
+            this.fileList = [];
+            for (var i = 0; i < files.files.length; i++) {
+              this.fileList.push(files.files[i]);
+            }
+            var allFormData = new FormData();
+            // var request = new XMLHttpRequest();
+            //循环添加到formData中
+            this.fileList.forEach(function(file) {
+            allFormData.append("files", file, file.name);
+            });
+            allFormData.append("token", this.token);
+            allFormData.append("projectUuid", this.projectId);
+            allFormData.append("monitorItemUuid", data.monitorItemUuid);
+            allFormData.append("accumInitial", data.accumInitial);
+            allFormData.append("surveypointCondition",data.surveypointCondition);
+            allFormData.append("warningUuid", data.warningUuid);
+            allFormData.append("dateSet", data.dateSet);
+            $.ajax({
+              url: "/ZsPlatform/fdSetting/surveypoint/exceladd",
+              type: "POST",
+              data: allFormData,
+              cache: false, //不设置缓存
+              processData: false, // 不处理数据
+              contentType: false, // 不设置内容类型
+              dataType: "json",
+              success: function(res) {
+                if (res.result == 1) {
                   //重新加载数据
-                  this.getSuveyPointList();
-                  this.$confirm("创建新监测点参数成功!", "提示", {
+                  _this.$confirm(res.message, "提示", {
                     type: "success",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
+                  _this.getSuveyPointList();
                 } else {
-                  this.$confirm(response.data.message, "提示", {
-                    type: "error",
+                  _this.$confirm(res.message, "提示", {
+                    type: "danger",
                     showConfirmButton: false,
                     showCancelButton: false
                   });
                 }
-                this.innerVisible = false;
-              })
-              .catch(() => {
-                this.$message({
-                  type: "warning",
-                  message: "无法获取创建监测点参数接口!"
-                });
-                this.innerVisible = false;
-              });
+                _this.innerVisible = false;
+              },
+              error: function(res) {
+                alert("上传失败!无法获取上传接口");
+              }
+            });
+            $("#pointsUpload")[0].value = "";
+            // addSuveyPointSet(surveypointData)
+            //   .then(response => {
+            //     if (response.data.result == 1) {
+            //       const jsonData = response.data;
+            //       //重新加载数据
+            //       this.getSuveyPointList();
+            //       this.$confirm("创建新监测点参数成功!", "提示", {
+            //         type: "success",
+            //         showConfirmButton: false,
+            //         showCancelButton: false
+            //       });
+            //     } else {
+            //       this.$confirm(response.data.message, "提示", {
+            //         type: "error",
+            //         showConfirmButton: false,
+            //         showCancelButton: false
+            //       });
+            //     }
+            //     this.innerVisible = false;
+            //   })
+            //   .catch(() => {
+            //     this.$message({
+            //       type: "warning",
+            //       message: "无法获取创建监测点参数接口!"
+            //     });
+            //     this.innerVisible = false;
+            //   });
           } else if (this.type == "修改") {
             updateSuveyPointSet(surveypointData)
               .then(response => {

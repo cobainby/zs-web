@@ -51,7 +51,7 @@
               :row-style="tableRowStyle"
               :default-sort="{prop:'projectName'}"
               :header-cell-style="tableHeaderStyle"
-              @row-click="getData"
+              @row-click="getWarnData"
               :data="dataList"
               :row-class-name="rowClassStatus"
               v-loading="listLoading"
@@ -182,26 +182,101 @@
                 </td>
               </tr>
             </table>
+            <el-alert
+              title="本次变化量"
+              type="success"
+              effect="dark"
+              :closable="false"
+              center
+            >
+            </el-alert>
             <el-table
               fit
               highlight-current-row
               style="width: 100%"
+              :data="singleMaxDatas"
+              label="本次变化量"
+              :header-cell-style="singleHeaderStyle"
               border
             >
               <el-table-column
                 align="center"
-                label="监测项目"
+                label="监测项"
+                :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
-                  <span>监测项目</span>
+                  <span>{{scope.row.monitorItemName}}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 align="center"
-                label="安全状态"
+                label="预警状态"
+                :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
-                  <span>安全状态</span>
+                  <span v-if="scope.row.singleConclusion=='正常'">
+                    <img src="@/assets/green.png" />
+                  </span>
+                  <span v-if="scope.row.singleConclusion=='红色预警'">
+                    <img src="@/assets/red.gif" />
+                  </span>
+                  <span v-if="scope.row.singleConclusion=='橙色预警'">
+                    <img src="@/assets/purple.gif" />
+                  </span>
+                  <span v-if="scope.row.singleConclusion=='黄色预警'">
+                    <img src="@/assets/yellow.gif" />
+                  </span>
+                  <span v-if="scope.row.singleConclusion==null">
+                    /
+                  </span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-alert
+              title="累计变化量"
+              type="error"
+              effect="dark"
+              :closable="false"
+              center
+            ></el-alert>
+            <el-table
+              fit
+              highlight-current-row
+              style="width: 100%"
+              :data="totalMaxDatas"
+              :header-cell-style="totalMaxHeaderStyle"
+              border
+            >
+              <el-table-column
+                align="center"
+                label="监测项"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.monitorItemName}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="预警状态"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.totalConclusion=='正常'">
+                    <img src="@/assets/green.png" />
+                  </span>
+                  <span v-if="scope.row.totalConclusion=='红色预警'">
+                    <img src="@/assets/red.gif" />
+                  </span>
+                  <span v-if="scope.row.totalConclusion=='橙色预警'">
+                    <img src="@/assets/purple.gif" />
+                  </span>
+                  <span v-if="scope.row.totalConclusion=='黄色预警'">
+                    <img src="@/assets/yellow.gif" />
+                  </span>
+                  <span v-if="scope.row.totalConclusion==null">
+                    /
+                  </span>
                 </template>
               </el-table-column>
             </el-table>
@@ -303,6 +378,7 @@ import {
   addProjectOrder,
   getProjectOrder
 } from "@/api/base/project";
+import { getMonitorTotal } from "@/api/base/chartData";
 import { detail } from "@/api/base/organ";
 import PageTool from "./../components/pageTool";
 import { getToken } from "@/utils/auth";
@@ -327,6 +403,8 @@ export default {
       deletedDate: false,
       showDate: true,
       dataList: [],
+      singleMaxDatas: [],
+      totalMaxDatas: [],
       total: null,
       listLoading: true,
       dialogStatus: "",
@@ -386,7 +464,7 @@ export default {
       drawLineData: [], //画线的过程中实时存入的起始点和终止点数据，即一条路段的数据
       lineData: [], //每个路段的起始终止点
       proLineData: [], //所画的不同路段所有数据
-      getLinePoint:[],//服务器拿到的线段数据
+      getLinePoint: [], //服务器拿到的线段数据
       accumUuid: "", //当前登录人的uuid
       markers: new Map() // 存储所有Marker点位的Map集合
     };
@@ -404,7 +482,17 @@ export default {
     //修改table header的背景色和居中显示
     tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
-        return "background-color:#FFDCA9;color: #000000;text-align:center;";
+        return "background-color:#FDA430;color: #ffffff;text-align:center;";
+      }
+    },
+    singleHeaderStyle({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return "background-color:#67C23A;color: #ffffff;text-align:center;";
+      }
+    },
+    totalMaxHeaderStyle({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == 0) {
+        return "background-color:#F56C6C;color: #ffffff;text-align:center;";
       }
     },
     initMap() {
@@ -539,7 +627,17 @@ export default {
           });
         });
     },
-    getData(row, event, column) {},
+    getWarnData(row, event, column) {
+      debugger;
+      getMonitorTotal({
+        projectUuid: row.projectUuid,
+        token: this.token
+      }).then(res => {
+        this.singleMaxDatas = res.data.data[0];
+        this.totalMaxDatas = res.data.data[1];
+        this.loading = false;
+      });
+    },
     // 重置
     resetForm() {
       this.$refs["requestParameters"].resetFields();
@@ -608,16 +706,16 @@ export default {
     },
     //查看
     viewData(objectId) {
-       // 先清空一次状态管理里的值
-      this.$store.commit("SET_CXDATA",[]);
-      this.$store.commit("SET_GZCDATA",[]);
-      this.$store.commit("SET_LFDATA",[]);
-      this.$store.commit("SET_MSDATA",[]);
-      this.$store.commit("SET_QXDATA",[]);
-      this.$store.commit("SET_SWDATA",[]);
-      this.$store.commit("SET_TZCDATA",[]);
-      this.$store.commit("SET_WYDDATA",[]);
-      this.$store.commit("SET_WYSDATA",[]);
+      // 先清空一次状态管理里的值
+      this.$store.commit("SET_CXDATA", []);
+      this.$store.commit("SET_GZCDATA", []);
+      this.$store.commit("SET_LFDATA", []);
+      this.$store.commit("SET_MSDATA", []);
+      this.$store.commit("SET_QXDATA", []);
+      this.$store.commit("SET_SWDATA", []);
+      this.$store.commit("SET_TZCDATA", []);
+      this.$store.commit("SET_WYDDATA", []);
+      this.$store.commit("SET_WYSDATA", []);
       this.$router.push({ path: "/dataInfo", query: { id: objectId } });
     },
     handleUpdate(object) {

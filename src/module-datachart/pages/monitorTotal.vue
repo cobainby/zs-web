@@ -202,7 +202,7 @@ export default {
     //修改table header的背景色和居中显示
     tableHeaderStyle({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == 0) {
-        return "background-color:#FFDCA9;color: #000000;text-align:center;";
+        return "background-color:#FDA430;color: #ffffff;text-align:center;";
       }
     },
     init() {
