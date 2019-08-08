@@ -186,6 +186,7 @@ export default {
       timeSeries: [], //横轴的时间数据
       accumVarySeries: [], //曲线图累计变化量的数据
       dailyData: [],
+      dailyNoList: [], //日报期数数组
       listLoading: true,
       form: {
         dailyTitle: "",
@@ -245,6 +246,9 @@ export default {
       }).then(res => {
         if (res.data.result == 1) {
           this.dailyData = res.data.data;
+          for (let i = 0; i < this.dailyData.length; i++) {
+            this.dailyNoList.push(this.dailyData[i].reportNo);
+          }
         } else {
           this.$message({
             type: "error",
@@ -272,41 +276,69 @@ export default {
           dailyParams.token = this.token;
           dailyParams.projectUuid = this.$route.query.id;
           dailyParams.data = data;
-          for (let i = 0; i < this.dailyData.length; i++) {
-            if (data.dailyPeriods == this.dailyData[i].reportNo) {
-              this.$confirm("该期日报已存在，是否覆盖?", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning"
-              })
-                .then(() => {
-                  dailyExport(dailyParams).then(res => {
-                    if (res.data.result == 1) {
-                      this.init();
-                      this.$confirm(res.data.message, "提示", {
-                        confirmButtonText: "确定",
-                        showCancelButton: false,
-                        type: "success",
-                        callback: action => {
-                          window.open(res.data.data);
-                        }
+          if (this.dailyNoList.indexOf(data.dailyPeriods) != -1) {
+            this.$confirm("该期日报已存在，是否覆盖?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(() => {
+                dailyExport(dailyParams).then(res => {
+                  if (res.data.result == 1) {
+                    this.init();
+                    this.$confirm(res.data.message, "提示", {
+                      confirmButtonText: "打开",
+                      cancelButtonText: "取消",
+                      type: "success"
+                    })
+                      .then(() => {
+                        window.open(res.data.data);
+                      })
+                      .catch(() => {
+                        this.$message({
+                          type: "info",
+                          message: "已取消"
+                        });
                       });
-                    } else {
-                      this.$message({
-                        type: "error",
-                        message: "res.data.message"
-                      });
-                    }
-                  });
-                })
-                .catch(() => {
-                  this.$message({
-                    type: "info",
-                    message: "已取消覆盖"
-                  });
+                  } else {
+                    this.$message({
+                      type: "error",
+                      message: "res.data.message"
+                    });
+                  }
                 });
-              break;
-            }
+              })
+              .catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消覆盖"
+                });
+              });
+          } else {
+            dailyExport(dailyParams).then(res => {
+              if (res.data.result == 1) {
+                this.init();
+                this.$confirm(res.data.message, "提示", {
+                  confirmButtonText: "打开",
+                  cancelButtonText: "取消",
+                  type: "success"
+                })
+                  .then(() => {
+                    window.open(res.data.data);
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消"
+                    });
+                  });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "res.data.message"
+                });
+              }
+            });
           }
         } else {
           console.log("error submit!!");
