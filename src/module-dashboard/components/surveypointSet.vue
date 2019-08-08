@@ -7,7 +7,7 @@
     >
       <el-dialog
         width="40%"
-        title="新增监测点"
+        title="excel上传监测点"
         :visible.sync="innerVisible"
         append-to-body
       >
@@ -103,7 +103,7 @@
               >
                 <el-date-picker
                   id="dateSet"
-                  v-model="formData.dateSet"
+                  v-model="formData2.dateSet"
                   type="datetime"
                   placeholder="选择日期时间"
                   default-time="12:00:00"
@@ -133,6 +133,164 @@
             icon="el-icon-error"
             size="mini"
             @click="innerVisible=false"
+          >{{$t('table.cancel')}}</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog
+        width="40%"
+        title="新增监测点"
+        :visible.sync="innerOriVisible"
+        append-to-body
+      >
+        <el-form
+          :rules="ruleInline2"
+          ref="formData2"
+          :model="formData2"
+          label-position="right"
+          label-width="100px"
+          style='margin:0 20px;'
+        >
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="测点编号"
+                prop="surveypointNumber"
+              >
+                <el-input
+                  v-model="formData2.surveypointNumber"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="初始累计值"
+                prop="accumInitial"
+              >
+                <el-input
+                  v-model="formData2.accumInitial"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="起始数"
+                prop="beginNum"
+              >
+                <el-input
+                  v-model="formData2.beginNum"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="测点数"
+                prop="spCount"
+              >
+                <el-input
+                  v-model="formData2.spCount"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="测点状态"
+                prop="surveypointCondition"
+              >
+                <el-select
+                  v-model="formData2.surveypointCondition"
+                  placeholder="please input"
+                >
+                  <el-option
+                    id="surveypointCondition"
+                    v-for="item in option"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="报警设置"
+                prop="warningUuid"
+              >
+                <el-select
+                  v-model="formData2.warningUuid"
+                  placeholder="please input"
+                >
+                  <el-option
+                    id="warningUuid"
+                    v-for="item in warningSelect"
+                    :key="item.warningUuid"
+                    :label="item.warningName"
+                    :value="item.warningUuid"
+                    :disabled="item.disabled"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="排序号"
+                prop="surveypointOrder"
+              >
+                <el-input
+                  v-model="formData2.surveypointOrder"
+                  placeholder="Please input"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="设置时间"
+                prop="dateSet"
+              >
+                <el-date-picker
+                  id="dateSet"
+                  v-model="formData2.dateSet"
+                  type="datetime"
+                  placeholder="选择日期时间"
+                  default-time="12:00:00"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button
+            icon="el-icon-success"
+            size="mini"
+            type="primary"
+            @click="createOriData('formData2')"
+          >{{$t('table.confirm')}}</el-button>
+          <el-button
+            icon="el-icon-edit-outline"
+            size="mini"
+            type="danger"
+            @click="resetForm('formData2')"
+          >重置</el-button>
+          <el-button
+            icon="el-icon-error"
+            size="mini"
+            @click="innerOriVisible=false"
           >{{$t('table.cancel')}}</el-button>
         </div>
       </el-dialog>
@@ -273,10 +431,17 @@
       <el-button
         type="primary"
         size="small"
+        icon="el-icon-upload"
+        style="margin-bottom:10px;"
+        @click="addExcelSuveyPoint"
+      >excel上传点号</el-button>
+      <el-button
+        type="danger"
+        size="small"
         icon="el-icon-circle-plus"
         style="margin-bottom:10px;"
-        @click="addSuveyPoint"
-      >新增</el-button>
+        @click="addOriSuveyPoint"
+      >原始上传点号</el-button>
       <el-table
         :key='tableKey'
         :height="tableHeight"
@@ -400,6 +565,7 @@ export default {
     return {
       dialogFormVisible: false,
       innerVisible: false,
+      innerOriVisible: false,
       innerUpdateVisible: false,
       fileList: [],
       handleChange: [],
@@ -432,6 +598,18 @@ export default {
         warningUuid: "",
         dateSet: ""
       },
+      formData2: {
+        surveypointUuid: "",
+        monitorItemUuid: "",
+        surveypointNumber: "",
+        beginNum: "",
+        spCount: "",
+        accumInitial: null,
+        surveypointCondition: null,
+        warningUuid: "",
+        surveypointOrder: null,
+        dateSet: ""
+      },
       updateFormData: {
         surveypointUuid: "",
         monitorItemUuid: "",
@@ -446,6 +624,27 @@ export default {
         // 表单验证
         accumInitial: [
           { required: true, message: "初始累计值不能为空", trigger: "blur" }
+        ],
+        surveypointCondition: [
+          { required: true, message: "测点状态不能为空", trigger: "blur" }
+        ],
+        warningUuid: [
+          { required: true, message: "报警设置不能为空", trigger: "blur" }
+        ]
+      },
+      ruleInline2: {
+        // 表单验证
+        accumInitial: [
+          { required: true, message: "初始累计值不能为空", trigger: "blur" }
+        ],
+        beginNum: [
+          { required: true, message: "起始数不能为空", trigger: "blur" }
+        ],
+        spCount: [
+          { required: true, message: "测点数不能为空", trigger: "blur" }
+        ],
+        surveypointOrder: [
+          { required: true, message: "排序号不能为空", trigger: "blur" }
         ],
         surveypointCondition: [
           { required: true, message: "测点状态不能为空", trigger: "blur" }
@@ -504,14 +703,17 @@ export default {
     handleClose() {
       this.$emit("handleCloseSurveypoint");
     },
-    addSuveyPoint() {
+    addExcelSuveyPoint() {
       this.type = "新增";
       this.innerVisible = true;
       this.formData = [];
     },
+    addOriSuveyPoint() {
+      this.innerOriVisible = true;
+      this.formData2 = [];
+    },
     updateSuveyPoint(params) {
       this.type = "修改";
-      debugger;
       this.updateFormData.surveypointUuid = params.surveypointUuid;
       this.updateFormData.monitorItemUuid =
         params.fdMonitorItem.monitorItemUuid;
@@ -555,7 +757,7 @@ export default {
             debugger;
             //拿到全局vue的指向
             var _this = this;
-            var files = document.getElementById('pointsUpload');
+            var files = document.getElementById("pointsUpload");
             this.fileList = [];
             for (var i = 0; i < files.files.length; i++) {
               this.fileList.push(files.files[i]);
@@ -564,17 +766,20 @@ export default {
             // var request = new XMLHttpRequest();
             //循环添加到formData中
             this.fileList.forEach(function(file) {
-            allFormData.append("files", file, file.name);
+              allFormData.append("files", file, file.name);
             });
             allFormData.append("token", this.token);
             allFormData.append("projectUuid", this.projectId);
             allFormData.append("monitorItemUuid", data.monitorItemUuid);
             allFormData.append("accumInitial", data.accumInitial);
-            allFormData.append("surveypointCondition",data.surveypointCondition);
+            allFormData.append(
+              "surveypointCondition",
+              data.surveypointCondition
+            );
             allFormData.append("warningUuid", data.warningUuid);
             allFormData.append("dateSet", data.dateSet);
             $.ajax({
-              url: "/ZsPlatform/fdSetting/surveypoint/exceladd",
+              url: "/api/fdSetting/surveypoint/exceladd",
               type: "POST",
               data: allFormData,
               cache: false, //不设置缓存
@@ -604,33 +809,6 @@ export default {
               }
             });
             $("#pointsUpload")[0].value = "";
-            // addSuveyPointSet(surveypointData)
-            //   .then(response => {
-            //     if (response.data.result == 1) {
-            //       const jsonData = response.data;
-            //       //重新加载数据
-            //       this.getSuveyPointList();
-            //       this.$confirm("创建新监测点参数成功!", "提示", {
-            //         type: "success",
-            //         showConfirmButton: false,
-            //         showCancelButton: false
-            //       });
-            //     } else {
-            //       this.$confirm(response.data.message, "提示", {
-            //         type: "error",
-            //         showConfirmButton: false,
-            //         showCancelButton: false
-            //       });
-            //     }
-            //     this.innerVisible = false;
-            //   })
-            //   .catch(() => {
-            //     this.$message({
-            //       type: "warning",
-            //       message: "无法获取创建监测点参数接口!"
-            //     });
-            //     this.innerVisible = false;
-            //   });
           } else if (this.type == "修改") {
             updateSuveyPointSet(surveypointData)
               .then(response => {
@@ -662,6 +840,57 @@ export default {
         }
       });
     },
+    createOriData(formData2) {
+      this.$refs[formData2].validate(valid => {
+        if (valid) {
+          debugger;
+          let data;
+          data = {
+            ...this.formData2
+          };
+          //赋值当前项目和所选监测项
+          data.projectUuid = this.projectId;
+          data.monitorItemUuid = this.monitorItemUuid;
+          if (this.updateFormData.surveypointCondition == "未启用") {
+            data.surveypointCondition = 0;
+          } else if (this.updateFormData.surveypointCondition == "启用") {
+            data.surveypointCondition = 1;
+          }
+          data.dateSet = $("#dateSet").val();
+          var surveypointData = new Object();
+          surveypointData.token = getToken();
+          surveypointData.data = data;
+          addSuveyPointSet(surveypointData)
+            .then(response => {
+              if (response.data.result == 1) {
+                const jsonData = response.data;
+                //重新加载数据
+                this.getSuveyPointList();
+                this.$confirm("创建新监测点参数成功!", "提示", {
+                  type: "success",
+                  showConfirmButton: false,
+                  showCancelButton: false
+                });
+              } else {
+                this.$confirm(response.data.message, "提示", {
+                  type: "error",
+                  showConfirmButton: false,
+                  showCancelButton: false
+                });
+              }
+              this.innerOriVisible = false;
+            })
+            .catch(() => {
+              this.$message({
+                type: "warning",
+                message: "无法获取创建监测点参数接口!"
+              });
+              this.innerOriVisible = false;
+            });
+        }
+      });
+    },
+
     //删除监测点设置
     surveypointRemove(surveypointUuid) {
       debugger;

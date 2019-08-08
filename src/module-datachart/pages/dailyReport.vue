@@ -1,15 +1,68 @@
 <template>
   <div class="app-container">
-    <header>日报配置</header>
+    <header>日报导出日志</header>
     <el-card
       class="box-card"
       shadow="hover"
     >
-      <div
-        slot="header"
-        class="clearfix"
+      <el-table
+        :default-sort="{prop:'reportNo'}"
+        :header-cell-style="tableHeaderStyle"
+        :data="dailyData"
+        v-loading="listLoading"
+        element-loading-text="给我一点时间"
+        fit
+        highlight-current-row
+        style="width: 100%"
+        border
       >
-      </div>
+        <el-table-column
+          align="center"
+          label="报告期数"
+          prop="reportNo"
+          :show-overflow-tooltip="true"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.reportNo}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="报告日期"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.reportDate| dateTimeFormat}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="报告文件地址"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="scope">
+            <a
+              :href="scope.row.reportPath"
+              target="_blank"
+              class="buttonText"
+            >{{scope.row.reportPath}}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="报告生成人"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.userId}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button
+        type="primary"
+        style="width:100%;margin:5px 0;"
+        round
+      >日报导出</el-button>
       <section>
         <el-form
           ref="form"
@@ -41,7 +94,12 @@
             label="日报期数"
             prop="dailyPeriods"
           >
-            <el-input v-model="form.dailyPeriods"></el-input>
+            <el-input-number
+              v-model="form.dailyPeriods"
+              controls-position="right"
+              :min="1"
+              :max="1000"
+            ></el-input-number>
           </el-form-item>
           </el-form-item>
           <el-form-item
@@ -105,7 +163,7 @@
 </template>
 <script>
 import { getToken } from "@/utils/auth";
-import { dailyExport } from "@/api/base/chartData";
+import { dailyExport, dailyList } from "@/api/base/chartData";
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getFdSet } from "@/api/base/project";
@@ -127,6 +185,8 @@ export default {
       token: getToken(),
       timeSeries: [], //横轴的时间数据
       accumVarySeries: [], //曲线图累计变化量的数据
+      dailyData: [],
+      listLoading: true,
       form: {
         dailyTitle: "",
         superviseCode: "",
@@ -178,6 +238,21 @@ export default {
       }
     },
     init() {
+      debugger;
+      dailyList({
+        projectUuid: this.$route.query.id,
+        token: this.token
+      }).then(res => {
+        if (res.data.result == 1) {
+          this.dailyData = res.data.data;
+        } else {
+          this.$message({
+            type: "error",
+            message: "res.data.message"
+          });
+        }
+        this.listLoading = false;
+      });
     },
     //导出报表
     exportDaily(form) {
@@ -185,7 +260,6 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           var dailyParams = new Object();
-          var dailyData = new Object();
           let data = {
             ...this.form
           };
@@ -198,26 +272,42 @@ export default {
           dailyParams.token = this.token;
           dailyParams.projectUuid = this.$route.query.id;
           dailyParams.data = data;
-          // dailyParams.gzcImgData = gzcImgData;
-          // dailyParams.swImgData = swImgData;
-          // dailyParams.tzcImgData = tzcImgData;
-          // dailyParams.wydImgData = wydImgData;
-          // dailyParams.msImgData = msImgData;
-          dailyExport(dailyParams).then(res => {
-            if (res.data.result == 1) {
-              this.$confirm(res.data.message, "提示", {
+          for (let i = 0; i < this.dailyData.length; i++) {
+            if (data.dailyPeriods == this.dailyData[i].reportNo) {
+              this.$confirm("该期日报已存在，是否覆盖?", "提示", {
                 confirmButtonText: "确定",
-                callback: action => {
-                  window.open(res.data.data);
-                }
-              });
-            } else {
-              this.$message({
-                type: "error",
-                message: "res.data.message"
-              });
+                cancelButtonText: "取消",
+                type: "warning"
+              })
+                .then(() => {
+                  dailyExport(dailyParams).then(res => {
+                    if (res.data.result == 1) {
+                      this.init();
+                      this.$confirm(res.data.message, "提示", {
+                        confirmButtonText: "确定",
+                        showCancelButton: false,
+                        type: "success",
+                        callback: action => {
+                          window.open(res.data.data);
+                        }
+                      });
+                    } else {
+                      this.$message({
+                        type: "error",
+                        message: "res.data.message"
+                      });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$message({
+                    type: "info",
+                    message: "已取消覆盖"
+                  });
+                });
+              break;
             }
-          });
+          }
         } else {
           console.log("error submit!!");
           return false;
