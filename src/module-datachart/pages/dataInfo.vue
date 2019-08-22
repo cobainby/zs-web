@@ -1,30 +1,67 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card" shadow="never" v-loading="loading">
+    <el-card
+      class="box-card"
+      shadow="never"
+      v-loading="loading"
+    >
       <!-- 项目当前信息 / -->
-      <el-form id="projectForm" style="height:100%;overflow:auto;" ref="formBase">
-        <input id="formUrl" type="hidden">
-        <input id="projectUuid" type="hidden">
-        <table id="tableHeader" cellpadding="0" cellspacing="0">
+      <el-form
+        id="projectForm"
+        style="height:100%;overflow:auto;"
+        ref="formBase"
+      >
+        <input
+          id="formUrl"
+          type="hidden"
+        >
+        <input
+          id="projectUuid"
+          type="hidden"
+        >
+        <table
+          id="tableHeader"
+          cellpadding="0"
+          cellspacing="0"
+        >
           <tr>
             <th id="tableName">
               工程概况
             </th>
           </tr>
         </table>
-        <table class="tableEditDetail" style="height:45%;" cellpadding="0" cellspacing="1">
+        <table
+          class="tableEditDetail"
+          style="height:45%;"
+          cellpadding="0"
+          cellspacing="1"
+        >
           <tr>
             <th style="width: 15%;">
               工程编号
             </th>
             <td style="width: 35%">
-              <label name="code" rows="2" cols="20" class="label" id="projectCode" style="height:30px;width:80%;"></label>
+              <label
+                name="code"
+                rows="2"
+                cols="20"
+                class="label"
+                id="projectCode"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th style="width: 15%">
               监督编号
             </th>
             <td>
-              <label name="superviseCode" rows="2" cols="20" class="label" id="superviseCode" style="height:30px;width:80%;"></label>
+              <label
+                name="superviseCode"
+                rows="2"
+                cols="20"
+                class="label"
+                id="superviseCode"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -32,13 +69,29 @@
               工程名称
             </th>
             <td>
-              <label name="projectName" rows="2" cols="20" id="projectName" class="label" style="height:30px;width:80%;" required></label>
+              <label
+                name="projectName"
+                rows="2"
+                cols="20"
+                id="projectName"
+                class="label"
+                style="height:30px;width:80%;"
+                required
+              ></label>
             </td>
             <th>
               工程地址
             </th>
             <td>
-              <label name="address" rows="2" cols="20" id="projectLocation" class="label" style="height:30px;width:80%;" required></label>
+              <label
+                name="address"
+                rows="2"
+                cols="20"
+                id="projectLocation"
+                class="label"
+                style="height:30px;width:80%;"
+                required
+              ></label>
             </td>
           </tr>
           <tr>
@@ -46,13 +99,23 @@
               所属区域
             </th>
             <td>
-              <label name="projectRegion" id="projectRegion" data-options="valueField: 'value',textField: 'label'" style="width:80%;height:30px;" />
+              <label
+                name="projectRegion"
+                id="projectRegion"
+                data-options="valueField: 'value',textField: 'label'"
+                style="width:80%;height:30px;"
+              />
             </td>
             <th>
               经纬度
             </th>
             <td>
-              <label name="projectLatLon" id="projectLatLon" data-options="valueField: 'value',textField: 'label'" style="width:80%;height:30px;" />
+              <label
+                name="projectLatLon"
+                id="projectLatLon"
+                data-options="valueField: 'value',textField: 'label'"
+                style="width:80%;height:30px;"
+              />
             </td>
           </tr>
           <tr>
@@ -60,13 +123,27 @@
               支护形式
             </th>
             <td>
-              <label name="structure" rows="2" cols="20" id="supportingStructure" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="structure"
+                rows="2"
+                cols="20"
+                id="supportingStructure"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               安全等级
             </th>
             <td>
-              <label name="safetyClass" rows="2" cols="20" id="safetyClass" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="safetyClass"
+                rows="2"
+                cols="20"
+                id="safetyClass"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -74,13 +151,27 @@
               基坑设计深度
             </th>
             <td>
-              <label name="deep" rows="2" cols="20" id="foundationDepth" class="label" style="height:30px;width:80%;"></label>(M)
+              <label
+                name="deep"
+                rows="2"
+                cols="20"
+                id="foundationDepth"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>(M)
             </td>
             <th>
               基坑周长:
             </th>
             <td>
-              <label name="perimeter" rows="2" cols="20" id="foundationPerimeter" class="label" style="height:30px;width:80%;"></label>(M)
+              <label
+                name="perimeter"
+                rows="2"
+                cols="20"
+                id="foundationPerimeter"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>(M)
             </td>
           </tr>
           <tr>
@@ -88,13 +179,27 @@
               计划开挖时间
             </th>
             <td>
-              <label name="deep" rows="2" cols="20" id="excavationDatePlaned" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="deep"
+                rows="2"
+                cols="20"
+                id="excavationDatePlaned"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               计划回填时间
             </th>
             <td>
-              <label name="perimeter" rows="2" cols="20" id="backfillDatePlaned" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="perimeter"
+                rows="2"
+                cols="20"
+                id="backfillDatePlaned"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -102,13 +207,27 @@
               实际开挖时间
             </th>
             <td>
-              <label name="deep" rows="2" cols="20" id="excavationDateActual" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="deep"
+                rows="2"
+                cols="20"
+                id="excavationDateActual"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               实际回填时间
             </th>
             <td>
-              <label name="perimeter" rows="2" cols="20" id="backfillDateActual" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="perimeter"
+                rows="2"
+                cols="20"
+                id="backfillDateActual"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -116,13 +235,27 @@
               施工工况
             </th>
             <td>
-              <label name="constructionStep" rows="2" cols="20" id="constructionStep" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="constructionStep"
+                rows="2"
+                cols="20"
+                id="constructionStep"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               项目状态
             </th>
             <td>
-              <label name="constructionState" rows="2" cols="20" id="constructionState" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="constructionState"
+                rows="2"
+                cols="20"
+                id="constructionState"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -130,13 +263,26 @@
               监测单位
             </th>
             <td>
-              <label name="monitorLeader" type="text" id="monitoringOrg" class="label" style="width:40%;height:30px;" />
+              <label
+                name="monitorLeader"
+                type="text"
+                id="monitoringOrg"
+                class="label"
+                style="width:40%;height:30px;"
+              />
             </td>
             <th>
               监测负责人
             </th>
             <td>
-              <label name="monitorWorker" type="text" id="monitoringHead" class="label" style="width:60%;height:30px;" disabled="true " />
+              <label
+                name="monitorWorker"
+                type="text"
+                id="monitoringHead"
+                class="label"
+                style="width:60%;height:30px;"
+                disabled="true "
+              />
 
             </td>
           </tr>
@@ -145,14 +291,28 @@
               监测人员
             </th>
             <td>
-              <label name="monitorWorker" type="text" id="monitoringSurveyor" class="label" style="width:60%;height:30px;" disabled="true " />
+              <label
+                name="monitorWorker"
+                type="text"
+                id="monitoringSurveyor"
+                class="label"
+                style="width:60%;height:30px;"
+                disabled="true "
+              />
 
             </td>
             <th>
               行政主管部门
             </th>
             <td colspan="1">
-              <label name="superviseWorker" rows="2" cols="20" id="admDepartment" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="superviseWorker"
+                rows="2"
+                cols="20"
+                id="admDepartment"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -160,13 +320,27 @@
               监督单位
             </th>
             <td>
-              <label name="superviseCompany" rows="2" cols="20" id="supervisorOrg" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="superviseCompany"
+                rows="2"
+                cols="20"
+                id="supervisorOrg"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               监督人员
             </th>
             <td>
-              <label name="superviseCompany" rows="2" cols="20" id="supervisorLinkman" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="superviseCompany"
+                rows="2"
+                cols="20"
+                id="supervisorLinkman"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -174,13 +348,27 @@
               项目创建人
             </th>
             <td>
-              <label name="createAccUuid" rows="2" cols="20" id="createAccUuid" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="createAccUuid"
+                rows="2"
+                cols="20"
+                id="createAccUuid"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               项目创建时间
             </th>
             <td colspan="1">
-              <label name="createDate" rows="2" cols="20" id="createDate" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="createDate"
+                rows="2"
+                cols="20"
+                id="createDate"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
           <tr>
@@ -188,32 +376,68 @@
               项目结束时间
             </th>
             <td>
-              <label name="finishDate" rows="2" cols="20" id="finishDate" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="finishDate"
+                rows="2"
+                cols="20"
+                id="finishDate"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
             <th>
               工程概况描述
             </th>
             <td colspan="1">
-              <label name="projectDetail" rows="2" cols="20" id="projectDetail" class="label" style="height:30px;width:80%;"></label>
+              <label
+                name="projectDetail"
+                rows="2"
+                cols="20"
+                id="projectDetail"
+                class="label"
+                style="height:30px;width:80%;"
+              ></label>
             </td>
           </tr>
         </table>
-        <table class="tableEditDetail" id="projectInfo1" cellpadding="0" cellspacing="1" style="margin-top: -1px;height:41%;">
+        <table
+          class="tableEditDetail"
+          id="projectInfo1"
+          cellpadding="0"
+          cellspacing="1"
+          style="margin-top: -1px;height:41%;"
+        >
           <tr>
             <th style="width: 15%;">
               建设单位
             </th>
             <td style="width: 35%;">
-              <label name="buildCompany" rows="2" cols="20" id="proprietorOrg" class="label" style="height:55px;width:80%;"></label>
+              <label
+                name="buildCompany"
+                rows="2"
+                cols="20"
+                id="proprietorOrg"
+                class="label"
+                style="height:55px;width:80%;"
+              ></label>
             </td>
             <td style="width: 50%;">
-              <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+              <table
+                class="tableEditDetail"
+                cellpadding="0"
+                cellspacing="1"
+                width="100%"
+              >
                 <tr>
                   <th style="width: 25%; background-color: #fff2ec;">
                     联系人
                   </th>
                   <td style="width: 40%">
-                    <label id="proprietorLinkman" class="label" style="width:99%;"></label>
+                    <label
+                      id="proprietorLinkman"
+                      class="label"
+                      style="width:99%;"
+                    ></label>
                   </td>
                 </tr>
               </table>
@@ -224,16 +448,32 @@
               设计单位
             </th>
             <td style="width: 35%;">
-              <label name="designCompany" rows="2" cols="20" id="designOrg" class="label" style="height:55px;width:80%;"></label>
+              <label
+                name="designCompany"
+                rows="2"
+                cols="20"
+                id="designOrg"
+                class="label"
+                style="height:55px;width:80%;"
+              ></label>
             </td>
             <td style="width: 50%;">
-              <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+              <table
+                class="tableEditDetail"
+                cellpadding="0"
+                cellspacing="1"
+                width="100%"
+              >
                 <tr>
                   <th style="width: 25%; background-color: #fff2ec;">
                     联系人
                   </th>
                   <td style="width: 40%">
-                    <label id="designLinkman" class="label" style="width:99%;"></label>
+                    <label
+                      id="designLinkman"
+                      class="label"
+                      style="width:99%;"
+                    ></label>
                   </td>
                 </tr>
               </table>
@@ -244,16 +484,31 @@
               施工单位
             </th>
             <td style="width: 35%;">
-              <label name="constructCompany" rows="2" cols="20" id="constructionOrg" class="label" style="height:55px;width:80%;"></label>
+              <label
+                name="constructCompany"
+                rows="2"
+                cols="20"
+                id="constructionOrg"
+                class="label"
+                style="height:55px;width:80%;"
+              ></label>
             </td>
             <td style="width: 50%;">
-              <table class="tableEditDetail" cellpadding="0" cellspacing="1">
+              <table
+                class="tableEditDetail"
+                cellpadding="0"
+                cellspacing="1"
+              >
                 <tr>
                   <th style="width: 25%; background-color: #fff2ec;">
                     联系人
                   </th>
                   <td style="width: 40%">
-                    <label id="constructionLinkman" class="label" style="width:99%;"></label>
+                    <label
+                      id="constructionLinkman"
+                      class="label"
+                      style="width:99%;"
+                    ></label>
                   </td>
                 </tr>
               </table>
@@ -264,16 +519,32 @@
               监理单位
             </th>
             <td style="width: 35%;">
-              <label name="supervisorCompany" rows="2" cols="20" id="supervisionOrg" class="label" style="height:55px;width:80%;"></label>
+              <label
+                name="supervisorCompany"
+                rows="2"
+                cols="20"
+                id="supervisionOrg"
+                class="label"
+                style="height:55px;width:80%;"
+              ></label>
             </td>
             <td style="width: 50%;">
-              <table class="tableEditDetail" cellpadding="0" cellspacing="1" width="100%">
+              <table
+                class="tableEditDetail"
+                cellpadding="0"
+                cellspacing="1"
+                width="100%"
+              >
                 <tr>
                   <th style="width: 25%;background-color: #fff2ec;">
                     联系人
                   </th>
                   <td style="width: 40%">
-                    <label id="supervisionLinkman" class="label" style="width:99%;"></label>
+                    <label
+                      id="supervisionLinkman"
+                      class="label"
+                      style="width:99%;"
+                    ></label>
                   </td>
                 </tr>
               </table>
@@ -385,8 +656,26 @@ export default {
               this.projectInfo.excavationDateActual
             );
             $("#backfillDateActual").html(this.projectInfo.backfillDateActual);
-            $("#constructionStep").html(this.projectInfo.constructionStep);
-            $("#constructionState").html(this.projectInfo.constructionState);
+            if (this.projectInfo.constructionStep == 0) {
+              $("#constructionStep").html("未开始");
+            } else if (this.projectInfo.constructionStep == 1) {
+              $("#constructionStep").html("打桩");
+            } else if (this.projectInfo.constructionStep == 2) {
+              $("#constructionStep").html("开挖");
+            } else if (this.projectInfo.constructionStep == 3) {
+              $("#constructionStep").html("倒底板");
+            } else if (this.projectInfo.constructionStep == 4) {
+              $("#constructionStep").html("支模");
+            } else if (this.projectInfo.constructionStep == 5) {
+              $("#constructionStep").html("回填");
+            }
+            if (this.projectInfo.constructionState == 0) {
+              $("#constructionState").html("准备施工");
+            } else if (this.projectInfo.constructionState == 1) {
+              $("#constructionState").html("正在施工");
+            } else if (this.projectInfo.constructionState == 2) {
+              $("#constructionState").html("已完工");
+            } 
             $("#monitoringOrg").html(this.projectInfo.monitoringOrg);
             $("#monitoringHead").html(this.projectInfo.monitoringHead);
             $("#monitoringSurveyor").html(this.projectInfo.monitoringSurveyor);
@@ -450,8 +739,8 @@ export default {
 </script>
 <style rel="stylesheet/css" scoped>
 @media (min-width: 640px) and (max-width: 1399px) {
-  #projectForm{
-    margin:-10px;
+  #projectForm {
+    margin: -10px;
   }
 }
 .box-card {

@@ -167,6 +167,8 @@ import { dailyExport, dailyList } from "@/api/base/chartData";
 import echarts from "echarts";
 require("echarts/theme/macarons"); // echarts theme
 import { getFdSet } from "@/api/base/project";
+import { projectList } from "@/api/base/project";
+import { fdPatrolList } from "@/api/base/chartData";
 import {
   getHorizontal,
   getVertical,
@@ -194,10 +196,10 @@ export default {
         dailyName: "",
         dailyPeriods: "",
         constructionProgress: "",
-        patrolSituation: "",
-        pointsSituation: "",
-        monitorConclusion: "",
-        monitorAdvice: ""
+        patrolSituation: "暂无",
+        pointsSituation: "正常",
+        monitorConclusion: "暂无",
+        monitorAdvice: "暂无"
       },
       ruleInline: {
         // 表单验证
@@ -256,6 +258,39 @@ export default {
           });
         }
         this.listLoading = false;
+      });
+      projectList({ token: this.token }).then(res => {
+        var projectList = res.data;
+        var projectUuid = this.$route.query.id;
+        for (var i = 0; i < projectList.length; i++) {
+          if (projectList[i].projectUuid == projectUuid) {
+            this.projectInfo = projectList[i];
+            this.form.dailyTitle=this.projectInfo.projectName;
+            this.form.dailyName=this.projectInfo.projectName;
+            if (this.projectInfo.constructionStep == 0) {
+             this.form.constructionProgress="未开始";
+            } else if (this.projectInfo.constructionStep == 1) {
+              this.form.constructionProgress="打桩";
+            } else if (this.projectInfo.constructionStep == 2) {
+              this.form.constructionProgress="开挖";
+            } else if (this.projectInfo.constructionStep == 3) {
+              this.form.constructionProgress="倒底板";
+            } else if (this.projectInfo.constructionStep == 4) {
+              this.form.constructionProgress="支模";
+            } else if (this.projectInfo.constructionStep == 5) {
+              this.form.constructionProgress="回填";
+            }
+            break;
+          }
+        }
+      });
+      fdPatrolList({
+        projectUuid: this.$route.query.id,
+        token: this.token
+      }).then(res => {
+        if (res.data.result == 1) {
+          this.form.patrolSituation=res.data.data[0].riskEvaluation;
+        }
       });
     },
     //导出报表
