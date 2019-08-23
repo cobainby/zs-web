@@ -147,8 +147,8 @@ export default {
 header {
   height: 40px;
   line-height: 40px;
-  background-color: #fda430;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   text-align: center;
   font-weight: bold;
   font-size: large;
