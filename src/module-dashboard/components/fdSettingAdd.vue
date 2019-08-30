@@ -153,7 +153,6 @@ export default {
           fdData.token=this.token;
           fdData.data=data;
           fdData.data.projectUuid=this.projectId;
-          fdData.data.mItemOrder=0;//默认排序号是0
           if (this.text == "创建") {
             addFdSet(fdData)
               .then(response => {

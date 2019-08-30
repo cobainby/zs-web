@@ -208,6 +208,50 @@
               </tr>
               <tr>
                 <th>
+                  合同名
+                </th>
+                <td>
+                  <input
+                    name="deep"
+                    rows="1"
+                    cols="10"
+                    id="contractName1"
+                    class="input"
+                    style="height:30px;width:70%;"
+                  ></input>
+                  <input
+                    name="deep"
+                    rows="1"
+                    cols="10"
+                    id="contractName2"
+                    class="input"
+                    style="height:30px;width:70%;"
+                  ></input>
+                </td>
+                <th>
+                  项目部名:
+                </th>
+                <td>
+                  <input
+                    name="perimeter"
+                    rows="2"
+                    cols="20"
+                    id="departmentName1"
+                    class="input"
+                    style="height:30px;width:70%;"
+                  ></input>
+                  <input
+                    name="perimeter"
+                    rows="2"
+                    cols="20"
+                    id="departmentName2"
+                    class="input"
+                    style="height:30px;width:70%;"
+                  ></input>
+                </td>
+              </tr>
+              <tr>
+                <th>
                   基坑设计深度
                 </th>
                 <td>
@@ -1254,13 +1298,11 @@
             style="width: 100%"
             :height="forthHeight"
             border
-            :default-sort="{prop:'mItemEname'}"
           >
             <el-table-column
               align="center"
               label="监测项别名"
               prop="mItemEname"
-              sortable
             >
             </el-table-column>
             <el-table-column
@@ -1811,7 +1853,7 @@ export default {
       formData.append("projectUuid", this.projectId);
       formData.append("token", this.token);
       $.ajax({
-        url: "/api/Foundation/programme/add.data",
+        url: "/ZsPlatform/Foundation/programme/add.data",
         type: "POST",
         data: formData,
         cache: false, //不设置缓存
@@ -1875,7 +1917,7 @@ export default {
       formData.append("projectUuid", this.projectId);
       formData.append("token", this.token);
       $.ajax({
-        url: "/api/Foundation/plan/add",
+        url: "/ZsPlatform/Foundation/plan/add",
         type: "POST",
         data: formData,
         cache: false, //不设置缓存
@@ -2067,6 +2109,8 @@ export default {
       projectData.projectLatLon = $("#projectLatLon").val();
       projectData.projectRegion = $("#projectRegion").val();
       projectData.supportingStructure = $("#supportingStructure").val();
+      projectData.contractName=$("#contractName1").val()+","+$("#contractName2").val();
+      projectData.departmentName=$("#departmentName1").val()+","+$("#departmentName2").val();
       if ($("#safetyClass").val() == "安全等级一") {
         projectData.safetyClass = 1;
       } else if ($("#safetyClass").val() == "安全等级二") {
@@ -2384,6 +2428,8 @@ export default {
         this.location = this.projectInfo.projectLatLon;
         $("#projectRegion").val(this.projectInfo.projectRegion);
         $("#supportingStructure").val(this.projectInfo.supportingStructure);
+        $("#contractName1").val(this.projectInfo.contractName);
+        $("#departmentName1").val(this.projectInfo.departmentName);
         $("#foundationDepth").val(this.projectInfo.foundationDepth);
         $("#foundationPerimeter").val(this.projectInfo.foundationPerimeter);
         $("#excavationDatePlaned").val(this.projectInfo.excavationDatePlaned);

@@ -71,23 +71,23 @@
           :rules="ruleInline"
         >
           <el-form-item
-            label="日报大标题"
-            prop="dailyTitle"
+            label="编写人"
+            prop="writer"
           >
-            <el-input v-model="form.dailyTitle"></el-input>
+            <el-input v-model="form.writer"></el-input>
           </el-form-item>
           <el-form-item
-            label="隶属标段"
-            prop="superviseCode"
+            label="审核人"
+            prop="auditor"
           >
-            <el-input v-model="form.superviseCode"></el-input>
+            <el-input v-model="form.auditor"></el-input>
           </el-form-item>
           </el-form-item>
           <el-form-item
-            label="日报名称"
-            prop="dailyName"
+            label="批准人"
+            prop="approver"
           >
-            <el-input v-model="form.dailyName"></el-input>
+            <el-input v-model="form.approver "></el-input>
           </el-form-item>
           </el-form-item>
           <el-form-item
@@ -191,9 +191,9 @@ export default {
       dailyNoList: [], //日报期数数组
       listLoading: true,
       form: {
-        dailyTitle: "",
-        superviseCode: "",
-        dailyName: "",
+        writer: "",
+        auditor: "",
+        approver: "",
         dailyPeriods: "",
         constructionProgress: "",
         patrolSituation: "暂无",
@@ -201,16 +201,17 @@ export default {
         monitorConclusion: "暂无",
         monitorAdvice: "暂无"
       },
+
       ruleInline: {
         // 表单验证
-        dailyTitle: [
-          { required: true, message: "日报大标题不能为空", trigger: "blur" }
+        writer: [
+          { required: true, message: "编写人不能为空", trigger: "blur" }
         ],
-        superviseCode: [
-          { required: true, message: "隶属标段不能为空", trigger: "blur" }
+        auditor: [
+          { required: true, message: "审核人不能为空", trigger: "blur" }
         ],
-        dailyName: [
-          { required: true, message: "日报名称不能为空", trigger: "blur" }
+        approver: [
+          { required: true, message: "批准人不能为空", trigger: "blur" }
         ],
         dailyPeriods: [
           { required: true, message: "日报期数不能为空", trigger: "blur" }
@@ -265,8 +266,6 @@ export default {
         for (var i = 0; i < projectList.length; i++) {
           if (projectList[i].projectUuid == projectUuid) {
             this.projectInfo = projectList[i];
-            this.form.dailyTitle=this.projectInfo.projectName;
-            this.form.dailyName=this.projectInfo.projectName;
             if (this.projectInfo.constructionStep == 0) {
              this.form.constructionProgress="未开始";
             } else if (this.projectInfo.constructionStep == 1) {
