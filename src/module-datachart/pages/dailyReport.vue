@@ -69,6 +69,7 @@
           :model="form"
           label-width="100px"
           :rules="ruleInline"
+          id="deilyEx"
         >
           <el-form-item
             label="编写人"
@@ -267,17 +268,17 @@ export default {
           if (projectList[i].projectUuid == projectUuid) {
             this.projectInfo = projectList[i];
             if (this.projectInfo.constructionStep == 0) {
-             this.form.constructionProgress="未开始";
+              this.form.constructionProgress = "未开始";
             } else if (this.projectInfo.constructionStep == 1) {
-              this.form.constructionProgress="打桩";
+              this.form.constructionProgress = "打桩";
             } else if (this.projectInfo.constructionStep == 2) {
-              this.form.constructionProgress="开挖";
+              this.form.constructionProgress = "开挖";
             } else if (this.projectInfo.constructionStep == 3) {
-              this.form.constructionProgress="倒底板";
+              this.form.constructionProgress = "倒底板";
             } else if (this.projectInfo.constructionStep == 4) {
-              this.form.constructionProgress="支模";
+              this.form.constructionProgress = "支模";
             } else if (this.projectInfo.constructionStep == 5) {
-              this.form.constructionProgress="回填";
+              this.form.constructionProgress = "回填";
             }
             break;
           }
@@ -288,7 +289,7 @@ export default {
         token: this.token
       }).then(res => {
         if (res.data.result == 1) {
-          this.form.patrolSituation=res.data.data[0].riskEvaluation;
+          this.form.patrolSituation = res.data.data[0].riskEvaluation;
         }
       });
     },
@@ -317,8 +318,14 @@ export default {
               type: "warning"
             })
               .then(() => {
+                let dailyLoading = this.$loading({
+                  type: "puff",
+                  text: "导出中请稍等...",
+                  target: '#deilyEx'
+                });
                 dailyExport(dailyParams).then(res => {
                   if (res.data.result == 1) {
+                    dailyLoading.close();
                     this.init();
                     this.$confirm(res.data.message, "提示", {
                       confirmButtonText: "打开",
@@ -335,6 +342,7 @@ export default {
                         });
                       });
                   } else {
+                    dailyLoading.close();
                     this.$message({
                       type: "error",
                       message: "res.data.message"

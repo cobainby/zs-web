@@ -18,8 +18,10 @@ import MuseUI from "muse-ui"; //引入museUI
 import "muse-ui/dist/muse-ui.css";
 import "@/styles/dialog.scss"; //和museUI配套的dialog样式表
 import JsEncrypt from "jsencrypt"; //引入jsencrypt加密
+import loading from 'vue-nice-loading'
 
 Vue.use(MuseUI);
+Vue.use(loading);
 /*
 * 注册 - 业务模块
 */

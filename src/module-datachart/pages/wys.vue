@@ -65,6 +65,38 @@
                 type="primary"
                 icon="el-icon-back"
               >返回列表</el-button>
+              <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right: 10px;"
+                type="danger"
+                @click="getLoadFile()"
+              >数据上传
+                <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+              <!-- <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right:10px;"
+                type="success"
+                @click="exportData()"
+              >
+                报表导出
+                <i class="el-icon-download el-icon--right"></i>
+              </el-button> -->
+              <form
+                enctype="multipart/form-data"
+                id="form_example"
+                style="display:none;"
+              >
+                <input
+                  type="file"
+                  name="files"
+                  id="approvalUpload"
+                  @change="addFiles('成果数据','approvalUpload')"
+                  multiple
+                /><br /><br />
+              </form>
             </el-form>
             <el-table
               :data="selectDatas"
@@ -75,6 +107,7 @@
               style="width: 100%;"
               :height="tableHeight"
               @selection-change="handleSelectionChange"
+              id="wysEx"
             >
               <el-table-column
                 align="center"
@@ -86,15 +119,59 @@
               </el-table-column>
               <el-table-column
                 align="center"
-                label="初始值"
+                label="首次观测值X(m)"
               >
                 <template slot-scope="scope">
-                  <span>{{scope.row.initialValue}}</span>
+                  <span>{{scope.row.initialX}}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 align="center"
-                label="单次变化量(mm)"
+                label="首次观测值Y(m)"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.initialY}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="上次观测值X(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.lastX}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="上次观测值Y(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.lastY}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="本次观测值X(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.xvalue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="本次观测值Y(m)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.yvalue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="本次变化量(mm)"
                 :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
@@ -112,7 +189,7 @@
               </el-table-column>
               <el-table-column
                 align="center"
-                label="变化速率(mm/d)"
+                label="本次变化速率(mm/d)"
                 :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
@@ -341,8 +418,96 @@ export default {
       var imgData = myChartAccum.getConnectedDataURL();
       this.$store.commit("SET_WYSDATA", imgData); // SET_ORDER为order值的设置方法的方法名
     },
+    exportData() {
+      verticalExport({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token,
+        projectUuid: this.projectUuid
+      }).then(res => {
+        if (res.data.result == 1) {
+          this.$confirm(res.data.message, "提示", {
+            confirmButtonText: "打开报表？",
+            type: "success",
+            callback: action => {
+              window.open(res.data.data);
+            }
+          });
+        } else {
+          this.$confirm(res.data.message, "提示", {
+            type: "error",
+            showConfirmButton: false,
+            showCancelButton: false
+          });
+        }
+      });
+    },
+    //点击上传成果数据
+    getLoadFile() {
+      $("#approvalUpload").trigger("click");
+    },
+    //数据上传
+    addFiles(fileType, fileInputId) {
+      debugger;
+      //拿到全局vue的指向
+      var _this = this;
+      var files = document.getElementById(fileInputId);
+      this.fileList = [];
+      this.fileType = fileType;
+      for (var i = 0; i < files.files.length; i++) {
+        this.fileList.push(files.files[i]);
+      }
+      var formData = new FormData();
+      // var request = new XMLHttpRequest();
+      //循环添加到formData中
+      this.fileList.forEach(function(file) {
+        formData.append("files", file, file.name);
+      });
+      formData.append("fileType", this.fileType);
+      formData.append("projectUuid", this.projectUuid);
+      formData.append("monitorItemUuid", this.monitorItemUuid);
+      formData.append("token", this.token);
+      let dailyLoading = this.$loading({
+        type: "puff",
+        text: "上传中请稍等...",
+        target: "#wysEx"
+      });
+      $.ajax({
+        url: "/api/fdData/horizontal/add.filedata",
+        type: "POST",
+        data: formData,
+        cache: false, //不设置缓存
+        processData: false, // 不处理数据
+        contentType: false, // 不设置内容类型
+        dataType: "json",
+        success: function(res) {
+          if (res.result == 1) {
+            dailyLoading.close();
+            _this.$confirm(res.message, "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            _this.init(1, 20);
+          } else {
+            dailyLoading.close();
+            _this.$confirm(res.message, "提示", {
+              type: "error",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        },
+        error: function(res) {
+          dailyLoading.close();
+          alert("上传失败!无法获取上传接口");
+        }
+      });
+      //清空文件上传的存放
+      $("#approvalUpload")[0].value = "";
+    },
     // 业务方法
     init(page, limit) {
+      debugger
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
       this.projectUuid = this.$route.query.id;
       getHorizontal({

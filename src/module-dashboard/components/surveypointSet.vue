@@ -779,7 +779,7 @@ export default {
             allFormData.append("warningUuid", data.warningUuid);
             allFormData.append("dateSet", data.dateSet);
             $.ajax({
-              url: "/api/fdSetting/surveypoint/exceladd",
+              url: "/ZsPlatform/fdSetting/surveypoint/exceladd",
               type: "POST",
               data: allFormData,
               cache: false, //不设置缓存
@@ -797,7 +797,7 @@ export default {
                   _this.getSuveyPointList();
                 } else {
                   _this.$confirm(res.message, "提示", {
-                    type: "danger",
+                    type: "error",
                     showConfirmButton: false,
                     showCancelButton: false
                   });

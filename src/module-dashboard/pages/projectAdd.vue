@@ -1870,7 +1870,7 @@ export default {
             _this.getAllFile();
           } else {
             _this.$confirm(res.message, "提示", {
-              type: "danger",
+              type: "error",
               showConfirmButton: false,
               showCancelButton: false
             });
@@ -1934,7 +1934,7 @@ export default {
             _this.getAllFile();
           } else {
             _this.$confirm(res.message, "提示", {
-              type: "danger",
+              type: "error",
               showConfirmButton: false,
               showCancelButton: false
             });

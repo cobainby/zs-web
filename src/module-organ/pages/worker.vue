@@ -311,7 +311,7 @@ export default {
                 this.getList();
               } else {
                 this.$message({
-                  type: "danger",
+                  type: "error",
                   message: "删除失败!"
                 });
               }

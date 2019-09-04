@@ -74,7 +74,7 @@
               >数据上传
                 <i class="el-icon-upload el-icon--right"></i>
               </el-button>
-              <el-button
+              <!-- <el-button
                 size="small"
                 class="filter-item fr"
                 style="margin-right:10px;"
@@ -83,7 +83,7 @@
               >
                 报表导出
                 <i class="el-icon-download el-icon--right"></i>
-              </el-button>
+              </el-button> -->
               <form
                 enctype="multipart/form-data"
                 id="form_example"
@@ -107,6 +107,7 @@
               style="width: 100%;"
               :height="tableHeight"
               @selection-change="handleSelectionChange"
+              id="wydEx"
             >
               <el-table-column
                 align="center"
@@ -331,7 +332,7 @@ export default {
           });
         } else {
           this.$confirm(res.data.message, "提示", {
-            type: "danger",
+            type: "error",
             showConfirmButton: false,
             showCancelButton: false
           });
@@ -363,6 +364,11 @@ export default {
       formData.append("projectUuid", this.projectUuid);
       formData.append("monitorItemUuid", this.monitorItemUuid);
       formData.append("token", this.token);
+      let dailyLoading = this.$loading({
+        type: "puff",
+        text: "上传中请稍等...",
+        target: "#wydEx"
+      });
       $.ajax({
         url: "/api/fdData/vertical/add.filedata",
         type: "POST",
@@ -373,6 +379,7 @@ export default {
         dataType: "json",
         success: function(res) {
           if (res.result == 1) {
+            dailyLoading.close();
             _this.$confirm(res.message, "提示", {
               type: "success",
               showConfirmButton: false,
@@ -380,14 +387,16 @@ export default {
             });
             _this.init(1, 20);
           } else {
+            dailyLoading.close();
             _this.$confirm(res.message, "提示", {
-              type: "danger",
+              type: "error",
               showConfirmButton: false,
               showCancelButton: false
             });
           }
         },
         error: function(res) {
+          dailyLoading.close();
           alert("上传失败!无法获取上传接口");
         }
       });

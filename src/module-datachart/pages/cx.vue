@@ -1,25 +1,69 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card  class="box-card" shadow="never" v-loading="loading">
+      <el-card
+        class="box-card"
+        shadow="never"
+        v-loading="loading"
+      >
         <el-row>
           <el-col :span="12">
             <!-- 搜索栏 -->
             <el-form :inline="true">
               <el-form-item label="根据点号过滤">
-                <el-select size="small" style="width:100px;" @change="getPointCode" v-model="initialValue" placeholder="请选择">
-                  <el-option id="pointCode" v-for="item in cxPoints" :key="item" :label="item" :value="item" :disabled="item.disabled">
+                <el-select
+                  size="small"
+                  style="width:100px;"
+                  @change="getPointCode"
+                  v-model="initialValue"
+                  placeholder="请选择"
+                >
+                  <el-option
+                    id="pointCode"
+                    v-for="item in cxPoints"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                    :disabled="item.disabled"
+                  >
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="根据次数过滤">
-                <el-select size="small" style="width:100px;" @change="getNumber" v-model="selectNumber" placeholder="请选择">
-                  <el-option id="numbers" v-for="item in numbersList" :key="item.numberValue" :label="item.numberText" :value="item.numberValue" :disabled="item.disabled">
+                <el-select
+                  size="small"
+                  style="width:100px;"
+                  @change="getNumber"
+                  v-model="selectNumber"
+                  placeholder="请选择"
+                >
+                  <el-option
+                    id="numbers"
+                    v-for="item in numbersList"
+                    :key="item.numberValue"
+                    :label="item.numberText"
+                    :value="item.numberValue"
+                    :disabled="item.disabled"
+                  >
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-button class="filter-item fr" size="small"  type="primary" icon="el-icon-back">返回列表</el-button>
-           <el-button
+              <el-button
+                class="filter-item fr"
+                size="small"
+                type="primary"
+                icon="el-icon-back"
+              >返回列表</el-button>
+              <el-button
+                size="small"
+                class="filter-item fr"
+                style="margin-right: 10px;"
+                type="danger"
+                @click="getLoadFile()"
+              >数据上传
+                <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+              <!-- <el-button
                 size="small"
                 class="filter-item fr"
                 style="margin-right:10px;"
@@ -28,38 +72,104 @@
               >
                 报表导出
                 <i class="el-icon-download el-icon--right"></i>
-              </el-button>
+              </el-button> -->
+              <form
+                enctype="multipart/form-data"
+                id="form_example"
+                style="display:none;"
+              >
+                <input
+                  type="file"
+                  name="files"
+                  id="approvalUpload"
+                  @change="addFiles('成果数据','approvalUpload')"
+                  multiple
+                /><br /><br />
+              </form>
             </el-form>
-            <el-table :data="selectDatas" border :default-sort="{prop:'depth'}" :row-style="tableRowStyle" :header-cell-style="tableHeaderStyle" style="width: 100%;margin-top:-10px;" :height="tableHeight" @selection-change="handleSelectionChange">
-              <el-table-column align="center" label="埋深" prop="depth" :show-overflow-tooltip="true" sortable>
+            <el-table
+              :data="selectDatas"
+              border
+              :default-sort="{prop:'depth'}"
+              :row-style="tableRowStyle"
+              :header-cell-style="tableHeaderStyle"
+              style="width: 100%;margin-top:-10px;"
+              :height="tableHeight"
+              @selection-change="handleSelectionChange"
+              id="cxEx"
+            >
+              <el-table-column
+                align="center"
+                label="埋深"
+                prop="depth"
+                :show-overflow-tooltip="true"
+                sortable
+              >
               </el-table-column>
-              <el-table-column align="center" label="上次累计位移(mm)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="上次计算值(mm)"
+                :show-overflow-tooltip="true"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.lastCalValue}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                label="计算值(mm)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.calValue}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化量(mm)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.lastVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="累计变化量(mm)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="累计变化量(mm)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.accumVary}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="单次变化速率(mm/d)" :show-overflow-tooltip="true">
+              <el-table-column
+                align="center"
+                label="单次变化速率(mm/d)"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="scope">
                   <span>{{scope.row.rateVary}}</span>
                 </template>
               </el-table-column>
             </el-table>
-            <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
+            <el-pagination
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pagination.currentPage"
+              :page-sizes="pagination.pageSizes"
+              :page-size="pagination.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="pagination.total"
+            >
             </el-pagination>
           </el-col>
           <el-col :span="12">
             <!-- 数据表格 / -->
-            <div :class="className" id="cxLine"></div>
+            <div
+              :class="className"
+              id="cxLine"
+            ></div>
           </el-col>
         </el-row>
       </el-card>
@@ -134,7 +244,7 @@ export default {
       controlMI: [], //控制值负值
       accumVarySeries: [], //曲线图累计变化量的数据
       timeSeries: [], //横轴的时间数据
-      allItems: new Array(), //所有cx的数据
+      allItems: [], //所有cx的数据
       cxPoints: [], //所有cx点的集合
       initialValue: "", //默认选中点号
       numbersList: [], //测量次数数组
@@ -169,6 +279,107 @@ export default {
       if (rowIndex == 0) {
         return "background-color:#FDA430;color: #ffffff;text-align:center;";
       }
+    },
+    //报表导出
+    exportData() {
+      verticalExport({
+        monitorItemUuid: this.monitorItemUuid,
+        token: this.token,
+        projectUuid: this.projectUuid
+      }).then(res => {
+        if (res.data.result == 1) {
+          this.$confirm(res.data.message, "提示", {
+            confirmButtonText: "打开报表？",
+            type: "success",
+            callback: action => {
+              window.open(res.data.data);
+            }
+          });
+        } else {
+          this.$confirm(res.data.message, "提示", {
+            type: "error",
+            showConfirmButton: false,
+            showCancelButton: false
+          });
+        }
+      });
+    },
+    //点击上传成果数据
+    getLoadFile() {
+      $("#approvalUpload").trigger("click");
+    },
+    //数据上传
+    addFiles(fileType, fileInputId) {
+      debugger;
+      //拿到全局vue的指向
+      var _this = this;
+      var files = document.getElementById(fileInputId);
+      this.fileList = [];
+      this.fileType = fileType;
+      for (var i = 0; i < files.files.length; i++) {
+        this.fileList.push(files.files[i]);
+      }
+      var formData = new FormData();
+      // var request = new XMLHttpRequest();
+      //循环添加到formData中
+      this.fileList.forEach(function(file) {
+        formData.append("files", file, file.name);
+      });
+      formData.append("fileType", this.fileType);
+      formData.append("projectUuid", this.projectUuid);
+      formData.append("monitorItemUuid", this.monitorItemUuid);
+      formData.append("token", this.token);
+      let dailyLoading = this.$loading({
+        type: "puff",
+        text: "上传中请稍等...",
+        target: "#cxEx"
+      });
+      $.ajax({
+        url: "/api/fdData/clinometer/add.filedata",
+        type: "POST",
+        data: formData,
+        cache: false, //不设置缓存
+        processData: false, // 不处理数据
+        contentType: false, // 不设置内容类型
+        dataType: "json",
+        success: function(res) {
+          if (res.result == 1) {
+            dailyLoading.close();
+            _this.$confirm(res.message, "提示", {
+              type: "success",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+            let tempArr1 = res.data[0].split(":");
+            let tempArr2 = res.data[0].split(",");
+            let tempArr3 = tempArr1[0].split("#");
+            _this.initialValue = tempArr3[0];
+            _this.surveypointUuid = tempArr3[1];
+            _this.selectNumber = tempArr2[1];
+            getCliPointNumbers({
+              monitorItemUuid: _this.monitorItemUuid,
+              token: _this.token
+            }).then(res => {
+              debugger;
+              _this.allItems = res.data.data;
+              _this.getPointCode(_this.initialValue);
+            });
+          } else {
+            dailyLoading.close();
+            _this.$confirm(res.message, "提示", {
+              type: "error",
+              showConfirmButton: false,
+              showCancelButton: false
+            });
+          }
+        },
+        error: function(res) {
+          dailyLoading.close();
+          alert("上传失败!无法获取上传接口");
+        }
+      });
+      //清空文件上传的存放
+      $("#approvalUpload")[0].value = "";
     },
     //图形展示
     initChart() {
@@ -333,17 +544,17 @@ export default {
     },
     init() {
       this.monitorItemUuid = this.$route.query.monitorItemUuid;
-      this.projectUuid=this.$route.query.id;
+      this.projectUuid = this.$route.query.id;
       //拿到点的集合
       getCliPointNumbers({
         monitorItemUuid: this.monitorItemUuid,
         token: this.token
       }).then(res => {
-        debugger
+        debugger;
         this.allItems = res.data.data;
+        console.log(res.data.data);
         var cxPoints = []; //测点的集合
         $.each(res.data.data, function(i) {
-          console.log(i);
           cxPoints.push(i);
         });
         this.cxPoints = cxPoints; //点的集合
@@ -382,7 +593,7 @@ export default {
           this.warningMI = -res.data.data.paraWarningSet.accumAlarm; //报警负值
           this.controlPlus = res.data.data.paraWarningSet.accumControl; //控制值正值
           this.controlMI = -res.data.data.paraWarningSet.accumControl; //控制值负值
-          this.getCliData(1, 20); // 拿到该点当前次数下的数据
+          this.getCliData(1, 20, this.surveypointUuid, this.selectNumber); // 拿到该点当前次数下的数据
         });
       } else {
         this.$message({
@@ -397,15 +608,16 @@ export default {
       }
     },
     getNumber(numVal) {
+      debugger;
       this.selectNumber = numVal;
-      this.getCliData(1, 20); // 选中次数后拿到该点当前次数下的数据
+      this.getCliData(1, 20, this.surveypointUuid, this.selectNumber); // 选中次数后拿到该点当前次数下的数据
     },
     // 拿到数据
-    getCliData(page, limit) {
+    getCliData(page, limit, surveypointUuid, selectNumber) {
       debugger;
       getClinometer({
-        surveypointUuid: this.surveypointUuid,
-        collectOrder: this.selectNumber,
+        surveypointUuid: surveypointUuid,
+        collectOrder: selectNumber,
         token: this.token
       }).then(res => {
         this.pagination.currentPage = page;
