@@ -41,7 +41,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item
-                label="初始累计值"
+                :label="dfValue"
                 prop="accumInitial"
               >
                 <el-input
@@ -164,7 +164,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item
-                label="初始累计值"
+                :label="dfValue"
                 prop="accumInitial"
               >
                 <el-input
@@ -322,7 +322,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item
-                label="初始累计值"
+                :label="dfValue"
                 prop="accumInitial"
               >
                 <el-input
@@ -460,7 +460,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="初始累计值"
+          :label="dfValue"
         >
           <template slot-scope="scope">
             <span v-if="scope.row.accumInitial!=null">{{scope.row.accumInitial}}</span>
@@ -560,7 +560,7 @@ import axios from "axios";
 
 export default {
   name: "surveypointSet",
-  props: ["projectId"],
+  props: ["projectId","dfValue"],
   data() {
     return {
       dialogFormVisible: false,

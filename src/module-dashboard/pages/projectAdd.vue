@@ -1363,7 +1363,7 @@
                 <el-button
                   type="warning"
                   icon="el-icon-location-outline"
-                  @click="surveypointClick(scope.row.monitorItemUuid)"
+                  @click="surveypointClick(scope.row.monitorItemUuid,scope.row.mItemName)"
                   size="small"
                 >测点设置</el-button>
               </template>
@@ -1543,6 +1543,7 @@
       <component
         v-bind:is="SurveypointSet"
         :projectId="projectId"
+        :dfValue="dfValue"
         ref="surveypointModel"
         v-on:handleCloseSurveypoint="handleCloseSurveypoint"
       >
@@ -1630,6 +1631,7 @@ export default {
       type: null, //新增还是修改项目的判断值
       activeName: "first-ta", //切换tab的值
       projectId: "", //判断是否有projectUuid来进入下几个tab，如果projectuuid没有值，则必须新建项目
+      dfValue:"",//判断是否是初始累计值
       dialogAdd: false,
       workerAdd: false,
       addData: {
@@ -2567,7 +2569,13 @@ export default {
     sectionClick(monitorItemUuid) {
       this.$refs.sectionModel.dialogFormV(monitorItemUuid);
     },
-    surveypointClick(monitorItemUuid) {
+    surveypointClick(monitorItemUuid,monitorItemName) {
+      debugger
+      if(monitorItemName=="深层水平位移"){
+        this.dfValue="深度值";
+      }else{
+        this.dfValue="初始累计值"
+      }
       this.$refs.surveypointModel.dialogFormV(monitorItemUuid);
     },
     //关闭监测项新增窗口
