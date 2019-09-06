@@ -175,7 +175,8 @@
                 :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
-                  <span>{{scope.row.lastVary}}</span>
+                  <span v-if="scope.row.lastVary!=null">{{Math.floor( scope.row.lastVary* 100) / 100 }}</span>
+                  <span v-else></span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -184,7 +185,8 @@
                 :show-overflow-tooltip="true"
               >
                 <template slot-scope="scope">
-                  <span>{{scope.row.accumVary}}</span>
+                  <span v-if="scope.row.accumVary!=null">{{Math.floor( scope.row.accumVary* 100) / 100 }}</span>
+                  <span v-else></span>
                 </template>
               </el-table-column>
               <el-table-column
