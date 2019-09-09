@@ -14,10 +14,8 @@
         <el-table
           :data="xsDatas"
           border
-          :row-style="tableRowStyle"
           :header-cell-style="tableHeaderStyle"
           style="width: 100%;"
-          :height="tableHeight"
         >
           <el-table-column
             align="center"
@@ -84,7 +82,18 @@
             sortable
           >
             <template slot-scope="scope">
-              <img :src="scope.row.pictureUrl"  min-width="150" height="150" />
+              <section v-if="scope.row.pictureUrl.indexOf(';')!=-1">
+                <img 
+                  v-for="index in scope.row.pictureUrl.split(';')" :src="index"
+                  min-width="150"
+                  height="150"
+                >
+              </section>
+              <span v-else><img
+                  :src="scope.row.pictureUrl"
+                  min-width="150"
+                  height="150"
+                ></span>
             </template>
           </el-table-column>
         </el-table>
@@ -101,7 +110,7 @@ export default {
     return {
       projectUuid: "",
       token: getToken(),
-      xsDatas:[]
+      xsDatas: []
     };
   },
   methods: {

@@ -321,7 +321,7 @@ export default {
                 let dailyLoading = this.$loading({
                   type: "puff",
                   text: "导出中请稍等...",
-                  target: '#deilyEx'
+                  target: "#deilyEx"
                 });
                 dailyExport(dailyParams).then(res => {
                   if (res.data.result == 1) {
@@ -357,8 +357,14 @@ export default {
                 });
               });
           } else {
+            let dailyLoading = this.$loading({
+              type: "puff",
+              text: "导出中请稍等...",
+              target: "#deilyEx"
+            });
             dailyExport(dailyParams).then(res => {
               if (res.data.result == 1) {
+                dailyLoading.close();
                 this.init();
                 this.$confirm(res.data.message, "提示", {
                   confirmButtonText: "打开",
@@ -375,6 +381,7 @@ export default {
                     });
                   });
               } else {
+                dailyLoading.close();
                 this.$message({
                   type: "error",
                   message: "res.data.message"
@@ -383,6 +390,7 @@ export default {
             });
           }
         } else {
+          dailyLoading.close();
           console.log("error submit!!");
           return false;
         }
